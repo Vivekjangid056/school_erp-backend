@@ -1,0 +1,206 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block table-content %}
+
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Data Tables</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <a href="{% url 'super-admin-login' %}"><li class="breadcrumb-item active">home</li></a>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <button class="fa fa-plus btn btn-lg btn-primary"><a style = "text-decoration:none; color:white" href="{% url 'institute:add_institute' %}"> create</a></button>
+        </div>
+        <div class="card">
+            <div class="card-body">
+               
+
+                <!-- <h4 class="card-title">Buttons example</h4>
+                <p class="card-title-desc">The Buttons extension for DataTables
+                    provides a common set of options, API methods and styling to display
+                    buttons on a page that will interact with a DataTable. The core library
+                    provides the based framework upon which plug-ins can built.
+                </p> -->
+
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                    <tr>
+                        <th>Institute Name</th>
+                        <th>Branch Name</th>
+                        <th>Account Start year</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+
+                    <tbody>
+                    <tr>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>Edinburgh</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Garrett Winters</td>
+                        <td>Accountant</td>
+                        <td>Tokyo</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    
+                    <tr>
+                        <td>Jennifer Acosta</td>
+                        <td>Junior Javascript Developer</td>
+                        <td>Edinburgh</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Cara Stevens</td>
+                        <td>Sales Assistant</td>
+                        <td>New York</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Hermione Butler</td>
+                        <td>Regional Director</td>
+                        <td>London</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Lael Greer</td>
+                        <td>Systems Administrator</td>
+                        <td>London</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Jonas Alexander</td>
+                        <td>Developer</td>
+                        <td>San Francisco</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                       
+                    </tr>
+                    <tr>
+                        <td>Shad Decker</td>
+                        <td>Regional Director</td>
+                        <td>Edinburgh</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Michael Bruce</td>
+                        <td>Javascript Developer</td>
+                        <td>Singapore</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>Donna Snider</td>
+                        <td>Customer Support</td>
+                        <td>New York</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div><!-- end row -->
+
+</div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+</div> <!-- end slimscroll-menu-->
+</div>
+
+{% endblock table-content %}

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const menuData = {
         'system-settings': `
-            <a href="javascript: void(0);" class="waves-effect">
+            <a href="institute-list" class="waves-effect">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Institute</span>
             </a>

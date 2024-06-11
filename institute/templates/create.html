@@ -1,0 +1,320 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block form-content %}
+
+<div class="container mt-5">
+    <h2>Create Institute</h2>
+    <form autocomplete="off"  method="post" >
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="RegistrationNo">Reg./Aff. No</label>
+                <input class="form-control" type="text" id="RegistrationNo" name="RegistrationNo">
+                <span class="text-danger" data-valmsg-for="RegistrationNo" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="Name">Institute Name</label>
+                <input class="form-control" type="text" id="Name" name="Name">
+                <span class="text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="BranchName">Branch Name</label>
+                <input class="form-control" type="text" id="BranchName" name="BranchName">
+                <span class="text-danger" data-valmsg-for="BranchName" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="BillingName">Billing Name</label>
+                <input class="form-control" type="text" id="BillingName" name="BillingName" >
+                <span class="text-danger" data-valmsg-for="BillingName" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <!-- Continue similarly for other rows -->
+        
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="Address1">Address1</label>
+                <input class="form-control" type="text" id="Address1" name="Address1">
+                <span class="text-danger" data-valmsg-for="Address1" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="Address2">Address2</label>
+                <input class="form-control" type="text" id="Address2" name="Address2" >
+                <span class="text-danger" data-valmsg-for="Address2" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="District">District</label>
+                <input class="form-control" type="text" id="District" name="District" >
+                <span class="text-danger" data-valmsg-for="District" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="Pin">Pin</label>
+                <input class="form-control" type="text" id="Pin" name="Pin" >
+                <span class="text-danger" data-valmsg-for="Pin" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <!-- Continue similarly for other rows -->
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="PhoneNo">Phone No</label>
+                <input class="form-control" type="text" id="PhoneNo" name="PhoneNo" >
+                <span class="text-danger" data-valmsg-for="PhoneNo" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="Mobile">Mobile</label>
+                <input class="form-control" type="text" id="Mobile" name="Mobile" >
+                <span class="text-danger" data-valmsg-for="Mobile" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="FaxNo">Fax No</label>
+                <input class="form-control" type="text" id="FaxNo" name="FaxNo">
+                <span class="text-danger" data-valmsg-for="FaxNo" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="Email">E-mail Address</label>
+                <input class="form-control" type="text" id="Email" name="Email" >
+                <span class="text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <!-- Continue similarly for other rows -->
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="WebsiteName">Website Name</label>
+                <input class="form-control" type="text" id="WebsiteName" name="WebsiteName">
+                <span class="text-danger" data-valmsg-for="WebsiteName" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="PrincipalName">Principal Name</label>
+                <input class="form-control" type="text" id="PrincipalName" name="PrincipalName" >
+                <span class="text-danger" data-valmsg-for="PrincipalName" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="AcstartYear">A/C Start Year</label>
+                <input class="form-control" type="text" id="AcstartYear" name="AcstartYear" >
+                <span class="text-danger" data-valmsg-for="AcstartYear" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="SessionStartMonth">Session Start Month</label>
+                <select class="form-control" id="SessionStartMonth" name="SessionStartMonth">
+                    <option selected="selected" value="">Select</option>
+                    <option value="1">Jan</option>
+                    <option value="2">Feb</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">Aug</option>
+                    <option value="9">Sept</option>
+                    <option value="10">Oct</option>
+                    <option value="11">Nov</option>
+                    <option value="12">Dec</option>
+                </select>
+                <span class="text-danger" data-valmsg-for="SessionStartMonth" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label class="control-label" for="AccreditedBy">Accredited By</label>
+                <input class="form-control" type="text" id="AccreditedBy" name="AccreditedBy"  />
+                <span class="text-danger field-validation-valid" data-valmsg-for="AccreditedBy" data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label" for="Prefix">Scholar Prefix</label>
+                        <input class="form-control" type="text" id="Prefix" name="Prefix" value="" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Prefix" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label" for="Suffix">Scholar Suffix</label>
+                        <input class="form-control" type="text" id="Suffix" name="Suffix" value="" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Suffix" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label" for="EmpPrefix">Emp Prefix</label>
+                <input class="form-control" type="text" id="EmpPrefix" name="EmpPrefix"  />
+                <span class="text-danger field-validation-valid" data-valmsg-for="EmpPrefix" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label" for="TCBookNumber">Number of Pages in One TC-Book</label>
+                <input class="form-control" type="text" data-val="true" data-val-range="The field Number of Pages in One TC-Book must be between 0 and 1000000." data-val-range-max="1000000" data-val-range-min="0" id="TCBookNumber" name="TCBookNumber"  />
+                <span class="text-danger field-validation-valid" data-valmsg-for="TCBookNumber" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    
+        <hr>
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" data-val="true" data-val-required="The AutoEnrollmentNo field is required." id="AutoEnrollmentNo" name="AutoEnrollmentNo"  /> <b>Auto Enrollment No</b>
+                </label>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The AutoAdmissionNo field is required." id="AutoAdmissionNo" name="AutoAdmissionNo"  /> <b>Auto Admission Number</b>
+                </label>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Change Zoom URL field is required." id="ChangeZoomURL" name="ChangeZoomURL"  /> <b>Change Zoom URL</b>
+                </label>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Student Attendance through Live Class field is required." id="STAppAttLiveClass" name="STAppAttLiveClass"  /> <b>Student Attendance through Live Class</b>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Student Attendance through Assignment field is required." id="STAppAttAssignment" name="STAppAttAssignment"  /> <b>Student Attendance through Assignment</b>
+                </label>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" data-val="true" data-val-required="The Live Class Join Log of Student field is required." id="STAppLogLiveClass" name="STAppLogLiveClass"  /> <b>Live Class Join Log of Student</b>
+                </label>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" data-val="true" data-val-required="The Single Login field is required." id="LoginWithSingleDevice" name="LoginWithSingleDevice" /> <b>Single Login</b>
+                </label>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" data-val="true" data-val-required="The Login With Single Device field is required." id="LoginWithSingleDevice2" name="LoginWithSingleDevice2"  /><b> Login With Single Device</b>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-3">
+                <br />
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The LiveClass Show On Time field is required." id="LiveClassShowOnTime" name="LiveClassShowOnTime"  /> <b>LiveClass Show On Time</b>
+                </label>
+            </div>
+            <div class="form-group col-md-3">
+                <br />
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Auto Section Assign field is required." id="AutoSectionAssign" name="AutoSectionAssign" value="true" /><b> Suggest Auto Section</b>
+                </label>
+            </div>
+            <div class="form-group col-md-3">
+                <br />
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Auto House Assign field is required." id="AutoHouseAssign" name="AutoHouseAssign" value="true" /><b> Suggest Auto House</b>
+                </label>
+            </div>
+            <div class="form-group col-md-3">
+                <br />
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Show Youtube options(App) field is required." id="ShowYoutube" name="ShowYoutube" value="true" /><b> Show Youtube options(App)</b>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+           
+                <div class="form-group col-md-3">
+                    <br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The EditEmpAttendanceTime field is required." id="EditEmpAttendanceTime" name="EditEmpAttendanceTime" value="true" /><b> Allow To Edit EMP Attendance Time</b>
+                    </label>
+                </div>
+                <div class="form-group col-md-3">
+                    <br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The SendWelcomeMsgToClassTeacher field is required." id="SendWelcomeMsgToClassTeacher" name="SendWelcomeMsgToClassTeacher" value="true" /><b> Send Student Welcome msg to Class Teacher</b>
+                    </label>
+                </div>
+                <div class="form-group col-md-3">
+                    <br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Allow Screenshots (App) field is required." id="AllowScreenshot" name="AllowScreenshot" value="true" /><b> Allow Screenshots (App)</b>
+                    </label>
+                </div>
+                <div class="form-group col-md-3">
+                    <br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Show Teacher&#x27;s ContactNo in App. field is required." id="ShowTeacherMobileInApp" name="ShowTeacherMobileInApp" value="true" /> <b>Show Teacher's ContactNo in App.</b>
+                    </label>
+                </div>
+                <div class="form-group col-md-3">
+                    <br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" data-val="true" data-val-required="The Show Students&#x27;s ContactNo in App. field is required." id="ShowStudentMobileInApp" name="ShowStudentMobileInApp" value="true" />
+                        <b>Show Students's PhoneNo in App.</b>
+                    </label>
+                </div>
+                <div class="form-group col-md-3">
+                    <br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" data-val="true" data-val-required="The Auto Scholar Number field is required." id="AutoScholarNo" name="AutoScholarNo" value="true" /> 
+                        <b>Auto Scholar Number</b>
+                    </label>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" data-val="true" data-val-required="The AutoEmpCode field is required." id="AutoEmpCode" name="AutoEmpCode" value="true" />
+                        <b>Auto Employee No.</b>
+                    </label>
+                </div>
+
+
+                <div class="form-group col-md-3">
+                    <br />
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="checkbox" checked="checked" data-val="true" data-val-required="The Show ExamList Result Wise field is required." id="ShowExamComboResultWise" name="ShowExamComboResultWise" value="true" />
+                        <b> Show Exam List Result Wise</b>
+                    </label>
+                </div>
+        </div>
+
+        <hr>
+        
+        <div class="box">
+            <div class="box-body  w-100 p-4" style="box-shadow: 0px 0px 10px rgba(0,0,0,0.3);">
+                <div>
+                        <button class="btn btn-default" href="/institute">Back to List</button>
+                        <button id="Submit" type="submit" class="btn btn-md btn-outline-success" style="border: none; border-bottom: 1px solid; text-decoration: none;">Save</button>
+                </div>
+                <div class="pull-right p-1">
+                    <button id="inqonlineagm" type="button" class="btn btn-secondary" onclick="display(this.id)" >Online Registration AGM</button>
+                    <button id="inqonline" type="button" class="btn btn-secondary" onclick="display(this.id)">Online Reg. Link</button>
+                    <button id="tcapplication" type="button" class="btn btn-secondary"  onclick="display(this.id)">TC Application Link</button>
+                    <button id="inq" type="button" class="btn btn-secondary"  onclick="display(this.id)" >Inquiry Link</button>
+                    <button id="tc" type="button" class="btn btn-secondary"   onclick="display(this.id)">TC download Link</button>
+                    <button id="jobs" type="button" class="btn btn-secondary" onclick="display(this.id)" >Jobs Link</button>
+                    <button id="TcSearch" type="button" class="btn btn-secondary" onclick="display(this.id)" >TC Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+{% endblock form-content %}
