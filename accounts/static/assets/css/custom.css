@@ -14,7 +14,9 @@
     border-bottom: none;
 }
 .dropdown-item i {
-    font-size: 1.5rem;
+    border-radius: 50%;
+    margin: .1rem;
+    width: 1rem;
     margin-right: 1rem;
     color: #e37d35;
 }
@@ -51,4 +53,26 @@
 
 #page-topbar .profile .dropdown-menu{
     background: linear-gradient(to right, #FFF95B, #FF930F)
+}
+
+.sidebar-item i{
+    width: .5rem;
+}
+
+ul.sidebar-dropdown{
+    background-color: #FFF95B;
+}
+
+#menu-content .fa-chevron-left{
+    padding-left: 3rem;
+    text-align: end;
+    font-size: .7rem;
+    color: #000000;
+}
+
+#menu-content .fa-chevron-down{
+    padding-left: 5rem;
+    text-align: end;
+    font-size: .7rem;
+    color: #000000;
 }

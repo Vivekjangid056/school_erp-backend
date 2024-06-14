@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from institute.forms import InstituteForm
 from School_Erp import settings
 from .models import User
+from django.contrib.auth import logout
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -42,6 +43,11 @@ def super_admin_login(request):
 def admin_dashboard(request):
     user = request.user
     return render(request, 'dashboard.html', {'user':user})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('super-admin-login') 
 
 
 
