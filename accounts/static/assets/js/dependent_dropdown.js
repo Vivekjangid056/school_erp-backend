@@ -10,9 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Institute</span>
             </a>
-            <a href="javascript: void(0);" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#system-settings-list-of-masters" aria-expanded="false" aria-controls="pages">
+            <a href="javascript: void(0);" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-list-of-masters" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">List of Masters</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="system-settings-list-of-masters" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -83,9 +85,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Child Status</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#system-settings-session-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-session-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Session Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="system-settings-session-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -120,9 +124,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-globe"></i>Sub-subjects</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#system-settings-report-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-report-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Report Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="system-settings-report-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -219,9 +225,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-envelope"></i>
                 <span key="t-dashboards">Online Registration</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#enquiry-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#enquiry-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="enquiry-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -262,9 +270,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-envelope"></i>
                 <span key="t-dashboards">Convert to SR/Admission</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#enquiry-session-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#enquiry-session-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Session Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="enquiry-session-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -281,9 +291,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-book-open"></i>Enquiry Term & Condition</a>
                 </li>
             </ul>
-           <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#enquiry-system-settings" aria-expanded="false" aria-controls="pages">
+           <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#enquiry-system-settings" aria-expanded="false" aria-controls="pages">
+           <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Session Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="enquiry-system-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -355,9 +367,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Student Log</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#Scholar-register-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#Scholar-register-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="Scholar-register-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -425,9 +439,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-globe"></i>Student Strength Report</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#scholar-register-issue-certificate" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#scholar-register-issue-certificate" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Issue Certificate</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="scholar-register-issue-certificate" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -444,9 +460,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-book-open"></i>Custom Certificate</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#scholar-register-Gate-pass" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#scholar-register-Gate-pass" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Gate Pass</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="scholar-register-Gate-pass" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -475,9 +493,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Journal</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#accounts-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#accounts-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="accounts-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -491,9 +511,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-layer-group"></i>Ledgers/Head</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#scholar-register-issue-certificate" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#scholar-register-issue-certificate" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Issue Certificate</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="scholar-register-issue-certificate" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -546,9 +568,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">vFee Refund</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#fees-module-fees-ledger-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#fees-module-fees-ledger-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Fees Module Ledger</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="fees-module-fees-ledger-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -620,9 +644,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">No Dues Receipt</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#fees-module-fees-admission-process" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#fees-module-fees-admission-process" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Admission Process</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="fees-module-fees-admission-process" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -648,9 +674,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-book-open"></i>Admission Report</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#fees-module-fees-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#fees-module-fees-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="fees-module-fees-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -682,9 +710,11 @@ document.addEventListener('DOMContentLoaded', function () {
         `,
         'teacher-management': `
         <li class="menu-title" key="t-menu">Teacher Management</li>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#teacher-management-list-master" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#teacher-management-list-master" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">List Master</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="teacher-management-list-master" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -710,9 +740,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-book-open"></i>Exception List</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#teacher-management-attendance-setting" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#teacher-management-attendance-setting" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Attendance Setting</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="teacher-management-attendance-setting" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -751,9 +783,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Proxy/Substitution</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#teacher-management-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#teacher-management-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Fees Module Ledger</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="teacher-management-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -788,9 +822,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Attendance</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hr-employee" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hr-employee" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Employee</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hr-employee" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -813,9 +849,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-book-open"></i>Employee Service Diary</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hr-leave" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hr-leave" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Leave</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hr-leave" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -832,9 +870,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Leave Op. Balance</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hr-salary" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hr-salary" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Leave</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hr-salary" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -855,9 +895,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Interview</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hr-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hr-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hr-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -898,9 +940,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Earning Report</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hr-list-of-masters" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hr-list-of-masters" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">List Of Masters</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hr-list-of-masters" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -950,9 +994,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Pay Slip Format</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hr-tds-document" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hr-tds-document" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">TDS Document</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hr-tds-document" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1006,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Exam Time Table Setting</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#examination-examination" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#examination-examination" aria-expanded="false" aria-controls="pages">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Examination</span>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
@@ -1064,9 +1110,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Students Remark</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#examination-class-test" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#examination-class-test" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Class Test</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="examination-classtest" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1110,9 +1158,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Publish Marksheet</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#examination-ib-board" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#examination-ib-board" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">IB Board</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="examination-ib-board" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1132,9 +1182,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Result</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#examination-cambridge-board" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#examination-cambridge-board" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Cambridge Board</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="examination-cambridge-board" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1169,9 +1221,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Library Profile</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#library-master" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#library-master" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Master</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="library-master" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1206,9 +1260,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Periodical Master</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#library-member-details" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#library-member-details" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Member Details</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="library-member-details" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1219,9 +1275,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Library Members Record</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#library-library-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#library-library-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Library Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="library-library-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1232,9 +1290,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Room Assign</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#library-bill-record" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#library-bill-record" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Bill Record</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="library-bill-record" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1249,9 +1309,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Book Records</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#library-books-management" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#library-books-management" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Books Management</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="library-books-management" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1283,9 +1345,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Change Book Status</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#library-library-report" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#library-library-report" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">library-report</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="library-library-report" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1321,9 +1385,11 @@ document.addEventListener('DOMContentLoaded', function () {
         `,
         'transport': `
         <li class="menu-title" key="t-menu">Transpost</li>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#transport-transport-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#transport-transport-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Transport Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="transport-transport-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1358,9 +1424,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Vehicle Service</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#transport-driver-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#transport-driver-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Driver Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="transport-driver-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1385,9 +1453,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Allotment & Charges (Multi)</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#transport-transport-management" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#transport-transport-management" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Transport Management</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="transport-transport-management" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1407,9 +1477,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Vehicle Route Master</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#transport-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#transport-reports" aria-expanded="false" aria-controls="pages">
+            <div>v
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="transport-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1438,9 +1510,11 @@ document.addEventListener('DOMContentLoaded', function () {
         `,
         'hostel': `
         <li class="menu-title" key="t-menu">Hostel</li>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hostel-hostel-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hostel-hostel-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">hostel Settings</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hostel-hostel-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1484,9 +1558,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Warden & Hostel Allotment</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hostel-student-manage" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hostel-student-manage" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Student Manage</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hostel-student-manage" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1515,9 +1591,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Hostel Attendance</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#hostel-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hostel-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="hostel-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1553,15 +1631,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 </li>
             </ul>
         `,
-        'Attendance': `
+        'attendance': `
         <li class="menu-title" key="t-menu">Attendance</li>
             <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Attendance</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#attendance-master" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#attendance-master" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Master</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="attendance-master" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1578,9 +1658,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Class Calendar Assign</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#attendance-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#attendance-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="attendance-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1612,7 +1694,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span key="t-dashboards">Card Block/Allow</span>
             </a>
         `,
-        'mobile module': `
+        'mobile-module': `
         <li class="menu-title" key="t-menu">Mobile Module</li>
             <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
@@ -1654,9 +1736,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Assignments</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#mobile-module-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#mobile-module-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="mobile-module-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1693,9 +1777,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Visitor entry</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#visitor-master-visitor-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#visitor-master-visitor-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Visitor Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="visitor-master-visitor-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1752,9 +1838,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Minimum Quantity Setting</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#store-inventory-settings" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#store-inventory-settings" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Master</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="store-inventory-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1792,9 +1880,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Payment Invoice Setting</a>
                 </li>
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#store-inventory-reports" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#store-inventory-reports" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Reports</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="store-inventory-reports" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1844,9 +1934,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Zone Master</span>
             </a>
-            <a href="#" class="fw-bold waves-effect sidebar-link" data-bs-toggle="collapse"  data-bs-target="#online-examination-master" aria-expanded="false" aria-controls="pages">
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#online-examination-master" aria-expanded="false" aria-controls="pages">
+            <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Master</span>
+            </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="online-examination-master" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
@@ -1892,7 +1984,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function initializeChevronToggle() {
-    // Select all elements with the class 'sidebar-link' that have a 'data-bs-toggle' attribute
+    // Select all elements with the class 'sidebar-link d-flex justify-content-between align-items-center' that have a 'data-bs-toggle' attribute
     $('[data-bs-toggle="collapse"]').each(function () {
         var target = $(this).attr('data-bs-target'); // Get the target collapse ID
 

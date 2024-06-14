@@ -64,14 +64,12 @@ ul.sidebar-dropdown{
 }
 
 #menu-content .fa-chevron-left{
-    padding-left: 3rem;
     text-align: end;
     font-size: .7rem;
     color: #000000;
 }
 
 #menu-content .fa-chevron-down{
-    padding-left: 5rem;
     text-align: end;
     font-size: .7rem;
     color: #000000;

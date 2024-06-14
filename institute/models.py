@@ -77,3 +77,67 @@ class Institute(models.Model):
     class Meta:
         verbose_name = 'Institute'
         verbose_name_plural = 'Institutes'
+
+
+
+# List of Masters models
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
+
+class Signature(models.Model):
+
+    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
+    name = models.CharField(max_length=100)
