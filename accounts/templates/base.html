@@ -1,0 +1,424 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>ERP Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <!-- Bootstrap Css -->
+    <link href="{% static 'assets/css/bootstrap.min.css'%}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{% static 'assets/css/icons.min.css'%}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{% static 'assets/css/app.min.css'%}" id="app-style" rel="stylesheet" type="text/css" />
+    <!-- custon css -->
+    <link rel="stylesheet" href="{% static 'assets/css/custom.css'%}">
+
+    <!-- DataTables -->
+    <link href="{% static 'assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css'%}"rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'%}"rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="{% static 'assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'%}"rel="stylesheet" type="text/css" /> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- dependent dropdown scripts -->
+    <script src="{% static 'assets/js/dependent_dropdown.js'%}"></script>
+
+     <style>
+        /* Custom styles for padding and underline */
+        .form-group {
+            padding: 10px 10px; /* Adjust padding values as needed */
+            margin-bottom: 10px; /* Add spacing between form groups */
+        }
+    
+        .form-group:last-child {
+            border-bottom: none; /* Remove underline for the last form group */
+        }
+    
+        .btn {
+            border-bottom: 2px solid none; /* Underline for buttons */
+            transition: all 0.2s ease-in-out; /* Smooth hover effect */
+        }
+    
+        .btn:hover {
+            transform: translateY(-2px); /* Add slight hover elevation */
+        }
+        
+    </style>
+
+
+</head>
+
+<body>
+
+    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+            <div class="navbar-header bhagwa">
+                <div class="d-flex">
+                    <!-- logo -->
+                    <div class="navbar-brand-box">
+
+                        <a href="#" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="{% static 'assets/images/logo-light.svg'%}" alt="" height="22">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{% static 'assets/images/logo.png'%}" alt="" height="19">
+                            </span>
+                        </a>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect"
+                            id="vertical-menu-btn">
+                            <i class="fa fa-fw fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown">
+                        <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-cogs"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item d-flex" href="#" data-menu = "system-settings">
+                                <i class="fas fa-cogs"></i>
+                                <div class="item-text">
+                                    <span class="item-title">System Settings</span>
+                                    <span>System Settings Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#"data-menu = "enquiry">
+                                <i class="fas fa-question-circle"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Enquiry</span>
+                                    <span>Enquiry Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "scholar-register">
+                                <i class="fas fa-school"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Scholar Register</span>
+                                    <span>Scholar Register Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "accounts">
+                                <i class="fas fa-rupee-sign"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Accounts</span>
+                                    <span>Accounts Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "fees-module">
+                                <i class="fas fa-cash-register"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Fees Module</span>
+                                    <span>Fees Module Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "teacher-management">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Teacher Management</span>
+                                    <span>Teacher Management Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "hr">
+                                <i class="fas fa-user-tie"></i>
+                                <div class="item-text">
+                                    <span class="item-title">HR</span>
+                                    <span>HR Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "examination">
+                                <i class="fas fa-file-alt"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Examination</span>
+                                    <span>Examination Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "library">
+                                <i class="fas fa-book"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Library</span>
+                                    <span>Library Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "transport">
+                                <i class="fas fa-bus"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Transport</span>
+                                    <span>Transport Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "hostel">
+                                <i class="fas fa-bed"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Hostel</span>
+                                    <span>Hostel Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "attendance">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Attendance</span>
+                                    <span>Attendance Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "mobile-module">
+                                <i class="fas fa-mobile"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Mobile Module</span>
+                                    <span>Mobile Module Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "visitor-master">
+                                <i class="fas fa-male"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Visitor Master</span>
+                                    <span>Visitor Master Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "task-management">
+                                <i class="fas fa-tasks"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Task Management</span>
+                                    <span>Task Management Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "store-inventory">
+                                <i class="fas fa-home"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Store Inventory</span>
+                                    <span>Store Inventory Descriptions</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex" href="#" data-menu = "online-examination">
+                                <i class="fas fa-laptopx"></i>
+                                <div class="item-text">
+                                    <span class="item-title">Online Examination</span>
+                                    <span>Online Examination Descriptions</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="dropdown d-inline-block kala">
+                    {% if institute_name %}
+                        <button type="button" class="btn header-item waves-effect font-size-16">
+                            <a href="#">Institute name</a>
+                        </button>
+                        {% endif %}
+                        {% if session %}
+                        <button type="button" class="btn header-item waves-effect font-size-16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-calendar2-range" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z" />
+                                <path
+                                    d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5zM9 8a1 1 0 0 1 1-1h5v2h-5a1 1 0 0 1-1-1m-8 2h4a1 1 0 1 1 0 2H1z" />
+                            </svg>
+                            <a href="#">session</a>
+                        </button>
+                        {% endif %}
+                        <div class="dropdown d-inline-block profile">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="rounded-circle header-profile-user" src="{% static 'assets/images/jack.png'%}"
+                                    alt="Header Avatar">
+                                <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{user.first_name}}</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <img class="profile-summary-image" src="{% static 'assets/images/jack.png'%}" alt="">
+                                <p style="margin: 0.2rem";
+                                >{{user.first_name}} {{user.last_name}}</p>
+                                <p style="margin: 0.2rem">User ID: {{user.id}}</p>
+                                <p>Registered since {{user.date_joined}}    
+                                    Career Academy</p>
+                                    <div class="d-flex bg-light justify-content-between p-3">
+                                        <button type="button" class="btn btn-primary btn-sm">
+                                            <a href="#">Profile</a>
+                                        </button>
+                                        {% if user.is_authenticated %}
+                                          
+                                        <button type="button" class="btn btn-secondary btn-sm">
+                                            <a href="{% url 'accounts:logout' %}">Sign out</a>
+                                        </button>
+                                        {% endif %}
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+
+            <div data-simplebar class="h-100">
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        
+                        <li id="menu-content">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Left Sidebar End -- -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    {% block content %}
+                    {% endblock content %}
+
+                   {% block form-content %}
+                   {% endblock form-content %}
+
+                   {% block table-content %}
+                   {% endblock table-content %}
+                    
+
+                   {% comment %} {% block form-content %}
+                   {% endblock form-content %} {% endcomment %}
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+        </div>
+        <!-- end main content-->
+
+    </div>
+
+    <!-- JAVASCRIPT -->  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- dependent dropdown scripts -->
+    <script src="{% static 'assets/js/dependent_dropdown.js'%}"></script>
+    <!-- jquery js -->
+    <script src="{% static 'assets/libs/jquery/jquery.min.js'%}"></script>
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'assets/libs/metismenu/metisMenu.min.js'%}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js'%}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js'%}"></script>
+    <!-- Required datatable js -->
+    <script src="{% static 'assets/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <!-- Responsive examples -->
+     <script src="{% static 'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js'%}"></script>
+     <script src="{% static 'assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js'%}"></script>
+    <!-- Buttons examples -->
+    <script src="{% static 'assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'assets/libs/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'assets/libs/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'assets/libs/pdfmake/build/vfs_fonts.js' %}"></script>
+    <script src="{% static 'assets/libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'assets/libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'assets/libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+    <!-- Responsive examples -->
+    <script src="{% static 'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+     <!-- Datatable init js -->
+     <script src="{% static 'assets/js/pages/datatables.init.js'%}"></script> 
+    <!-- apexcharts -->
+    <script src="{% static 'assets/libs/apexcharts/apexcharts.min.js'%}"></script>
+    <!-- Saas dashboard init -->
+    <script src="{% static 'assets/js/pages/saas-dashboard.init.js'%}"></script>
+    <script src="{% static 'assets/js/app.js'%}"></script>
+    <!-- form js -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
+    <script>const ctx = document.getElementById('feeSummaryChart').getContext('2d');
+        const feeSummaryChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['2023-07', '2023-08', '2023-09', '2023-10', '2023-11', '2023-12', '2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06'],
+                datasets: [{
+                    label: 'Fee Summary',
+                    data: [50000, 30000, 70000, 90000, 60000, 120000, 100000, 20000, 15000, 10000, 20000, 10000],
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointHitRadius: 30,
+                    pointBorderWidth: 2,
+                    pointStyle: 'rectRounded'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month',
+                            color: '#911',
+                            font: {
+                                family: 'Comic Sans MS',
+                                size: 20,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: {top: 20, left: 0, right: 0, bottom: 0}
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Amount (₹)',
+                            color: '#191',
+                            font: {
+                                family: 'Trebuchet MS',
+                                size: 20,
+                                style: 'normal',
+                                lineHeight: 1.2
+                            },
+                            padding: {top: 30, left: 0, right: 0, bottom: 0}
+                        },
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return '₹' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        });</script>
+<script>
+        const urls = {
+            instituteList: "{% url 'institute:institute_list' %}",
+            addInstitute: "{% url 'institute:add_institute' %}"
+        };
+</script>
+
+</body>
+</html>

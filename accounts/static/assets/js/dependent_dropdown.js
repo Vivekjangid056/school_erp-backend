@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const menuData = {
         'system-settings': `
         <li class="menu-title" key="t-menu">System Settings</li>
-            <a href="institute-list" class="waves-effect fw-bold">
+            <a href="${urls.instituteList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Institute</span>
             </a>

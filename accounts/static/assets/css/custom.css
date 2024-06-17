@@ -74,3 +74,28 @@ ul.sidebar-dropdown{
     font-size: .7rem;
     color: #000000;
 }
+
+.main-content .card {
+    margin: 10px;
+}
+
+.main-content .card i{
+    margin: 10px;
+}
+.main-content .dashboard-card {
+    color: white;
+    padding: 10px;
+}
+.main-content .bg-purple {
+    background-color: #6f42c1;
+}
+.main-content .bg-blue {
+    background-color: #007bff;
+}
+.main-content .bg-cyan {
+    background-color: #17a2b8;
+}
+.main-content .chart-container {
+    position: relative;
+    height: 400px;
+}

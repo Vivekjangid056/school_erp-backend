@@ -1,4 +1,4 @@
-{% extends 'dashboard.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block table-content %}
 
@@ -24,7 +24,7 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <button class="fa fa-plus btn btn-lg btn-primary"><a style = "text-decoration:none; color:white" href="{% url 'institute:add_institute' %}"> create</a></button>
+            <a style = "text-decoration:none; color:white" href="{% url 'institute:add_institute' %}"><button class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
             <div class="card-body">
