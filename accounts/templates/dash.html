@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.first_name }}</h1>
+{% if user.role == 'INSTITUTE' %}
+    <p>Institute: {{ user.admin_institute.name }}</p>
+{% elif user.role == 'FACULTY' %}
+    <p>Institute: {{ user.teacher.institute.name }}</p>
+{% elif user.role == 'STUDENT' %}
+    <p>Institute: {{ user.student.institute.name }}</p>
+{% endif %}
+
+</body>
+</html>

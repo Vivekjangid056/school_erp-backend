@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 
+app_name = "accounts"
+
 urlpatterns = [
     path('', super_admin_login, name='super-admin-login'),
     path('dashboard/', admin_dashboard, name='admin-dashboard'),

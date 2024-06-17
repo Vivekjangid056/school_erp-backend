@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-layer-group"></i>Category</a>
                 </li>
                 <li class="sidebar-item">
+                    <a href="#"><i class="fas fa-home"></i>House</a>
+                </li>
+                <li class="sidebar-item">
                     <a href="#"><i class="fas fa-book-open"></i>Medium</a>
                 </li>
                 <li class="sidebar-item">

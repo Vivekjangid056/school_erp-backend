@@ -5,7 +5,7 @@ from django.core.validators import RegexValidator
 
 class Institute(models.Model):
     
-    registration_number = models.CharField(max_length=20,primary_key=True,blank=False)      #reg.number/ aff.number
+    registration_number = models.CharField(max_length=20,primary_key=True,blank=False)  #reg.number/aff.number
     institute_name = models.CharField(max_length=250,blank=False)
     branch_name = models.CharField(max_length=250,blank=True) #optional
     address1 = models.CharField(blank=False,max_length=100)
@@ -81,61 +81,6 @@ class Institute(models.Model):
 
 
 # List of Masters models
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
-
-class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
-    name = models.CharField(max_length=100)
 
 class Signature(models.Model):
 

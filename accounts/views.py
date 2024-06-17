@@ -7,7 +7,6 @@ from django.contrib.auth import logout
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-
 # Create your views here.
 
 def super_admin_login(request):
@@ -47,7 +46,7 @@ def admin_dashboard(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('super-admin-login') 
+    return redirect('accounts:super-admin-login') 
 
 
 
