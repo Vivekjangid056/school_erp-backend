@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+
+
+<div class="container">
+    <div class="card-header">
+        <div class="container">
+            {% if form.instance.pk %}
+                <h2>Modify Institute</h2>
+            {% else %}
+                <h2>Create Institute</h2>
+            {% endif %}
+        </div>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+    <div class="row ">
+        <div class="form-group col-md-4">
+            {{form.registration_number| as_crispy_field }}
+        </div>
+        <div class="form-group col-md-4">
+            {{form.institute_name| as_crispy_field }}
+        </div>
+        <div class="form-group col-md-4">
+            {{form.branch_name| as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            {{form.billing_name| as_crispy_field }}
+        </div>
+        <div class="col-md-4">
+            {{form.address1| as_crispy_field }}
+        </div>
+        <div class="col-md-4">
+            {{form.address2| as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-md-4">
+            {{form.state| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.district| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.pin| as_crispy_field }}
+        </div>
+    </div>
+    <div class="row ">
+        <div class=" col-md-4">
+            {{form.mobile_number| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.mobile_number2| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.fax_number| as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-md-4">
+            {{form.email| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.website| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.principal_name| as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-md-4">
+            {{form.acc_start_year| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.session_start_month| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.accredited_by| as_crispy_field }}
+        </div>
+    </div>
+    <div class="row ">
+        <div class=" col-md-4">
+            {{form.scholar_prefix| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.scholar_suffix| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.emp_no_prefix| as_crispy_field }}
+        </div>
+    </div>
+    <div class="row ">
+        <div class=" col-md-4">
+            {{form.no_of_pg_in_tcbook| as_crispy_field }}
+        </div>
+        <div class=" col-md-4">
+            {{form.profile_image| as_crispy_field }}
+        </div>
+    </div>
+    <hr>
+    <div class="row ">
+        <div class="col-md-4">
+            {{form.auto_enroll_no| as_crispy_field }}
+       
+            {{form.std_attd_assignment| as_crispy_field }}
+        
+            {{form.live_class_show_time| as_crispy_field }}
+
+            {{form.allow_edit_emp_attd_time| as_crispy_field }}
+
+            {{form.show_std_contact_no_app| as_crispy_field }}
+
+            {{form.auto_admin_number| as_crispy_field }}
+
+            {{form.live_class_log_Std| as_crispy_field }}
+        
+        </div>
+
+        <div class=" col-md-4">
+            {{form.suggest_auto_section| as_crispy_field }}
+
+            {{form.send_Std_wc_msg| as_crispy_field }}
+
+            {{form.auto_scholar_no| as_crispy_field }}
+
+            {{form.auto_scholar_no| as_crispy_field }}
+
+            {{form.single_login| as_crispy_field }}
+
+            {{form.suggest_auto_house| as_crispy_field }}
+
+            {{form.allow_ss_in_app| as_crispy_field }}
+
+        </div>
+
+        <div class=" col-md-4">
+            {{form.auto_emp_no| as_crispy_field }}
+
+            {{form.std_attd_through_live_class| as_crispy_field }}
+
+            {{form.login_with_single_device| as_crispy_field }}
+
+            {{form.show_yt_opt_4_app| as_crispy_field }}
+
+            {{form.show_teach_mo_no_app| as_crispy_field }}
+
+            {{form.show_exam_list_res_wise| as_crispy_field }}
+        </div>
+    </div>
+    <hr>
+
+    <button type="submit">Save</button>
+    
+</form>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

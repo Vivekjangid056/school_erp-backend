@@ -50,13 +50,14 @@ class Institute(models.Model):
     allow_edit_emp_attd_time = models.BooleanField(default=False)  #allow to edit emp attendance time
     show_std_contact_no_app = models.BooleanField(default=False)    #show student contact number in application in mobile or ios
     
+    change_zoom_url =models.BooleanField(default = False)
     auto_admin_number = models.BooleanField(default=False) #auto admission number
     live_class_log_Std = models.BooleanField(default=False)#live class join log of students
     suggest_auto_section = models.BooleanField(default=False)
     send_Std_wc_msg = models.BooleanField(default=False)#send student welcome message to class teacher
     auto_scholar_no = models.BooleanField(default=False) #auto scholar number
     
-    change_zoom_url = models.BooleanField(default=False)
+    auto_scholar_no = models.BooleanField(default=False)
     single_login = models.BooleanField(default=False)
     suggest_auto_house = models.BooleanField(default=False)
     allow_ss_in_app = models.BooleanField(default=True) #allow screenshots in app 
@@ -83,6 +84,4 @@ class Institute(models.Model):
 # List of Masters models
 
 class Signature(models.Model):
-
-    id = models.ForeignKey(Institute, primary_key=True, on_delete= models.CASCADE)
     name = models.CharField(max_length=100)

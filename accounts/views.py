@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, HttpResponseRedirect
-from institute.forms import InstituteForm
 from School_Erp import settings
 from .models import User
 from django.contrib.auth import logout

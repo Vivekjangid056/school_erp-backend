@@ -1,55 +1,35 @@
 from django import forms
 from .models import Institute
+from accounts.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+
+class CustomUserRegisterForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['role'].initial = 'INSTITUTE'  # Set initial value for role
+        self.fields['role'].widget = forms.HiddenInput()  # Hide the role field
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.role = 'INSTITUTE'  # Set role to 'INSTITUTE'
+        if commit:
+            user.save()
+        return user
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email', 'phone_number', 'role']
+
 
 class InstituteForm(forms.ModelForm):
     class Meta:
         model = Institute
-        fields = '__all__'  # or specify individual fields like ['field1', 'field2', ...]
-        widgets = {
-            'registration_number': forms.TextInput(attrs={'class': 'form-control '}),
-            'institute_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'branch_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'address1': forms.TextInput(attrs={'class': 'form-control'}),
-            'address2': forms.TextInput(attrs={'class': 'form-control'}),
-            'billing_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'state': forms.TextInput(attrs={'class': 'form-control'}),
-            'district': forms.TextInput(attrs={'class': 'form-control'}),
-            'pin': forms.TextInput(attrs={'class': 'form-control'}),
-            'mobile_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'mobile_number2': forms.TextInput(attrs={'class': 'form-control'}),
-            'fax_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'website': forms.URLInput(attrs={'class': 'form-control'}),
-            'principal_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'acc_start_year': forms.TextInput(attrs={'class': 'form-control'}),
-            'session_start_month': forms.TextInput(attrs={'class': 'form-control'}),
-            'accredited_by': forms.TextInput(attrs={'class': 'form-control'}),
-            'scholar_prefix': forms.TextInput(attrs={'class': 'form-control'}),
-            'scholar_suffix': forms.TextInput(attrs={'class': 'form-control'}),
-            'emp_no_prefix': forms.TextInput(attrs={'class': 'form-control'}),
-            'no_of_pg_in_tcbook': forms.TextInput(attrs={'class': 'form-control'}),
-            'auto_enroll_no': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'std_attd_assignment': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'live_class_show_time': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'allow_edit_emp_attd_time': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'show_std_contact_no_app': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'auto_admin_number': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'live_class_log_Std': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'suggest_auto_section': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'send_Std_wc_msg': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'auto_scholar_no': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'change_zoom_url': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'single_login': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'suggest_auto_house': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'allow_ss_in_app': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'auto_emp_no': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'std_attd_through_live_class': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'login_with_single_device': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'show_yt_opt_4_app': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'show_teach_mo_no_app': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'show_exam_list_res_wise': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'profile_image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-        }
-
-        def is_checkbox(self, field):
-            return isinstance(self.fields[field].widget, forms.CheckboxInput)
+        fields = ['registration_number', 'institute_name', 'branch_name', 'billing_name', 'address1', 'address2',
+                  'state', 'district', 'pin', 'mobile_number', 'mobile_number2', 'fax_number', 'email', 'website',
+                  'principal_name', 'acc_start_year', 'session_start_month', 'accredited_by', 'scholar_prefix',
+                  'scholar_suffix', 'emp_no_prefix', 'no_of_pg_in_tcbook', 'profile_image', 'auto_enroll_no',
+                  'std_attd_assignment', 'live_class_show_time', 'allow_edit_emp_attd_time', 'show_std_contact_no_app',
+                  'auto_admin_number', 'live_class_log_Std', 'suggest_auto_section', 'send_Std_wc_msg', 'auto_scholar_no',
+                  'single_login', 'suggest_auto_house', 'allow_ss_in_app', 'auto_emp_no', 'std_attd_through_live_class',
+                  'login_with_single_device', 'show_yt_opt_4_app', 'show_teach_mo_no_app', 'show_exam_list_res_wise']

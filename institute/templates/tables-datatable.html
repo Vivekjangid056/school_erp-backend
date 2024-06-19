@@ -40,156 +40,36 @@
                 <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
                     <thead>
                     <tr>
+                        <th>S.N</th>
                         <th>Institute Name</th>
-                        <th>Branch Name</th>
-                        <th>Account Start year</th>
+                        <th>Billing Name</th>
+                        <th>Principal Name</th>
+                        <th>Accredited By</th>
+                        <th>Mobile Number</th>
                         <th>Action</th>
                     </tr>
                     </thead>
 
 
                     <tbody>
+                        {% for institute in institutes %}
                     <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{institute.institute_name}}</td>
+                        <td>{{institute.billing_name}}</td>
+                        <td>{{institute.principal_name}}</td>
+                        <td>{{institute.accredited_by}}</td>
+                        <td>{{institute.mobile_number}}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
+                            <a href="{% url 'institute:institute_update' institute.pk %}" class="btn btn-sm btn-primary" title="Edit">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
+                            <a href="{% url 'institute:institute_delete' institute.pk %}" class="btn btn-sm btn-danger" title="Delete">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Garrett Winters</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    
-                    <tr>
-                        <td>Jennifer Acosta</td>
-                        <td>Junior Javascript Developer</td>
-                        <td>Edinburgh</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Cara Stevens</td>
-                        <td>Sales Assistant</td>
-                        <td>New York</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Hermione Butler</td>
-                        <td>Regional Director</td>
-                        <td>London</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Lael Greer</td>
-                        <td>Systems Administrator</td>
-                        <td>London</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Jonas Alexander</td>
-                        <td>Developer</td>
-                        <td>San Francisco</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                       
-                    </tr>
-                    <tr>
-                        <td>Shad Decker</td>
-                        <td>Regional Director</td>
-                        <td>Edinburgh</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Michael Bruce</td>
-                        <td>Javascript Developer</td>
-                        <td>Singapore</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Donna Snider</td>
-                        <td>Customer Support</td>
-                        <td>New York</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" title="Delete">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
