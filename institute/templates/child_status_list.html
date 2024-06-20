@@ -22,12 +22,16 @@
     </div>
 </div>
 <!-- end page title -->
-{% if 'caste_list' %}
+{% if 'child_status_list' %}
 
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_caste' %}"><button
+
+            <!--                                    List of Institutes                                 -->
+
+
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_child_status' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
@@ -37,23 +41,23 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Caste Name</th>
+                            <th>status Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
 
                     <tbody>
-                        {% for caste in caste_list %}
+                        {% for child_status in child_status_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{caste.name}}</td>
+                            <td>{{child_status.name}}</td>
                             <td>
-                                <a href="{% url 'institute:update_caste' caste.pk %}"
+                                <a href="{% url 'institute:update_child_status' child_status.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:caste_delete' caste.pk %}">
+                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:child_status_delete' child_status.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -73,7 +77,7 @@
             <!--                                    List of Institutes                                 -->
 
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_caste' %}"><button
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_child_status' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
@@ -83,7 +87,7 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Caste Name</th>
+                            <th>Status Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
