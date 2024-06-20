@@ -1,0 +1,58 @@
+# Django framework
+Django>=4.0,<5.0
+
+# Gunicorn for running the application in production
+gunicorn
+
+# psycopg2 for PostgreSQL database
+psycopg2-binary
+
+# Pillow for image processing
+Pillow
+
+# djangorestframework for building APIs
+djangorestframework
+
+# Django CORS Headers for handling CORS in APIs
+django-cors-headers
+
+# Whitenoise for serving static files
+whitenoise
+
+# dj-database-url for configuring the database via a URL
+dj-database-url
+
+# dotenv for environment variables management
+python-dotenv
+
+# Django-environ for managing environment variables in Django settings
+django-environ
+
+# Celery for asynchronous task queues
+celery
+
+# Redis as a message broker for Celery
+redis
+
+# Django-allauth for authentication and social login
+django-allauth
+
+# Sentry SDK for error tracking
+sentry-sdk
+
+# Django Debug Toolbar for debugging in development
+django-debug-toolbar
+
+# Django Extensions for additional utilities and commands
+django-extensions
+
+# Requests library for making HTTP requests
+requests
+
+# Simple JWT for handling JSON Web Tokens in DRF
+djangorestframework-simplejwt
+
+# django-crispy-forms for better form rendering
+django-crispy-forms
+
+# Any other dependencies specific to your project
