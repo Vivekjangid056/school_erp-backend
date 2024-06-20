@@ -1,5 +1,5 @@
 from django import forms
-from .models import Institute
+from .models import *
 from accounts.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -33,3 +33,140 @@ class InstituteForm(forms.ModelForm):
                   'auto_admin_number', 'live_class_log_Std', 'suggest_auto_section', 'send_Std_wc_msg', 'auto_scholar_no',
                   'single_login', 'suggest_auto_house', 'allow_ss_in_app', 'auto_emp_no', 'std_attd_through_live_class',
                   'login_with_single_device', 'show_yt_opt_4_app', 'show_teach_mo_no_app', 'show_exam_list_res_wise']
+        
+# Leaving Reason (TC)
+# Name of Sainik School
+# Name of the Bank
+# Student Type
+# Child Status
+
+class SignatureForm(forms.ModelForm):
+    class Meta:
+        model = LomSignature
+        fields = "__all__"
+
+class CasteForm(forms.ModelForm):
+    class Meta:
+        model = Caste
+        fields = "__all__"
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = "__all__"
+
+
+class HouseForm(forms.ModelForm):
+    class Meta:
+        model = House
+        fields = "__all__"
+
+class MediumForm(forms.ModelForm):
+    class Meta:
+        model = Medium
+        fields = "__all__"
+
+class ReligionForm(forms.ModelForm):
+    class Meta:
+        model = Religion
+        fields = "__all__"
+
+class ReferenceForm(forms.ModelForm):
+    class Meta:
+        model = Reference
+        fields = "__all__"
+
+
+class NationalityForm(forms.ModelForm):
+    class Meta:
+        model = Nationality
+        fields = "__all__"
+
+
+class MotherTongueForm(forms.ModelForm):
+    class Meta:
+        model = MotherToungue
+        fields = "__all__"
+
+
+class FamilyRelationForm(forms.ModelForm):
+    class Meta:
+        model = FamiliRelation
+        fields = "__all__"
+
+
+class EnquiryTypeForm(forms.ModelForm):
+    class Meta:
+        model = EnquiryType
+        fields = "__all__"
+
+
+class PaymentModeForm(forms.ModelForm):
+    class Meta:
+        model = PaymentMode
+        fields = "__all__"
+
+
+class ClassGroupsForm(forms.ModelForm):
+    class Meta:
+        model = ClassGroups
+        fields = "__all__"
+
+
+class StandardForm(forms.ModelForm):
+    class Meta:
+        model = Standard
+        fields = "__all__"
+
+
+class SubjectsForm(forms.ModelForm):
+    class Meta:
+        model = Subjects
+        fields = "__all__"
+
+
+class DocumnetsForm(forms.ModelForm):
+    class Meta:
+        model = Documents
+        fields = "__all__"
+
+
+class FeeHeadsForm(forms.ModelForm):
+    class Meta:
+        model = FeeHeads
+        fields = "__all__"
+
+class FeeInstallmentForm(forms.ModelForm):
+    class Meta:
+        model = FeeInstallments
+        fields = "__all__"
+
+
+class LeavingReasonForm(forms.ModelForm):
+    class Meta:
+        model = LeavingReasonTC
+        fields = "__all__"
+
+
+class NameOfSainikSchoolForm(forms.ModelForm):
+    class Meta:
+        model = NameOfSainikSchool
+        fields = "__all__"
+
+class NameOfBankForm(forms.ModelForm):
+    class Meta:
+        model = NameOfTheBank
+        fields = "__all__"
+
+
+class StudentTypeForm(forms.ModelForm):
+    class Meta:
+        model = StudentType
+        fields = "__all__"
+
+
+class ChildStatusForm(forms.ModelForm):
+    class Meta:
+        model = ChildStatus
+        fields = "__all__"

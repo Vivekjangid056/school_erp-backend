@@ -19,73 +19,73 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <ul id="system-settings-list-of-masters" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-signature"></i>Signature</a>
+                    <a href="${urls.listOfSignature}"><i class="fas fa-signature"></i>Signature</a>
                 </li>
                 <li class="sidebar-item ">
-                    <a href="#"><i class="fas fa-user-tag"></i>Caste</a>
+                    <a href="${urls.listOfCaste}"><i class="fas fa-user-tag"></i>Caste</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-layer-group"></i>Category</a>
+                    <a href="${urls.listOfCategory}"><i class="fas fa-layer-group"></i>Category</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-home"></i>House</a>
+                    <a href="${urls.listOfHouse}"><i class="fas fa-home"></i>House</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-book-open"></i>Medium</a>
+                    <a href="${urls.listOfMedium}"><i class="fas fa-book-open"></i>Medium</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-praying-hands"></i>Religion</a>
+                    <a href="${urls.listOfReligion}"><i class="fas fa-praying-hands"></i>Religion</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-book"></i>Reference</a>
+                    <a href="${urls.listOfReference}"><i class="fas fa-book"></i>Reference</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-globe"></i>Nationality</a>
+                    <a href="${urls.listOfNationality}"><i class="fas fa-globe"></i>Nationality</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-language"></i>Mother Tongue</a>
+                    <a href="${urls.listOfMotherTongue}"><i class="fas fa-language"></i>Mother Tongue</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-users"></i>Family Relation</a>
+                    <a href="${urls.listOfFamilyRelation}"><i class="fas fa-users"></i>Family Relation</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-question-circle"></i>Enquiry Type</a>
+                    <a href="${urls.listOfEnquiryType}"><i class="fas fa-question-circle"></i>Enquiry Type</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-money-bill"></i>Payment Mode</a>
+                    <a href="${urls.listOfPaymentMode}"><i class="fas fa-money-bill"></i>Payment Mode</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-layer-group"></i>Class Groups</a>
+                    <a href="${urls.listOfClassGroups}"><i class="fas fa-layer-group"></i>Class Groups</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-chalkboard-teacher"></i>Class</a>
+                    <a href="${urls.listOfStandard}"><i class="fas fa-chalkboard-teacher"></i>Class</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-book-reader"></i>Subject</a>
+                    <a href="${urls.listOfSubject}"><i class="fas fa-book-reader"></i>Subject</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-folder-open"></i>Documents</a>
+                    <a href="${urls.listOfDocument}"><i class="fas fa-folder-open"></i>Documents</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-file-invoice-dollar"></i>Fee Heads</a>
+                    <a href="${urls.listOfFeeHeads}"><i class="fas fa-file-invoice-dollar"></i>Fee Heads</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-file-invoice"></i>Fee Instalments</a>
+                    <a href="${urls.listOfFeeInstallments}"><i class="fas fa-file-invoice"></i>Fee Instalments</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-map-marked-alt"></i>Leaving Reason (TC)</a>
+                    <a href="${urls.listOfLeavingReason}"><i class="fas fa-map-marked-alt"></i>Leaving Reason (TC)</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-school"></i>Name of Sainik School</a>
+                    <a href="${urls.listOfSainikSchool}"><i class="fas fa-school"></i>Name of Sainik School</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-university"></i>Name of the Bank</a>
+                    <a href="${urls.listOfNameOfBank}"><i class="fas fa-university"></i>Name of the Bank</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-user-tag"></i>Student Type</a>
+                    <a href="${urls.listOfStudentType}"><i class="fas fa-user-tag"></i>Student Type</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-user-tag"></i>Child Status</a>
+                    <a href="${urls.listOfChildStatus}"><i class="fas fa-user-tag"></i>Child Status</a>
                 </li>
             </ul>
             <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-session-settings" aria-expanded="false" aria-controls="pages">

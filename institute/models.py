@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from colorfield.fields import ColorField
 
 # Create your models here.
 
@@ -83,5 +84,179 @@ class Institute(models.Model):
 
 # List of Masters models
 
+class LomSignature(models.Model):
+    signature_name = models.CharField(max_length=100)
+    signature_heading = models.CharField(max_length= 100)
+
+    def __str__(self):
+        return self.signature_name
+
+
+class Caste(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class House(models.Model):
+    name = models.CharField(max_length=100)
+    color_code = ColorField(default='#ffffff')
+
+    def __str__(self):
+        return self.name
+
+
+class Medium(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Religion(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Reference(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Nationality(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class MotherToungue(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class FamiliRelation(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class EnquiryType(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class PaymentMode(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class ClassGroups(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+
+class Standard(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Subjects(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Documents(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class FeeHeads(models.Model):
+    head_name = models.CharField(max_length=100)
+    tax_rate = models.IntegerField()
+    default_fees = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+class FeeInstallments(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Signature(models.Model):
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class LeavingReasonTC(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class NameOfSainikSchool(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class NameOfTheBank(models.Model):
+    name = models.CharField(max_length=100)
+    ifsc_code = models.CharField(max_length=11)
+    account_number = models.CharField(max_length=20)
+    account_holder_name = models.CharField(max_length=200)
+    branch_address = models.CharField(max_length=200)
+    branch_code = models.CharField(max_length=6)
+
+    def __str__(self):
+        return self.name
+
+
+class StudentType(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class ChildStatus(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
