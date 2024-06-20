@@ -260,3 +260,6 @@ class ChildStatus(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# models for session settings 
