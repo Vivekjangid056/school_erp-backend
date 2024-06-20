@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block table-content %}
+
+
 <!-- start page title -->
 <div class="row">
     <div class="col-12">
@@ -20,10 +22,16 @@
     </div>
 </div>
 <!-- end page title -->
+{% if 'name_of_bank_list' %}
+
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_caste' %}"><button
+
+            <!--                                    List of Institutes                                 -->
+
+
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_name_of_bank' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
@@ -33,35 +41,71 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Caste Name</th>
+                            <th>Name</th>
+                            <th>IFSC Code</th>
+                            <th>Account Number</th>
+                            <th>Account Holder Name</th>
+                            <th>Branch</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
 
-                    {% if caste_list %}
                     <tbody>
-                        {% for caste in caste_list %}
+                        {% for bank in name_of_bank_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{caste.name}}</td>
+                            <td>{{bank.name}}</td>
+                            <td>{{bank.account_number}}</td>
+                            <td>{{bank.account_holder_name}}</td>
+                            <td>{{bank.branch_address}}</td>
                             <td>
-                                <a href="{% url 'institute:add_caste' %}" class="btn btn-sm btn-primary" title="Edit">
+                                <a href="{% url 'institute:update_name_of_bank' bank.pk %}"
+                                    class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal"
-                                    data-url="{% url 'institute:caste_delete' caste.pk %}"><i class="fas fa-trash-alt"></i>
+                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:name_of_bank_delete' bank.pk %}">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                {% endif %}
             </div>
         </div>
     </div>
 </div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
 
+            <!--                                    List of Institutes                                 -->
+
+
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_name_of_bank' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>S.N</th>
+                            <th>Name</th>
+                            <th>IFSC Code</th>
+                            <th>Account Number</th>
+                            <th>Account Holder Name</th>
+                            <th>Branch</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock table-content %}

@@ -647,7 +647,7 @@ class LeavingReasonDeleteView(DeleteView):
 class AddNameOfSainikSchool(FormView):
     template_name = "lom_form.html"
     form_class = NameOfSainikSchoolForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_sainik_school')
 
     def form_valid(self, form):
         form.save()
@@ -655,15 +655,15 @@ class AddNameOfSainikSchool(FormView):
 
 class ListofNameOfSainikSchool(ListView):
     model = NameOfSainikSchool
-    template_name = "list.html"
+    template_name = "sainik_school_list.html"
     context_object_name = 'sainik_school_list'
 
 class UpdateSainikSchool(UpdateView):
     model = NameOfSainikSchool
-    form_class = SignatureForm
+    form_class = NameOfSainikSchoolForm
     context_object_name = "form"
     template_name = 'lom_form.html'
-    success_url = reverse_lazy('institute:list_sainik_school')
+    success_url = reverse_lazy('institute:list_of_sainik_school')
 
     def form_valid(self, form):
         messages.success(self.request, "Name of Sainik School updated successfully!")
@@ -677,7 +677,7 @@ class SainikSchoolDeleteView(DeleteView):
 class AddNameOfBank(FormView):
     template_name = "lom_form.html"
     form_class = NameOfBankForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_name_of_bank')
 
     def form_valid(self, form):
         form.save()
@@ -685,7 +685,7 @@ class AddNameOfBank(FormView):
     
 class ListofNameOfTheBank(ListView):
     model = NameOfTheBank
-    template_name = "list.html"
+    template_name = "name_of_bank_list.html"
     context_object_name = 'name_of_bank_list'
 
 class UpdateNameOfBank(UpdateView):
