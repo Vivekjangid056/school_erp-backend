@@ -557,7 +557,7 @@ class DocumentDeleteView(DeleteView):
 class AddFeeHeads(FormView):
     template_name = "lom_form.html"
     form_class = FeeHeadsForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_fee_heads')
 
     def form_valid(self, form):
         form.save()
@@ -565,7 +565,7 @@ class AddFeeHeads(FormView):
 
 class ListofFeeHeads(ListView):
     model = FeeHeads
-    template_name = "list.html"
+    template_name = "fee_heads_list.html"
     context_object_name = 'fee_heads_list'
 
 class UpdateFeeHeads(UpdateView):
@@ -581,13 +581,13 @@ class UpdateFeeHeads(UpdateView):
 
 class FeeHeadDeleteView(DeleteView):
     model = FeeHeads
-    success_url = reverse_lazy('institute:list_of_fee_head')
+    success_url = reverse_lazy('institute:list_of_fee_heads')
 
     
 class AddFeeInstallments(FormView):
     template_name = "lom_form.html"
     form_class = FeeInstallmentForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_fee_installments')
 
     def form_valid(self, form):
         form.save()
@@ -595,8 +595,8 @@ class AddFeeInstallments(FormView):
 
 class ListofFeeInstallments(ListView):
     model = FeeInstallments
-    template_name = "list.html"
-    context_object_name = 'fee_installments__list'
+    template_name = "fee_installments_list.html"
+    context_object_name = 'fee_installments_list'
 
 class UpdateFeeInstallment(UpdateView):
     model = FeeInstallments
@@ -611,13 +611,13 @@ class UpdateFeeInstallment(UpdateView):
 
 class FeeInstallmentDeleteView(DeleteView):
     model = FeeInstallments
-    success_url = reverse_lazy('institute:list_of_fee_installment')
+    success_url = reverse_lazy('institute:list_of_fee_installments')
 
     
 class AddLeavingReason(FormView):
     template_name = "lom_form.html"
     form_class = LeavingReasonForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_leaving_reason')
 
     def form_valid(self, form):
         form.save()
@@ -625,7 +625,7 @@ class AddLeavingReason(FormView):
 
 class ListofLeavingReasonTC(ListView):
     model = LeavingReasonTC
-    template_name = "list.html"
+    template_name = "leaving_reason_list.html"
     context_object_name = 'leaving_reason_list'
 
 class UpdateLeavingReason(UpdateView):
