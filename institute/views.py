@@ -16,7 +16,7 @@ class InstituteList(ListView):
     print("#####################")
     model = Institute
     context_object_name = 'institutes'
-    template_name = 'list.html'
+    template_name = 'institute_list.html'
 
 
 class InstituteUpdateView(UpdateView):
@@ -76,7 +76,7 @@ class InstituteDeleteView(DeleteView):
 
 #                                        signature CRUD Starts
 class AddSignature(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = SignatureForm
     success_url = reverse_lazy('institute:list_of_signatures')
 
@@ -86,14 +86,14 @@ class AddSignature(FormView):
     
 class ListofSignatures(ListView):
     model = LomSignature
-    template_name = "signature_list.html"
+    template_name = "list_of_masters/signature_list.html"
     context_object_name = 'signature_list'
 
 class UpdateSignature(UpdateView):
     model = LomSignature
     form_class = SignatureForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_signatures')
 
     def form_valid(self, form):
@@ -106,7 +106,7 @@ class SignatureDeleteView(DeleteView):
 
 
 class AddCaste(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = CasteForm
     success_url = reverse_lazy('institute:list_of_caste')
 
@@ -116,14 +116,14 @@ class AddCaste(FormView):
     
 class ListofCaste(ListView):
     model = Caste
-    template_name = "caste_list.html"
+    template_name = "list_of_masters/caste_list.html"
     context_object_name = 'caste_list'
 
 class UpdateCaste(UpdateView):
     model = Caste
     form_class = CasteForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_caste')
 
     def form_valid(self, form):
@@ -136,7 +136,7 @@ class CasteDeleteView(DeleteView):
 
     
 class AddCategory(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = CategoryForm
     success_url = reverse_lazy('institute:list_of_category')
 
@@ -146,14 +146,14 @@ class AddCategory(FormView):
     
 class ListofCategory(ListView):
     model = Category
-    template_name = "category_list.html"
+    template_name = "list_of_masters/category_list.html"
     context_object_name = 'category_list'
 
 class UpdateCategory(UpdateView):
     model = Category
     form_class = CategoryForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_category')
 
     def form_valid(self, form):
@@ -165,7 +165,7 @@ class CategoryDeleteView(DeleteView):
     success_url = reverse_lazy('institute:list_of_category')
     
 class AddHouse(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = HouseForm
     success_url = reverse_lazy('institute:list_of_hoouse')
 
@@ -175,14 +175,14 @@ class AddHouse(FormView):
 
 class ListofHouse(ListView):
     model = House
-    template_name = "house_list.html"
+    template_name = "list_of_masters/house_list.html"
     context_object_name = 'house_list'
 
 class UpdateHouse(UpdateView):
     model = House
     form_class = HouseForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_house')
 
     def form_valid(self, form):
@@ -195,7 +195,7 @@ class HouseDeleteView(DeleteView):
 
     
 class AddMedium(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = MediumForm
     success_url = reverse_lazy('institute:list_of_medium')
 
@@ -205,14 +205,14 @@ class AddMedium(FormView):
 
 class ListofMedium(ListView):
     model = Medium
-    template_name = "medium_list.html"
+    template_name = "list_of_masters/medium_list.html"
     context_object_name = 'medium_list'
 
 class UpdateMedium(UpdateView):
     model = Medium
     form_class = MediumForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_medium')
 
     def form_valid(self, form):
@@ -225,7 +225,7 @@ class MediumDeleteView(DeleteView):
 
     
 class AddReligion(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = ReligionForm
     success_url = reverse_lazy('institute:list_of_religion')
 
@@ -235,14 +235,14 @@ class AddReligion(FormView):
 
 class ListofReligion(ListView):
     model = Religion
-    template_name = "religion_list.html"
+    template_name = "list_of_masters/religion_list.html"
     context_object_name = 'religion_list'
 
 class UpdateReligion(UpdateView):
     model = Religion
     form_class = ReligionForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_religion')
 
     def form_valid(self, form):
@@ -255,7 +255,7 @@ class RelligionDeleteView(DeleteView):
 
     
 class AddReference(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = ReferenceForm
     success_url = reverse_lazy('institute:list_of_reference')
 
@@ -265,14 +265,14 @@ class AddReference(FormView):
 
 class ListofReference(ListView):
     model = Reference
-    template_name = "reference_list.html"
+    template_name = "list_of_masters/reference_list.html"
     context_object_name = 'reference_list'
 
 class UpdateReference(UpdateView):
     model = Reference
     form_class = ReferenceForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_reference')
 
     def form_valid(self, form):
@@ -285,7 +285,7 @@ class ReferenceDeleteView(DeleteView):
 
     
 class AddNationality(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = NationalityForm
     success_url = reverse_lazy('institute:list_of_nationality')
 
@@ -295,14 +295,14 @@ class AddNationality(FormView):
 
 class ListofNationality(ListView):
     model = Nationality
-    template_name = "nationality_list.html"
+    template_name = "list_of_masters/nationality_list.html"
     context_object_name = 'nationality_list'
 
 class UpdateNationality(UpdateView):
     model = Nationality
     form_class = NationalityForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_nationality')
 
     def form_valid(self, form):
@@ -315,7 +315,7 @@ class NationalityDeleteView(DeleteView):
 
     
 class AddMotherTongue(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = MotherTongueForm
     success_url = reverse_lazy('institute:list_of_mother_tongue')
 
@@ -325,14 +325,14 @@ class AddMotherTongue(FormView):
 
 class ListofMotherToungue(ListView):
     model = MotherToungue
-    template_name = "mother_tongue_list.html"
+    template_name = "list_of_masters/mother_tongue_list.html"
     context_object_name = 'mother_tongue_list'
 
 class UpdateMotherTongue(UpdateView):
     model = MotherToungue
     form_class = MotherTongueForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_mother_tongue')
 
     def form_valid(self, form):
@@ -345,7 +345,7 @@ class MotherTongueDeleteView(DeleteView):
 
     
 class AddFamilyRelation(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = FamilyRelationForm
     success_url = reverse_lazy('institute:list_of_family_relation')
 
@@ -355,14 +355,14 @@ class AddFamilyRelation(FormView):
 
 class ListofFamilyRelation(ListView):
     model = FamiliRelation
-    template_name = "family_relation_list.html"
+    template_name = "list_of_masters/family_relation_list.html"
     context_object_name = 'family_relation_list'
 
 class UpdateFamilyRelation(UpdateView):
     model = FamiliRelation
     form_class = FamilyRelationForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_family_relation')
 
     def form_valid(self, form):
@@ -375,7 +375,7 @@ class FamilyRelationDeleteView(DeleteView):
 
     
 class AddEnquiryType(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = EnquiryTypeForm
     success_url = reverse_lazy('institute:list_of_enquiry_type')
 
@@ -385,14 +385,14 @@ class AddEnquiryType(FormView):
 
 class ListofEnquiryType(ListView):
     model = EnquiryType
-    template_name = "enquiry_type_list.html"
+    template_name = "list_of_masters/enquiry_type_list.html"
     context_object_name = 'enquiry_type_list'
 
 class UpdateEnquiryType(UpdateView):
     model = EnquiryType
     form_class = EnquiryTypeForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_enquiry_type')
 
     def form_valid(self, form):
@@ -405,7 +405,7 @@ class EnquiryTypeDeleteView(DeleteView):
 
     
 class AddPaymentMode(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = PaymentModeForm
     success_url = reverse_lazy('institute:institute_list')
 
@@ -415,14 +415,14 @@ class AddPaymentMode(FormView):
 
 class ListofPaymentMode(ListView):
     model = PaymentMode
-    template_name = "list.html"
+    template_name = "list_of_masters/list.html"
     context_object_name = 'payment_mode_list'
 
 class UpdatePaymentMode(UpdateView):
     model = PaymentMode
     form_class = PaymentModeForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_payment_mode')
 
     def form_valid(self, form):
@@ -435,7 +435,7 @@ class PaymentModeDeleteView(DeleteView):
 
     
 class AddClassGroups(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = ClassGroupsForm
     success_url = reverse_lazy('institute:list_of_class_groups')
 
@@ -445,14 +445,14 @@ class AddClassGroups(FormView):
 
 class ListofClassGroups(ListView):
     model = ClassGroups
-    template_name = "class_groups_list.html"
+    template_name = "list_of_masters/class_groups_list.html"
     context_object_name = 'class_group_list'
 
 class UpdateClassGroups(UpdateView):
     model = ClassGroups
     form_class = ClassGroupsForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_class_groups')
 
     def form_valid(self, form):
@@ -465,7 +465,7 @@ class ClassGroupsDeleteView(DeleteView):
 
     
 class AddStandard(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = StandardForm
     success_url = reverse_lazy('institute:list_of_standard')
 
@@ -475,14 +475,14 @@ class AddStandard(FormView):
 
 class ListofStandard(ListView):
     model = Standard
-    template_name = "standard_list.html"
+    template_name = "list_of_masters/standard_list.html"
     context_object_name = 'standard_list'
 
 class UpdateStandard(UpdateView):
     model = Standard
     form_class = StandardForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_standard')
 
     def form_valid(self, form):
@@ -495,9 +495,9 @@ class StandardDeleteView(DeleteView):
 
     
 class AddSubject(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = SubjectsForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_subjects')
 
     def form_valid(self, form):
         form.save()
@@ -505,14 +505,14 @@ class AddSubject(FormView):
 
 class ListofSubjects(ListView):
     model = Subjects
-    template_name = "list.html"
+    template_name = "list_of_masters/subject_list.html"
     context_object_name = 'subjects_list'
 
 class UpdateSubjects(UpdateView):
     model = Subjects
     form_class = SubjectsForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_subjects')
 
     def form_valid(self, form):
@@ -521,11 +521,11 @@ class UpdateSubjects(UpdateView):
 
 class SubjectDeleteView(DeleteView):
     model = Subjects
-    success_url = reverse_lazy('institute:list_of_subject')
+    success_url = reverse_lazy('institute:list_of_subjects')
 
     
 class AddDocuments(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = DocumnetsForm
     success_url = reverse_lazy('institute:list_of_documents')
 
@@ -535,14 +535,14 @@ class AddDocuments(FormView):
 
 class ListofDocuments(ListView):
     model = Documents
-    template_name = "document_list.html"
+    template_name = "list_of_masters/document_list.html"
     context_object_name = 'documents_list'
 
 class UpdateDocument(UpdateView):
     model = Documents
     form_class = DocumnetsForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_documents')
 
     def form_valid(self, form):
@@ -555,7 +555,7 @@ class DocumentDeleteView(DeleteView):
 
     
 class AddFeeHeads(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = FeeHeadsForm
     success_url = reverse_lazy('institute:list_of_fee_heads')
 
@@ -565,14 +565,14 @@ class AddFeeHeads(FormView):
 
 class ListofFeeHeads(ListView):
     model = FeeHeads
-    template_name = "fee_heads_list.html"
+    template_name = "list_of_masters/fee_heads_list.html"
     context_object_name = 'fee_heads_list'
 
 class UpdateFeeHeads(UpdateView):
     model = FeeHeads
     form_class = FeeHeadsForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_fee_heads')
 
     def form_valid(self, form):
@@ -585,7 +585,7 @@ class FeeHeadDeleteView(DeleteView):
 
     
 class AddFeeInstallments(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = FeeInstallmentForm
     success_url = reverse_lazy('institute:list_of_fee_installments')
 
@@ -595,14 +595,14 @@ class AddFeeInstallments(FormView):
 
 class ListofFeeInstallments(ListView):
     model = FeeInstallments
-    template_name = "fee_installments_list.html"
+    template_name = "list_of_masters/fee_installments_list.html"
     context_object_name = 'fee_installments_list'
 
 class UpdateFeeInstallment(UpdateView):
     model = FeeInstallments
     form_class = FeeInstallmentForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_fee_installments')
 
     def form_valid(self, form):
@@ -615,7 +615,7 @@ class FeeInstallmentDeleteView(DeleteView):
 
     
 class AddLeavingReason(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = LeavingReasonForm
     success_url = reverse_lazy('institute:list_of_leaving_reason')
 
@@ -625,14 +625,14 @@ class AddLeavingReason(FormView):
 
 class ListofLeavingReasonTC(ListView):
     model = LeavingReasonTC
-    template_name = "leaving_reason_list.html"
+    template_name = "list_of_masters/leaving_reason_list.html"
     context_object_name = 'leaving_reason_list'
 
 class UpdateLeavingReason(UpdateView):
     model = LeavingReasonTC
     form_class = LeavingReasonForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_leaving_reason')
 
     def form_valid(self, form):
@@ -645,7 +645,7 @@ class LeavingReasonDeleteView(DeleteView):
     
     
 class AddNameOfSainikSchool(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = NameOfSainikSchoolForm
     success_url = reverse_lazy('institute:list_of_sainik_school')
 
@@ -655,14 +655,14 @@ class AddNameOfSainikSchool(FormView):
 
 class ListofNameOfSainikSchool(ListView):
     model = NameOfSainikSchool
-    template_name = "sainik_school_list.html"
+    template_name = "list_of_masters/sainik_school_list.html"
     context_object_name = 'sainik_school_list'
 
 class UpdateSainikSchool(UpdateView):
     model = NameOfSainikSchool
     form_class = NameOfSainikSchoolForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_sainik_school')
 
     def form_valid(self, form):
@@ -675,7 +675,7 @@ class SainikSchoolDeleteView(DeleteView):
 
     
 class AddNameOfBank(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = NameOfBankForm
     success_url = reverse_lazy('institute:list_of_name_of_bank')
 
@@ -685,14 +685,14 @@ class AddNameOfBank(FormView):
     
 class ListofNameOfTheBank(ListView):
     model = NameOfTheBank
-    template_name = "name_of_bank_list.html"
+    template_name = "list_of_masters/name_of_bank_list.html"
     context_object_name = 'name_of_bank_list'
 
 class UpdateNameOfBank(UpdateView):
     model = NameOfTheBank
     form_class = NameOfBankForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_name_of_bank')
 
     def form_valid(self, form):
@@ -705,9 +705,9 @@ class NameOfBankDeleteView(DeleteView):
 
     
 class AddStudentType(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = StudentTypeForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_student_type')
 
     def form_valid(self, form):
         form.save()
@@ -715,14 +715,14 @@ class AddStudentType(FormView):
     
 class ListofStudentType(ListView):
     model = StudentType
-    template_name = "list.html"
+    template_name = "list_of_masters/student_type_list.html"
     context_object_name = 'student_type_list'
 
 class UpdateStudentType(UpdateView):
     model = StudentType
     form_class = StudentTypeForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_student_type')
 
     def form_valid(self, form):
@@ -735,7 +735,7 @@ class StudentTypeDeleteView(DeleteView):
 
     
 class AddChildStatus(FormView):
-    template_name = "lom_form.html"
+    template_name = "list_of_masters/lom_form.html"
     form_class = ChildStatusForm
     success_url = reverse_lazy('institute:list_of_child_status')
 
@@ -745,14 +745,14 @@ class AddChildStatus(FormView):
     
 class ListofChildStatus(ListView):
     model = ChildStatus
-    template_name = "child_status_list.html"
+    template_name = "list_of_masters/child_status_list.html"
     context_object_name = 'child_status_list'
 
 class UpdateChildStatus(UpdateView):
     model = ChildStatus
     form_class = ChildStatusForm
     context_object_name = "form"
-    template_name = 'lom_form.html'
+    template_name = 'list_of_masters/lom_formlist_of_masters/'
     success_url = reverse_lazy('institute:list_of_child_status')
 
     def form_valid(self, form):
