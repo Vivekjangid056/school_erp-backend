@@ -260,3 +260,24 @@ class ChildStatus(models.Model):
 
     def __str__(self):
         return self.name
+    
+# list of users models
+ 
+class User(models.Model):
+    employee_name = models.CharField(max_length=100)  #data will dynamically come from faculty section
+    first_name = models.CharField(max_length=50)
+    middle_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50 ,  blank = True)   #optional
+    user_name = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    register_mobile_no = models.CharField(max_length=12, 
+        validators=[
+            RegexValidator(regex='^\d{10,12}$', message='Mobile number must be 10 to 12 digits.')
+        ]
+    )
+    nick_name = models.CharField(max_length=50,blank=True) #optional
+    position = models.CharField(max_length=50,blank=True)   #optional
+    
+    user_image = models.ImageField(upload_to='images/',blank=True,null=True)  #optional
+    

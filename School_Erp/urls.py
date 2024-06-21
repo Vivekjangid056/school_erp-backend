@@ -21,4 +21,9 @@ urlpatterns = [
     path('dj-admin/', admin.site.urls),
     path("", include("accounts.urls")),
     path("dashboard/", include("institute.urls")),
+    # path("dashboard/", include("scholar_register.urls")),
+    # path("dashboard/", include("online_exam.urls")),
+    # path("dashboard/", include("store_inventory.urls")),
+    # path("dashboard/", include("task_management.urls")),
+    # path("dashboard/", include("visitor_master.urls")),
 ]
