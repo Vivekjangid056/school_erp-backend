@@ -38,9 +38,9 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
 
     ROLE_CHOICE = (
-        ('INSTITUTE', 'Institute'),
-        ('FACULTY', 'Faculty'),
-        ('STUDENT', 'Student')
+        ('1', 'Institute'),
+        ('2', 'Faculty'),
+        ('3', 'Student')
         )
 
 
