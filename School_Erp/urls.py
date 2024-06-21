@@ -32,4 +32,9 @@ urlpatterns = [
     # path("dashboard/", include("hostel.urls")),
     # path("dashboard/", include("attendance.urls")),
     # path("dashboard/", include("mobile_module.urls")),
+    # path("dashboard/", include("scholar_register.urls")),
+    # path("dashboard/", include("online_exam.urls")),
+    # path("dashboard/", include("store_inventory.urls")),
+    # path("dashboard/", include("task_management.urls")),
+    # path("dashboard/", include("visitor_master.urls")),
 ]
