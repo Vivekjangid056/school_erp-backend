@@ -47,6 +47,9 @@ class InstituteRegisterView(CreateView):
         self.object = None
         form = self.get_form()
         profile_form = self.second_form_class(request.POST, request.FILES)
+        
+        print(f"User Form Errors: {form.errors}")
+        print(f"Profile Form Errors: {profile_form.errors}")
 
         if form.is_valid() and profile_form.is_valid():
             return self.form_valid(form, profile_form)

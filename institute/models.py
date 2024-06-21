@@ -260,3 +260,36 @@ class ChildStatus(models.Model):
 
     def __str__(self):
         return self.name
+
+    
+class NextClass(models.Model):
+    name = models.CharField(max_length=50)
+
+
+class SubjectForClassGroup(models.Model):
+    pass
+
+
+class SessionSettingsClass(models.Model):
+    current_class = models.ForeignKey(Standard, on_delete=models.CASCADE)
+    next_class = models.ForeignKey(NextClass, on_delete=models.CASCADE)
+
+
+class Section(models.Model):
+    name = models.CharField(max_length=50)
+
+
+class ClassWiseSubjects(models.Model):
+    subject_name = models.ForeignKey(Subjects, on_delete= models.CASCADE)
+    compulsary = models.BooleanField(default= False)
+    activity = models.BooleanField(default= False)
+    additional = models.BooleanField(default= False)
+    skill = models.BooleanField(default= False)
+    show_in_marlsheet = models.BooleanField(default= False)
+    practical_fee = models.IntegerField()
+
+
+class DocumentsRequired(models.Model):
+    document_name = models.ForeignKey(Documents, on_delete= models.CASCADE)
+    for_new = models.BooleanField(default=False)
+    for_old = models.BooleanField(default=False)

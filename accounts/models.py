@@ -76,10 +76,3 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
     
-
-# class Roles(models.Model):
-#     role_id = models.IntegerField(primary_key=True)
-#     role_name = models.CharField(max_length=50,null=False)
-    
-#     def __str__(self):
-#         return self.role_name

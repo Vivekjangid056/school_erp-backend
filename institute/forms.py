@@ -7,12 +7,12 @@ from django.contrib.auth.forms import UserCreationForm
 class CustomUserRegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['role'].initial = 'INSTITUTE'  # Set initial value for role
+        self.fields['role'].initial = '1'  # Set initial value for role
         self.fields['role'].widget = forms.HiddenInput()  # Hide the role field
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.role = 'INSTITUTE'  # Set role to 'INSTITUTE'
+        user.role = '1'  # Set role to 'INSTITUTE'
         if commit:
             user.save()
         return user
