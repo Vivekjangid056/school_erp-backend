@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def super_admin_login(request):
-    print("kjwhefsnsdfgndsg,kadjgbnad jvkashgbas lgsadjghbaskd gadjfkgbadngf adlj")
     try:
         if request.user.is_authenticated:
             return redirect("dashboard/")
@@ -46,7 +45,6 @@ def admin_dashboard(request):
 
 def logout_view(request):
     logout(request)
-    print("************************&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&$$$$$$$$$$$$$$$")
     return redirect('accounts:super-admin-login') 
 
 

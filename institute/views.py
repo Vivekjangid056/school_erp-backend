@@ -13,7 +13,6 @@ def temp(request):
 
 
 class InstituteList(ListView):
-    print("#####################")
     model = Institute
     context_object_name = 'institutes'
     template_name = 'institute_list.html'
@@ -755,7 +754,7 @@ class UpdateChildStatus(UpdateView):
     model = ChildStatus
     form_class = ChildStatusForm
     context_object_name = "form"
-    template_name = 'list_of_masters/lom_formlist_of_masters/'
+    template_name = 'list_of_masters/lom_form.html'
     success_url = reverse_lazy('institute:list_of_child_status')
 
     def form_valid(self, form):
