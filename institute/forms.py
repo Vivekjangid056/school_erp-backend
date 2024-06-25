@@ -33,12 +33,14 @@ class InstituteForm(forms.ModelForm):
                   'auto_admin_number', 'live_class_log_Std', 'suggest_auto_section', 'send_Std_wc_msg', 'auto_scholar_no',
                   'single_login', 'suggest_auto_house', 'allow_ss_in_app', 'auto_emp_no', 'std_attd_through_live_class',
                   'login_with_single_device', 'show_yt_opt_4_app', 'show_teach_mo_no_app', 'show_exam_list_res_wise']
-        
-# Leaving Reason (TC)
-# Name of Sainik School
-# Name of the Bank
-# Student Type
-# Child Status
+
+
+# institute role form
+class InstituteRoleForm(forms.ModelForm):
+    class Meta:
+        model = InstituteRole
+        fields = ['name', 'description', 'is_active', 'branches', 'menu']
+
 
 class SignatureForm(forms.ModelForm):
     class Meta:

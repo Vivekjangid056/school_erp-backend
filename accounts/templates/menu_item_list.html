@@ -1,0 +1,27 @@
+{% extends "generic.html" %}
+
+{% block content %}
+  <h2>Menu Items</h2>
+  <a href="{% url 'menu_create' %}" class="btn btn-primary">Add Menu Item</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>URL</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in menu_items %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.url }}</td>
+          <td>
+            <a href="{% url 'menu_update' item.pk %}" class="btn btn-sm btn-primary">Edit</a>
+            <a href="{% url 'menu_delete' item.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

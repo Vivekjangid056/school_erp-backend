@@ -111,5 +111,12 @@ urlpatterns = [
     path('update-name-of-bank/<int:pk>', UpdateNameOfBank.as_view(), name="update_name_of_bank"),
     path('update-student-type/<int:pk>', UpdateStudentType.as_view(), name="update_student_type"),
     path('update-child-status/<int:pk>', UpdateChildStatus.as_view(), name="update_child_status"),
+    
+    # role element urls
 
+    path('add-role', role_create, name = 'add_role'),
+    path('roles-list/', role_list, name='list_of_roles'),
+    path('update-role/<int:pk>', role_update, name='update_role'),
+    path('delete-role/<int:pk>', RoleDeleteView.as_view(), name='role_delete'),
+    # path('roles/<int:pk>/permissions/create/', permission_create, name='permission_create'),
 ]

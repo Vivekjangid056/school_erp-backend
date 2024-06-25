@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
+from django.db.models import UniqueConstraint
 
 # Create your models here.
 
@@ -80,7 +81,63 @@ class Institute(models.Model):
         verbose_name = 'Institute'
         verbose_name_plural = 'Institutes'
 
+# Model For menu shown in admin panel
 
+class MainMenu(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+    
+
+class SubMenu(models.Model):
+    menu = models.ForeignKey(MainMenu, on_delete=models.CASCADE, related_name='submenus')
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+    
+
+class SuperSubMenu(models.Model):
+    submenu = models.ForeignKey(SubMenu, on_delete=models.CASCADE, related_name='supersubmenus')
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+class InstituteRole(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+    is_active = models.BooleanField(default=True)
+    branches = models.ManyToManyField('Institute', related_name='roles')
+    menu = models.ManyToManyField(MainMenu)
+
+    def __str__(self):
+        return self.name
+
+
+class Permission(models.Model):
+    role = models.ForeignKey(InstituteRole, on_delete=models.CASCADE, related_name='permissions')
+    menu = models.ForeignKey(MainMenu, on_delete=models.CASCADE, null=True, blank=True)
+    submenu = models.ForeignKey(SubMenu, on_delete=models.CASCADE, null=True, blank=True)
+    supersubmenu = models.ForeignKey(SuperSubMenu, on_delete=models.CASCADE, null=True, blank=True)
+    can_add = models.BooleanField(default=False)
+    can_edit = models.BooleanField(default=False)
+    can_view = models.BooleanField(default=False)
+    can_delete = models.BooleanField(default=False)
+    can_print = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['role', 'menu', 'submenu', 'supersubmenu'], name='unique_role_menu_submenu_supersubmenu')
+        ]
+
+    def __str__(self):
+        return f'{self.role} - {self.menu} - {self.submenu} - {self.supersubmenu}'
 
 # List of Masters models
 

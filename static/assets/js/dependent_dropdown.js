@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Institute</span>
             </a>
-            <a href="javascript: void(0);" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-list-of-masters" aria-expanded="false" aria-controls="pages">
+            <a href="javascript: void(0);" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-list-of-masters" aria-expanded="false" aria-controls="pages">
             <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">List of Masters</span>
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">create user</span>
             </a>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.listOfRoles}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">create roles</span>
             </a>

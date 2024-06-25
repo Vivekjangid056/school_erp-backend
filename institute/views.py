@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from .forms import *
@@ -417,7 +417,7 @@ class AddPaymentMode(FormView):
 
 class ListofPaymentMode(ListView):
     model = PaymentMode
-    template_name = "list_of_masters/list.html"
+    template_name = "list_of_masters/payment_mode_list.html"
     context_object_name = 'payment_mode_list'
 
 class UpdatePaymentMode(UpdateView):
@@ -764,3 +764,183 @@ class UpdateChildStatus(UpdateView):
 class ChildStatusDeleteView(DeleteView):
     model = ChildStatus
     success_url = reverse_lazy('institute:list_of_child_status')
+
+
+
+# working on role Element
+
+# class RoleCreate(CreateView):
+#     template_name = 'role/create_role.html'
+#     form_class = RoleForm
+#     success_url = reverse_lazy('institute:list_of_roles')
+
+# class RoleView(ListView):
+#     template_name = 'role/list_of_roles.html'
+#     model = InstituteRole
+#     context_object_name = 'list_of_roles'
+
+# class UpdateRole(UpdateView):
+#     model = InstituteRole
+#     form_class = RoleForm
+#     context_object_name = "form"
+#     template_name = 'role/create_role.html'
+#     success_url = reverse_lazy('institute:list_of_roles')
+
+#     def form_valid(self, form):
+#         messages.success(self.request, "Institute role updated successfully!")
+#         return super().form_valid(form)
+
+# class DeleteRole(DeleteView):
+#     model = InstituteRole
+#     template_name = 'role/role_confirm_delete.html'
+#     success_url = reverse_lazy('institute:list_of_roles')
+
+#     def delete(self, request, *args, **kwargs):
+#         messages.success(self.request, "Institute role deleted successfully!")
+#         return super().delete(request, *args, **kwargs)
+
+
+
+def role_list(request):
+    roles = InstituteRole.objects.all()
+    return render(request, 'role/list_of_roles.html', {'roles': roles})
+
+# def role_create(request):
+#     if request.method == 'POST':
+#         form = RoleForm(request.POST)
+#         if form.is_valid():
+#             role = form.save()
+#             return redirect('institute:update_role', role_id=role.id)
+#     else:
+#         form = RoleForm()
+#     return render(request, 'role/role_form.html', {'form': form})
+
+# def role_update(request, pk):
+#     role = get_object_or_404(InstituteRole, id=pk)
+#     if request.method == 'POST':
+#         form = RoleForm(request.POST, instance=role)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('role_list')
+#     else:
+#         form = RoleForm(instance=role)
+#     permissions = Permission.objects.filter(role=role)
+#     permission_form = PermissionForm()
+#     return render(request, 'role/role_form.html', {
+#         'form': form,
+#         'role': role,
+#         'permissions': permissions,
+#         'permission_form': permission_form,
+#     })
+
+# def permission_create(request, role_id):
+#     role = get_object_or_404(InstituteRole, id=role_id)
+#     if request.method == 'POST':
+#         form = PermissionForm(request.POST)
+#         if form.is_valid():
+#             permission = form.save(commit=False)
+#             permission.role = role
+#             permission.save()
+#             return redirect('update_role', role_id=role.id)
+#     return redirect('role_update', role_id=role.id)
+
+class RoleDeleteView(DeleteView):
+    model = InstituteRole
+    success_url = reverse_lazy('institute:list_of_roles')
+
+
+
+def role_create(request):
+    if request.method == 'POST':
+        form = InstituteRoleForm(request.POST)
+        if form.is_valid():
+            role = form.save()
+            # Process permissions
+            for key, value in request.POST.items():
+                if key.startswith('permissions'):
+                    # permissions[<supersubmenu_id>][<permission_type>]
+                    parts = key.split('[')
+                    supersubmenu_id = parts[1][:-1]
+                    permission_type = parts[2][:-1]
+
+                    supersubmenu = SuperSubMenu.objects.get(id=supersubmenu_id)
+                    submenu = supersubmenu.submenu
+                    menu = submenu.menu
+
+                    permission, created = Permission.objects.get_or_create(
+                        role=role,
+                        menu=menu,
+                        submenu=submenu,
+                        supersubmenu=supersubmenu
+                    )
+                    setattr(permission, f'can_{permission_type}', value == 'on')
+                    permission.save()
+            return redirect('institute:list_of_roles')  # Redirect to a list view or detail view
+    else:
+        form = InstituteRoleForm()
+
+    menus = MainMenu.objects.all()
+    structured_data = []
+
+    for menu in menus:
+        submenus = SubMenu.objects.filter(menu=menu)
+        menu_data = {
+            'menu': menu,
+            'submenus': []
+        }
+        for submenu in submenus:
+            supersubmenus = SuperSubMenu.objects.filter(submenu=submenu)
+            submenu_data = {
+                'submenu': submenu,
+                'supersubmenus': supersubmenus
+            }
+            menu_data['submenus'].append(submenu_data)
+        structured_data.append(menu_data)
+
+    context = {
+        'form': form,
+        'structured_data': structured_data,
+    }
+    return render(request, 'role/create_role.html', context)
+
+
+
+
+
+
+
+def role_update(request, pk):
+    role = get_object_or_404(InstituteRole, id=pk)
+    menus = MainMenu.objects.all()
+    
+    permissions = Permission.objects.filter(role=role)
+
+    structured_data = []
+
+    for menu in menus:
+        submenus = SubMenu.objects.filter(menu=menu)
+        menu_data = {
+            'menu': menu,
+            'submenus': []
+        }
+        for submenu in submenus:
+            supersubmenus = SuperSubMenu.objects.filter(submenu=submenu)
+            submenu_data = {
+                'submenu': submenu,
+                'supersubmenus': []
+            }
+            for supersubmenu in supersubmenus:
+                submenu_permissions = permissions.filter(menu=menu, submenu=submenu, supersubmenu=supersubmenu).first()
+                submenu_data['supersubmenus'].append({
+                    'supersubmenu': supersubmenu,
+                    'permissions': submenu_permissions
+                })
+            menu_data['submenus'].append(submenu_data)
+        structured_data.append(menu_data)
+
+    context = {
+        'role': role,
+        'structured_data': structured_data,
+    }
+
+    return render(request, 'role/role_form.html', context)

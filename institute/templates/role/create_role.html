@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+	<div class="card-header">
+		<div class="container">
+			{% if form.instance.pk %}
+			<h2>Modify</h2>
+			{% else %}
+			<div>
+				<h2>Create Your role here</h2>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	<form method="post">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-md-6">
+				{{ form.name | as_crispy_field }}
+				{{ form.description | as_crispy_field }}
+				{{ form.is_active | as_crispy_field }}
+
+			</div>
+			<div class="col-md-6">
+				{{form.branches | as_crispy_field }}
+			</div>
+		</div>
+		<div>
+			{% for menu_data in structured_data %}
+			<h2>{{ menu_data.menu.name }}</h2>
+			{% for submenu_data in menu_data.submenus %}
+			<h3>{{ submenu_data.submenu.name }}</h3>
+			{% for supersubmenu in submenu_data.supersubmenus %}
+			<h4>{{ supersubmenu.name }}</h4>
+			<input type="checkbox" name="permissions[{{ supersubmenu.id }}][can_add]"> Add
+			<input type="checkbox" name="permissions[{{ supersubmenu.id }}][can_edit]"> Edit
+			<input type="checkbox" name="permissions[{{ supersubmenu.id }}][can_view]"> View
+			<input type="checkbox" name="permissions[{{ supersubmenu.id }}][can_delete]"> Delete
+			<input type="checkbox" name="permissions[{{ supersubmenu.id }}][can_print]"> Print
+			{% endfor %}
+			{% endfor %}
+			{% endfor %}
+		</div>
+		<button type="submit">Save</button>
+	</form>
+
+
+</div>
+
+{% endblock content %}

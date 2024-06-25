@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block table-content %}
+<!-- start page title -->
+
+<h1>this is role form</h1>
+<form method="post">
+    {% csrf_token %}
+{{form.as_p}}
+<button type= "submit">submit</button>
+</form>
+
+{% for menu_data in structured_data %}
+    <h2>{{ menu_data.menu.name }}</h2>
+    {% for submenu_data in menu_data.submenus %}
+        <h3>{{ submenu_data.submenu.name }}</h3>
+        {% for supersubmenu_data in submenu_data.supersubmenus %}
+            <h4>{{ supersubmenu_data.supersubmenu.name }}</h4>
+            <input type="checkbox" name="permissions[{{ supersubmenu_data.supersubmenu.id }}][can_add]" {% if supersubmenu_data.permissions and supersubmenu_data.permissions.can_add %}checked{% endif %}> Add
+            <input type="checkbox" name="permissions[{{ supersubmenu_data.supersubmenu.id }}][can_edit]" {% if supersubmenu_data.permissions and supersubmenu_data.permissions.can_edit %}checked{% endif %}> Edit
+            <input type="checkbox" name="permissions[{{ supersubmenu_data.supersubmenu.id }}][can_view]" {% if supersubmenu_data.permissions and supersubmenu_data.permissions.can_view %}checked{% endif %}> View
+            <input type="checkbox" name="permissions[{{ supersubmenu_data.supersubmenu.id }}][can_delete]" {% if supersubmenu_data.permissions and supersubmenu_data.permissions.can_delete %}checked{% endif %}> Delete
+            <input type="checkbox" name="permissions[{{ supersubmenu_data.supersubmenu.id }}][can_print]" {% if supersubmenu_data.permissions and supersubmenu_data.permissions.can_print %}checked{% endif %}> Print
+        {% endfor %}
+    {% endfor %}
+{% endfor %}
+
+{% endblock table-content %}
