@@ -41,27 +41,25 @@
                             <th>S.N</th>
                             <th>Name</th>
                             <th>code</th>
-                            <th>Nature</th>
-                            <th>Attendance %</th>
+                            <th>description </th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for attendance in data %}
+                        {% for holiday in data %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{attendance.name}}</td>
-                            <td>{{attendance.code}}</td>
-                            <td>{{attendance.nature}}</td>
-                            <td>{{attendance.attendance}}</td>
+                            <td>{{holiday.name}}</td>
+                            <td>{{holiday.code}}</td>
+                            <td>{{holiday.description}}</td> 
                             <td>
-                                <a href="{% url 'teacher:attendance_type_update' attendance.pk %}"
+                                <a href="{% url 'teacher:holiday_list_update' holiday.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'teacher:attendance_type_delete' attendance.pk %}">
+                                    data-url="{% url 'teacher:attendance_type_delete' holiday.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

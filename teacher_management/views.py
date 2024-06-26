@@ -155,3 +155,13 @@ class CreateHolidayList(CreateView):
         form.save()
         return super().form_valid(form)
     
+class UpdateHolidayList(UpdateView):
+    template_name = "list_master/holiday_list_update.html"
+    model = LmHolidayList
+    form_class = LmHolidayListForm
+    success_url = reverse_lazy('teacher:holiday_list')    
+    
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    

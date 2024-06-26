@@ -32,5 +32,6 @@ urlpatterns = [
     #holiday list urls
     path('holiday-list/',holiday_list,name='holiday_list'),
     path('holiday-list-create/',CreateHolidayList.as_view(), name='holiday_list_create'),
+    path('holiday-list-update<int:pk>',UpdateHolidayList.as_view(),name='holiday_list_update'),
      
 ]
