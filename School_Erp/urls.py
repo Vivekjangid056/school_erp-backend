@@ -29,7 +29,7 @@ urlpatterns = [
     # path("dashboard/", include("enquiry.urls")),
     # path("dashboard/", include("finance.urls")),
     # path("dashboard/", include("fees_modules.urls")),
-    # path("dashboard/", include("teacher_management.urls")),
+    path("dashboard/", include("teacher_management.urls")),
     # path("dashboard/", include("hr.urls")),
     # path("dashboard/", include("examination.urls")),
     # path("dashboard/", include("library.urls")),

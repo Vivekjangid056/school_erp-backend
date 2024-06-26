@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-globe"></i>Student ID Card Format</a>
                 </li>
             </ul>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.employeeList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">create user</span>
             </a>
@@ -713,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `,
         'teacher-management': `
         <li class="menu-title" key="t-menu">Teacher Management</li>
-            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#teacher-management-list-master" aria-expanded="false" aria-controls="pages">
+            <a href="javascript: void(0)" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#teacher-management-list-master" aria-expanded="false" aria-controls="pages">
             <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">List Master</span>
@@ -722,22 +722,22 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <ul id="teacher-management-list-master" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-signature"></i>Catagory Master</a>
+                    <a href="${urls.categoryMasterList}"><i class="fas fa-signature"></i>Catagory Master</a>
                 </li>
                 <li class="sidebar-item ">
-                    <a href="#"><i class="fas fa-user-tag"></i>Designation Master</a>
+                    <a href="${urls.designationMasterList}"><i class="fas fa-user-tag"></i>Designation Master</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-layer-group"></i>Department Master</a>
+                    <a href="${urls.departmentMasterList}"><i class="fas fa-layer-group"></i>Department Master</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-book-open"></i>Attendance Type</a>
+                    <a href="${urls.attendanceType}"><i class="fas fa-book-open"></i>Attendance Type</a>
                 </li>
                 <li class="sidebar-item">
-                <a href="#"><i class="fas fa-book-open"></i>Attendance Settings</a>
-                </li>
+                    <a href="#"><i class="fas fa-book-open"></i>Attendance Settings</a>
+                </li> 
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-book-open"></i>Holiday List</a>
+                    <a href="${urls.holidayList}"><i class="fas fa-book-open"></i>Holiday List</a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-book-open"></i>Exception List</a>

@@ -1,11 +1,11 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
+from accounts.models import User
 
 # Create your models here.
 
 class Institute(models.Model):
-    
     registration_number = models.CharField(max_length=20,primary_key=True,blank=False)  #reg.number/aff.number
     institute_name = models.CharField(max_length=250,blank=False)
     branch_name = models.CharField(max_length=250,blank=True) #optional
@@ -263,23 +263,21 @@ class ChildStatus(models.Model):
     
 # list of users models
  
-class User(models.Model):
+class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee_profile')
     employee_name = models.CharField(max_length=100)  #data will dynamically come from faculty section
-    first_name = models.CharField(max_length=50)
-    middle_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50 ,  blank = True)   #optional
-    user_name = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    register_mobile_no = models.CharField(max_length=12, 
-        validators=[
-            RegexValidator(regex='^\d{10,12}$', message='Mobile number must be 10 to 12 digits.')
-        ]
-    )
+    middle_name = models.CharField(max_length=100 , blank=True)   #optional
     nick_name = models.CharField(max_length=50,blank=True) #optional
     position = models.CharField(max_length=50,blank=True)   #optional
     
     user_image = models.ImageField(upload_to='images/',blank=True,null=True)  #optional
+    
+    def __str__(self):
+        return self.employee_name
+    
+    class Meta:
+        verbose_name = 'Employee'
+        verbose_name_plural = 'Employees'
     
 
     

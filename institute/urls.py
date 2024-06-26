@@ -111,5 +111,12 @@ urlpatterns = [
     path('update-name-of-bank/<int:pk>', UpdateNameOfBank.as_view(), name="update_name_of_bank"),
     path('update-student-type/<int:pk>', UpdateStudentType.as_view(), name="update_student_type"),
     path('update-child-status/<int:pk>', UpdateChildStatus.as_view(), name="update_child_status"),
+    
+    
+    # urls for employees {for create user in sysytem setting}
+    path('employee-list/', EmployeeList.as_view(), name='employee_list'),
+    path('employee-create/', CreateEmployee.as_view(), name='add_employee'),
+    path('employee-update<int:pk>', UpdateEmployee.as_view(), name="employee_update"),
+    path('employee-delete<int:pk>', EmployeeDeleteView.as_view(), name="employee_delete"),
 
 ]

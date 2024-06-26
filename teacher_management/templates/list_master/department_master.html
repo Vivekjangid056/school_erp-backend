@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Data Tables</h4>
+            <h4 class="mb-sm-0 font-size-18">Employee Department Tables</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -17,12 +17,11 @@
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                 </ol>
             </div>
-
         </div>
     </div>
 </div>
 <!-- end page title -->
-{% if institutes %}
+{% if data %}
 
 <div class="row">
     <div class="col-12">
@@ -30,7 +29,7 @@
 
             <!--                                    List of Institutes                                 -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_institute' %}"><button
+            <a style="text-decoration:none; color:white" href="{% url 'teacher:add_department_master' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
             </a>
         </div>
@@ -41,33 +40,27 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Institute Name</th>
-                            <th>Billing Name</th>
-                            <th>Principal Name</th>
-                            <th>Accredited By</th>
-                            <th>Mobile Number</th>
+                            <th>code</th>
+                            <th>Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for institute in institutes %}
+                        {% for department in data%}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{institute.institute_name}}</td>
-                            <td>{{institute.billing_name}}</td>
-                            <td>{{institute.principal_name}}</td>
-                            <td>{{institute.accredited_by}}</td>
-                            <td>{{institute.mobile_number}}</td>
+                            <td>{{department.code}}</td>
+                            <td>{{department.name}}</td>
                             <td>
-                                <a href="{% url 'institute:institute_update' institute.pk %}"
+                                <a href="{% url 'teacher:update_department_master' department.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'institute:institute_delete' institute.pk %}">
+                                    data-url="{% url 'teacher:delete_department_master' department.pk %}">
                                     <i class="fas fa-trash-alt"></i>
-                                </button>
+                                </button> 
                             </td>
                         </tr>
                         {% endfor %}
@@ -84,8 +77,9 @@
 
             <!--                                    List of Institutes                                 -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_institute' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
+            <a style="text-decoration:none; color:white" href="{% url 'teacher:add_department_master' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
+                </a>
         </div>
         <div class="card">
             <div class="card-body">
@@ -94,11 +88,8 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Institute Name</th>
-                            <th>Billing Name</th>
-                            <th>Principal Name</th>
-                            <th>Accredited By</th>
-                            <th>Mobile Number</th>
+                            <th> code</th>
+                            <th> Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>

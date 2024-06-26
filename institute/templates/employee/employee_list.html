@@ -17,12 +17,11 @@
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                 </ol>
             </div>
-
         </div>
     </div>
 </div>
 <!-- end page title -->
-{% if institutes %}
+{% if employees %}
 
 <div class="row">
     <div class="col-12">
@@ -30,7 +29,7 @@
 
             <!--                                    List of Institutes                                 -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_institute' %}"><button
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_employee' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
             </a>
         </div>
@@ -41,31 +40,30 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Institute Name</th>
-                            <th>Billing Name</th>
-                            <th>Principal Name</th>
-                            <th>Accredited By</th>
-                            <th>Mobile Number</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>User Name</th>
+                            <th>Email</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for institute in institutes %}
+                        {% for employee in employees %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{institute.institute_name}}</td>
-                            <td>{{institute.billing_name}}</td>
-                            <td>{{institute.principal_name}}</td>
-                            <td>{{institute.accredited_by}}</td>
-                            <td>{{institute.mobile_number}}</td>
+                            <td>{{employee.user.first_name}}</td>
+                            <td>{{employee.user.last_name}}</td>
+                            <td>{{employee.user.username}}</td>
+                            <td>{{employee.user.email}}</td>
+                        
                             <td>
-                                <a href="{% url 'institute:institute_update' institute.pk %}"
+                                <a href="{% url 'institute:employee_update' employee.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'institute:institute_delete' institute.pk %}">
+                                    data-url="{% url 'institute:employee_delete' employee.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -84,8 +82,9 @@
 
             <!--                                    List of Institutes                                 -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_institute' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_employee' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
+                </a>
         </div>
         <div class="card">
             <div class="card-body">
@@ -94,11 +93,10 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Institute Name</th>
-                            <th>Billing Name</th>
-                            <th>Principal Name</th>
-                            <th>Accredited By</th>
-                            <th>Mobile Number</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>User Name</th>
+                            <th>Email</th>
                             <th>Action</th>
                         </tr>
                     </thead>

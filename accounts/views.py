@@ -46,7 +46,6 @@ def admin_dashboard(request):
 
 def logout_view(request):
     logout(request)
-    print("************************&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&$$$$$$$$$$$$$$$")
     return redirect('accounts:super-admin-login') 
 
 
