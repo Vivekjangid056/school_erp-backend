@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import login
@@ -833,34 +834,66 @@ def role_list(request):
 #         'permission_form': permission_form,
 #     })
 
-# def permission_create(request, role_id):
-#     role = get_object_or_404(InstituteRole, id=role_id)
-#     if request.method == 'POST':
-#         form = PermissionForm(request.POST)
-#         if form.is_valid():
-#             permission = form.save(commit=False)
-#             permission.role = role
-#             permission.save()
-#             return redirect('update_role', role_id=role.id)
-#     return redirect('role_update', role_id=role.id)
+
+def get_menu_data(request):
+    main_menu_id = request.GET.get('main_menu_id')
+    if main_menu_id:
+        submenus = SubMenu.objects.filter(menu_id=main_menu_id)
+        structured_data = []
+        for submenu in submenus:
+            supersubmenus = SuperSubMenu.objects.filter(submenu=submenu)
+            # print(supersubmenus)
+            submenu_data = {
+                'submenu': {
+                    'id': submenu.id,
+                    'name': submenu.name
+                },
+                'supersubmenus': []
+            }
+            for supersubmenu in supersubmenus:
+                submenu_data['supersubmenus'].append({
+                    'id': supersubmenu.id,
+                    'name': supersubmenu.name
+                })
+            structured_data.append(submenu_data)
+        # print(structured_data)
+        return JsonResponse(structured_data, safe=False)
+    return JsonResponse({'error': 'Invalid Main Menu ID'}, status=400)
+
 
 class RoleDeleteView(DeleteView):
     model = InstituteRole
     success_url = reverse_lazy('institute:list_of_roles')
 
 
+def permission_create(request, role_id):
+    role = get_object_or_404(InstituteRole, id=role_id)
+    if request.method == 'POST':
+        form = PermissionForm(request.POST)
+        if form.is_valid():
+            permission = form.save(commit=False)
+            permission.role = role
+            permission.save()
+            return redirect('update_role', role_id=role.id)
+    return redirect('role_update', role_id=role.id)
 
 def role_create(request):
     if request.method == 'POST':
         form = InstituteRoleForm(request.POST)
+        if not form.is_valid():
+            errors = form.errors
+            for field, error_list in errors.items():
+                for error in error_list:
+                    print(f"Error in field '{field}': {error}")
         if form.is_valid():
             role = form.save()
-            # Process permissions
             for key, value in request.POST.items():
                 if key.startswith('permissions'):
-                    # permissions[<supersubmenu_id>][<permission_type>]
                     parts = key.split('[')
                     supersubmenu_id = parts[1][:-1]
+                    if supersubmenu_id.startswith("supersubmenu_"):
+                        supersubmenu_id = supersubmenu_id[13:]
+                    print("supersubmenu_id :", supersubmenu_id)
                     permission_type = parts[2][:-1]
 
                     supersubmenu = SuperSubMenu.objects.get(id=supersubmenu_id)
@@ -875,38 +908,16 @@ def role_create(request):
                     )
                     setattr(permission, f'can_{permission_type}', value == 'on')
                     permission.save()
-            return redirect('institute:list_of_roles')  # Redirect to a list view or detail view
+            return redirect('institute:list_of_roles')
     else:
         form = InstituteRoleForm()
 
-    menus = MainMenu.objects.all()
-    structured_data = []
-
-    for menu in menus:
-        submenus = SubMenu.objects.filter(menu=menu)
-        menu_data = {
-            'menu': menu,
-            'submenus': []
-        }
-        for submenu in submenus:
-            supersubmenus = SuperSubMenu.objects.filter(submenu=submenu)
-            submenu_data = {
-                'submenu': submenu,
-                'supersubmenus': supersubmenus
-            }
-            menu_data['submenus'].append(submenu_data)
-        structured_data.append(menu_data)
-
+    main_menus = MainMenu.objects.all()
     context = {
         'form': form,
-        'structured_data': structured_data,
+        'main_menus': main_menus,
     }
     return render(request, 'role/create_role.html', context)
-
-
-
-
-
 
 
 def role_update(request, pk):

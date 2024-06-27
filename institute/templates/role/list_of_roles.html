@@ -46,7 +46,7 @@
                         <tr>
                             <td>{{forloop.counter}}</td>
                             <td>{{role.name}}</td>
-                            <td>{{role.description}}</td>
+                            <td>{{role.description|slice:"0:70"}}</td>
                             <td>{{role.is_active}}</td>
                             <td>
                                 <a href="{% url 'institute:update_role' role.id %}"

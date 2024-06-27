@@ -39,7 +39,18 @@ class InstituteForm(forms.ModelForm):
 class InstituteRoleForm(forms.ModelForm):
     class Meta:
         model = InstituteRole
-        fields = ['name', 'description', 'is_active', 'branches', 'menu']
+        fields = ['name', 'description', 'is_active', 'menu', 'branches']
+
+    branches = forms.ModelMultipleChoiceField(
+        queryset=Institute.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
+class PermissionForm(forms.ModelForm):
+    class Meta:
+        model = Permission
+        fields = ['menu', 'submenu', 'supersubmenu', 'can_add', 'can_edit', 'can_view', 'can_delete', 'can_print']
 
 
 class SignatureForm(forms.ModelForm):

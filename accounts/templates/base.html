@@ -10,7 +10,7 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
     <!-- Bootstrap Css -->
     <link href="{% static 'assets/css/bootstrap.min.css'%}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -31,11 +31,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- dependent dropdown scripts -->
     <script src="{% static 'assets/js/dependent_dropdown.js'%}"></script>
 
-     <style>
+    <style>
         /* Custom styles for padding and underline */
         .form-group {
             padding: 10px 10px; /* Adjust padding values as needed */
@@ -54,8 +53,14 @@
         .btn:hover {
             transform: translateY(-2px); /* Add slight hover elevation */
         }
-        
+            .supersubmenu-container {
+                margin-left: 20px;
+            }
+            .supersubmenu-item {
+                margin: 5px 0;
+            }
     </style>
+        
 
 
 </head>
@@ -342,10 +347,11 @@
             var url = button.getAttribute('data-url');
             var form = deleteModal.querySelector('#deleteForm');
             form.setAttribute('action', url);
-        });
-    });
+            });
+            });
+        
 </script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- JAVASCRIPT -->  
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -447,7 +453,81 @@
                     }
                 }
             }
-        });</script>
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_main_menu').change(function() {
+                var mainMenuId = $(this).val();
+                if (mainMenuId) {
+                    $.ajax({
+                        url: '{% url "institute:get_menu_data" %}',
+                        data: {
+                            'main_menu_id': mainMenuId
+                        },
+                        success: function(data) {
+                            var structuredData = data;
+                            var permissionTable = $('#permissionTable tbody');
+                            permissionTable.empty();
+                            structuredData.forEach(function(submenu_data) {
+                                var submenu = submenu_data.submenu;
+                                var supersubmenus = submenu_data.supersubmenus;
+                                var row = '<tr>';
+                                row += '<td>' + submenu.name + '</td>';
+                                row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][add]"></td>';
+                                row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][edit]"></td>';
+                                row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][view]"></td>';
+                                row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][delete]"></td>';
+                                row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][print]"></td>';
+                                row += '</tr>';
+                                permissionTable.append(row);
+    
+                                if (supersubmenus.length > 0) {
+                                    var supersubmenuRow = '<tr class="supersubmenu-row">';
+                                    supersubmenuRow += '<td colspan="6">';
+                                    supersubmenuRow += '<button type="button" class="toggle-supersubmenu" data-submenu-id="' + submenu.id + '">Show Supersubmenus</button>';
+                                    supersubmenuRow += '<div class="supersubmenu-container" data-submenu-id="' + submenu.id + '" style="display: none;">';
+                                    supersubmenus.forEach(function(supersubmenu) {
+                                        var ssRow = '<div class="supersubmenu-item">';
+                                        ssRow += supersubmenu.name + ' ';
+                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][add]"> Add ';
+                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][edit]"> Edit ';
+                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][view]"> View ';
+                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][delete]"> Delete ';
+                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][print]"> Print ';
+                                        ssRow += '</div>';
+                                        supersubmenuRow += ssRow;
+                                    });
+                                    supersubmenuRow += '</div></td></tr>';
+                                    permissionTable.append(supersubmenuRow);
+                                }
+                            });
+    
+                            // Toggle supersubmenu display
+                            $('.toggle-supersubmenu').click(function(event) {
+                                event.preventDefault();
+                                var submenuId = $(this).data('submenu-id');
+                                var container = $('.supersubmenu-container[data-submenu-id="' + submenuId + '"]');
+                                if (container.is(':visible')) {
+                                    container.hide();
+                                    $(this).text('Show Supersubmenus');
+                                } else {
+                                    container.show();
+                                    $(this).text('Hide Supersubmenus');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+
 <script>
         const urls = {
             instituteList: "{% url 'institute:institute_list' %}",

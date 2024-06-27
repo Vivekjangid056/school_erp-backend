@@ -118,5 +118,6 @@ urlpatterns = [
     path('roles-list/', role_list, name='list_of_roles'),
     path('update-role/<int:pk>', role_update, name='update_role'),
     path('delete-role/<int:pk>', RoleDeleteView.as_view(), name='role_delete'),
+    path('get_menu_data/', get_menu_data, name='get_menu_data'),
     # path('roles/<int:pk>/permissions/create/', permission_create, name='permission_create'),
 ]
