@@ -37,15 +37,20 @@ class InstituteForm(forms.ModelForm):
 
 # institute role form
 class InstituteRoleForm(forms.ModelForm):
-    class Meta:
-        model = InstituteRole
-        fields = ['name', 'description', 'is_active', 'menu', 'branches']
 
     branches = forms.ModelMultipleChoiceField(
         queryset=Institute.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
+    menu = forms.ModelChoiceField(
+        queryset=MainMenu.objects.all(),
+        widget=forms.Select(),  # Use Select widget
+        required=True
+    )
+    class Meta:
+        model = InstituteRole
+        fields = ['name', 'description', 'is_active', 'menu', 'branches']
 
 class PermissionForm(forms.ModelForm):
     class Meta:
