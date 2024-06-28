@@ -22,12 +22,12 @@ class SuperSubMenuAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 # Register InstituteRole model
-@admin.register(InstituteRole)
-class InstituteRoleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'is_active')
-    list_filter = ('is_active',)
-    search_fields = ('name',)
-    filter_horizontal = ('branches', 'menu',)
+# @admin.register(InstituteRole)
+# class InstituteRoleAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'description', 'is_active')
+#     list_filter = ('is_active',)
+#     search_fields = ('name',)
+#     filter_horizontal = ('branches', 'menu',)
 
 # Register Permission model
 @admin.register(Permission)

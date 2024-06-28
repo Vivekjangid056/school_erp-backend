@@ -114,7 +114,7 @@ class InstituteRole(models.Model):
     description = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
     branches = models.ManyToManyField('Institute', related_name='roles')
-    menu = models.ManyToManyField(MainMenu)
+    menu = models.ForeignKey(MainMenu, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

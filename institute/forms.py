@@ -37,7 +37,6 @@ class InstituteForm(forms.ModelForm):
 
 # institute role form
 class InstituteRoleForm(forms.ModelForm):
-
     branches = forms.ModelMultipleChoiceField(
         queryset=Institute.objects.all(),
         widget=forms.CheckboxSelectMultiple,
