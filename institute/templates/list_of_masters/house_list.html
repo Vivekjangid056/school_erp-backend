@@ -35,6 +35,7 @@
                         <tr>
                             <th>S.N</th>
                             <th>House Name</th>
+                            <th>House Color</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -45,6 +46,7 @@
                         <tr>
                             <td>{{forloop.counter}}</td>
                             <td>{{house.name}}</td>
+                            <td>{{house.color_code}}</td>
                             <td>
                                 <a href="{% url 'institute:update_house' house.pk%}"
                                     class="btn btn-sm btn-primary" title="Edit">
@@ -66,7 +68,7 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_caste' %}"><button
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_house' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">

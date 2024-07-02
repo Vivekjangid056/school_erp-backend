@@ -5,7 +5,10 @@ Django>=4.0,<5.0
 gunicorn
 
 # psycopg2 for PostgreSQL database
-psycopg2-binary
+# psycopg2-binary
+
+# psycopg2 for PostgreSQL database
+psycopg2
 
 # Pillow for image processing
 Pillow
@@ -17,16 +20,16 @@ djangorestframework
 django-cors-headers
 
 # Whitenoise for serving static files
-whitenoise
+# whitenoise
 
 # dj-database-url for configuring the database via a URL
-dj-database-url
+# dj-database-url
 
 # dotenv for environment variables management
-python-dotenv
+# python-dotenv
 
 # Django-environ for managing environment variables in Django settings
-django-environ
+# django-environ
 
 # Celery for asynchronous task queues
 celery
@@ -38,13 +41,13 @@ redis
 django-allauth
 
 # Sentry SDK for error tracking
-sentry-sdk
+# sentry-sdk
 
 # Django Debug Toolbar for debugging in development
-django-debug-toolbar
+# django-debug-toolbar
 
 # Django Extensions for additional utilities and commands
-django-extensions
+# django-extensions
 
 # Requests library for making HTTP requests
 requests
@@ -54,5 +57,20 @@ djangorestframework-simplejwt
 
 # django-crispy-forms for better form rendering
 django-crispy-forms
+
+# country code library
+django-countries
+
+# django colorfields for forms color fields
+django-colorfield
+
+# python decouple for config secure your sensitove information
+python-decouple
+
+# crispy-bootstrap for styling cryspy forms with bootstrap 5
+crispy-bootstrap5
+
+#widget tweaks for formating and supporting style django forms fields in forms.py file
+django-widget-tweaks
 
 # Any other dependencies specific to your project

@@ -22,11 +22,14 @@
     <!-- crispy -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- DataTables -->
-    <link href="{% static 'assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css'%}"rel="stylesheet" type="text/css" />
-    <link href="{% static 'assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'%}"rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css'%}" rel="stylesheet"
+        type="text/css" />
+    <link href="{% static 'assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'%}" rel="stylesheet"
+        type="text/css" />
 
     <!-- Responsive datatable examples -->
-    <link href="{% static 'assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'%}"rel="stylesheet" type="text/css" /> 
+    <link href="{% static 'assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'%}"
+        rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -37,30 +40,38 @@
     <style>
         /* Custom styles for padding and underline */
         .form-group {
-            padding: 10px 10px; /* Adjust padding values as needed */
-            margin-bottom: 10px; /* Add spacing between form groups */
+            padding: 10px 10px;
+            /* Adjust padding values as needed */
+            margin-bottom: 10px;
+            /* Add spacing between form groups */
         }
-    
+
         .form-group:last-child {
-            border-bottom: none; /* Remove underline for the last form group */
+            border-bottom: none;
+            /* Remove underline for the last form group */
         }
-    
+
         .btn {
-            border-bottom: 2px solid none; /* Underline for buttons */
-            transition: all 0.2s ease-in-out; /* Smooth hover effect */
+            border-bottom: 2px solid none;
+            /* Underline for buttons */
+            transition: all 0.2s ease-in-out;
+            /* Smooth hover effect */
         }
-    
+
         .btn:hover {
-            transform: translateY(-2px); /* Add slight hover elevation */
+            transform: translateY(-2px);
+            /* Add slight hover elevation */
         }
-            .supersubmenu-container {
-                margin-left: 20px;
-            }
-            .supersubmenu-item {
-                margin: 5px 0;
-            }
+
+        .supersubmenu-container {
+            margin-left: 20px;
+        }
+
+        .supersubmenu-item {
+            margin: 5px 0;
+        }
     </style>
-        
+
 
 
 </head>
@@ -98,119 +109,119 @@
                             <i class="fas fa-cogs"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item d-flex" href="#" data-menu = "system-settings">
+                            <a class="dropdown-item d-flex" href="#" data-menu="system-settings">
                                 <i class="fas fa-cogs"></i>
                                 <div class="item-text">
                                     <span class="item-title">System Settings</span>
                                     <span>System Settings Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#"data-menu = "enquiry">
+                            <a class="dropdown-item d-flex" href="#" data-menu="enquiry">
                                 <i class="fas fa-question-circle"></i>
                                 <div class="item-text">
                                     <span class="item-title">Enquiry</span>
                                     <span>Enquiry Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "scholar-register">
+                            <a class="dropdown-item d-flex" href="#" data-menu="scholar-register">
                                 <i class="fas fa-school"></i>
                                 <div class="item-text">
                                     <span class="item-title">Scholar Register</span>
                                     <span>Scholar Register Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "accounts">
+                            <a class="dropdown-item d-flex" href="#" data-menu="accounts">
                                 <i class="fas fa-rupee-sign"></i>
                                 <div class="item-text">
                                     <span class="item-title">Accounts</span>
                                     <span>Accounts Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "fees-module">
+                            <a class="dropdown-item d-flex" href="#" data-menu="fees-module">
                                 <i class="fas fa-cash-register"></i>
                                 <div class="item-text">
                                     <span class="item-title">Fees Module</span>
                                     <span>Fees Module Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "teacher-management">
+                            <a class="dropdown-item d-flex" href="#" data-menu="teacher-management">
                                 <i class="fas fa-chalkboard-teacher"></i>
                                 <div class="item-text">
                                     <span class="item-title">Teacher Management</span>
                                     <span>Teacher Management Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "hr">
+                            <a class="dropdown-item d-flex" href="#" data-menu="hr">
                                 <i class="fas fa-user-tie"></i>
                                 <div class="item-text">
                                     <span class="item-title">HR</span>
                                     <span>HR Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "examination">
+                            <a class="dropdown-item d-flex" href="#" data-menu="examination">
                                 <i class="fas fa-file-alt"></i>
                                 <div class="item-text">
                                     <span class="item-title">Examination</span>
                                     <span>Examination Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "library">
+                            <a class="dropdown-item d-flex" href="#" data-menu="library">
                                 <i class="fas fa-book"></i>
                                 <div class="item-text">
                                     <span class="item-title">Library</span>
                                     <span>Library Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "transport">
+                            <a class="dropdown-item d-flex" href="#" data-menu="transport">
                                 <i class="fas fa-bus"></i>
                                 <div class="item-text">
                                     <span class="item-title">Transport</span>
                                     <span>Transport Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "hostel">
+                            <a class="dropdown-item d-flex" href="#" data-menu="hostel">
                                 <i class="fas fa-bed"></i>
                                 <div class="item-text">
                                     <span class="item-title">Hostel</span>
                                     <span>Hostel Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "attendance">
+                            <a class="dropdown-item d-flex" href="#" data-menu="attendance">
                                 <i class="fas fa-check-circle"></i>
                                 <div class="item-text">
                                     <span class="item-title">Attendance</span>
                                     <span>Attendance Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "mobile-module">
+                            <a class="dropdown-item d-flex" href="#" data-menu="mobile-module">
                                 <i class="fas fa-mobile"></i>
                                 <div class="item-text">
                                     <span class="item-title">Mobile Module</span>
                                     <span>Mobile Module Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "visitor-master">
+                            <a class="dropdown-item d-flex" href="#" data-menu="visitor-master">
                                 <i class="fas fa-male"></i>
                                 <div class="item-text">
                                     <span class="item-title">Visitor Master</span>
                                     <span>Visitor Master Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "task-management">
+                            <a class="dropdown-item d-flex" href="#" data-menu="task-management">
                                 <i class="fas fa-tasks"></i>
                                 <div class="item-text">
                                     <span class="item-title">Task Management</span>
                                     <span>Task Management Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "store-inventory">
+                            <a class="dropdown-item d-flex" href="#" data-menu="store-inventory">
                                 <i class="fas fa-home"></i>
                                 <div class="item-text">
                                     <span class="item-title">Store Inventory</span>
                                     <span>Store Inventory Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu = "online-examination">
+                            <a class="dropdown-item d-flex" href="#" data-menu="online-examination">
                                 <i class="fas fa-laptopx"></i>
                                 <div class="item-text">
                                     <span class="item-title">Online Examination</span>
@@ -222,12 +233,12 @@
                 </div>
                 <div class="d-flex">
                     <div class="dropdown d-inline-block kala">
-                    {% if institute_name %}
                         <button type="button" class="btn header-item waves-effect font-size-16">
-                            <a href="#">Institute name</a>
+                            {% for instance in institute_list %}
+                            <a href="#">{{instance.institute_name}}</a>
+                            {% endfor %}
                         </button>
-                        {% endif %}
-                        {% if session %}
+
                         <button type="button" class="btn header-item waves-effect font-size-16">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-calendar2-range" viewBox="0 0 16 16">
@@ -236,39 +247,39 @@
                                 <path
                                     d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5zM9 8a1 1 0 0 1 1-1h5v2h-5a1 1 0 0 1-1-1m-8 2h4a1 1 0 1 1 0 2H1z" />
                             </svg>
-                            <a href="#">session</a>
+                            <a href="#">{{ institute.session }}</a>
                         </button>
-                        {% endif %}
                         <div class="dropdown d-inline-block profile">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded-circle header-profile-user" src="{% static 'assets/images/jack.png'%}"
-                                    alt="Header Avatar">
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="rounded-circle header-profile-user"
+                                    src="{% static 'assets/images/jack.png'%}" alt="Header Avatar">
                                 <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{user.first_name}}</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <img class="profile-summary-image" src="{% static 'assets/images/jack.png'%}" alt="">
-                                <p style="margin: 0.2rem";
-                                >{{user.first_name}} {{user.last_name}}</p>
+                                <p style="margin: 0.2rem" ;>{{user.first_name}} {{user.last_name}}</p>
                                 <p style="margin: 0.2rem">User ID: {{user.id}}</p>
-                                <p>Registered since {{user.date_joined}}    
-                                    Career Academy</p>
-                                    <div class="d-flex bg-light justify-content-between p-3">
-                                        <button type="button" class="btn btn-primary btn-sm">
-                                            <a href="#">Profile</a>
-                                        </button>
-                                        {% if user.is_authenticated %}
-                                          
-                                        <button type="button" class="btn btn-secondary btn-sm">
-                                            <a href="{% url 'accounts:logout' %}">Sign out</a>
-                                        </button>
-                                        {% endif %}
-                                
+                                <p>Registered since {{user.date_joined}}
+                                    {% for institute in institute_list %}
+                                    {{institute}}</p>
+                                    {% endfor %}
+                                <div class="d-flex bg-light justify-content-between p-3">
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        <a href="#">Profile</a>
+                                    </button>
+                                    {% if user.is_authenticated %}
+
+                                    <button type="button" class="btn btn-secondary btn-sm">
+                                        <a href="{% url 'accounts:logout' %}">Sign out</a>
+                                    </button>
+                                    {% endif %}
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
@@ -280,7 +291,7 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        
+
                         <li id="menu-content">
                         </li>
                     </ul>
@@ -298,15 +309,15 @@
                     {% block content %}
                     {% endblock content %}
 
-                   {% block form-content %}
-                   {% endblock form-content %}
+                    {% block form-content %}
+                    {% endblock form-content %}
 
-                   {% block table-content %}
-                   {% endblock table-content %}
-                    
+                    {% block table-content %}
+                    {% endblock table-content %}
 
-                   {% comment %} {% block form-content %}
-                   {% endblock form-content %} {% endcomment %}
+
+                    {% comment %} {% block form-content %}
+                    {% endblock form-content %} {% endcomment %}
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
@@ -316,44 +327,45 @@
 
     </div>
     <!--modal-->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this ro?
-            </div>
-            <div class="modal-footer">
-                <form id="deleteForm" method="post" action="">
-                    {% csrf_token %}
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this ro?
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteForm" method="post" action="">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Script for Deleting the datatable entry -->
+    <!-- Script for Deleting the datatable entry -->
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var deleteModal = document.getElementById('deleteModal');
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var url = button.getAttribute('data-url');
-            var form = deleteModal.querySelector('#deleteForm');
-            form.setAttribute('action', url);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var deleteModal = document.getElementById('deleteModal');
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var url = button.getAttribute('data-url');
+                var form = deleteModal.querySelector('#deleteForm');
+                form.setAttribute('action', url);
             });
-            });
-        
-</script>
+        });
+
+    </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- JAVASCRIPT -->  
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+    <!-- JAVASCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- dependent dropdown scripts -->
     <script src="{% static 'assets/js/dependent_dropdown.js'%}"></script>
@@ -367,8 +379,8 @@
     <script src="{% static 'assets/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
     <!-- Responsive examples -->
-     <script src="{% static 'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js'%}"></script>
-     <script src="{% static 'assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js'%}"></script>
+    <script src="{% static 'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js'%}"></script>
+    <script src="{% static 'assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js'%}"></script>
     <!-- Buttons examples -->
     <script src="{% static 'assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
     <script src="{% static 'assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
@@ -381,8 +393,8 @@
     <!-- Responsive examples -->
     <script src="{% static 'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static 'assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
-     <!-- Datatable init js -->
-     <script src="{% static 'assets/js/pages/datatables.init.js'%}"></script> 
+    <!-- Datatable init js -->
+    <script src="{% static 'assets/js/pages/datatables.init.js'%}"></script>
     <!-- apexcharts -->
     <script src="{% static 'assets/libs/apexcharts/apexcharts.min.js'%}"></script>
     <!-- Saas dashboard init -->
@@ -427,7 +439,7 @@
                                 weight: 'bold',
                                 lineHeight: 1.2,
                             },
-                            padding: {top: 20, left: 0, right: 0, bottom: 0}
+                            padding: { top: 20, left: 0, right: 0, bottom: 0 }
                         }
                     },
                     y: {
@@ -442,11 +454,11 @@
                                 style: 'normal',
                                 lineHeight: 1.2
                             },
-                            padding: {top: 30, left: 0, right: 0, bottom: 0}
+                            padding: { top: 30, left: 0, right: 0, bottom: 0 }
                         },
                         beginAtZero: true,
                         ticks: {
-                            callback: function(value, index, values) {
+                            callback: function (value, index, values) {
                                 return '₹' + value;
                             }
                         }
@@ -455,9 +467,10 @@
             }
         });
     </script>
+
     <script>
-        $(document).ready(function() {
-            $('#id_menu').change(function() {
+        $(document).ready(function () {
+            $('#id_menu').change(function () {
                 var mainMenuId = $(this).val();
                 if (mainMenuId) {
                     $.ajax({
@@ -465,15 +478,19 @@
                         data: {
                             'main_menu_id': mainMenuId
                         },
-                        success: function(data) {
+                        success: function (data) {
                             var structuredData = data;
                             var permissionTable = $('#permissionTable tbody');
                             permissionTable.empty();
-                            structuredData.forEach(function(submenu_data) {
+                            structuredData.forEach(function (submenu_data) {
                                 var submenu = submenu_data.submenu;
                                 var supersubmenus = submenu_data.supersubmenus;
                                 var row = '<tr>';
-                                row += '<td>' + submenu.name + '</td>';
+                                row += '<td>' + submenu.name;
+                                if (supersubmenus.length > 0) {
+                                    row += ' <button type="button" class="toggle-supersubmenu" data-submenu-id="' + submenu.id + '"><i class="fas fa-plus"></i></button>';
+                                }
+                                row += '</td>';
                                 row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][add]"></td>';
                                 row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][edit]"></td>';
                                 row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][view]"></td>';
@@ -481,20 +498,19 @@
                                 row += '<td><input type="checkbox" name="permissions[' + submenu.id + '][print]"></td>';
                                 row += '</tr>';
                                 permissionTable.append(row);
-    
+
                                 if (supersubmenus.length > 0) {
                                     var supersubmenuRow = '<tr class="supersubmenu-row">';
                                     supersubmenuRow += '<td colspan="6">';
-                                    supersubmenuRow += '<button type="button" class="toggle-supersubmenu" data-submenu-id="' + submenu.id + '">Show Supersubmenus</button>';
                                     supersubmenuRow += '<div class="supersubmenu-container" data-submenu-id="' + submenu.id + '" style="display: none;">';
-                                    supersubmenus.forEach(function(supersubmenu) {
+                                    supersubmenus.forEach(function (supersubmenu) {
                                         var ssRow = '<div class="supersubmenu-item">';
                                         ssRow += supersubmenu.name + ' ';
-                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][add]"> Add ';
-                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][edit]"> Edit ';
-                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][view]"> View ';
-                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][delete]"> Delete ';
-                                        ssRow += '<input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][print]"> Print ';
+                                        ssRow += 'Add <input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][add]">  ';
+                                        ssRow += 'Edit <input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][edit]">  ';
+                                        ssRow += 'View <input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][view]">  ';
+                                        ssRow += 'Delete <input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][delete]">  ';
+                                        ssRow += 'Print <input type="checkbox" name="permissions[supersubmenu_' + supersubmenu.id + '][print]">  ';
                                         ssRow += '</div>';
                                         supersubmenuRow += ssRow;
                                     });
@@ -502,18 +518,19 @@
                                     permissionTable.append(supersubmenuRow);
                                 }
                             });
-    
+
                             // Toggle supersubmenu display
-                            $('.toggle-supersubmenu').click(function(event) {
+                            $('.toggle-supersubmenu').click(function (event) {
                                 event.preventDefault();
                                 var submenuId = $(this).data('submenu-id');
                                 var container = $('.supersubmenu-container[data-submenu-id="' + submenuId + '"]');
+                                var icon = $(this).find('i');
                                 if (container.is(':visible')) {
                                     container.hide();
-                                    $(this).text('Show Supersubmenus');
+                                    icon.removeClass('fa-minus').addClass('fa-plus');
                                 } else {
                                     container.show();
-                                    $(this).text('Hide Supersubmenus');
+                                    icon.removeClass('fa-plus').addClass('fa-minus');
                                 }
                             });
                         }
@@ -524,10 +541,11 @@
     </script>
 
 
-<script>
+
+    <script>
         const urls = {
-            instituteList: "{% url 'institute:institute_list' %}",
-            addInstitute: "{% url 'institute:add_institute' %}",
+            instituteList: "{% url 'accounts:institute_list' %}",
+            addInstitute: "{% url 'accounts:add_institute' %}",
             listOfSignature: "{% url 'institute:list_of_signatures' %}",
             listOfCaste: "{% url 'institute:list_of_caste' %}",
             listOfCategory: "{% url 'institute:list_of_category' %}",
@@ -553,7 +571,8 @@
             listOfChildStatus: "{% url 'institute:list_of_child_status' %}",
             listOfRoles: "{% url 'institute:list_of_roles' %}"
         };
-</script>
+    </script>
 
 </body>
+
 </html>

@@ -4,10 +4,10 @@ from .views import *
 app_name = 'institute'  # Namespace for this app
 
 urlpatterns = [
-    path('institute-create/', InstituteRegisterView.as_view(), name='add_institute'),
-    path('institute-list/', InstituteList.as_view(), name='institute_list'),
-    path('institute-update<int:pk>', InstituteUpdateView.as_view(), name="institute_update"),
-    path('institute-delete<int:pk>', InstituteDeleteView.as_view(), name="institute_delete"),
+    # path('institute-create/', InstituteRegisterView.as_view(), name='add_institute'),
+    # path('institute-list/', InstituteList.as_view(), name='institute_list'),
+    # path('institute-update<int:pk>', InstituteUpdateView.as_view(), name="institute_update"),
+    # path('institute-delete<int:pk>', InstituteDeleteView.as_view(), name="institute_delete"),
 
 #                              #List Of Masters urls starts
 

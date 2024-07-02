@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MainMenu, SubMenu, SuperSubMenu, InstituteRole, Permission, Institute
+from .models import MainMenu, SubMenu, SuperSubMenu, Permission
 
 # Register MainMenu model
 @admin.register(MainMenu)

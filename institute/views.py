@@ -13,70 +13,6 @@ def temp(request):
     print(data)
 
 
-class InstituteList(ListView):
-    model = Institute
-    context_object_name = 'institutes'
-    template_name = 'institute_list.html'
-
-
-class InstituteUpdateView(UpdateView):
-    model = Institute
-    form_class = InstituteForm
-    context_object_name = "form"
-    template_name = 'update_form.html'
-    success_url = reverse_lazy('institute:institute_list')
-
-    def form_valid(self, form):
-        messages.success(self.request, "Institute updated successfully!")
-        return super().form_valid(form)
-    
-
-class InstituteRegisterView(CreateView):
-    template_name = 'institute_register.html'
-    form_class = CustomUserRegisterForm
-    second_form_class = InstituteForm
-    success_url = reverse_lazy('institute:institute_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'profile_form' not in context:
-            context['profile_form'] = self.second_form_class()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form()
-        profile_form = self.second_form_class(request.POST, request.FILES)
-        
-        print(f"User Form Errors: {form.errors}")
-        print(f"Profile Form Errors: {profile_form.errors}")
-
-        if form.is_valid() and profile_form.is_valid():
-            return self.form_valid(form, profile_form)
-        else:
-            return self.form_invalid(form, profile_form)
-
-    def form_valid(self, form, profile_form):
-        user = form.save(commit=False)
-        user.set_password(form.cleaned_data['password1'])  # Handle password setting
-        user.save()
-        profile = profile_form.save(commit=False)
-        profile.user = user
-        profile.save()
-        login(self.request, user)
-        return redirect(self.success_url)
-
-    def form_invalid(self, form, profile_form):
-        return self.render_to_response(
-            self.get_context_data(form=form, profile_form=profile_form)
-        )
-    
-
-class InstituteDeleteView(DeleteView):
-    model = Institute
-    success_url = reverse_lazy('institute:institute_list')
-
-
 #                                        signature CRUD Starts
 class AddSignature(FormView):
     template_name = "list_of_masters/lom_form.html"
@@ -168,9 +104,9 @@ class CategoryDeleteView(DeleteView):
     success_url = reverse_lazy('institute:list_of_category')
     
 class AddHouse(FormView):
-    template_name = "list_of_masters/lom_form.html"
+    template_name = "list_of_masters/lom_house_add.html"
     form_class = HouseForm
-    success_url = reverse_lazy('institute:list_of_hoouse')
+    success_url = reverse_lazy('institute:list_of_house')
 
     def form_valid(self, form):
         form.save()
@@ -806,16 +742,7 @@ def get_menu_data(request):
     return JsonResponse({'error': 'Invalid Main Menu ID'}, status=400)
 
 
-def role_list(request):
-    roles = InstituteRole.objects.all()
-    return render(request, 'role/list_of_roles.html', {'roles': roles})
-
-
-class RoleDeleteView(DeleteView):
-    model = InstituteRole
-    success_url = reverse_lazy('institute:list_of_roles')
-
-
+# Create The Role and assign the permission at the same time
 def role_create(request):
     if request.method == 'POST':
         form = InstituteRoleForm(request.POST)
@@ -858,33 +785,56 @@ def role_create(request):
     }
     return render(request, 'role/create_role.html', context)
 
+# List of Role Created
+def role_list(request):
+    roles = InstituteRole.objects.all()
+    return render(request, 'role/list_of_roles.html', {'roles': roles})
+
+# Update The Role
 def role_update(request, pk):
-    role = get_object_or_404(InstituteRole, id=pk)
-    menus = MainMenu.objects.all()
-    permissions = Permission.objects.filter(role=role)
-    structured_data = []
-    for menu in menus:
-        submenus = SubMenu.objects.filter(menu=menu)
-        menu_data = {
-            'menu': menu,
-            'submenus': []
-        }
-        for submenu in submenus:
-            supersubmenus = SuperSubMenu.objects.filter(submenu=submenu)
-            submenu_data = {
-                'submenu': submenu,
-                'supersubmenus': []
-            }
-            for supersubmenu in supersubmenus:
-                submenu_permissions = permissions.filter(menu=menu, submenu=submenu, supersubmenu=supersubmenu).first()
-                submenu_data['supersubmenus'].append({
-                    'supersubmenu': supersubmenu,
-                    'permissions': submenu_permissions
-                })
-            menu_data['submenus'].append(submenu_data)
-        structured_data.append(menu_data)
+    role = get_object_or_404(InstituteRole, pk=pk)
+    if request.method == 'POST':
+        form = InstituteRoleForm(request.POST, instance=role)
+        if form.is_valid():
+            role = form.save(commit=False)
+            role.save()
+            form.save_m2m()  # Save the many-to-many relationships
+
+            # Clear existing permissions and re-add them
+            Permission.objects.filter(role=role).delete()
+            for key, value in request.POST.items():
+                if key.startswith('permissions'):
+                    parts = key.split('[')
+                    supersubmenu_id = parts[1][:-1]
+                    if supersubmenu_id.startswith("supersubmenu_"):
+                        supersubmenu_id = supersubmenu_id[13:]
+                    permission_type = parts[2][:-1]
+
+                    supersubmenu = SuperSubMenu.objects.get(id=supersubmenu_id)
+                    submenu = supersubmenu.submenu
+                    menu = submenu.menu
+
+                    permission, created = Permission.objects.get_or_create(
+                        role=role,
+                        menu=menu,
+                        submenu=submenu,
+                        supersubmenu=supersubmenu
+                    )
+                    setattr(permission, f'can_{permission_type}', value == 'on')
+                    permission.save()
+            return redirect('institute:list_of_roles')
+    else:
+        form = InstituteRoleForm(instance=role)
+
+    main_menus = MainMenu.objects.all()
     context = {
+        'form': form,
+        'main_menus': main_menus,
         'role': role,
-        'structured_data': structured_data,
     }
-    return render(request, 'role/role_form.html', context)
+    return render(request, 'role/update_role.html', context)
+
+# Delete The role
+class RoleDeleteView(DeleteView):
+    model = InstituteRole
+    success_url = reverse_lazy('institute:list_of_roles')

@@ -1,60 +1,4 @@
  {% extends 'base.html' %}
-{% comment %}{% load static %}
-{% load crispy_forms_tags %}
-{% load widget_tweaks %}
-
-{% block content %}
-<h2>Create Role</h2>
-<form method="post">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-md-6">
-            {{ form.name|as_crispy_field }}
-            {{ form.description|as_crispy_field }}
-            {{ form.is_active|as_crispy_field }}
-            {{ form.menu|as_crispy_field }}
-        </div>
-		
-        <div class="col-md-6">
-			<h3>Branches</h3>
-			{{form.branches}}
-			<!-- <ul id="branch-list">
-				{% for branch in form.branches.field.queryset %}
-					<li>
-						<input type="checkbox" name="branches" value="{{ branch.id }}" id="branch-{{ branch.id }}">
-						<label for="branch-{{ branch.id }}">{{ branch }}</label>
-					</li>
-				{% endfor %}
-			</ul> -->
-		</div>
-    </div>
-    <label for="id_main_menu">Main Menu</label>
-    <select id="id_main_menu" name="main_menu">
-        <option value="">Select Main Menu</option>
-        {% for menu in main_menus %}
-        <option value="{{ menu.id }}">{{ menu.name }}</option>
-        {% endfor %}
-    </select>
-    <h3>Permissions</h3>
-    <table id="permissionTable">
-        <thead>
-            <tr>
-                <th>SubMenu / SuperSubMenu</th>
-                <th>Add</th>
-                <th>Edit</th>
-                <th>View</th>
-                <th>Delete</th>
-                <th>Print</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Rows will be added here by AJAX -->
-        </tbody>
-    </table>
-    <button type="submit">Save</button>
-</form>
-{% endblock content %} {% endcomment %}
-
 {% load static %}
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
@@ -125,6 +69,31 @@
         align-items: center;
         justify-content: center;
         height: 100%;
+    }
+    .supersubmenu-row {
+        background-color: #f9f9f9;
+        border-top: 1px solid #ddd;
+    }
+    .supersubmenu-container {
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .supersubmenu-item {
+        margin: 5px;
+        padding: 10px;
+        flex: 1 1 calc(50% - 10px);
+        box-sizing: border-box;
+    }
+    .toggle-supersubmenu {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+    .toggle-supersubmenu i {
+        font-size: 1.2em;
+        color: #007bff;
     }
 </style>
 
