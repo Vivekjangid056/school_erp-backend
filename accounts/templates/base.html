@@ -569,7 +569,22 @@
             listOfNameOfBank: "{% url 'institute:list_of_name_of_bank' %}",
             listOfStudentType: "{% url 'institute:list_of_student_type' %}",
             listOfChildStatus: "{% url 'institute:list_of_child_status' %}",
-            listOfRoles: "{% url 'institute:list_of_roles' %}"
+
+            <!--employee url for crete role in  dependent dropdown-->
+            employeeList : "{% url 'institute:employee_list' %}",
+            
+            <!--teacher list-->
+            categoryMasterList: "{% url 'teacher:category_master_list' %}",
+            designationMasterList:"{% url 'teacher:designation_master_list' %}",
+            departmentMasterList:"{% url 'teacher:department_master_list' %}",
+
+            <!--attendance type-->
+            attendanceType:"{% url 'teacher:attendance_type_list' %}",
+
+            <!--holiday list-->
+            holidayList:"{% url 'teacher:holiday_list' %}"
+
+
         };
     </script>
 

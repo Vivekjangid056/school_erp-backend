@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="card-header">
+        <div class="container">
+            <h2>Create Employee</h2>
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row d-flex justify-content-end">
+            <div class="form-group col-sm-3">
+                {{ profile_form.employee_name | as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3">
+                {{form.first_name | as_crispy_field}}
+            </div>
+            <div class="form-group col-md-3">
+                {{profile_form.middle_name | as_crispy_field}}
+            </div>
+            <div class="form-group col-md-3">
+                {{form.last_name | as_crispy_field}}
+            </div>            
+        </div>
+        <div class="row d-flex justify-content-end">
+            <div class="form-group col-md-3">
+                {{form.username | as_crispy_field}}
+            </div>
+            <div class="form-group col-md-3">
+                {{form.password1 | as_crispy_field}}
+            </div>
+            <div class="form-group col-md-3">
+                {{form.password2 | as_crispy_field}}
+            </div>            
+            <div class="form-group col-md-3">
+                {{form.email | as_crispy_field}}
+            </div>            
+        </div>
+        <div class="row d-flex justify-content-end">
+            <div class="form-group col-md-3">
+                {{profile_form.user_image | as_crispy_field}}
+            </div>
+            <div class="form-group col-md-3">
+                {{form.phone_number | as_crispy_field}}
+            </div>
+            <div class="form-group col-md-3">
+                {{profile_form.nick_name | as_crispy_field}}
+            </div>
+            <div class="form-group col-md-3">
+                {{profile_form.position | as_crispy_field}}
+            </div>            
+        </div>
+        <hr>
+        <div>
+            <button type="submit" class="btn btn-primary col-md-2 ">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

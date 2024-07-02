@@ -189,3 +189,12 @@ class ChildStatusForm(forms.ModelForm):
     class Meta:
         model = ChildStatus
         fields = "__all__"
+        
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ['employee_name','middle_name','nick_name','position','user_image']
+        
+        
+        
+        

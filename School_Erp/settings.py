@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'widget_tweaks',
+    'teacher_management'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'

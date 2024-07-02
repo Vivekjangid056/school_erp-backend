@@ -112,7 +112,16 @@ urlpatterns = [
     path('update-student-type/<int:pk>', UpdateStudentType.as_view(), name="update_student_type"),
     path('update-child-status/<int:pk>', UpdateChildStatus.as_view(), name="update_child_status"),
     
+<<<<<<< HEAD
     # role element urls
+=======
+    
+    # urls for employees {for create user in sysytem setting}
+    path('employee-list/', EmployeeList.as_view(), name='employee_list'),
+    path('employee-create/', CreateEmployee.as_view(), name='add_employee'),
+    path('employee-update<int:pk>', UpdateEmployee.as_view(), name="employee_update"),
+    path('employee-delete<int:pk>', EmployeeDeleteView.as_view(), name="employee_delete"),
+>>>>>>> origin/prashantdev1
 
     path('add-role', role_create, name = 'add_role'),
     path('roles-list/', role_list, name='list_of_roles'),
