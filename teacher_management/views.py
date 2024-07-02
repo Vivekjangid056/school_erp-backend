@@ -165,3 +165,6 @@ class UpdateHolidayList(UpdateView):
         form.save()
         return super().form_valid(form)
     
+# class DeleteHolidayList(DeleteView):
+        
+    
