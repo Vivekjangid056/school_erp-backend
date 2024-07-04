@@ -199,3 +199,9 @@ def employee_master_update(request, pk):
 class EmployeeMasterDelete(DeleteView):
     model = EmployeeMaster
     success_url = reverse_lazy('teacher:list_of_employee_master')
+    
+# class DeleteHolidayList(DeleteView):
+class DeleteHolidayList(DeleteView):
+    model = LmHolidayList
+    success_url = reverse_lazy('teacher:holiday_list')
+    
