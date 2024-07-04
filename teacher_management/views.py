@@ -166,5 +166,7 @@ class UpdateHolidayList(UpdateView):
         return super().form_valid(form)
     
 # class DeleteHolidayList(DeleteView):
-        
+class DeleteHolidayList(DeleteView):
+    model = LmHolidayList
+    success_url = reverse_lazy('teacher:holiday_list')
     

@@ -861,4 +861,4 @@ class UpdateEmployee(View):
 class EmployeeDeleteView(DeleteView):
     model = Employee
     success_url = reverse_lazy('institute:employee_list')
-     
+    

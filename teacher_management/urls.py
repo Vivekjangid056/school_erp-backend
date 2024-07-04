@@ -33,5 +33,6 @@ urlpatterns = [
     path('holiday-list/',holiday_list,name='holiday_list'),
     path('holiday-list-create/',CreateHolidayList.as_view(), name='holiday_list_create'),
     path('holiday-list-update<int:pk>',UpdateHolidayList.as_view(),name='holiday_list_update'),
+    path('holiday-list-delete<int:pk>',DeleteHolidayList.as_view(),name='holiday_list_delete'),
      
 ]
