@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <li class="menu-title" key="t-menu">System Settings</li>
             <a href="${urls.instituteList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Institute</span>
+                <span key="t-dashboards">Institute Profile</span>
             </a>
             <a href="javascript: void(0);" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-list-of-masters" aria-expanded="false" aria-controls="pages">
             <div>
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-globe"></i>Student ID Card Format</a>
                 </li>
             </ul>
-            <a href="${urls.employeeList}" class="waves-effect fw-bold">
+            <a href="${urls.listOfEmployees}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">create user</span>
             </a>
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Subject Assign(Subject wise)/span>
+                <span key="t-dashboards">Subject Assign(Subject wise)</span>
             </a>
             <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
@@ -762,7 +762,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Attendance</span>
             </a>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.listOfMastersList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Employee Master</span>
             </a>

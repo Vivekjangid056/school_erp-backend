@@ -1,17 +1,13 @@
 from email import message
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from teacher_management.forms import LmAttendanceTypeForm, LmCategoryMasterForm, LmDepartmentMasterForm, LmDesignationMasterForm, LmHolidayListForm
+from teacher_management.forms import *
 from django.views.generic import UpdateView, CreateView, DeleteView, FormView, ListView
 from .models import *
 
 
-# Create your views here.
-
-
-
-# views for list_master {C.R.U.D}
+# =============================== views for list_master CRUD ===============================
 def category_master_list(request):
     data = LmCategoryMaster.objects.all()
     context = {
@@ -43,7 +39,7 @@ class deleteMasterCategory(DeleteView):
     model = LmCategoryMaster
     success_url = reverse_lazy('teacher:category_master_list')    
 
-# designation views {c.r.u.d} 
+# ============================== designation views CRUD =============================== 
 def designation_master_list(request):
     data = LmDesignationMaster.objects.all()
     context = {
@@ -74,7 +70,7 @@ class DeleteDesignationMaster(DeleteView):
     model = LmDesignationMaster
     success_url = reverse_lazy('teacher:designation_master_list')    
     
-# Department maser views {c.r.u.d} 
+# ========================== Department maser views CRUD ==============================
 def department_master_list(request):
     data = LmDepartmentMaster.objects.all()
     context = {
@@ -105,7 +101,7 @@ class deleteDepartmentMaster(DeleteView):
     model = LmDepartmentMaster
     success_url = reverse_lazy('teacher:department_master_list')   
     
-#     attendance type
+# ================================= attendance type ===================================
 
 def attendance_type(request):
     data = LmAttendanceType.objects.all()
@@ -137,7 +133,7 @@ class DeleteAttendanceType(DeleteView):
     model = LmAttendanceType
     success_url = reverse_lazy('teacher:attendance_type_list')    
     
-#holiday list c.r.u.d
+# ============================= holiday list CRUD ================================
 
 def holiday_list(request):
     data = LmHolidayList.objects.all()
@@ -164,4 +160,42 @@ class UpdateHolidayList(UpdateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+# ============================== Employee Master CRUD ================================
+def employee_master_create_view(request):
+    if request.method == "POST":
+        form = EmployeeMasterForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('teacher:list_of_employee_master')
+            except Exception as e:
+                print(f"Error saving form: {e}")
+    else:
+        form = EmployeeMasterForm()
     
+    return render(request, "employees_master/employee_master_register.html", {'form': form})
+
+
+class EmployeeMasterList(ListView):
+    template_name = "employees_master/employee_list.html"
+    model = EmployeeMaster
+    context_object_name = 'employee_master_list'
+
+
+def employee_master_update(request, pk):
+    employee = get_object_or_404(EmployeeMaster, pk=pk)
+    if request.method == "POST":
+        form = EmployeeMasterForm(request.POST, instance=employee)
+        if form.is_valid():
+            form.save()
+            return redirect('teacher:list_of_employee_master')  # Replace with your actual redirect URL
+    else:
+        form = EmployeeMasterForm(instance=employee)
+    return render(request, 'employees_master/employee_master_register.html', {'form': form})
+
+
+class EmployeeMasterDelete(DeleteView):
+    model = EmployeeMaster
+    success_url = reverse_lazy('teacher:list_of_employee_master')

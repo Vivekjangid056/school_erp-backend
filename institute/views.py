@@ -1,9 +1,5 @@
 from django.contrib import messages
-<<<<<<< HEAD
 from django.http import JsonResponse
-=======
-from django.http import HttpRequest, HttpResponse
->>>>>>> origin/prashantdev1
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import login
@@ -18,73 +14,6 @@ def temp(request):
     print(data)
 
 
-<<<<<<< HEAD
-=======
-class InstituteList(ListView):
-    model = Institute
-    context_object_name = 'institutes'
-    template_name = 'institute_list.html'
-
-
-class InstituteUpdateView(UpdateView):
-    model = Institute
-    form_class = InstituteForm
-    context_object_name = "form"
-    template_name = 'update_form.html'
-    success_url = reverse_lazy('institute:institute_list')
-
-    def form_valid(self, form):
-        messages.success(self.request, "Institute updated successfully!")
-        return super().form_valid(form)
-    
-
-class InstituteRegisterView(CreateView):
-    template_name = 'institute_register.html'
-    form_class = CustomUserRegisterForm
-    second_form_class = InstituteForm
-    success_url = reverse_lazy('institute:institute_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'profile_form' not in context:
-            context['profile_form'] = self.second_form_class()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form()
-        profile_form = self.second_form_class(request.POST, request.FILES)
-        
-        print(f"User Form Errors: {form.errors}")
-        print(f"Profile Form Errors: {profile_form.errors}")
-
-        if form.is_valid() and profile_form.is_valid():
-            return self.form_valid(form, profile_form)
-        else:
-            return self.form_invalid(form, profile_form)
-
-    def form_valid(self, form, profile_form):
-        user = form.save(commit=False)
-        user.set_password(form.cleaned_data['password1'])  # Handle password setting
-        user.save()
-        profile = profile_form.save(commit=False)
-        profile.user = user
-        profile.save()
-        login(self.request, user)
-        return redirect(self.success_url)
-
-    def form_invalid(self, form, profile_form):
-        return self.render_to_response(
-            self.get_context_data(form=form, profile_form=profile_form)
-        )
-    
-
-class InstituteDeleteView(DeleteView):
-    model = Institute
-    success_url = reverse_lazy('institute:institute_list')
-
-
->>>>>>> origin/prashantdev1
 #                                        signature CRUD Starts
 class AddSignature(FormView):
     template_name = "list_of_masters/lom_form.html"
@@ -777,7 +706,6 @@ class ChildStatusDeleteView(DeleteView):
     success_url = reverse_lazy('institute:list_of_child_status')
 
 
-<<<<<<< HEAD
 # working on role Element
 def permission_create(request, role_id):
     role = get_object_or_404(InstituteRole, id=role_id)
@@ -913,97 +841,102 @@ def role_update(request, pk):
 class RoleDeleteView(DeleteView):
     model = InstituteRole
     success_url = reverse_lazy('institute:list_of_roles')
-=======
-# employess CRUD in create user section
 
+# ================================== create users section started ====================================
 class EmployeeList(ListView):
     model = Employee
     context_object_name = 'employees'
     template_name = 'employee/employee_list.html'
 
-class CreateEmployee(CreateView):
-    template_name = "employee/create_employee.html"
-    form_class = CustomUserRegisterForm
-    second_form_class = EmployeeForm
-    success_url = reverse_lazy('institute:employee_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'profile_form' not in context:
-            context['profile_form'] = self.second_form_class()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form()
-        profile_form = self.second_form_class(request.POST, request.FILES)
-
-        print(f"User form errors: {form.errors}")
-        print(f"Employee form errors: {profile_form.errors}")
-
-        if form.is_valid() and profile_form.is_valid():
-            return self.form_valid(form, profile_form)
+def create_employee(request):
+    if request.method == 'POST':
+        form = EmployeeRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            print("=================================================")
+            try:
+                form.save()
+                return redirect('institute:list_of_employees')
+            except Exception as e:
+                print(f"Error saving form: {e}")
         else:
-            return self.form_invalid(form, profile_form)
+            # If the form is not valid, render the form with errors
+            return render(request, 'employee/create_employee.html', {'form': form})
+    else:
+        form = EmployeeRegistrationForm()
+        return render(request, 'employee/create_employee.html', {'form': form})
+# class CreateEmployee(CreateView):
+#     template_name = "employee/create_employee.html"
+#     form_class = CustomUserRegisterForm
+#     second_form_class = EmployeeForm
+#     success_url = reverse_lazy('institute:employee_list')
 
-    def form_valid(self, form, profile_form):
-        # Save the User form but don't commit to database yet
-        user = form.save(commit=False)
-        user.set_password(form.cleaned_data['password1'])  # Handle password setting
-        user.save()
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         if 'profile_form' not in context:
+#             context['profile_form'] = self.second_form_class()
+#         return context
 
-        # Save the Employee form and associate it with the user
-        employee = profile_form.save(commit=False)
-        employee.user = user
-        employee.save()
+#     def post(self, request, *args, **kwargs):
+#         self.object = None
+#         form = self.get_form()
+#         profile_form = self.second_form_class(request.POST, request.FILES)
+#         print(f"User form errors: {form.errors}")
+#         print(f"Employee form errors: {profile_form.errors}")
+#         if form.is_valid() and profile_form.is_valid():
+#             return self.form_valid(form, profile_form)
+#         else:
+#             return self.form_invalid(form, profile_form)
 
-        login(self.request, user)
-        return redirect(self.success_url)
+#     def form_valid(self, form, profile_form):
+#         # Save the User form but don't commit to database yet
+#         user = form.save(commit=False)
+#         user.set_password(form.cleaned_data['password1'])  # Handle password setting
+#         user.save()
+#         # Save the Employee form and associate it with the user
+#         employee = profile_form.save(commit=False)
+#         employee.user = user
+#         employee.save()
+#         login(self.request, user)
+#         return redirect(self.success_url)
 
-    def form_invalid(self, form, profile_form):
-        return self.render_to_response(
-            self.get_context_data(form=form, profile_form=profile_form)
-        )
+#     def form_invalid(self, form, profile_form):
+#         return self.render_to_response(
+#             self.get_context_data(form=form, profile_form=profile_form)
+#         )
 
 
-class UpdateEmployee(View):
-    template_name = 'employee/update_employee.html'
+# class UpdateEmployee(View):
+#     template_name = 'employee/update_employee.html'
 
-    def get(self, request, pk):
-        employee = get_object_or_404(Employee, pk=pk)
-        user_form = CustomUserRegisterForm(instance=employee.user)
-        profile_form = EmployeeForm(instance=employee)
-        
-        context = {
-            'user_form': user_form,
-            'profile_form': profile_form,
-        }
-        return render(request, self.template_name, context)
+#     def get(self, request, pk):
+#         employee = get_object_or_404(Employee, pk=pk)
+#         user_form = CustomUserRegisterForm(instance=employee.user)
+#         profile_form = EmployeeForm(instance=employee)
+#         context = {
+#             'user_form': user_form,
+#             'profile_form': profile_form,
+#         }
+#         return render(request, self.template_name, context)
 
-    def post(self, request, pk):
-        employee = get_object_or_404(Employee, pk=pk)
-        user_form = CustomUserRegisterForm(request.POST, instance=employee.user)
-        profile_form = EmployeeForm(request.POST, request.FILES, instance=employee)
+#     def post(self, request, pk):
+#         employee = get_object_or_404(Employee, pk=pk)
+#         user_form = CustomUserRegisterForm(request.POST, instance=employee.user)
+#         profile_form = EmployeeForm(request.POST, request.FILES, instance=employee)
+#         if user_form.is_valid() and profile_form.is_valid():
+#             user = user_form.save(commit=False)
+#             if user_form.cleaned_data.get('password1'):
+#                 user.set_password(user_form.cleaned_data['password1'])
+#             user.save()
+#             profile_form.save()
+#             messages.success(request, 'Employee details updated successfully.')
+#             return redirect('institute:employee_list')
+#         context = {
+#             'user_form': user_form,
+#             'profile_form': profile_form,
+#         }
+#         return render(request, self.template_name, context)
+    
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save(commit=False)
-            if user_form.cleaned_data.get('password1'):
-                user.set_password(user_form.cleaned_data['password1'])
-            user.save()
-
-            profile_form.save()
-
-            messages.success(request, 'Employee details updated successfully.')
-            return redirect('institute:employee_list')
-
-        context = {
-            'user_form': user_form,
-            'profile_form': profile_form,
-        }
-        return render(request, self.template_name, context)       
-        
-class EmployeeDeleteView(DeleteView):
-    model = Employee
-    success_url = reverse_lazy('institute:employee_list')
-     
->>>>>>> origin/prashantdev1
+# class EmployeeDeleteView(DeleteView):
+#     model = Employee
+#     success_url = reverse_lazy('institute:employee_list')

@@ -14,13 +14,13 @@
 
         <div class="row d-flex justify-content-end">
             <div class="form-group col-sm-3">
-                {{ profile_form.employee_name | as_crispy_field }}
+                {{ form.employee_name | as_crispy_field }}
             </div>
             <div class="form-group col-md-3">
                 {{form.first_name | as_crispy_field}}
             </div>
             <div class="form-group col-md-3">
-                {{profile_form.middle_name | as_crispy_field}}
+                {{form.middle_name | as_crispy_field}}
             </div>
             <div class="form-group col-md-3">
                 {{form.last_name | as_crispy_field}}
@@ -31,10 +31,10 @@
                 {{form.username | as_crispy_field}}
             </div>
             <div class="form-group col-md-3">
-                {{form.password1 | as_crispy_field}}
+                {{form.password | as_crispy_field}}
             </div>
             <div class="form-group col-md-3">
-                {{form.password2 | as_crispy_field}}
+                {{form.confirm_password | as_crispy_field}}
             </div>            
             <div class="form-group col-md-3">
                 {{form.email | as_crispy_field}}
@@ -42,16 +42,16 @@
         </div>
         <div class="row d-flex justify-content-end">
             <div class="form-group col-md-3">
-                {{profile_form.user_image | as_crispy_field}}
+                {{form.user_image | as_crispy_field}}
             </div>
             <div class="form-group col-md-3">
                 {{form.phone_number | as_crispy_field}}
             </div>
             <div class="form-group col-md-3">
-                {{profile_form.nick_name | as_crispy_field}}
+                {{form.nick_name | as_crispy_field}}
             </div>
             <div class="form-group col-md-3">
-                {{profile_form.position | as_crispy_field}}
+                {{form.position | as_crispy_field}}
             </div>            
         </div>
         <hr>

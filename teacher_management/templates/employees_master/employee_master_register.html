@@ -1,0 +1,242 @@
+<!-- templates/employees_master/employee_master_register.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="card-header">
+        <div class="container">
+            {% if form.instance.pk %}
+                <h2>Modify Employee</h2>
+            {% else %}
+                <h2>Create Employee</h2>
+            {% endif %}
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Personal Information -->
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.prefix|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.emp_no|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                    {{ form.join_date | as_crispy_field}}
+            </div>
+        </div>
+        <div class="row">
+                <div class="form-group col-md-4">
+                    {{ form.blood_group|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.first_name|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.last_name|as_crispy_field }}
+                </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.father_name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.mother_name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.date_of_birth|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.category_cast|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.pan_no|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.aadhar_no|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.marital_status|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.reliving_reason|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.gender|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.reliving_date|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.is_driver|as_crispy_field }}
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <h3>Contact Information</h3>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.address_line_1|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.address_line_2|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.city|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.state|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.pin|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.mobile_number|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.office_contact|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.email|as_crispy_field }}
+            </div>
+        </div>
+
+        <!-- Official Information -->
+        <h3>Official Information</h3>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.department|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.designation|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.category|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.roll_no_10th|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.board_year_10th|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.school_location|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.employee_status|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.Pass_port_no|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.pass_port_end_date|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.punch_machine_id|as_crispy_field }}
+            </div>
+        </div>
+
+        <!-- Document Information -->
+        <h3>Document Information</h3>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.bank_account_no|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.ifsc_code|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.Banke_name|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.branch_address|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.payment_mode|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.qualification|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.experience|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.experience_detail|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.uan_no|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ form.pf_no|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.esi_no|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.apply_maximum_pf_limit|as_crispy_field }}
+            </div>
+        </div>
+
+        <!-- License Information -->
+        <h3>License Information</h3>
+        <div class="row">
+            <div class="form-group col-md-3">
+                {{ form.driving_license_no|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form.drivint_license_issue_date|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form.driving_license_expiry_date|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form.driving_license_issue_palace|as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.remarks|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.employee_image|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.signature_image|as_crispy_field }}
+            </div>
+        </div>
+
+        <hr>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+{% endblock content %}

@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Data Tables</h4>
+            <h4 class="mb-sm-0 font-size-18">Attendance</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -21,16 +21,17 @@
     </div>
 </div>
 <!-- end page title -->
-{% if 'employees' %}
+
+{% if employee_master_list %}
 
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
 
-            <!--==================================== List of Institutes ====================================-->
+    <!--====================================== List of Employee Masters ===================================-->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_employee' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
+            <a style="text-decoration:none; color:white" href="{% url 'teacher:add_employee_master' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> Add New</button>
             </a>
         </div>
         <div class="card">
@@ -39,31 +40,32 @@
                 <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
                     <thead>
                         <tr>
-                            <th>S.N</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>User Name</th>
-                            <th>Email</th>
-                            <th>Action</th>
+                            <th>EmpNo.</th>
+                            <th>Employee Name</th>
+                            <th>Join Date</th>
+                            <th>Father Name</th>
+                            <th>Designation</th>
+                            <th>Status</th>
+                            <th>actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for employee in employees %}
+                        {% for employee_master in employee_master_list %}
                         <tr>
-                            <td>{{forloop.counter}}</td>
-                            <td>{{employee.user.first_name}}</td>
-                            <td>{{employee.user.last_name}}</td>
-                            <td>{{employee.user.username}}</td>
-                            <td>{{employee.user.email}}</td>
-                        
+                            <td>{{employee_master.emp_no}}</td>
+                            <td>{{employee_master.first_name}}</td>
+                            <td>{{employee_master.join_date}}</td>
+                            <td>{{employee_master.father_name}}</td>
+                            <td>{{employee_master.designation}}</td>
+                            <td>{{employee_master.employee_status}}</td>
                             <td>
-                                <a href="{% url 'institute:employee_update' employee.pk %}"
+                                <a href="{% url 'teacher:update_employee_master' employee_master.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'institute:employee_delete' employee.pk %}">
+                                    data-url="{% url 'teacher:delete_employee_master' employee_master.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -80,10 +82,10 @@
     <div class="col-12">
         <div class="d-flex justify-content-end">
 
-        <!--===================================== List of Institutes ======================================-->
+    <!--======================================= List of Institutes ========================================-->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_employee' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
+            <a style="text-decoration:none; color:white" href="{% url 'teacher:add_employee_master' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i>  Add New </button>
                 </a>
         </div>
         <div class="card">
@@ -92,12 +94,13 @@
                 <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
                     <thead>
                         <tr>
-                            <th>S.N</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>User Name</th>
-                            <th>Email</th>
-                            <th>Action</th>
+                            <th>EmpNo.</th>
+                            <th>Employee Name</th>
+                            <th>Join Date</th>
+                            <th>Father Name</th>
+                            <th>Designation</th>
+                            <th>Status</th>
+                            <th>actions</th>
                         </tr>
                     </thead>
                 </table>
