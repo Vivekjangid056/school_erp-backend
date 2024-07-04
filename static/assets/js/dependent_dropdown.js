@@ -97,13 +97,13 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <ul id="system-settings-session-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-signature"></i>Subjects for Class Groups</a>
+                    <a href="${urls.ssSubForClassGroup}"><i class="fas fa-signature"></i>Subjects for Class Groups</a>
                 </li>
                 <li class="sidebar-item ">
                     <a href="#"><i class="fas fa-user-tag"></i>Class</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-layer-group"></i>Section</a>
+                    <a href="${urls.section}"><i class="fas fa-layer-group"></i>Section</a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-book-open"></i>Classes in Class Groups</a>

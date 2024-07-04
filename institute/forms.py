@@ -291,3 +291,15 @@ class EmployeeRegistrationForm(forms.ModelForm):
                 user_image=self.cleaned_data['user_image']
             )
         return user
+
+
+# form for session settingsd
+class SubjectsForClassGroupForm(forms.ModelForm):
+    class Meta:
+        model = SubjectsForClassGroup
+        fields = "__all__"
+        
+class SectionForm(forms.ModelForm):
+    class Meta:
+        model = Section
+        fields = "__all__"        

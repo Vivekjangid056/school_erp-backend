@@ -14,7 +14,7 @@ def temp(request):
     print(data)
 
 
-#                                        signature CRUD Starts
+#   signature CRUD Starts
 class AddSignature(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = SignatureForm
@@ -864,79 +864,78 @@ def create_employee(request):
     else:
         form = EmployeeRegistrationForm()
         return render(request, 'employee/create_employee.html', {'form': form})
-# class CreateEmployee(CreateView):
-#     template_name = "employee/create_employee.html"
-#     form_class = CustomUserRegisterForm
-#     second_form_class = EmployeeForm
-#     success_url = reverse_lazy('institute:employee_list')
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         if 'profile_form' not in context:
-#             context['profile_form'] = self.second_form_class()
-#         return context
-
-#     def post(self, request, *args, **kwargs):
-#         self.object = None
-#         form = self.get_form()
-#         profile_form = self.second_form_class(request.POST, request.FILES)
-#         print(f"User form errors: {form.errors}")
-#         print(f"Employee form errors: {profile_form.errors}")
-#         if form.is_valid() and profile_form.is_valid():
-#             return self.form_valid(form, profile_form)
-#         else:
-#             return self.form_invalid(form, profile_form)
-
-#     def form_valid(self, form, profile_form):
-#         # Save the User form but don't commit to database yet
-#         user = form.save(commit=False)
-#         user.set_password(form.cleaned_data['password1'])  # Handle password setting
-#         user.save()
-#         # Save the Employee form and associate it with the user
-#         employee = profile_form.save(commit=False)
-#         employee.user = user
-#         employee.save()
-#         login(self.request, user)
-#         return redirect(self.success_url)
-
-#     def form_invalid(self, form, profile_form):
-#         return self.render_to_response(
-#             self.get_context_data(form=form, profile_form=profile_form)
-#         )
 
 
-# class UpdateEmployee(View):
-#     template_name = 'employee/update_employee.html'
+class AddSubForClassGroup(CreateView):
+    template_name = "session_settings/ss_sub_for_groups_form.html"
+    form_class = SubjectsForClassGroupForm
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
 
-#     def get(self, request, pk):
-#         employee = get_object_or_404(Employee, pk=pk)
-#         user_form = CustomUserRegisterForm(instance=employee.user)
-#         profile_form = EmployeeForm(instance=employee)
-#         context = {
-#             'user_form': user_form,
-#             'profile_form': profile_form,
-#         }
-#         return render(request, self.template_name, context)
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
-#     def post(self, request, pk):
-#         employee = get_object_or_404(Employee, pk=pk)
-#         user_form = CustomUserRegisterForm(request.POST, instance=employee.user)
-#         profile_form = EmployeeForm(request.POST, request.FILES, instance=employee)
-#         if user_form.is_valid() and profile_form.is_valid():
-#             user = user_form.save(commit=False)
-#             if user_form.cleaned_data.get('password1'):
-#                 user.set_password(user_form.cleaned_data['password1'])
-#             user.save()
-#             profile_form.save()
-#             messages.success(request, 'Employee details updated successfully.')
-#             return redirect('institute:employee_list')
-#         context = {
-#             'user_form': user_form,
-#             'profile_form': profile_form,
-#         }
-#         return render(request, self.template_name, context)
+
+class listSubForClassGroup(ListView):
+    template_name = "session_settings/ss_sub_for_groups_list.html"
+    model = SubjectsForClassGroup
+    context_object_name = 'subject_for_class_group_list'
+    
+class UpdateSubForClassGroup(UpdateView):
+    model = SubjectsForClassGroup
+    form_class = SubjectsForClassGroupForm
+    context_object_name = "form"
+    template_name = 'session_settings/ss_sub_for_groups_form.html'
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Institute updated successfully!")
+        return super().form_valid(form)
+
+
+class DeleteSubForClassGroup(DeleteView):
+    model = SubjectsForClassGroup
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
     
 
-# class EmployeeDeleteView(DeleteView):
-#     model = Employee
-#     success_url = reverse_lazy('institute:employee_list')
+class AddSubForClassGroup(CreateView):
+    template_name = "session_settings/ss_sub_for_groups_form.html"
+    form_class = SubjectsForClassGroupForm
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+# for section in session settings
+
+class AddSection(CreateView):
+    template_name = "session_settings/section_form.html"
+    form_class = SectionForm
+    success_url = reverse_lazy('institute:list_of_section')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+class listOfSection(ListView):
+    template_name = "session_settings/section_list.html"
+    model = Section
+    context_object_name = 'section_list'
+    
+class UpdateSection(UpdateView):
+    model = Section
+    form_class = SectionForm
+    context_object_name = "form"
+    template_name = 'session_settings/section_form.html'
+    success_url = reverse_lazy('institute:list_of_section')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Institute updated successfully!")
+        return super().form_valid(form)
+
+
+class DeleteSection(DeleteView):
+    model = Section
+    success_url = reverse_lazy('institute:list_of_section')
+    

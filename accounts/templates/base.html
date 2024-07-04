@@ -37,7 +37,8 @@
     <!-- dependent dropdown scripts -->
     <script src="{% static 'assets/js/dependent_dropdown.js'%}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
     <style>
         /* Custom styles for padding and underline */
@@ -265,7 +266,7 @@
                                 <p>Registered since {{user.date_joined}}
                                     {% for institute in institute_list %}
                                     {{institute}}</p>
-                                    {% endfor %}
+                                {% endfor %}
                                 <div class="d-flex bg-light justify-content-between p-3">
                                     <button type="button" class="btn btn-primary btn-sm">
                                         <a href="#">Profile</a>
@@ -300,7 +301,7 @@
                 </div>
             </div>
         </div>
-        <!-- Left Sidebar End -- -->
+        <!-- Left Sidebar End -->
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -326,7 +327,6 @@
 
         </div>
         <!-- end main content-->
-
     </div>
     <!--modal-->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -337,7 +337,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this ro?
+                    Are you sure you want to delete this row?
                 </div>
                 <div class="modal-footer">
                     <form id="deleteForm" method="post" action="">
@@ -406,7 +406,8 @@
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
     <script>const ctx = document.getElementById('feeSummaryChart').getContext('2d');
         const feeSummaryChart = new Chart(ctx, {
@@ -543,7 +544,7 @@
         });
     </script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.datepicker').datepicker({
                 format: 'yyyy-mm-dd',
                 autoclose: true,
@@ -580,20 +581,24 @@
             listOfChildStatus: "{% url 'institute:list_of_child_status' %}",
             listOfRoles: "{% url 'institute:list_of_roles' %}",
 
-            <!--employee url for crete role in  dependent dropdown-->
+            <!--session settings -->
+            ssSubForClassGroup: "{% url 'institute:list_of_sub_for_class_groups' %}",
+            section: "{% url 'institute:list_of_section' %}",
+
+            < !--employee url for crete role in dependent dropdown-- >
             listOfEmployees : "{% url 'institute:list_of_employees' %}",
             
-            <!--teacher list-->
+            < !--teacher list-- >
             categoryMasterList: "{% url 'teacher:category_master_list' %}",
-            designationMasterList:"{% url 'teacher:designation_master_list' %}",
-            departmentMasterList:"{% url 'teacher:department_master_list' %}",
+                designationMasterList: "{% url 'teacher:designation_master_list' %}",
+                    departmentMasterList: "{% url 'teacher:department_master_list' %}",
 
-            <!--attendance type-->
-            attendanceType:"{% url 'teacher:attendance_type_list' %}",
+            < !--attendance type-- >
+            attendanceType: "{% url 'teacher:attendance_type_list' %}",
 
-            <!--holiday list-->
-            holidayList:"{% url 'teacher:holiday_list' %}",
-            listOfMastersList:"{% url 'teacher:list_of_employee_master' %}"
+            < !--holiday list-- >
+            holidayList: "{% url 'teacher:holiday_list' %}",
+                listOfMastersList: "{% url 'teacher:list_of_employee_master' %}"
 
 
         };
