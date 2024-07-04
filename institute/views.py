@@ -14,7 +14,7 @@ def temp(request):
     print(data)
 
 
-#                                        signature CRUD Starts
+# ===================================== signature CRUD Starts ===========================================
 class AddSignature(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = SignatureForm
@@ -44,7 +44,7 @@ class SignatureDeleteView(DeleteView):
     model = LomSignature
     success_url = reverse_lazy('institute:list_of_signatures')
 
-# caste CRUD system
+# ====================================== caste CRUD system ==============================================
 class AddCaste(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = CasteForm
@@ -74,7 +74,7 @@ class CasteDeleteView(DeleteView):
     model = Caste
     success_url = reverse_lazy('institute:list_of_caste')
 
-# category crud
+# ==================================== category crud ====================================================
 class AddCategory(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = CategoryForm
@@ -104,7 +104,7 @@ class CategoryDeleteView(DeleteView):
     model = Category
     success_url = reverse_lazy('institute:list_of_category')
     
-    #House CRUD 
+# ========================================= House CRUD ==================================================
 class AddHouse(FormView):
     template_name = "list_of_masters/lom_house_add.html"
     form_class = HouseForm
@@ -135,7 +135,7 @@ class HouseDeleteView(DeleteView):
     success_url = reverse_lazy('institute:list_of_house')
 
     
-    # medium CRUD
+# ========================================= medium CRUD =================================================
 class AddMedium(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = MediumForm
@@ -165,7 +165,7 @@ class MediumDeleteView(DeleteView):
     model = Medium
     success_url = reverse_lazy('institute:list_of_medium')
 
-     # religion CRUD
+# =========================================== religion CRUD =============================================
 class AddReligion(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = ReligionForm
@@ -195,7 +195,7 @@ class RelligionDeleteView(DeleteView):
     model = Religion
     success_url = reverse_lazy('institute:list_of_religion')
 
-     # reference CRUD
+# ======================================== reference CRUD ===============================================
 class AddReference(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = ReferenceForm
@@ -225,7 +225,7 @@ class ReferenceDeleteView(DeleteView):
     model = Reference
     success_url = reverse_lazy('institute:list_of_reference')
 
-     # nationality CRUD
+# =========================================nationality CRUD =============================================
 class AddNationality(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = NationalityForm
@@ -255,7 +255,7 @@ class NationalityDeleteView(DeleteView):
     model = Nationality
     success_url = reverse_lazy('institute:list_of_nationality')
 
-    # mother tongue CRUD 
+# ======================================== mother tongue CRUD ===========================================
 class AddMotherTongue(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = MotherTongueForm
@@ -285,7 +285,7 @@ class MotherTongueDeleteView(DeleteView):
     model = MotherToungue
     success_url = reverse_lazy('institute:list_of_mother_tongue')
 
-     # family relation CRUD
+# ========================================= family relation CRUD ========================================
 class AddFamilyRelation(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = FamilyRelationForm
@@ -315,7 +315,7 @@ class FamilyRelationDeleteView(DeleteView):
     model = FamiliRelation
     success_url = reverse_lazy('institute:list_of_family_relation')
 
-     # enquiryType CRUD
+# ======================================= enquiryType CRUD ==============================================
 class AddEnquiryType(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = EnquiryTypeForm
@@ -345,7 +345,7 @@ class EnquiryTypeDeleteView(DeleteView):
     model = EnquiryType
     success_url = reverse_lazy('institute:list_of_enquiry_type')
 
-     # payment CRUD
+# ========================================= payment CRUD ================================================
 class AddPaymentMode(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = PaymentModeForm
@@ -375,7 +375,7 @@ class PaymentModeDeleteView(DeleteView):
     model = PaymentMode
     success_url = reverse_lazy('institute:list_of_payment_mode')
 
-     #  class group CRUD
+# ================================== class group CRUD ===================================================
 class AddClassGroups(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = ClassGroupsForm
@@ -405,7 +405,7 @@ class ClassGroupsDeleteView(DeleteView):
     model = ClassGroups
     success_url = reverse_lazy('institute:list_of_class_groups')
 
-     # standard CRUD
+# =========================================== standard CRUD =============================================
 class AddStandard(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = StandardForm
@@ -435,7 +435,7 @@ class StandardDeleteView(DeleteView):
     model = Standard
     success_url = reverse_lazy('institute:list_of_standard')
 
-     # subject CRUD
+# ============================================ subject CRUD =============================================
 class AddSubject(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = SubjectsForm
@@ -465,7 +465,7 @@ class SubjectDeleteView(DeleteView):
     model = Subjects
     success_url = reverse_lazy('institute:list_of_subjects')
 
-     # docvument CRUD
+# ======================================= document CRUD =================================================
 class AddDocuments(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = DocumnetsForm
@@ -495,7 +495,7 @@ class DocumentDeleteView(DeleteView):
     model = Documents
     success_url = reverse_lazy('institute:list_of_documents')
 
-     # fee heads CRUD
+# =================================== fee heads CRUD ====================================================
 class AddFeeHeads(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = FeeHeadsForm
@@ -525,7 +525,7 @@ class FeeHeadDeleteView(DeleteView):
     model = FeeHeads
     success_url = reverse_lazy('institute:list_of_fee_heads')
 
-     # fee installments CRUD
+# ======================================== fee installments CRUD ========================================
 class AddFeeInstallments(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = FeeInstallmentForm
@@ -555,7 +555,7 @@ class FeeInstallmentDeleteView(DeleteView):
     model = FeeInstallments
     success_url = reverse_lazy('institute:list_of_fee_installments')
 
-     # leaving reason CRUD
+# ===================================== leaving reason CRUD =============================================
 class AddLeavingReason(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = LeavingReasonForm
@@ -585,7 +585,7 @@ class LeavingReasonDeleteView(DeleteView):
     model = LeavingReasonTC
     success_url = reverse_lazy('institute:list_of_leaving_reason')
     
-     # sainik school CRUD
+# ========================================= sainik school CRUD ==========================================
 class AddNameOfSainikSchool(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = NameOfSainikSchoolForm
@@ -615,7 +615,7 @@ class SainikSchoolDeleteView(DeleteView):
     model = NameOfSainikSchool
     success_url = reverse_lazy('institute:list_of_sainik_school')
 
-    # Bank CRUD 
+# ===================================== Bank CRUD =======================================================
 class AddNameOfBank(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = NameOfBankForm
@@ -645,7 +645,7 @@ class NameOfBankDeleteView(DeleteView):
     model = NameOfTheBank
     success_url = reverse_lazy('institute:list_of_name_of_bank')
 
-     # student CRUD
+# ================================= student type CRUD ===================================================
 class AddStudentType(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = StudentTypeForm
@@ -675,7 +675,7 @@ class StudentTypeDeleteView(DeleteView):
     model = StudentType
     success_url = reverse_lazy('institute:list_of_student_type')
 
-     # child status CRUD
+# ========================================== child status CRUD ==========================================
 class AddChildStatus(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = ChildStatusForm
@@ -843,100 +843,71 @@ class RoleDeleteView(DeleteView):
     success_url = reverse_lazy('institute:list_of_roles')
 
 # ================================== create users section started ====================================
+
+# list of Employees
 class EmployeeList(ListView):
     model = Employee
     context_object_name = 'employees'
     template_name = 'employee/employee_list.html'
 
+# creating the Employee
 def create_employee(request):
     if request.method == 'POST':
-        form = EmployeeRegistrationForm(request.POST, request.FILES)
-        if form.is_valid():
-            print("=================================================")
+        user_form = UserRegistrationForm(request.POST)
+        profile_form = EmployeeProfileForm(request.POST, request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
             try:
-                form.save()
-                return redirect('institute:list_of_employees')
+                user = user_form.save(commit=False)
+                user.set_password(user_form.cleaned_data["password1"])
+                user.save()
             except Exception as e:
-                print(f"Error saving form: {e}")
+                print(e)
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+
+            return redirect('institute:list_of_employees')
         else:
-            # If the form is not valid, render the form with errors
-            return render(request, 'employee/create_employee.html', {'form': form})
+            print(Exception)
+            return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
     else:
-        form = EmployeeRegistrationForm()
-        return render(request, 'employee/create_employee.html', {'form': form})
-# class CreateEmployee(CreateView):
-#     template_name = "employee/create_employee.html"
-#     form_class = CustomUserRegisterForm
-#     second_form_class = EmployeeForm
-#     success_url = reverse_lazy('institute:employee_list')
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         if 'profile_form' not in context:
-#             context['profile_form'] = self.second_form_class()
-#         return context
-
-#     def post(self, request, *args, **kwargs):
-#         self.object = None
-#         form = self.get_form()
-#         profile_form = self.second_form_class(request.POST, request.FILES)
-#         print(f"User form errors: {form.errors}")
-#         print(f"Employee form errors: {profile_form.errors}")
-#         if form.is_valid() and profile_form.is_valid():
-#             return self.form_valid(form, profile_form)
-#         else:
-#             return self.form_invalid(form, profile_form)
-
-#     def form_valid(self, form, profile_form):
-#         # Save the User form but don't commit to database yet
-#         user = form.save(commit=False)
-#         user.set_password(form.cleaned_data['password1'])  # Handle password setting
-#         user.save()
-#         # Save the Employee form and associate it with the user
-#         employee = profile_form.save(commit=False)
-#         employee.user = user
-#         employee.save()
-#         login(self.request, user)
-#         return redirect(self.success_url)
-
-#     def form_invalid(self, form, profile_form):
-#         return self.render_to_response(
-#             self.get_context_data(form=form, profile_form=profile_form)
-#         )
-
-
-# class UpdateEmployee(View):
-#     template_name = 'employee/update_employee.html'
-
-#     def get(self, request, pk):
-#         employee = get_object_or_404(Employee, pk=pk)
-#         user_form = CustomUserRegisterForm(instance=employee.user)
-#         profile_form = EmployeeForm(instance=employee)
-#         context = {
-#             'user_form': user_form,
-#             'profile_form': profile_form,
-#         }
-#         return render(request, self.template_name, context)
-
-#     def post(self, request, pk):
-#         employee = get_object_or_404(Employee, pk=pk)
-#         user_form = CustomUserRegisterForm(request.POST, instance=employee.user)
-#         profile_form = EmployeeForm(request.POST, request.FILES, instance=employee)
-#         if user_form.is_valid() and profile_form.is_valid():
-#             user = user_form.save(commit=False)
-#             if user_form.cleaned_data.get('password1'):
-#                 user.set_password(user_form.cleaned_data['password1'])
-#             user.save()
-#             profile_form.save()
-#             messages.success(request, 'Employee details updated successfully.')
-#             return redirect('institute:employee_list')
-#         context = {
-#             'user_form': user_form,
-#             'profile_form': profile_form,
-#         }
-#         return render(request, self.template_name, context)
+        user_form = UserRegistrationForm()
+        profile_form = EmployeeProfileForm()
+        return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
     
 
-# class EmployeeDeleteView(DeleteView):
-#     model = Employee
-#     success_url = reverse_lazy('institute:employee_list')
+# Update the employee
+def update_employee(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    profile = get_object_or_404(Employee, user=user)
+
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST, instance=user)
+        profile_form = EmployeeProfileForm(request.POST, request.FILES, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            try:
+                user = user_form.save(commit=False)
+                user.set_password(user_form.cleaned_data["password1"])
+                user.save()
+            except Exception as e:
+                print(e)
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+
+            return redirect('institute:list_of_employees')
+        else:
+            return render(request, 'employee/update_employee.html', {'user_form': user_form, 'profile_form': profile_form})
+    else:
+        user_form = UserRegistrationForm(instance=user)
+        profile_form = EmployeeProfileForm(instance=profile)
+        return render(request, 'employee/update_employee.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+# Delete Employee data
+class EmployeeDeleteView(DeleteView):
+    model = Employee
+    success_url = reverse_lazy('institute:list_of_employees')
