@@ -939,3 +939,35 @@ class DeleteSection(DeleteView):
     model = Section
     success_url = reverse_lazy('institute:list_of_section')
     
+# for discount scheme in session settings
+
+class AddDiscountScheme(CreateView):
+    template_name = "session_settings/discount_form.html"
+    form_class = DiscountSchemeForm
+    success_url = reverse_lazy('institute:list_of_discount')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+class listOfDiscountScheme(ListView):
+    template_name = "session_settings/discount_list.html"
+    model = DiscountScheme
+    context_object_name = 'discount_list'
+    
+class UpdateDiscountScheme(UpdateView):
+    model = DiscountScheme
+    form_class = DiscountSchemeForm
+    context_object_name = "form"
+    template_name = 'session_settings/discount_form.html'
+    success_url = reverse_lazy('institute:list_of_discount')
+
+    def form_valid(self, form):
+        messages.success(self.request, "discount updated successfully!")
+        return super().form_valid(form)
+
+
+class DeleteDiscountScheme(DeleteView):
+    model = DiscountScheme
+    success_url = reverse_lazy('institute:list_of_discount')
+    

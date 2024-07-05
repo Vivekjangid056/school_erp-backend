@@ -302,4 +302,9 @@ class SubjectsForClassGroupForm(forms.ModelForm):
 class SectionForm(forms.ModelForm):
     class Meta:
         model = Section
+        fields = "__all__"  
+              
+class DiscountSchemeForm(forms.ModelForm):
+    class Meta:
+        model = Section
         fields = "__all__"        

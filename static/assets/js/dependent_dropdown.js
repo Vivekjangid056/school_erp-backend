@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-globe"></i>Subject-wise Fee Installment</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-globe"></i>Discount Scheme</a>
+                    <a href="${urls.discountSection}"><i class="fas fa-globe"></i>Discount Scheme</a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-globe"></i>Sub-subjects</a>
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `,
         'scholar-register': `
         <li class="menu-title" key="t-menu">scholar-register</li>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.studentRegistration}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Student</span>
             </a>

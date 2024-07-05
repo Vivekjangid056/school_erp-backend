@@ -137,4 +137,7 @@ urlpatterns = [
     path('add-section/', AddSection.as_view(), name='add_section'),
     path('update-section/<int:pk>', UpdateSection.as_view(), name='update_section'),
     path('delete-section/<int:pk>', DeleteSection.as_view(), name='delete_section'),
+    
+    #url for discount section
+    path('discount-list/', listOfDiscountScheme.as_view(), name='list_of_discount'), 
 ]
