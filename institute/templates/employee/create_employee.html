@@ -1,90 +1,25 @@
 {% extends 'base.html' %}
-{% comment %} 
 {% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
-    <div class="card-header">
-            <h2>Create Employee</h2>
-    </div>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <div class="row d-flex justify-content-end">
-            <div class="form-group col-sm-3">
-                {{ profile_form.employee_name | as_crispy_field }}
-            </div>
-            <div class="form-group col-md-3">
-                {{user_form.first_name | as_crispy_field}}
-            </div>
-            <div class="form-group col-md-3">
-                {{profile_form.middle_name | as_crispy_field}}
-            </div>
-            <div class="form-group col-md-3">
-                {{user_form.last_name | as_crispy_field}}
-            </div>            
-        </div>
-        <div class="row d-flex justify-content-end">
-            <div class="form-group col-md-3">
-                {{user_form.username | as_crispy_field}}
-            </div>
-            <div class="form-group col-md-3">
-                {{user_form.password1 | as_crispy_field}}
-            </div>
-            <div class="form-group col-md-3">
-                {{user_form.password2 | as_crispy_field}}
-            </div>            
-            <div class="form-group col-md-3">
-                {{user_form.email | as_crispy_field}}
-            </div>            
-        </div>
-        <div class="row d-flex justify-content-end">
-            <div class="form-group col-md-3">
-                {{profile_form.confirm_email | as_crispy_field}}
-            </div>
-            <div class="form-group col-md-3">
-                {{profile_form.user_image | as_crispy_field}}
-            </div>
-            <div class="form-group col-md-3">
-                {{user_form.phone_number | as_crispy_field}}
-            </div>
-            <div class="form-group col-md-3">
-                {{profile_form.nick_name | as_crispy_field}}
-            </div>           
-        </div>
-        <div class="row d-flex justify-content-end">
-            <div class="form-group col-md-3">
-                {{profile_form.position | as_crispy_field}}
-            </div>            
-        </div>
-        <hr>
-        <div>
-            <button type="submit" class="btn btn-primary col-md-2 ">Save</button>
-        </div>
-    </form>
-</div>
-{% endblock content %} {% endcomment %}
-
-{% load static %}
-{% load crispy_forms_tags %}
-
-{% block content %}
-<div class="container">
+<div class="card m-4 p-4">
     <div class="card-header">
         <h2>Create Employee</h2>
     </div>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-5 d-flex flex-column align-items-center">
+                <div class="">
                 <h5>Image</h5>
                 <div id="imagePreview" class="border p-2 mb-3" style="height: 200px; width: 200px; background-size: cover; background-position: center;">
                     <!-- Image preview will be shown here -->
                 </div>
                 {{ profile_form.user_image|as_crispy_field }}
             </div>
-            <div class="col-md-9">
+            </div>
+            <div class="col-md-7 p-2">
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         {{ profile_form.employee_name|as_crispy_field }}
@@ -124,11 +59,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         {{ profile_form.nick_name|as_crispy_field }}
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         {{ profile_form.position|as_crispy_field }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        {{ profile_form.staff_role|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ user_form.role|as_crispy_field }}
                     </div>
                 </div>
             </div>
@@ -142,21 +83,12 @@
     </form>
 </div>
 
+""" this script should be placed here instead of placing it in base.html file
+    Beacuse It conflicts with dependent dropdown in the home page 
+    
+    if this script is placed in the base.html file the side menu will be dissappear"""
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const firstNameInput = document.getElementById('id_first_name');
-    const lastNameInput = document.getElementById('id_last_name');
-    const employeeNameInput = document.getElementById('id_employee_name');
-
-    function updateEmployeeName() {
-        const firstName = firstNameInput.value;
-        const lastName = lastNameInput.value;
-        const empNo = '654377'; // You might want to generate this dynamically
-        employeeNameInput.value = `${firstName} ${lastName} | Emp No : (${empNo}) | Father Name : `;
-    }
-
-    firstNameInput.addEventListener('input', updateEmployeeName);
-    lastNameInput.addEventListener('input', updateEmployeeName);
 
 imageInput.addEventListener('change', function(e) {
     const file = e.target.files[0];
@@ -170,19 +102,4 @@ imageInput.addEventListener('change', function(e) {
 });
 });
 </script>
-
-<style>
-    .form-group {
-        margin-bottom: 1rem;
-    }
-    .form-control {
-        border-radius: 0;
-    }
-    #imagePreview {
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center;
-    }
-    /* Add more custom styles as needed */
-</style>
 {% endblock content %}

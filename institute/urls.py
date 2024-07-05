@@ -116,8 +116,8 @@ urlpatterns = [
     # urls for employees {for create user in sysytem setting}
     path('employee-list/', EmployeeList.as_view(), name='list_of_employees'),
     path('add-employee/', create_employee, name='add_employee'),
-    path('update-employee<int:pk>', update_employee, name="update_employee"),
-    path('delete-employee<int:pk>', EmployeeDeleteView.as_view(), name="delete_employee"),
+    path('update-employee/<int:pk>', update_employee, name="update_employee"),
+    path('delete-employee/<int:pk>', EmployeeDeleteView.as_view(), name="delete_employee"),
 
     path('add-role', role_create, name = 'add_role'),
     path('roles-list/', role_list, name='list_of_roles'),

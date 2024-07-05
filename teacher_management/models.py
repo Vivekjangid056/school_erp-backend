@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
 from institute.models import Category
 from accounts.models import *
+from institute.models import InstituteRole
 
 # Create your models here.
 
@@ -179,7 +180,8 @@ class EmployeeMaster(models.Model):
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee_profile')
-    employee_name = models.ForeignKey(EmployeeMaster, on_delete= models.CASCADE)  #data will dynamically come from faculty section
+    employee_name = models.ForeignKey(EmployeeMaster, on_delete= models.CASCADE)
+    staff_role =  models.ForeignKey(InstituteRole, on_delete= models.CASCADE)
     middle_name = models.CharField(max_length=100 , blank=True)   #optional
     nick_name = models.CharField(max_length=50,blank=True) #optional
     position = models.CharField(max_length=50,blank=True)   #optional

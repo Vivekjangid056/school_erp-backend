@@ -860,22 +860,23 @@ def create_employee(request):
                 user = user_form.save(commit=False)
                 user.set_password(user_form.cleaned_data["password1"])
                 user.save()
+
+                profile = profile_form.save(commit=False)
+                profile.user = user
+                profile.save()
+
+                return redirect('institute:list_of_employees')
             except Exception as e:
-                print(e)
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-
-            return redirect('institute:list_of_employees')
+                print(f"Error saving user or profile: {e}")
         else:
-            print(Exception)
-            return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
+            print(f"User form errors: {user_form.errors}")
+            print(f"Profile form errors: {profile_form.errors}")
+
     else:
         user_form = UserRegistrationForm()
         profile_form = EmployeeProfileForm()
         return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
-    
+
 
 # Update the employee
 def update_employee(request, pk):
