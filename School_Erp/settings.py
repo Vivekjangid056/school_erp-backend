@@ -144,6 +144,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # customizations
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default authentication backend
+    'accounts.backends.SecondaryEmailBackend',    # Custom backend for secondary email
+]
+
 AUTH_USER_MODEL = 'accounts.User'
 
 # Session settings

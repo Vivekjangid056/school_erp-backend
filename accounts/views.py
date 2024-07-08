@@ -18,14 +18,15 @@ def admin_login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         
-        user = authenticate(request, email=email, password=password)
-        print(user)
-        
+        user = authenticate(request, email=email, password=password)        
         if user is not None:
-            if isinstance(user, User) and (user.is_superadmin or user.role == '1'):
+            if isinstance(user, User) and (user.is_superuser or user.role == '1'):
                 login(request, user)
                 return redirect('/dashboard/')
             elif isinstance(user, User) and user.role == '2':
+                login(request, user)
+                return redirect('/dashboard/')
+            elif isinstance(user, User) and user.role == '3':
                 login(request, user)
                 return redirect('/dashboard/')
             else:
@@ -47,7 +48,6 @@ def admin_dashboard(request):
     print(institutes)
     context = {
         'user' : user,
-        'institute_list':institutes
     }
     return render(request, 'dashboard.html', context)
 
@@ -77,7 +77,7 @@ class InstituteUpdateView(UpdateView):
 
 class InstituteRegisterView(CreateView):
     template_name = 'institute_register.html'
-    form_class = UserRegisterForm
+    form_class = InstituteRegisterForm
     second_form_class = InstituteForm
     success_url = reverse_lazy('accounts:institute_list')
 

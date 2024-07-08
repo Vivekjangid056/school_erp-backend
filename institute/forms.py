@@ -198,7 +198,7 @@ file the this error comes into the picture (django don't allow circular import o
 
 
 
-class UserRegistrationForm(forms.ModelForm):
+class EmployeeRegistrationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
     confirm_email = forms.EmailField(label='Confirm Email')
@@ -209,7 +209,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['role'].initial = '2'  # Set initial value for role
+        self.fields['role'].initial = '3'  # Set initial value for role
         self.fields['role'].widget = forms.HiddenInput()  # Hide the role field
 
     def clean(self):

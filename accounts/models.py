@@ -22,6 +22,7 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.is_staff = True
         user.is_active = True
+        user.role = '1'
         user.save(using=self._db)
         return user
     
@@ -73,6 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default= False)
 
     groups = models.ManyToManyField(
         'auth.Group',

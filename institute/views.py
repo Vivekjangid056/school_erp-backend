@@ -853,7 +853,7 @@ class EmployeeList(ListView):
 # creating the Employee
 def create_employee(request):
     if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
+        user_form = EmployeeRegistrationForm(request.POST)
         profile_form = EmployeeProfileForm(request.POST, request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
             try:
@@ -873,7 +873,7 @@ def create_employee(request):
             print(f"Profile form errors: {profile_form.errors}")
 
     else:
-        user_form = UserRegistrationForm()
+        user_form = EmployeeRegistrationForm()
         profile_form = EmployeeProfileForm()
         return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
 
@@ -884,7 +884,7 @@ def update_employee(request, pk):
     profile = get_object_or_404(Employee, user=user)
 
     if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST, instance=user)
+        user_form = EmployeeRegistrationForm(request.POST, instance=user)
         profile_form = EmployeeProfileForm(request.POST, request.FILES, instance=profile)
 
         if user_form.is_valid() and profile_form.is_valid():
@@ -903,7 +903,7 @@ def update_employee(request, pk):
         else:
             return render(request, 'employee/update_employee.html', {'user_form': user_form, 'profile_form': profile_form})
     else:
-        user_form = UserRegistrationForm(instance=user)
+        user_form = EmployeeRegistrationForm(instance=user)
         profile_form = EmployeeProfileForm(instance=profile)
         return render(request, 'employee/update_employee.html', {'user_form': user_form, 'profile_form': profile_form})
 
