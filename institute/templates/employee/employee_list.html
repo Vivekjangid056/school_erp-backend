@@ -57,13 +57,13 @@
                             <td>{{employee.user.email}}</td>
                         
                             <td>
-                                <a href="{% url 'institute:employee_update' employee.pk %}"
+                                <a href="{% url 'institute:update_employee' employee.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'institute:employee_delete' employee.pk %}">
+                                    data-url="{% url 'institute:delete_employee' employee.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

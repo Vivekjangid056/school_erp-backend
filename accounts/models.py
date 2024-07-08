@@ -103,11 +103,17 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
-    ROLE_CHOICES = (
-        ('1', 'Institute'),
-        ('2', 'Faculty'),
-        ('3', 'Student'),
-    )
+
+    INSTITUTE = '1'
+    FACULTY = '2'
+    STUDENT = '3'
+
+
+    ROLE_CHOICES = [
+        (INSTITUTE, 'Institute'),
+        (FACULTY, 'Faculty'),
+        (STUDENT, 'Student'),
+    ]
 
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=255, unique=True)

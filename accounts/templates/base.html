@@ -72,6 +72,13 @@
         .supersubmenu-item {
             margin: 5px 0;
         }
+
+            #imagePreview {
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                border: 1px solid #ddd;
+            }
     </style>
 
 
@@ -317,9 +324,6 @@
                     {% block table-content %}
                     {% endblock table-content %}
 
-
-                    {% comment %} {% block form-content %}
-                    {% endblock form-content %} {% endcomment %}
                 </div> <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
@@ -551,6 +555,37 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstNameInput = document.getElementById('id_first_name');
+            const lastNameInput = document.getElementById('id_last_name');
+            const employeeNameInput = document.getElementById('id_employee_name');
+            const imageInput = document.getElementById('{{ profile_form.user_image.auto_id }}');
+            const imagePreview = document.getElementById('imagePreview');
+        
+            function updateEmployeeName() {
+                const firstName = firstNameInput.value;
+                const lastName = lastNameInput.value;
+                const empNo = '654377'; // You might want to generate this dynamically
+                employeeNameInput.value = `${firstName} ${lastName} | Emp No : (${empNo}) | Father Name : `;
+            }
+        
+            firstNameInput.addEventListener('input', updateEmployeeName);
+            lastNameInput.addEventListener('input', updateEmployeeName);
+        
+            // Image preview functionality
+            imageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.style.backgroundImage = `url('${e.target.result}')`;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+        </script>
     <script>
         const urls = {
             instituteList: "{% url 'accounts:institute_list' %}",

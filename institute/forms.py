@@ -1,7 +1,7 @@
 from django import forms
 from .models import *
-from teacher_management.models import Employee
-from accounts.models import Institute
+from teacher_management.models import Employee, EmployeeMaster
+from accounts.models import Institute, User
 from django.contrib.auth.forms import UserCreationForm
 
 # ================================= User Register Form =======================================
@@ -190,121 +190,77 @@ class EmployeeForm(forms.ModelForm):
 # =================================== Employee Form =========================================
 
 """
-This model is defined into the models.py file of  teacher management app 
-because of circular import error the circular import is like when a model is imported from another app into current 
+This model is defined into the models.py file of teacher management app 
+because of circular import error:- the circular import is like when a model is imported from another app into current 
 models.py file and into the same another models.py file a models is imported from the current models 
 file the this error comes into the picture (django don't allow circular import of any models)
 """
 
-# class EmployeeRegistrationForm(forms.ModelForm):
-#     password = forms.CharField(widget=forms.PasswordInput)
-#     confirm_password = forms.CharField(widget=forms.PasswordInput)
-#     confirm_email = forms.EmailField()
-
-#     class Meta:
-#         model = Employee
-#         fields = [
-#             'employee_name', 'user', 'middle_name', 'nick_name', 'position',
-#             'confirm_email', 'user_image'
-#         ]
-    
-#     class Meta:
-#         model = User
-#         fields = ['email', 'username', 'first_name', 'last_name', 'phone_number', 'country_code', 'password']
-
-#     def clean(self):
-#         cleaned_data = super().clean()
-#         password = cleaned_data.get("password")
-#         confirm_password = cleaned_data.get("confirm_password")
-#         email = cleaned_data.get("email")
-#         confirm_email = cleaned_data.get("confirm_email")
-
-#         if password and confirm_password and password != confirm_password:
-#             self.add_error('confirm_password', "Passwords do not match")
-
-#         if email and confirm_email and email != confirm_email:
-#             self.add_error('confirm_email', "Emails do not match")
-
-#         return cleaned_data
-
-#     def save(self, commit=True):
-#         user = super().save(commit=False)
-#         user.set_password(self.cleaned_data["password"])
-#         if commit:
-#             user.save()
-#             employee_name = self.cleaned_data['employee_name']
-#             Employee.objects.create(
-#                 user=user,
-#                 employee_name=employee_name,
-#                 middle_name=self.cleaned_data['middle_name'],
-#                 nick_name=self.cleaned_data['nick_name'],
-#                 position=self.cleaned_data['position'],
-#                 confirm_email=self.cleaned_data['confirm_email'],
-#                 user_image = self.cleaned_data['user_image']
-#             )
-#         return user
 
 
-class EmployeeRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
-    confirm_email = forms.EmailField()
+class UserRegistrationForm(forms.ModelForm):
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    confirm_email = forms.EmailField(label='Confirm Email')
 
     class Meta:
         model = User
-        fields = ['email', 'username', 'first_name', 'last_name', 'phone_number', 'password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'phone_number', 'role']
 
-    employee_name = forms.CharField()
-    middle_name = forms.CharField()
-    nick_name = forms.CharField()
-    position = forms.CharField()
-    user_image = forms.ImageField()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['role'].initial = '2'  # Set initial value for role
+        self.fields['role'].widget = forms.HiddenInput()  # Hide the role field
 
     def clean(self):
         cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("confirm_password")
-        email = cleaned_data.get("email")
-        confirm_email = cleaned_data.get("confirm_email")
-
-        if password and confirm_password and password != confirm_password:
-            self.add_error('confirm_password', "Passwords do not match")
+        email = cleaned_data.get('email')
+        confirm_email = cleaned_data.get('confirm_email')
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
 
         if email and confirm_email and email != confirm_email:
             self.add_error('confirm_email', "Emails do not match")
 
+        if password1 and password2 and password1 != password2:
+            self.add_error('password2', "Passwords do not match")
+
         return cleaned_data
 
-    def save(self, commit=True):
-        print("in the form ==========================================")
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-            Employee.objects.create(
-                user=user,
-                employee_name=self.cleaned_data['employee_name'],
-                middle_name=self.cleaned_data['middle_name'],
-                nick_name=self.cleaned_data['nick_name'],
-                position=self.cleaned_data['position'],
-                confirm_email=self.cleaned_data['confirm_email'],
-                user_image=self.cleaned_data['user_image']
-            )
-        return user
+
+# class UserRegistrationForm(forms.ModelForm):
+#     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+#     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+#     confirm_email = forms.EmailField(label='Confirm Email')
+
+#     class Meta:
+#         model = User
+#         fields = ['first_name', 'last_name', 'username', 'role', 'phone_number', 'email']
+
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['role'].initial = '2'  # Set initial value for role
+#         self.fields['role'].widget = forms.HiddenInput()  # Hide the role field
+
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         email = cleaned_data.get('email')
+#         confirm_email = cleaned_data.get('confirm_email')
+#         password = cleaned_data.get('password1')
+#         confirm_password = cleaned_data.get('password2')
+
+#         if email and confirm_email and email != confirm_email:
+#             self.add_error('confirm_email', "Emails do not match")
+
+#         if password and confirm_password and password != confirm_password:
+#             self.add_error('password2', "Passwords do not match")
+
+#         return cleaned_data
 
 
-# form for session settingsd
-class SubjectsForClassGroupForm(forms.ModelForm):
+class EmployeeProfileForm(forms.ModelForm):
     class Meta:
-        model = SubjectsForClassGroup
-        fields = "__all__"
-        
-class SectionForm(forms.ModelForm):
-    class Meta:
-        model = Section
-        fields = "__all__"  
-              
-class DiscountSchemeForm(forms.ModelForm):
-    class Meta:
-        model = Section
-        fields = "__all__"        
+        model = Employee
+        fields = ['employee_name', 'staff_role', 'middle_name', 'nick_name', 'position', 'confirm_email', 'user_image']
+
+
