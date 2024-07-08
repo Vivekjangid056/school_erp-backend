@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.urls import reverse_lazy
-from .models import Admin, User
+from .models import *
 from .forms import *
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
@@ -9,68 +9,36 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 # Create your views here.
 
-# def admin_login(request):
-#     try:
-#         if request.user.is_authenticated:
-#             return redirect("dashboard/")
-        
-#         if request.method == "POST":
-#             email = request.POST.get('email')
-#             password = request.POST.get('password')
-#             admin_obj = Admin.objects.filter(email = email)
-#             user_obj = User.objects.filter(email = email)
-#             if not admin_obj.exists() and not user_obj.exists():
-#                 messages.info(request, "account not found")
-#                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-#             admin_obj = authenticate(email=email, password = password)
-#             user_obj = authenticate(email=email, password=password)
-#             print(user_obj)
-#             if admin_obj and admin_obj.is_superadmin:
-#                 login(request, admin_obj)
-#                 return redirect('/dashboard/')
-#             if admin_obj and admin_obj.role == '2':
-#                 login(request, admin_obj)
-#                 return redirect('/dashboard')
-#             if user_obj and user_obj.role == '2':
-#                 print(email)
-#                 login(request, user_obj)
-#                 return redirect('/dashboard')
-
-#             messages.info(request, 'invalid password try again')
-#             return redirect('')
-#         return render(request, 'admin_login.html')
-    
-#     except Exception as e:
-#         print(e)
-#         return render(request, 'admin_login.html', {'error': str(e)})
-
-
 def admin_login(request):
-    if request.user.is_authenticated:
-        return redirect("dashboard/")
-    
-    if request.method == "POST":
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+    try:
+        if request.user.is_authenticated:
+            return redirect("dashboard/")
         
-        user = authenticate(request, email=email, password=password)
-        print(user)
-        
-        if user is not None:
-            if isinstance(user, Admin) and (user.is_superadmin or user.role == '2'):
-                login(request, user)
+        if request.method == "POST":
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            user_obj = Admin.objects.filter(email = email)
+            if not user_obj.exists():
+                messages.info(request, "account not found")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            user_obj = authenticate(email=email, password = password)
+            print(email)
+            if user_obj and user_obj.is_superadmin:
+                login(request, user_obj)
                 return redirect('/dashboard/')
-            elif isinstance(user, User) and user.role == '2':
-                login(request, user)
-                return redirect('/dashboard/')
-            else:
-                messages.info(request, 'You do not have permission to access the admin dashboard.')
-        else:
-            messages.info(request, 'Invalid email or password. Please try again.')
+            if user_obj and user_obj.role == '2':
+                login(request, user_obj)
+                return redirect('/dashboard')
+            
+            messages.info(request, 'invalid password')
+            return redirect('')
         
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return render(request, 'admin_login.html')
     
-    return render(request, 'admin_login.html')
+    except Exception as e:
+        print(e)
+        return render(request, 'admin_login.html', {'error': str(e)})
+
 
 
 @login_required

@@ -39,6 +39,7 @@ urlpatterns = [
     path('list-employee-master/', EmployeeMasterList.as_view(), name= "list_of_employee_master"),
     path('update_employee_master/<int:pk>', employee_master_update, name = "update_employee_master"),
     path('delete_employee_master/<int:pk>', EmployeeMasterDelete.as_view(), name = "delete_employee_master"),
+
     path('holiday-list-delete<int:pk>',DeleteHolidayList.as_view(),name='holiday_list_delete'),
      
 ]
