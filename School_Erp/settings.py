@@ -144,7 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # customizations
 
-AUTH_USER_MODEL = 'accounts.Admin'
+AUTH_USER_MODEL = 'accounts.User'
 
 # Session settings
 SESSION_COOKIE_AGE = 1800  # 30 minutes
