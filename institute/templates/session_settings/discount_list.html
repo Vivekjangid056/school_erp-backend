@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Section List </h4>
+            <h4 class="mb-sm-0 font-size-18">Discount List </h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -30,7 +30,7 @@
 
             <!-- List of Institutes -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_section' %}"><button
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_discount' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create </button></a>
         </div>
         <div class="card">
@@ -50,13 +50,13 @@
                             <td>{{forloop.counter}}</td>
                             <td>{{ss.name}}</td>
                             <td>
-                                <a href="{% url 'institute:update_section' ss.pk %}"
+                                <a href="{% url 'institute:update_discount' ss.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'institute:delete_section' ss.pk %}">
+                                    data-url="{% url 'institute:delete_discount' ss.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -75,7 +75,7 @@
 
             <!--                                    List of Institutes                                 -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_section' %}"><button
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_discount' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">

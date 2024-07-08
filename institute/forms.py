@@ -306,5 +306,5 @@ class SectionForm(forms.ModelForm):
               
 class DiscountSchemeForm(forms.ModelForm):
     class Meta:
-        model = Section
+        model = DiscountScheme
         fields = "__all__"        

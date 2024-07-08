@@ -140,4 +140,7 @@ urlpatterns = [
     
     #url for discount section
     path('discount-list/', listOfDiscountScheme.as_view(), name='list_of_discount'), 
+    path('add-discount/', AddDiscountScheme.as_view(), name='add_discount'),
+    path('update-discount/<int:pk>', UpdateDiscountScheme.as_view(), name='update_discount'),
+    path('delete-discount/<int:pk>', DeleteDiscountScheme.as_view(), name='delete_discount'),
 ]

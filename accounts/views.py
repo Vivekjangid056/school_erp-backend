@@ -17,7 +17,7 @@ def admin_login(request):
         user = authenticate(request, email=email, password=password)
         print(user)
         if user is not None:
-            if isinstance(user, User) and (user.is_superadmin or user.role == '1'):
+            if isinstance(user, User) and (user.is_superuser or user.role == '1'):
                 login(request, user)
                 return redirect('/dashboard/')
             elif isinstance(user, User) and user.role == '2':
@@ -44,19 +44,23 @@ def admin_dashboard(request):
 def logout_view(request):
     logout(request)
     return redirect('accounts:super-admin-login')
+
 class InstituteList(ListView):
     model = Institute
     context_object_name = 'institutes'
     template_name = 'institute_list.html'
+    
 class InstituteUpdateView(UpdateView):
+    template_name = 'update_form.html'
     model = Institute
     form_class = InstituteForm
     context_object_name = "form"
-    template_name = 'update_form.html'
     success_url = reverse_lazy('accounts:institute_list')
+    
     def form_valid(self, form):
         messages.success(self.request, "Institute updated successfully!")
         return super().form_valid(form)
+    
 class InstituteRegisterView(CreateView):
     template_name = 'institute_register.html'
     form_class = UserRegisterForm
