@@ -582,7 +582,11 @@
         </script>
     <script>
         const urls = {
+            {% if user.is_superuser %}
             instituteList: "{% url 'accounts:institute_list' %}",
+            {% else %}
+            instituteList: "{% url 'institute:list_of_signatures' %}",
+            {% endif %}
             addInstitute: "{% url 'accounts:add_institute' %}",
             listOfSignature: "{% url 'institute:list_of_signatures' %}",
             listOfCaste: "{% url 'institute:list_of_caste' %}",

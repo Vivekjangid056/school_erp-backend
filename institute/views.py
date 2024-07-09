@@ -10,9 +10,12 @@ from django.views.generic import UpdateView, CreateView, DeleteView, FormView, L
 from .utils import send_sms
 
 
-def temp(request):
-    data = Institute.objects.all()
-    print(data)
+def institute_profile(request):
+    user = request.user
+    user_id = user.id
+    institute = Institute.objects.filter(user_id = user_id)
+    return render(request, 'institute_profile.html')
+
 
 
 # ===================================== signature CRUD Starts ===========================================
