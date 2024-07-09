@@ -4,44 +4,11 @@
 {% block content %}
 <div class="container">
     <div class="container">
-        <h2>Create Students</h2>
+        <h2>Edit Students</h2>
     </div>
     <hr>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-
-        <!-- Render User Creation Form -->
-        <fieldset>
-            <legend>Student User Information</legend>
-            <div class="row">
-
-                <div class="col-md-3">
-                    {{ user_form.email|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.username|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.first_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.last_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.phone_number|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.password1|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.password2|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.role|as_crispy_field }}
-                </div>
-            </div>
-        </fieldset>
-        <hr>
         <!-- Render Student Session Form -->
         <fieldset>
             <legend>Student Session Information</legend>

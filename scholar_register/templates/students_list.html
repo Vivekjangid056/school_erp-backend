@@ -54,21 +54,22 @@
                         <tr>
                             <td>{{forloop.counter}}</td>
                             <td>{{student.reg_no}}</td>
-                            <td>{{student.user_id.first_name}}</td>
+                            <td>{{student.user.first_name}}</td>
                             <td>{{student.mothers_name}}</td>
-                            <td>{{student.user_id.phone_number}}</td>
+                            <td>{{student.user.phone_number}}</td>
                             <td>{{student.standard}}</td>
                             <td>{{student.dob}}</td>
                             <td>
-                                {% comment %} <a href="{% url 'accounts:institute_update' student.pk %}"
+                                <a href="{% url 'students:student_update' student.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
+                               
                                 <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'accounts:institute_delete' institute.pk %}">
+                                    data-url="{% url 'students:student_delete' student.pk %}">
                                     <i class="fas fa-trash-alt"></i>
-                                </button> {% endcomment %}
+                                </button>  
                             </td>
                         </tr>
                         {% endfor %}

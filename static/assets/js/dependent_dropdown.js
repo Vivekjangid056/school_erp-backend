@@ -1979,40 +1979,40 @@ document.addEventListener('DOMContentLoaded', function () {
             `
     };
 
-    // Set default menu content
-    const defaultMenu = 'system-settings'; // Set this to the default menu you want to show
-    if (menuData[defaultMenu]) {
-        menuContent.innerHTML = menuData[defaultMenu];
-    }
-
-
-function initializeChevronToggle() {
-    // Select all elements with the class 'sidebar-link d-flex justify-content-between align-items-center' that have a 'data-bs-toggle' attribute
-    $('[data-bs-toggle="collapse"]').each(function () {
-        var target = $(this).attr('data-bs-target'); // Get the target collapse ID
-
-        // Add event listeners for show and hide events
-        $(target).on('show.bs.collapse', function () {
-            $(this).prev('a').find('.collapse-chevron').removeClass('fa-chevron-left').addClass('fa-chevron-down');
-        }).on('hide.bs.collapse', function () {
-            $(this).prev('a').find('.collapse-chevron').removeClass('fa-chevron-down').addClass('fa-chevron-left');
+    function initializeChevronToggle() {
+        $('[data-bs-toggle="collapse"]').each(function () {
+            var target = $(this).attr('data-bs-target');
+            $(target).on('show.bs.collapse', function () {
+                $(this).prev('a').find('.collapse-chevron').removeClass('fa-chevron-left').addClass('fa-chevron-down');
+            }).on('hide.bs.collapse', function () {
+                $(this).prev('a').find('.collapse-chevron').removeClass('fa-chevron-down').addClass('fa-chevron-left');
+            });
         });
-    });
-}
-
-$(document).ready(function () {
-    initializeChevronToggle(); // Call the function initially
-
-    // Assuming 'dropdownItems' is an array-like object of elements that trigger the sidebar content change
+    }
+    // Load sidebar state from localStorage
+    const savedMenuKey = localStorage.getItem('sidebarMenuKey');
+    if (savedMenuKey && menuData[savedMenuKey]) {
+        menuContent.innerHTML = menuData[savedMenuKey];
+    } else {
+        // Set default menu content if no state is saved
+        const defaultMenu = 'system-settings'; // Set this to the default menu you want to show
+        if (menuData[defaultMenu]) {
+            menuContent.innerHTML = menuData[defaultMenu];
+        }
+    }
+    // Reinitialize chevron toggle after setting content
+    initializeChevronToggle();
+    // Add event listeners to dropdown items
     dropdownItems.forEach(item => {
         item.addEventListener('click', function (event) {
             event.preventDefault();
             const menuKey = this.getAttribute('data-menu');
             if (menuData[menuKey]) {
                 menuContent.innerHTML = menuData[menuKey];
+                // Save the selected menu key to localStorage
+                localStorage.setItem('sidebarMenuKey', menuKey);
                 initializeChevronToggle(); // Reinitialize the chevron toggle function after updating the content
             }
         });
     });
-});
 });
