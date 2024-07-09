@@ -197,7 +197,6 @@ file the this error comes into the picture (django don't allow circular import o
 """
 
 
-
 class EmployeeRegistrationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
@@ -228,39 +227,11 @@ class EmployeeRegistrationForm(forms.ModelForm):
         return cleaned_data
 
 
-# class UserRegistrationForm(forms.ModelForm):
-#     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-#     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-#     confirm_email = forms.EmailField(label='Confirm Email')
-
-#     class Meta:
-#         model = User
-#         fields = ['first_name', 'last_name', 'username', 'role', 'phone_number', 'email']
-
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.fields['role'].initial = '2'  # Set initial value for role
-#         self.fields['role'].widget = forms.HiddenInput()  # Hide the role field
-
-#     def clean(self):
-#         cleaned_data = super().clean()
-#         email = cleaned_data.get('email')
-#         confirm_email = cleaned_data.get('confirm_email')
-#         password = cleaned_data.get('password1')
-#         confirm_password = cleaned_data.get('password2')
-
-#         if email and confirm_email and email != confirm_email:
-#             self.add_error('confirm_email', "Emails do not match")
-
-#         if password and confirm_password and password != confirm_password:
-#             self.add_error('password2', "Passwords do not match")
-
-#         return cleaned_data
-
 
 class EmployeeProfileForm(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ['employee_name', 'staff_role', 'middle_name', 'nick_name', 'position', 'confirm_email', 'user_image']
+    
 
 

@@ -144,10 +144,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # customizations
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Default authentication backend
-    'accounts.backends.SecondaryEmailBackend',    # Custom backend for secondary email
-]
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',  # Default authentication backend
+#     'accounts.backends.SecondaryEmailBackend',    # Custom backend for secondary email
+# ]
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -160,3 +160,9 @@ SESSION_SAVE_EVERY_REQUEST = True
 # Login URl
 
 LOGIN_URL = '/'
+
+
+
+TWILIO_ACCOUNT_SID = 'ACaeba810f0d9483bce0a22dcc26b820ed'
+TWILIO_AUTH_TOKEN = '23f5c4919a0e7450f5029c81e2022c51'
+TWILIO_PHONE_NUMBER = '+916377169498'

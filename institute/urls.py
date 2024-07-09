@@ -125,4 +125,6 @@ urlpatterns = [
     path('delete-role/<int:pk>', RoleDeleteView.as_view(), name='role_delete'),
     path('get_menu_data/', get_menu_data, name='get_menu_data'),
     # path('roles/<int:pk>/permissions/create/', permission_create, name='permission_create'),
+
+    path('send-sms', send_sms_view, name="send_sms")
 ]

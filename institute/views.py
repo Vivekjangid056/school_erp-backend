@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import login
@@ -7,6 +7,7 @@ from django.views import View
 from .forms import *
 from .models import *
 from django.views.generic import UpdateView, CreateView, DeleteView, FormView, ListView
+from .utils import send_sms
 
 
 def temp(request):
@@ -912,3 +913,13 @@ def update_employee(request, pk):
 class EmployeeDeleteView(DeleteView):
     model = Employee
     success_url = reverse_lazy('institute:list_of_employees')
+
+
+def send_sms_view(request):
+    users = User.objects.filter(phone_number = '6377169498')
+    for user in users:
+        success, result = send_sms(user.phone_number, "Your message here")
+        if success:
+            print(f"SMS sent to {user.phone_number}, SID: {result}")
+        else:
+            print(f"Failed to send SMS to {user.phone_number}: {result}")

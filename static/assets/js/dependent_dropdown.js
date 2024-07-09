@@ -99,11 +99,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-signature"></i>Subjects for Class Groups</a>
                 </li>
-                <li class="sidebar-item ">
-                    <a href="#"><i class="fas fa-user-tag"></i>Class</a>
+                <li class="sidebar-item">
+                    <a href="#"><i class="fas fa-globe"></i>Sub-subjects</a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-layer-group"></i>Section</a>
+                </li>
+                <!-- <li class="sidebar-item ">
+                    <a href="#"><i class="fas fa-user-tag"></i>Class</a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-book-open"></i>Classes in Class Groups</a>
@@ -122,19 +125,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 </li>
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-globe"></i>Discount Scheme</a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-globe"></i>Sub-subjects</a>
-                </li>
+                </li> -->
             </ul>
-            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-report-settings" aria-expanded="false" aria-controls="pages">
+            <!--<a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-report-settings" aria-expanded="false" aria-controls="pages">
             <div>
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Report Settings</span>
             </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
-            <ul id="system-settings-report-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
+             <ul id="system-settings-report-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-signature"></i>Demand Slip Format</a>
                 </li>
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-globe"></i>Student ID Card Format</a>
                 </li>
-            </ul>
+            </ul> -->
             <a href="${urls.listOfEmployees}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">create user</span>
@@ -189,7 +189,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">create roles</span>
             </a>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.sendSms}" class="waves-effect fw-bold">
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">Send SMS</span>
+            </a>
+            <!-- <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">SMS Settings</span>
             </a>
@@ -208,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">SMS Template Master</span>
-            </a>
+            </a> -->
         `,
         'enquiry': `
         <li class="menu-title" key="t-menu">Enquiry</li>
@@ -315,7 +319,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-book-open"></i>Enquiry Type</a>
                 </li>
             </ul>
-        `,
+        `
+        ,
         'scholar-register': `
         <li class="menu-title" key="t-menu">scholar-register</li>
             <a href="javascript: void(0);" class="waves-effect fw-bold">
@@ -1979,40 +1984,43 @@ document.addEventListener('DOMContentLoaded', function () {
             `
     };
 
-    // Set default menu content
-    const defaultMenu = 'system-settings'; // Set this to the default menu you want to show
-    if (menuData[defaultMenu]) {
-        menuContent.innerHTML = menuData[defaultMenu];
+    function initializeChevronToggle() {
+        $('[data-bs-toggle="collapse"]').each(function () {
+            var target = $(this).attr('data-bs-target');
+            $(target).on('show.bs.collapse', function () {
+                $(this).prev('a').find('.collapse-chevron').removeClass('fa-chevron-left').addClass('fa-chevron-down');
+            }).on('hide.bs.collapse', function () {
+                $(this).prev('a').find('.collapse-chevron').removeClass('fa-chevron-down').addClass('fa-chevron-left');
+            });
+        });
     }
 
+    // Load sidebar state from localStorage
+    const savedMenuKey = localStorage.getItem('sidebarMenuKey');
+    if (savedMenuKey && menuData[savedMenuKey]) {
+        menuContent.innerHTML = menuData[savedMenuKey];
+    } else {
+        // Set default menu content if no state is saved
+        const defaultMenu = 'system-settings'; // Set this to the default menu you want to show
+        if (menuData[defaultMenu]) {
+            menuContent.innerHTML = menuData[defaultMenu];
+        }
+    }
 
-function initializeChevronToggle() {
-    // Select all elements with the class 'sidebar-link d-flex justify-content-between align-items-center' that have a 'data-bs-toggle' attribute
-    $('[data-bs-toggle="collapse"]').each(function () {
-        var target = $(this).attr('data-bs-target'); // Get the target collapse ID
+    // Reinitialize chevron toggle after setting content
+    initializeChevronToggle();
 
-        // Add event listeners for show and hide events
-        $(target).on('show.bs.collapse', function () {
-            $(this).prev('a').find('.collapse-chevron').removeClass('fa-chevron-left').addClass('fa-chevron-down');
-        }).on('hide.bs.collapse', function () {
-            $(this).prev('a').find('.collapse-chevron').removeClass('fa-chevron-down').addClass('fa-chevron-left');
-        });
-    });
-}
-
-$(document).ready(function () {
-    initializeChevronToggle(); // Call the function initially
-
-    // Assuming 'dropdownItems' is an array-like object of elements that trigger the sidebar content change
+    // Add event listeners to dropdown items
     dropdownItems.forEach(item => {
         item.addEventListener('click', function (event) {
             event.preventDefault();
             const menuKey = this.getAttribute('data-menu');
             if (menuData[menuKey]) {
                 menuContent.innerHTML = menuData[menuKey];
+                // Save the selected menu key to localStorage
+                localStorage.setItem('sidebarMenuKey', menuKey);
                 initializeChevronToggle(); // Reinitialize the chevron toggle function after updating the content
             }
         });
     });
-});
 });

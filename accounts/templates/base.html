@@ -38,57 +38,49 @@
     <script src="{% static 'assets/js/dependent_dropdown.js'%}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-
+</head>
+<body>
     <style>
         /* Custom styles for padding and underline */
-        .form-group {
-            padding: 10px 10px;
-            /* Adjust padding values as needed */
-            margin-bottom: 10px;
-            /* Add spacing between form groups */
-        }
+.form-group {
+    padding: 10px 10px;
+    /* Adjust padding values as needed */
+    margin-bottom: 10px;
+    /* Add spacing between form groups */
+}
 
-        .form-group:last-child {
-            border-bottom: none;
-            /* Remove underline for the last form group */
-        }
+.form-group:last-child {
+    border-bottom: none;
+    /* Remove underline for the last form group */
+}
 
-        .btn {
-            border-bottom: 2px solid none;
-            /* Underline for buttons */
-            transition: all 0.2s ease-in-out;
-            /* Smooth hover effect */
-        }
+.btn {
+    border-bottom: 2px solid none;
+    /* Underline for buttons */
+    transition: all 0.2s ease-in-out;
+    /* Smooth hover effect */
+}
 
-        .btn:hover {
-            transform: translateY(-2px);
-            /* Add slight hover elevation */
-        }
+.btn:hover {
+    transform: translateY(-2px);
+    /* Add slight hover elevation */
+}
 
-        .supersubmenu-container {
-            margin-left: 20px;
-        }
+.supersubmenu-container {
+    margin-left: 20px;
+}
 
-        .supersubmenu-item {
-            margin: 5px 0;
-        }
+.supersubmenu-item {
+    margin: 5px 0;
+}
 
-            #imagePreview {
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-                border: 1px solid #ddd;
-            }
+    #imagePreview {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        border: 1px solid #ddd;
+    }
     </style>
-
-
-
-</head>
-
-<body>
-
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
-
     <!-- Begin page -->
     <div id="layout-wrapper">
         <header id="page-topbar">
@@ -112,6 +104,7 @@
                             <i class="fa fa-fw fa-bars"></i>
                         </button>
                     </div>
+                    {% if user.is_superuser or user.role == "1" or user.role == "2" %}
                     <div class="dropdown">
                         <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -125,9 +118,9 @@
                                     <span>System Settings Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="enquiry">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-question-circle"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Enquiry</span>
                                     <span>Enquiry Descriptions</span>
                                 </div>
@@ -139,16 +132,16 @@
                                     <span>Scholar Register Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="accounts">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-rupee-sign"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Accounts</span>
                                     <span>Accounts Descriptions</span>
                                 </div>
-                            </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="fees-module">
+                            </a> 
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-cash-register"></i>
-                                <div class="item-text">
+                                <div  style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Fees Module</span>
                                     <span>Fees Module Descriptions</span>
                                 </div>
@@ -167,78 +160,79 @@
                                     <span>HR Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="examination">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-file-alt"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Examination</span>
                                     <span>Examination Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="library">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-book"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Library</span>
                                     <span>Library Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="transport">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-bus"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Transport</span>
                                     <span>Transport Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="hostel">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-bed"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Hostel</span>
                                     <span>Hostel Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="attendance">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-check-circle"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Attendance</span>
                                     <span>Attendance Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="mobile-module">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-mobile"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Mobile Module</span>
                                     <span>Mobile Module Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="visitor-master">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-male"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Visitor Master</span>
                                     <span>Visitor Master Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="task-management">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-tasks"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Task Management</span>
                                     <span>Task Management Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="store-inventory">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-home"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Store Inventory</span>
                                     <span>Store Inventory Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="online-examination">
+                            <a class="dropdown-item d-flex" href="#" data-menu="#">
                                 <i class="fas fa-laptopx"></i>
-                                <div class="item-text">
+                                <div style="color:#d8d8df;" class="item-text">
                                     <span class="item-title">Online Examination</span>
                                     <span>Online Examination Descriptions</span>
                                 </div>
                             </a>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="d-flex">
                     <div class="dropdown d-inline-block kala">
@@ -614,6 +608,7 @@
             listOfStudentType: "{% url 'institute:list_of_student_type' %}",
             listOfChildStatus: "{% url 'institute:list_of_child_status' %}",
             listOfRoles: "{% url 'institute:list_of_roles' %}",
+            sendSms:"{% url 'institute:send_sms' %}",
 
             <!--employee url for crete role in  dependent dropdown-->
             listOfEmployees : "{% url 'institute:list_of_employees' %}",

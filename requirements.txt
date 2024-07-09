@@ -73,4 +73,7 @@ crispy-bootstrap5
 #widget tweaks for formating and supporting style django forms fields in forms.py file
 django-widget-tweaks
 
+# twilio for sending sms to the users
+twilio
+
 # Any other dependencies specific to your project
