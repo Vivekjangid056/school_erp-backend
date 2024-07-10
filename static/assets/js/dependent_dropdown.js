@@ -97,13 +97,13 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <ul id="system-settings-session-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-signature"></i>Subjects for Class Groups</a>
+                    <a href="${urls.ssSubForClassGroup}"><i class="fas fa-signature"></i>Subjects for Class Groups</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-globe"></i>Sub-subjects</a>
+                    <a href="${urls.discountSection}"><i class="fas fa-globe"></i>Discount Scheme</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-layer-group"></i>Section</a>
+                    <a href="${urls.section}"><i class="fas fa-layer-group"></i>Section</a>
                 </li>
                 <!-- <li class="sidebar-item ">
                     <a href="#"><i class="fas fa-user-tag"></i>Class</a>
@@ -124,8 +124,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-globe"></i>Subject-wise Fee Installment</a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-globe"></i>Discount Scheme</a>
-                </li> -->
+                    <a href="#"><i class="fas fa-globe"></i>Sub-subjects</a>
+                </li>
+                -->
             </ul>
             <!--<a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-report-settings" aria-expanded="false" aria-controls="pages">
             <div>
@@ -323,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ,
         'scholar-register': `
         <li class="menu-title" key="t-menu">scholar-register</li>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.studentRegistration}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Student</span>
             </a>

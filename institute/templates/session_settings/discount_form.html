@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="card-header">
+        <div class="container">
+            {% if form.instance.pk %}
+                <h2>Modify Discount </h2>
+            {% else %}
+            <div >
+                <h2>Create Discount</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form | crispy }}
+            </div>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+{% endblock content %}

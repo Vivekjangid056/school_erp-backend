@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Data Tables</h4>
+            <h4 class="mb-sm-0 font-size-18">Fee Heads Tables</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -42,6 +42,7 @@
                         <tr>
                             <th>S.N</th>
                             <th>Fee Head Name</th>
+                            <th>Default Fee</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@
                         <tr>
                             <td>{{forloop.counter}}</td>
                             <td>{{fee_head.head_name}}</td>
+                            <td>{{fee_head.default_fees}}</td>
                             <td>
                                 <a href="{% url 'institute:update_fee_head' fee_head.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">

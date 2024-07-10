@@ -127,5 +127,22 @@ urlpatterns = [
     path('get_menu_data/', get_menu_data, name='get_menu_data'),
     # path('roles/<int:pk>/permissions/create/', permission_create, name='permission_create'),
 
-    path('send-sms', send_sms_view, name="send_sms")
+    path('send-sms', send_sms_view, name="send_sms"),
+
+    # urls for subject for class groups
+    path('sub-for-class-groups-list/', listSubForClassGroup.as_view(), name='list_of_sub_for_class_groups'),
+    path('add-sub-for-class-groups/', AddSubForClassGroup.as_view(), name='add_of_sub_for_class_groups'),
+    path('update-sub-for-class-groups/<int:pk>', UpdateSubForClassGroup.as_view(), name='update_of_sub_for_class_groups'),
+    path('delete-sub-for-class-groups/<int:pk>', DeleteSubForClassGroup.as_view(), name='delete_of_sub_for_class_groups'),
+
+    # url for section
+    path('section-list/', listOfSection.as_view(), name='list_of_section'),
+    path('add-section/', AddSection.as_view(), name='add_section'),
+    path('update-section/<int:pk>', UpdateSection.as_view(), name='update_section'),
+    path('delete-section/<int:pk>', DeleteSection.as_view(), name='delete_section'),
+    #url for discount section
+    path('discount-list/', listOfDiscountScheme.as_view(), name='list_of_discount'),
+    path('add-discount/', AddDiscountScheme.as_view(), name='add_discount'),
+    path('update-discount/<int:pk>', UpdateDiscountScheme.as_view(), name='update_discount'),
+    path('delete-discount/<int:pk>', DeleteDiscountScheme.as_view(), name='delete_discount'),
 ]

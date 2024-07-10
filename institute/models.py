@@ -253,16 +253,6 @@ class NextClass(models.Model):
 class SubjectForClassGroup(models.Model):
     pass
 
-
-class SessionSettingsClass(models.Model):
-    current_class = models.ForeignKey(Standard, on_delete=models.CASCADE)
-    next_class = models.ForeignKey(NextClass, on_delete=models.CASCADE)
-
-
-class Section(models.Model):
-    name = models.CharField(max_length=50)
-
-
 class ClassWiseSubjects(models.Model):
     subject_name = models.ForeignKey(Subjects, on_delete= models.CASCADE)
     compulsary = models.BooleanField(default= False)
@@ -277,3 +267,26 @@ class DocumentsRequired(models.Model):
     document_name = models.ForeignKey(Documents, on_delete= models.CASCADE)
     for_new = models.BooleanField(default=False)
     for_old = models.BooleanField(default=False)
+
+
+# List of session settings models
+class SubjectsForClassGroup(models.Model):
+    ALL = 'All'
+    SELECTED = 'Selected'
+    SUBJECT_TYPE_CHOICES = [
+        (ALL, 'All'),
+        (SELECTED, 'Selected'),
+    ]
+    name = models.ForeignKey(Standard, on_delete=models.CASCADE)
+    subject_type = models.CharField(
+        choices=SUBJECT_TYPE_CHOICES,
+        default=SELECTED,
+    )
+class Section(models.Model):
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+class DiscountScheme(models.Model):
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name

@@ -1,0 +1,350 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="container">
+        <h2>Create Students</h2>
+    </div>
+    <hr>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Render User Creation Form -->
+        <fieldset>
+            <legend>Student User Information</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ user_form.email|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ user_form.username|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ user_form.first_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ user_form.last_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ user_form.phone_number|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ user_form.password1|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ user_form.password2|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ user_form.role|as_crispy_field }}
+                </div>
+            </div>
+        </fieldset>
+        <hr>
+        <!-- Render Student Session Form -->
+        <fieldset>
+            <legend>Student Session Information</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ profile_form.session|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.form_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.date_of_admission|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.registration_date|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.stream|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.standard|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.section|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.date_of_deactivae|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.rte|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.bpl|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.installment_mode|as_crispy_field }}
+                </div>
+                <hr>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Basic Information</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ profile_form.prefix|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.suffix|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.sr_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.reg_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.admission_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.enroll_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.nationality|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mother_tongue|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.middle_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.gender|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.dob|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.student_aadhar|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.caste|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.religion|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.category|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.medium|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.rural_or_urban|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.disablity_type|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.blood_group|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.house_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.place_of_birth|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.staff_refrence|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.admission_confirm_date|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.board_type|as_crispy_field }}
+                </div>
+            </div>
+        </fieldset>
+        <hr><!-- Render Parent  Form -->
+        <fieldset>
+            <legend>Parent Information</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ profile_form.fathers_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.fathers_occupation|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.fathers_mob_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.fathers_email|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mothers_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mothers_occupation|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mothers_mob_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mothers_email|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.fahers_aadhar_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mothers_aadhar_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.father_annual_income|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mother_annual_income|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.father_qualification|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mother_qualification|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.father_pan_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.mother_pan_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.guardian_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.guardian_mobile|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.guardian_relation|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.fee_deposited_by|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.sms_mob_no|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.student_type|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.child_status|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.discount_scheme|as_crispy_field }}
+                </div>
+            </div>
+        </fieldset>
+        <hr><!-- Render Address  Form -->
+        <fieldset>
+            <legend>Address Information</legend>
+            <div class="row">
+                <div class="col-md-4">
+                    {{ profile_form.address1|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.address2|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.district|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.state|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.pin|as_crispy_field }}
+                </div>
+            </div>
+        </fieldset>
+        <hr><!-- Render Previous School Form -->
+        <fieldset>
+            <legend>Previous School Info</legend>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ profile_form.previous_school_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.previous_school_address|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.reason_of_leaving|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.previous_year|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.previous_class|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.obtain_marks|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.maximum_marks|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.percentage|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.result|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.previous_school_board|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.previous_school_rollNo|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.previous_school_class|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.third_lang_studied|as_crispy_field }}
+                </div>
+            </div>
+        </fieldset>
+        <hr>
+        <fieldset>
+            <legend>Photo Information</legend>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ profile_form.student_photo|as_crispy_field }}
+                </div>
+                <div class="col-md-6">
+                    {{ profile_form.fathers_photo|as_crispy_field }}
+                </div>
+                <div class="col-md-6">
+                    {{ profile_form.mothers_photo|as_crispy_field }}
+                </div>
+                <div class="col-md-6">
+                    {{ profile_form.guardians_photo|as_crispy_field }}
+                </div>
+            </div>
+        </fieldset>
+        <hr>
+        <fieldset>
+            <div class="row">
+                <div class="col-md-4">
+                    {{ profile_form.caution_money_reciept_no|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.caution_money_reciept_date|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.amount|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.counsellor_name|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.remark|as_crispy_field }}
+                </div>
+            </div>
+        </fieldset>
+        <hr>
+    </div>
+</div>
+<!-- Submit Button -->
+<div class="container">
+    <button type="submit" class="btn btn-primary col-md-2">Save</button>
+</div>
+</form>
+</div>
+{% endblock content %}

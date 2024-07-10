@@ -5,8 +5,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Student Type Tables</h4>
-
+            <h4 class="mb-sm-0 font-size-18">Section List </h4>
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <a href="{% url 'accounts:super-admin-login' %}">
@@ -15,42 +14,42 @@
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                 </ol>
             </div>
-
         </div>
     </div>
 </div>
 <!-- end page title -->
-{% if student_type_list %}
+{% if section_list %}
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_student_type' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
+            <!-- List of Institutes -->
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_section' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create </button></a>
         </div>
         <div class="card">
             <div class="card-body">
-
                 <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Student Type Name</th>
+                            <th>Section Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-
-
                     <tbody>
-                        {% for student_type in student_type_list %}
+                        {% for ss in section_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{student_type.name}}</td>
+                            <td>{{ss.name}}</td>
                             <td>
-                                <a href="{% url 'institute:update_student_type' student_type.pk %}"
+                                <a href="{% url 'institute:update_section' ss.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:student_type_delete' student_type.pk %}"><i class="fas fa-trash-alt"></i>
+                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal"
+                                    data-url="{% url 'institute:delete_section' ss.pk %}">
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
                         </tr>
@@ -65,26 +64,33 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_student_type' %}"><button
+            <!--                                    List of Institutes                                 -->
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_section' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
             <div class="card-body">
-
                 <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>student_type Name</th>
+                            <th>Section Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
-
 {% endif %}
-
 {% endblock table-content %}
+
+
+
+
+
+
+
+
+

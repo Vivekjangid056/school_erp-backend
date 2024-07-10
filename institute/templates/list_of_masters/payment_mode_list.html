@@ -5,12 +5,12 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Data Tables</h4>
+            <h4 class="mb-sm-0 font-size-18">Payment Mode Table</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <a href="{% url 'accounts:super-admin-login' %}">
-                        <li class="breadcrumb-item active">home</li>
+                        <li class="breadcrumb-item active"> home </li>
                     </a>
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                 </ol>
@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_caste' %}"><button
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_payment_mode' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
@@ -33,25 +33,25 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>Caste Name</th>
+                            <th>Payment Mode Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
 
-                    {% if caste_list %}
+                    {% if payment_mode_list %}
                     <tbody>
-                        {% for caste in caste_list %}
+                        {% for p in payment_mode_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{caste.name}}</td>
+                            <td>{{p.name}}</td>
                             <td>
-                                <a href="{% url 'institute:add_caste' %}" class="btn btn-sm btn-primary" title="Edit">
+                                <a href="{% url 'institute:update_payment_mode' p.pk %}" class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'institute:caste_delete' caste.pk %}"><i class="fas fa-trash-alt"></i>
+                                    data-url="{% url 'institute:payment_mode_delete' p.pk %}"><i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
                         </tr>

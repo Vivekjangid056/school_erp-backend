@@ -356,7 +356,7 @@ class EnquiryTypeDeleteView(DeleteView):
 class AddPaymentMode(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = PaymentModeForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_payment_mode')
 
     def form_valid(self, form):
         form.save()
@@ -929,3 +929,83 @@ def send_sms_view(request):
             print(f"SMS sent to {user.phone_number}, SID: {result}")
         else:
             print(f"Failed to send SMS to {user.phone_number}: {result}")
+
+
+class AddSubForClassGroup(CreateView):
+    template_name = "session_settings/ss_sub_for_groups_form.html"
+    form_class = SubjectsForClassGroupForm
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+class listSubForClassGroup(ListView):
+    template_name = "session_settings/ss_sub_for_groups_list.html"
+    model = SubjectsForClassGroup
+    context_object_name = 'subject_for_class_group_list'
+class UpdateSubForClassGroup(UpdateView):
+    model = SubjectsForClassGroup
+    form_class = SubjectsForClassGroupForm
+    context_object_name = "form"
+    template_name = 'session_settings/ss_sub_for_groups_form.html'
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+    def form_valid(self, form):
+        messages.success(self.request, "Institute updated successfully!")
+        return super().form_valid(form)
+class DeleteSubForClassGroup(DeleteView):
+    model = SubjectsForClassGroup
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+class AddSubForClassGroup(CreateView):
+    template_name = "session_settings/ss_sub_for_groups_form.html"
+    form_class = SubjectsForClassGroupForm
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+# for section in session settings
+class AddSection(CreateView):
+    template_name = "session_settings/section_form.html"
+    form_class = SectionForm
+    success_url = reverse_lazy('institute:list_of_section')
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+class listOfSection(ListView):
+    template_name = "session_settings/section_list.html"
+    model = Section
+    context_object_name = 'section_list'
+class UpdateSection(UpdateView):
+    model = Section
+    form_class = SectionForm
+    context_object_name = "form"
+    template_name = 'session_settings/section_form.html'
+    success_url = reverse_lazy('institute:list_of_section')
+    def form_valid(self, form):
+        messages.success(self.request, "Institute updated successfully!")
+        return super().form_valid(form)
+class DeleteSection(DeleteView):
+    model = Section
+    success_url = reverse_lazy('institute:list_of_section')
+# for discount scheme in session settings
+class AddDiscountScheme(CreateView):
+    template_name = "session_settings/discount_form.html"
+    form_class = DiscountSchemeForm
+    success_url = reverse_lazy('institute:list_of_discount')
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+class listOfDiscountScheme(ListView):
+    template_name = "session_settings/discount_list.html"
+    model = DiscountScheme
+    context_object_name = 'discount_list'
+class UpdateDiscountScheme(UpdateView):
+    model = DiscountScheme
+    form_class = DiscountSchemeForm
+    context_object_name = "form"
+    template_name = 'session_settings/discount_form.html'
+    success_url = reverse_lazy('institute:list_of_discount')
+    def form_valid(self, form):
+        messages.success(self.request, "discount updated successfully!")
+        return super().form_valid(form)
+class DeleteDiscountScheme(DeleteView):
+    model = DiscountScheme
+    success_url = reverse_lazy('institute:list_of_discount')

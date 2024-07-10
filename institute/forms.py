@@ -232,6 +232,18 @@ class EmployeeProfileForm(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ['employee_name', 'staff_role', 'middle_name', 'nick_name', 'position', 'confirm_email', 'user_image']
-    
 
 
+# form for session settingsd
+class SubjectsForClassGroupForm(forms.ModelForm):
+    class Meta:
+        model = SubjectsForClassGroup
+        fields = "__all__"
+class SectionForm(forms.ModelForm):
+    class Meta:
+        model = Section
+        fields = "__all__"
+class DiscountSchemeForm(forms.ModelForm):
+    class Meta:
+        model = DiscountScheme
+        fields = "__all__"
