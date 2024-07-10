@@ -585,7 +585,7 @@
             {% if user.is_superuser %}
             instituteList: "{% url 'accounts:institute_list' %}",
             {% else %}
-            instituteList: "{% url 'institute:list_of_signatures' %}",
+            instituteList: "{% url 'institute:institute_profile' %}",
             {% endif %}
             addInstitute: "{% url 'accounts:add_institute' %}",
             listOfSignature: "{% url 'institute:list_of_signatures' %}",

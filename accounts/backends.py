@@ -2,7 +2,9 @@ from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth import get_user_model
 from accounts.models import User
 
+
 class SecondaryEmailBackend(BaseBackend):
+
     def authenticate(self, request, email=None, password=None, **kwargs):
         UserModel = get_user_model()
         try:

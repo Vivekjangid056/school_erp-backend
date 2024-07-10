@@ -13,12 +13,12 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 def admin_login(request):
     if request.user.is_authenticated:
         return redirect("dashboard/")
-    
+
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
-        
-        user = authenticate(request, email=email, password=password)        
+
+        user = authenticate(request, email=email, password=password)
         if user is not None:
             if isinstance(user, User) and (user.is_superuser or user.role == '1'):
                 login(request, user)
@@ -30,12 +30,16 @@ def admin_login(request):
                 login(request, user)
                 return redirect('/dashboard/')
             else:
-                messages.info(request, 'You do not have permission to access the admin dashboard.')
+                messages.info(
+                    request,
+                    'You do not have permission to access the admin dashboard.'
+                )
         else:
-            messages.info(request, 'Invalid email or password. Please try again.')
-        
+            messages.info(request,
+                          'Invalid email or password. Please try again.')
+
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    
+
     return render(request, 'admin_login.html')
 
 
@@ -44,17 +48,17 @@ def admin_dashboard(request):
     user = request.user
     user_id = user.id
     print(user_id)
-    institutes = Institute.objects.filter(user_id = user_id)
+    institutes = Institute.objects.filter(user_id=user_id)
     print(institutes)
     context = {
-        'user' : user,
+        'user': user,
     }
     return render(request, 'dashboard.html', context)
 
 
 def logout_view(request):
     logout(request)
-    return redirect('accounts:super-admin-login') 
+    return redirect('accounts:super-admin-login')
 
 
 class InstituteList(ListView):
@@ -73,7 +77,7 @@ class InstituteUpdateView(UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Institute updated successfully!")
         return super().form_valid(form)
-    
+
 
 class InstituteRegisterView(CreateView):
     template_name = 'institute_register.html'
@@ -91,7 +95,7 @@ class InstituteRegisterView(CreateView):
         self.object = None
         form = self.get_form()
         profile_form = self.second_form_class(request.POST, request.FILES)
-        
+
         print(f"User Form Errors: {form.errors}")
         print(f"Profile Form Errors: {profile_form.errors}")
 
@@ -102,7 +106,8 @@ class InstituteRegisterView(CreateView):
 
     def form_valid(self, form, profile_form):
         user = form.save(commit=False)
-        user.set_password(form.cleaned_data['password1'])  # Handle password setting
+        user.set_password(
+            form.cleaned_data['password1'])  # Handle password setting
         user.save()
         profile = profile_form.save(commit=False)
         profile.user_id = user  # Set the admin field to the newly created admin
@@ -111,9 +116,8 @@ class InstituteRegisterView(CreateView):
 
     def form_invalid(self, form, profile_form):
         return self.render_to_response(
-            self.get_context_data(form=form, profile_form=profile_form)
-        )
-    
+            self.get_context_data(form=form, profile_form=profile_form))
+
 
 class InstituteDeleteView(DeleteView):
     model = Institute
@@ -128,4 +132,3 @@ class InstituteDeleteView(DeleteView):
 #         if elapsed_time > settings.SESSION_COOKIE_AGE:
 #             return redirect('logout')  # Redirect to your logout view or URL
 #     request.session['last_activity'] = timezone.now()
-

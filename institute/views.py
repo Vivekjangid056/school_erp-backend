@@ -12,9 +12,12 @@ from .utils import send_sms
 
 def institute_profile(request):
     user = request.user
+    print(user)
     user_id = user.id
-    institute = Institute.objects.filter(user_id = user_id)
-    return render(request, 'institute_profile.html')
+    print(user_id)
+    institute = Institute.objects.filter(user_id = user_id).first()
+    print(institute)
+    return render(request, 'institute_profile.html', {'institute': institute, 'user':user})
 
 
 

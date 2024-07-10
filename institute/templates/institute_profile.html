@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .profile-header {
+            background-color: #ffe65b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .profile-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        .list-group {
+            margin-bottom: 20px;
+        }
+        .bio-graph-info {
+            padding: 20px;
+            background-color: white;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .task-info {
+            padding: 20px;
+            background-color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .task-info h4 {
+            color: #777;
+            margin-bottom: 10px;
+        }
+        .bio-graph-info .row {
+            margin-bottom: 10px;
+        }
+        .bio-graph-info p {
+            margin: 0;
+        }
+    </style>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-header">
+                <img src="https://via.placeholder.com/100" alt="Profile Picture">
+                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                <p>{{ user.email }}</p>
+            </div>
+            <div class="list-group">
+                <a href="{% url 'institute:institute_profile' %}" class="list-group-item list-group-item-action">Profile</a>
+                <a href="#" class="list-group-item list-group-item-action">Recent Activity</a>
+                <a href="{% url 'accounts:institute_update' institute.pk %}" class="list-group-item list-group-item-action">Edit Profile</a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="bio-graph-info">
+                <h3>Bio Graph</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Institute Name: </strong> {{ institute.institute_name }}</p>
+                        <p><strong>Branch Name: </strong> {{ institute.branch_name }}</p>
+                        <p><strong>Address 1: </strong> {{ institute.address1 }}</p>
+                        <p><strong>Address 2: </strong> {{ institute.address2 }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Registration Number: </strong> {{ institute.registration_number }}</p>
+                        <p><strong>Billing Name: </strong> {{ institute.billing_name }}</p>
+                        <p><strong>State: </strong> {{ institute.state | slice:"0:10" }}</p>
+                        <p><strong>District: </strong> {{ institute.district |slice:"0:10" }}</p>
+                        <p><strong>Pin: </strong> {{ institute.pin }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Task info sections can remain the same -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="task-info">
+                        <h4>Envato Website</h4>
+                        <p>Started: 15 July</p>
+                        <p>Deadline: 15 August</p>
+                        <p>Progress: <strong>35%</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="task-info">
+                        <h4>ThemeForest CMS</h4>
+                        <p>Started: 15 July</p>
+                        <p>Deadline: 15 August</p>
+                        <p>Progress: <strong>63%</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="task-info">
+                        <h4>VectorLab Portfolio</h4>
+                        <p>Started: 15 July</p>
+                        <p>Deadline: 15 August</p>
+                        <p>Progress: <strong>75%</strong></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="task-info">
+                        <h4>Adobe Muse Template</h4>
+                        <p>Started: 15 July</p>
+                        <p>Deadline: 15 August</p>
+                        <p>Progress: <strong>50%</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
