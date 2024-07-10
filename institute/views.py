@@ -349,7 +349,7 @@ class EnquiryTypeDeleteView(DeleteView):
 class AddPaymentMode(FormView):
     template_name = "list_of_masters/lom_form.html"
     form_class = PaymentModeForm
-    success_url = reverse_lazy('institute:institute_list')
+    success_url = reverse_lazy('institute:list_of_payment_mode')
 
     def form_valid(self, form):
         form.save()

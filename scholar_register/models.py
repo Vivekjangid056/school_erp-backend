@@ -2,8 +2,8 @@ from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
 from django.db.models import UniqueConstraint
-from accounts.models import User
-from institute.models import Caste, Category, ChildStatus, DiscountScheme, House, Medium, MotherToungue, Nationality, Religion, Section, Standard, StudentType
+from accounts.models import Institute, User
+from institute.models import Caste, Category, ChildStatus, DiscountScheme, FeeInstallments, House, Medium, MotherToungue, Nationality, PaymentMode, Religion, Section, Standard, StudentType
 # Create your models here.
 
 # model for student registration
@@ -53,7 +53,8 @@ class StudentProfile(models.Model):
         ('O- ',' O-')
     )
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    # institute = models.ForeignKey(Institute, on_delete = models.CASCADE)
     session = models.CharField(max_length=100)
     form_no = models.BigIntegerField()
     date_of_admission = models.DateField()
@@ -64,7 +65,7 @@ class StudentProfile(models.Model):
     date_of_deactivae = models.DateField(blank=True) #optional
     rte = models.BooleanField(default=False)
     bpl = models.BooleanField(default=False)
-    installment_mode = models.CharField(max_length=100)
+    installment_mode = models.ForeignKey(FeeInstallments,on_delete=models.CASCADE)
     # basic info
     prefix = models.CharField(max_length=100)
     suffix = models.CharField(max_length=100)
