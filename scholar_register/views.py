@@ -10,6 +10,7 @@ def student_list(request):
         'students':students
     }
     return render(request, 'students_list.html',context=context)
+
 def student_register(request):
     if request.method == 'POST':
         user_form = StudentUserCreationForm(request.POST)

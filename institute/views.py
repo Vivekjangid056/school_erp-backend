@@ -887,8 +887,8 @@ def create_employee(request):
 
 # Update the employee
 def update_employee(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    profile = get_object_or_404(Employee, user=user)
+    profile = get_object_or_404(Employee, pk=pk)
+    user = get_object_or_404(User, pk=profile.user.id)
 
     if request.method == 'POST':
         user_form = EmployeeRegistrationForm(request.POST, instance=user)
@@ -930,6 +930,7 @@ def send_sms_view(request):
         else:
             print(f"Failed to send SMS to {user.phone_number}: {result}")
 
+#<------------------------ for SubFOrClassGroup in session settings ---------------------------------->
 
 class AddSubForClassGroup(CreateView):
     template_name = "session_settings/ss_sub_for_groups_form.html"
@@ -938,10 +939,12 @@ class AddSubForClassGroup(CreateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+    
 class listSubForClassGroup(ListView):
     template_name = "session_settings/ss_sub_for_groups_list.html"
     model = SubjectsForClassGroup
     context_object_name = 'subject_for_class_group_list'
+    
 class UpdateSubForClassGroup(UpdateView):
     model = SubjectsForClassGroup
     form_class = SubjectsForClassGroupForm
@@ -951,9 +954,11 @@ class UpdateSubForClassGroup(UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Institute updated successfully!")
         return super().form_valid(form)
+    
 class DeleteSubForClassGroup(DeleteView):
     model = SubjectsForClassGroup
     success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+    
 class AddSubForClassGroup(CreateView):
     template_name = "session_settings/ss_sub_for_groups_form.html"
     form_class = SubjectsForClassGroupForm
@@ -961,7 +966,8 @@ class AddSubForClassGroup(CreateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-# for section in session settings
+    
+#<------------------------ for section in session settings ---------------------------------->
 class AddSection(CreateView):
     template_name = "session_settings/section_form.html"
     form_class = SectionForm
@@ -969,6 +975,7 @@ class AddSection(CreateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+    
 class listOfSection(ListView):
     template_name = "session_settings/section_list.html"
     model = Section
@@ -985,7 +992,8 @@ class UpdateSection(UpdateView):
 class DeleteSection(DeleteView):
     model = Section
     success_url = reverse_lazy('institute:list_of_section')
-# for discount scheme in session settings
+    
+#<------------------------ for section in Add Discount Scheme Settings ---------------------------------->
 class AddDiscountScheme(CreateView):
     template_name = "session_settings/discount_form.html"
     form_class = DiscountSchemeForm

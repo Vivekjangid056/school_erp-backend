@@ -55,10 +55,11 @@
                             <td>{{fee_head.default_fees}}</td>
                             <td>
                                 <a href="{% url 'institute:update_fee_head' fee_head.pk %}"
-                                    class="btn btn-sm btn-primary" title="Edit">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    class="btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
+                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:fee_head_delete' fee_head.pk %}">
+                                <button class="btn btn-sm btn-danger"  
+style="padding:0.001rem" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:fee_head_delete' fee_head.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

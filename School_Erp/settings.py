@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'widget_tweaks',
     'teacher_management',
-    'scholar_register'
+    'scholar_register',
+    'hr',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'

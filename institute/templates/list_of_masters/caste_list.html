@@ -46,14 +46,14 @@
                     <tbody>
                         {% for caste in caste_list %}
                         <tr>
-                            <td>{{forloop.counter}}</td>
-                            <td>{{caste.name}}</td>
+                            <td> {{forloop.counter}} </td>
+                            <td> {{caste.name}} </td>
                             <td>
-                                <a href="{% url 'institute:update_caste' caste.pk %}"
-                                    class="btn btn-sm btn-primary" title="Edit">
-                                    <i class="fas fa-pencil-alt"></i>
+                                <a href = "{% url 'institute:update_caste' caste.pk %}"
+                                    class = "btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
+                                     <i class = "fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:caste_delete' caste.pk %}">
+                                <button class = "btn btn-sm btn-danger" style="padding:0.001rem" title="Delete" data-bs-toggle = "modal" data-bs-target = "#deleteModal" data-url = "{% url 'institute:caste_delete' caste.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

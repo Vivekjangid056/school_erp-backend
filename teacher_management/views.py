@@ -165,7 +165,7 @@ class UpdateHolidayList(UpdateView):
 # ============================== Employee Master CRUD ================================
 def employee_master_create_view(request):
     if request.method == "POST":
-        form = EmployeeMasterForm(request.POST)
+        form = EmployeeMasterForm(request.POST,request.FILES)
         if form.is_valid():
             try:
                 form.save()
@@ -187,7 +187,7 @@ class EmployeeMasterList(ListView):
 def employee_master_update(request, pk):
     employee = get_object_or_404(EmployeeMaster, pk=pk)
     if request.method == "POST":
-        form = EmployeeMasterForm(request.POST, instance=employee)
+        form = EmployeeMasterForm(request.POST,request.FILES, instance=employee)
         if form.is_valid():
             form.save()
             return redirect('teacher:list_of_employee_master')  # Replace with your actual redirect URL

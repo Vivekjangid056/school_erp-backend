@@ -840,7 +840,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <ul id="hr-employee" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-signature"></i>Create Employee</a>
+                    <a href="${urls.listOfMastersList}"><i class="fas fa-signature"></i>Create Employee</a>
                 </li>
                 <li class="sidebar-item ">
                     <a href="#"><i class="fas fa-user-tag"></i>Upload DocumentSalary StructureI</a>
@@ -900,7 +900,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Monthly Attendance</a>
                 </li>
             </ul>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.hrInterviewList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Interview</span>
             </a>
