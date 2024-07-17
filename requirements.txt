@@ -76,4 +76,6 @@ django-widget-tweaks
 # twilio for sending sms to the users
 twilio
 
+# bleach for passing the html content in form textarea
+bleach
 # Any other dependencies specific to your project

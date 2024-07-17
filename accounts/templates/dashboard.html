@@ -2,6 +2,71 @@
 {% load static %}
 
 {% block content %}
+<style>
+    .profile-header {
+        background-color: #ffe65b;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .profile-header img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 3px solid white;
+    }
+    .profile-info {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .profile-info h3 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .profile-info p {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-4">
+        <div class="profile-header">
+            <img src="{{institute.profile_image.url}}" alt="Profile Picture">
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+            <p>{{ user.email }}</p>
+        </div>
+        <div class="list-group">
+            <a href="{% url 'institute:institute_profile' %}" class="list-group-item list-group-item-action">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action">Recent Activity</a>
+            {% comment %} <a href="{% url 'accounts:institute_update' institute.pk %}" class="list-group-item list-group-item-action">Edit Profile</a> {% endcomment %}
+        </div>
+    </div>
+        <div class="col-md-8 profile-info">
+            <h3>Institute Details</h3>
+            <p><strong>Registration Number:</strong> {{ institute.registration_number }}</p>
+            <p><strong>Institute Name:</strong> {{ institute.institute_name }}</p>
+            <p><strong>Branch Name:</strong> {{ institute.branch_name }}</p>
+            <p><strong>Address 1:</strong> {{ institute.address1 }}</p>
+            <p><strong>Address 2:</strong> {{ institute.address2 }}</p>
+            <p><strong>Billing Name:</strong> {{ institute.billing_name }}</p>
+            {% comment %} <p><strong>State:</strong> {{ institute.state }}</p>
+            <p><strong>District:</strong> {{ institute.district }}</p>
+            <p><strong>Pin:</strong> {{ institute.pin }}</p>
+            <p><strong>Mobile Number:</strong> {{ institute.mobile_number }}</p>
+            <p><strong>Institute Email:</strong> {{ institute.institute_email }}</p>
+            <p><strong>Website:</strong> <a href="{{ institute.website }}" target="_blank">{{ institute.website }}</a></p>
+            <p><strong>Principal Name:</strong> {{ institute.principal_name }}</p>
+            <p><strong>Account Start Year:</strong> {{ institute.acc_start_year }}</p>
+            <p><strong>Session Start Month:</strong> {{ institute.session_start_month }}</p>
+            <p><strong>Accredited By:</strong> {{ institute.accredited_by }}</p> {% endcomment %}
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-3">
         <div class="card dashboard-card bg-purple">

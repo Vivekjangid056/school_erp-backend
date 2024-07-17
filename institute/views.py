@@ -631,7 +631,7 @@ class AddNameOfBank(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-    
+
 class ListofNameOfTheBank(ListView):
     model = NameOfTheBank
     template_name = "list_of_masters/name_of_bank_list.html"
@@ -661,7 +661,7 @@ class AddStudentType(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-    
+
 class ListofStudentType(ListView):
     model = StudentType
     template_name = "list_of_masters/student_type_list.html"
@@ -691,7 +691,7 @@ class AddChildStatus(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-    
+
 class ListofChildStatus(ListView):
     model = ChildStatus
     template_name = "list_of_masters/child_status_list.html"
@@ -713,7 +713,7 @@ class ChildStatusDeleteView(DeleteView):
     success_url = reverse_lazy('institute:list_of_child_status')
 
 
-# working on role Element
+# ============================================ working on role Element ==================================
 def permission_create(request, role_id):
     role = get_object_or_404(InstituteRole, id=role_id)
     if request.method == 'POST':
@@ -725,6 +725,7 @@ def permission_create(request, role_id):
             return redirect('update_role', role_id=role.id)
     return redirect('role_update', role_id=role.id)
 
+# ========================================== menu data crud =============================================
 
 def get_menu_data(request):
     main_menu_id = request.GET.get('main_menu_id')
@@ -752,7 +753,7 @@ def get_menu_data(request):
     return JsonResponse({'error': 'Invalid Main Menu ID'}, status=400)
 
 
-# Create The Role and assign the permission at the same time
+# ================== Create The Role and assign the permission at the same time =====================
 def role_create(request):
     if request.method == 'POST':
         form = InstituteRoleForm(request.POST)
@@ -887,9 +888,8 @@ def create_employee(request):
 
 # Update the employee
 def update_employee(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    profile = get_object_or_404(Employee, user=user)
-
+    profile = get_object_or_404(Employee, pk=pk)
+    user = get_object_or_404(User, pk= profile.user.id)
     if request.method == 'POST':
         user_form = EmployeeRegistrationForm(request.POST, instance=user)
         profile_form = EmployeeProfileForm(request.POST, request.FILES, instance=profile)
@@ -914,34 +914,51 @@ def update_employee(request, pk):
         profile_form = EmployeeProfileForm(instance=profile)
         return render(request, 'employee/update_employee.html', {'user_form': user_form, 'profile_form': profile_form})
 
-
 # Delete Employee data
 class EmployeeDeleteView(DeleteView):
     model = Employee
     success_url = reverse_lazy('institute:list_of_employees')
 
+# ===================================== Notification CRUD ============================================
+def notification_create_view(request):
+    if request.method == 'POST':
+        form = NotificationModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('institute:list_of_notifications')  # Redirect to a list view or another appropriate view
+    else:
+        form = NotificationModelForm()
+    return render(request, 'notification_form.html', {'form': form})
 
-def send_sms_view(request):
-    users = User.objects.filter(phone_number = '6377169498')
-    for user in users:
-        success, result = send_sms(user.phone_number, "Your message here")
-        if success:
-            print(f"SMS sent to {user.phone_number}, SID: {result}")
-        else:
-            print(f"Failed to send SMS to {user.phone_number}: {result}")
+
+def notification_update_view(request, pk):
+    notification = get_object_or_404(NotificationModel, pk=pk)
+    if request.method == 'POST':
+        form = NotificationModelForm(request.POST, request.FILES, instance=notification)
+        if form.is_valid():
+            form.save()
+            return redirect('institute:list_of_notifications')  # Redirect to the detail view or another appropriate view
+    else:
+        form = NotificationModelForm(instance=notification)
+    return render(request, 'notification_form.html', {'form': form})
 
 
-class AddSubForClassGroup(CreateView):
-    template_name = "session_settings/ss_sub_for_groups_form.html"
-    form_class = SubjectsForClassGroupForm
-    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+class NotificationsListView(ListView):
+    model = NotificationModel
+    template_name = "notification_list.html"
+    context_object_name = 'notifications_list' 
+
+class NotificationDeleteView(DeleteView):
+    model = NotificationModel
+    success_url = reverse_lazy('institute:list_of_notifications')
+
+
+# ================================= subject for class groups data crud ================================
 class listSubForClassGroup(ListView):
     template_name = "session_settings/ss_sub_for_groups_list.html"
     model = SubjectsForClassGroup
     context_object_name = 'subject_for_class_group_list'
+
 class UpdateSubForClassGroup(UpdateView):
     model = SubjectsForClassGroup
     form_class = SubjectsForClassGroupForm
@@ -951,9 +968,12 @@ class UpdateSubForClassGroup(UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Institute updated successfully!")
         return super().form_valid(form)
+
+
 class DeleteSubForClassGroup(DeleteView):
     model = SubjectsForClassGroup
     success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+
 class AddSubForClassGroup(CreateView):
     template_name = "session_settings/ss_sub_for_groups_form.html"
     form_class = SubjectsForClassGroupForm
@@ -961,7 +981,9 @@ class AddSubForClassGroup(CreateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-# for section in session settings
+
+
+# =============================== for section in session settings ===================================
 class AddSection(CreateView):
     template_name = "session_settings/section_form.html"
     form_class = SectionForm
@@ -969,10 +991,13 @@ class AddSection(CreateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
 class listOfSection(ListView):
     template_name = "session_settings/section_list.html"
     model = Section
     context_object_name = 'section_list'
+
 class UpdateSection(UpdateView):
     model = Section
     form_class = SectionForm
@@ -982,10 +1007,13 @@ class UpdateSection(UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Institute updated successfully!")
         return super().form_valid(form)
+
+
 class DeleteSection(DeleteView):
     model = Section
     success_url = reverse_lazy('institute:list_of_section')
-# for discount scheme in session settings
+
+#  =============================== for discount scheme in session settings ===========================
 class AddDiscountScheme(CreateView):
     template_name = "session_settings/discount_form.html"
     form_class = DiscountSchemeForm
@@ -993,10 +1021,13 @@ class AddDiscountScheme(CreateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
 class listOfDiscountScheme(ListView):
     template_name = "session_settings/discount_list.html"
     model = DiscountScheme
     context_object_name = 'discount_list'
+
 class UpdateDiscountScheme(UpdateView):
     model = DiscountScheme
     form_class = DiscountSchemeForm
@@ -1006,6 +1037,7 @@ class UpdateDiscountScheme(UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "discount updated successfully!")
         return super().form_valid(form)
+
 class DeleteDiscountScheme(DeleteView):
     model = DiscountScheme
     success_url = reverse_lazy('institute:list_of_discount')

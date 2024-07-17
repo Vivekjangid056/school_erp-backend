@@ -189,4 +189,4 @@ class Employee(models.Model):
     user_image = models.ImageField(upload_to='images/',blank=True,null=True)  #optional
     
     def __str__(self):
-        return self.employee_name
+        return self.employee_name.first_name

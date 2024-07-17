@@ -119,7 +119,7 @@ urlpatterns = [
     path('add-employee/', create_employee, name='add_employee'),
     path('update-employee/<int:pk>', update_employee, name="update_employee"),
     path('delete-employee/<int:pk>', EmployeeDeleteView.as_view(), name="delete_employee"),
-
+    # 
     path('add-role', role_create, name = 'add_role'),
     path('roles-list/', role_list, name='list_of_roles'),
     path('update-role/<int:pk>', role_update, name='update_role'),
@@ -127,7 +127,10 @@ urlpatterns = [
     path('get_menu_data/', get_menu_data, name='get_menu_data'),
     # path('roles/<int:pk>/permissions/create/', permission_create, name='permission_create'),
 
-    path('send-sms', send_sms_view, name="send_sms"),
+    path('notification-list', NotificationsListView.as_view(), name="list_of_notifications"),
+    path('add_notification', notification_create_view, name="add_notification"),
+    path('delete_notification/<int:pk>', NotificationDeleteView.as_view(), name="delete_notification"),
+    path('update_notification/<int:pk>', notification_update_view, name="update_notification"),
 
     # urls for subject for class groups
     path('sub-for-class-groups-list/', listSubForClassGroup.as_view(), name='list_of_sub_for_class_groups'),
@@ -140,6 +143,7 @@ urlpatterns = [
     path('add-section/', AddSection.as_view(), name='add_section'),
     path('update-section/<int:pk>', UpdateSection.as_view(), name='update_section'),
     path('delete-section/<int:pk>', DeleteSection.as_view(), name='delete_section'),
+
     #url for discount section
     path('discount-list/', listOfDiscountScheme.as_view(), name='list_of_discount'),
     path('add-discount/', AddDiscountScheme.as_view(), name='add_discount'),

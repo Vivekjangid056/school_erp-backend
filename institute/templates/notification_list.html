@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Data Tables</h4>
+            <h4 class="mb-sm-0 font-size-18">Notifications List Tables</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -17,21 +17,22 @@
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                 </ol>
             </div>
+
         </div>
     </div>
 </div>
 <!-- end page title -->
-{% if 'employees' %}
+{% if 'notifications_list' %}
 
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
 
-            <!--==================================== List of Institutes ====================================-->
+            <!--                                    List of Institutes                                 -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_employee' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
-            </a>
+
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_notification' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
             <div class="card-body">
@@ -40,29 +41,25 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>User Name</th>
-                            <th>Email</th>
+                            <th>Notification Title</th>
+                            <th>Notification description</th>
                             <th>Action</th>
                         </tr>
                     </thead>
+
+
                     <tbody>
-                        {% for employee in employees %}
+                        {% for notification in notifications_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{employee.user.first_name}}</td>
-                            <td>{{employee.user.last_name}}</td>
-                            <td>{{employee.user.username}}</td>
-                            <td>{{employee.user.email}}</td>
+                            <td>{{notification.title}}</td>
+                            <td>{{ notification.description|safe }}</td>
                             <td>
-                                <a href="{% url 'institute:update_employee' employee.pk %}"
+                                <a href="{% url 'institute:update_notification' notification.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal"
-                                    data-url="{% url 'institute:delete_employee' employee.pk %}">
+                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:delete_notification' notification.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -78,12 +75,8 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-
-        <!--===================================== List of Institutes ======================================-->
-
-            <a style="text-decoration:none; color:white" href="{% url 'institute:add_employee' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
-                </a>
+            <a style="text-decoration:none; color:white" href="{% url 'institute:add_notification' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
             <div class="card-body">
@@ -92,10 +85,7 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>User Name</th>
-                            <th>Email</th>
+                            <th>Notification Title</th>
                             <th>Action</th>
                         </tr>
                     </thead>

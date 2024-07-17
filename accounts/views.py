@@ -47,11 +47,10 @@ def admin_login(request):
 def admin_dashboard(request):
     user = request.user
     user_id = user.id
-    print(user_id)
-    institutes = Institute.objects.filter(user_id=user_id)
-    print(institutes)
+    institute = Institute.objects.filter(user_id=user_id).first()
     context = {
         'user': user,
+        'institute': institute
     }
     return render(request, 'dashboard.html', context)
 

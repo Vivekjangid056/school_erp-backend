@@ -282,11 +282,29 @@ class SubjectsForClassGroup(models.Model):
         choices=SUBJECT_TYPE_CHOICES,
         default=SELECTED,
     )
+
+
 class Section(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
+    
+
 class DiscountScheme(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
+
+
+class NotificationModel(models.Model):
+    INSTITUTE = "1"
+    TEACHER = "2"
+
+    SENDER_CHOICES = [
+        (TEACHER, 'Teacher'),
+        (INSTITUTE, 'Institute'),
+    ]
+    user = models.CharField(choices=SENDER_CHOICES, default=INSTITUTE)
+    title = models.CharField(max_length=200)
+    description = models.TextField(max_length=1000)
+    document = models.FileField(upload_to='documents/', max_length=100)

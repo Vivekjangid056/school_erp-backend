@@ -1,3 +1,4 @@
+import bleach
 from django import forms
 from .models import *
 from teacher_management.models import Employee, EmployeeMaster
@@ -239,11 +240,29 @@ class SubjectsForClassGroupForm(forms.ModelForm):
     class Meta:
         model = SubjectsForClassGroup
         fields = "__all__"
+
+    
 class SectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = "__all__"
+
+    
 class DiscountSchemeForm(forms.ModelForm):
     class Meta:
         model = DiscountScheme
         fields = "__all__"
+
+    
+class NotificationModelForm(forms.ModelForm):
+    class Meta:
+        model = NotificationModel
+        fields = "__all__"
+
+    def clean_description(self):
+        description = self.cleaned_data['description']
+        # Allow only specific HTML tags and attributes
+        allowed_tags = ['p', 'b', 'i', 'u', 'em', 'strong', 'a']
+        allowed_attributes = {'a': ['href', 'title']}
+        cleaned_description = bleach.clean(description, tags=allowed_tags, attributes=allowed_attributes, strip=True)
+        return cleaned_description

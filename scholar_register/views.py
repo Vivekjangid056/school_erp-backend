@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from accounts.models import User
 from scholar_register.models import StudentProfile
 from .forms import StudentUserCreationForm, StudentProfileForm
+
 # Create your views here.
 def student_list(request):
     students = StudentProfile.objects.all()
@@ -10,6 +11,7 @@ def student_list(request):
         'students':students
     }
     return render(request, 'students_list.html',context=context)
+
 def student_register(request):
     if request.method == 'POST':
         user_form = StudentUserCreationForm(request.POST)
@@ -59,3 +61,6 @@ def student_delete(request, pk):
     student_profile.delete()
     user.delete()
     return redirect('students:list_of_students')
+
+
+

@@ -5,12 +5,12 @@
     <div class="container">
         <h2>Create Students</h2>
     </div>
-    <hr>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <!-- Render User Creation Form -->
         <fieldset>
-            <legend>Student User Information</legend>
+            <legend class="card-header bg-secondary bg-gradient d-flex flex-vertical justify-content-center">
+                Parent's Authentication Information</legend>
             <div class="row">
                 <div class="col-md-3">
                     {{ user_form.email|as_crispy_field }}
@@ -339,7 +339,7 @@
             </div>
         </fieldset>
         <hr>
-    </div>
+</div>
 </div>
 <!-- Submit Button -->
 <div class="container">

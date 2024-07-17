@@ -61,7 +61,7 @@
             <div class="list-group">
                 <a href="{% url 'institute:institute_profile' %}" class="list-group-item list-group-item-action">Profile</a>
                 <a href="#" class="list-group-item list-group-item-action">Recent Activity</a>
-                <a href="{% url 'accounts:institute_update' institute.pk %}" class="list-group-item list-group-item-action">Edit Profile</a>
+                {% comment %} <a href="{% url 'accounts:institute_update' institute.pk %}" class="list-group-item list-group-item-action">Edit Profile</a> {% endcomment %}
             </div>
         </div>
         <div class="col-md-8">

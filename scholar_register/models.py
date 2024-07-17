@@ -94,20 +94,20 @@ class StudentProfile(models.Model):
     
     # parent info
     fathers_name = models.CharField(max_length=255)
-    fathers_occupation = models.CharField(max_length=255,blank=True) #optional
-    fathers_mob_no = models.CharField(max_length=255)
     fathers_email = models.CharField(max_length=255,blank=True) #optional
-    mothers_name = models.CharField(max_length=255)
-    mothers_occupation = models.CharField(max_length=255,blank=True) #optional
-    mothers_mob_no = models.CharField(max_length=255,blank=True) #optional
-    mothers_email = models.CharField(max_length=255,blank=True) #optional
+    fathers_mob_no = models.CharField(max_length=255)
+    fathers_occupation = models.CharField(max_length=255,blank=True) #optional
     fahers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
-    mothers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
     father_annual_income = models.CharField(max_length=255,blank=True) #optional
-    mother_annual_income = models.CharField(max_length=255,blank=True) #optional
     father_qualification = models.CharField(max_length=255,blank=True) #optional
-    mother_qualification = models.CharField(max_length=255,blank=True) #optional
     father_pan_no = models.CharField(max_length=255,blank=True) #optional
+    mothers_name = models.CharField(max_length=255)
+    mothers_email = models.CharField(max_length=255,blank=True) #optional
+    mothers_mob_no = models.CharField(max_length=255,blank=True) #optional
+    mothers_occupation = models.CharField(max_length=255,blank=True) #optional
+    mothers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
+    mother_annual_income = models.CharField(max_length=255,blank=True) #optional
+    mother_qualification = models.CharField(max_length=255,blank=True) #optional
     mother_pan_no = models.CharField(max_length=255,blank=True) #optional
     guardian_name = models.CharField(max_length=255,blank=True)  #optional
     guardian_mobile = models.CharField(max_length=255,blank=True)  #optional
