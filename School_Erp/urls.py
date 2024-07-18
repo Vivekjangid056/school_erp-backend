@@ -23,5 +23,9 @@ urlpatterns = [
     path("dashboard/", include("institute.urls")),
     path("dashboard/", include("scholar_register.urls")),
     path("dashboard/", include("teacher_management.urls")),
+    
     path("dashboard/", include("hr.urls")),
+    
+    # urls for apis
+    path("api/", include("teacher_management.api_urls")),
 ]

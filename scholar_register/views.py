@@ -16,14 +16,12 @@ def student_register(request):
         user_form = StudentUserCreationForm(request.POST)
         profile_form = StudentProfileForm(request.POST, request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
-            try:
-                user = user_form.save()
-                profile = profile_form.save(commit=False)
-                profile.user = user
-                profile.save()
-                return redirect('students:list_of_students')
-            except Exception as e:
-                print(f"Error saving form: {e}")
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            return redirect('students:list_of_students')
+            
         else:
             print("User Form Errors:", user_form.errors)
             print("Profile Form Errors:", profile_form.errors)
@@ -38,6 +36,7 @@ def student_register(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+    
 def student_update(request,pk):
         student_profile = get_object_or_404(StudentProfile, pk=pk)
         if request.method == 'POST':
@@ -54,6 +53,7 @@ def student_update(request,pk):
         return render(request,'students_update.html',{
             'profile_form': profile_form
         })
+        
 def student_delete(request, pk):
     student_profile = get_object_or_404(StudentProfile, pk=pk)
     user = student_profile.user

@@ -1,9 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from colorfield.fields import ColorField
-from django.db.models import UniqueConstraint
 from accounts.models import Institute, User
-from institute.models import Caste, Category, ChildStatus, DiscountScheme, FeeInstallments, House, Medium, MotherToungue, Nationality, PaymentMode, Religion, Section, Standard, StudentType
+from institute.models import Caste, Category, ChildStatus, DiscountScheme, FeeInstallments, House, Medium, MotherToungue, Nationality, PaymentMode, Religion, Section, Standard, StudentType, Subjects
 # Create your models here.
 
 # model for student registration
@@ -59,10 +57,10 @@ class StudentProfile(models.Model):
     form_no = models.BigIntegerField()
     date_of_admission = models.DateField()
     registration_date = models.DateField()
-    stream = models.CharField(max_length=100,choices=STREAM_CHOICES,blank=True) #optional
+    stream = models.CharField(max_length=100,choices=STREAM_CHOICES,blank=True,null=True) #optional
     standard = models.ForeignKey(Standard,on_delete=models.CASCADE)
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
-    date_of_deactivae = models.DateField(blank=True) #optional
+    date_of_deactivae = models.DateField(blank=True, null=True) #optional
     rte = models.BooleanField(default=False)
     bpl = models.BooleanField(default=False)
     installment_mode = models.ForeignKey(FeeInstallments,on_delete=models.CASCADE)
@@ -75,10 +73,10 @@ class StudentProfile(models.Model):
     enroll_no = models.BigIntegerField()
     nationality = models.ForeignKey(Nationality, on_delete=models.CASCADE)
     mother_tongue = models.ForeignKey(MotherToungue,on_delete=models.CASCADE)
-    middle_name = models.CharField(max_length=100,blank=True) #optional
+    middle_name = models.CharField(max_length=100,blank=True,null=True) #optional
     gender = models.CharField(choices=GENDER_CHOICES)
     dob = models.DateField()
-    student_aadhar = models.CharField(blank=True,max_length=100) #optional
+    student_aadhar = models.CharField(blank=True,max_length=100,null=True) #optional
     caste = models.ForeignKey(Caste,on_delete=models.CASCADE)
     religion = models.ForeignKey(Religion, on_delete=models.CASCADE)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
@@ -87,33 +85,33 @@ class StudentProfile(models.Model):
     disablity_type = models.CharField(choices=DISABLITY_CHOICES)
     blood_group = models.CharField(choices=BLOOD_GROUPS)
     house_name = models.ForeignKey(House,on_delete=models.CASCADE)
-    place_of_birth = models.CharField(max_length=255,blank=True) #optional
-    staff_refrence = models.CharField(max_length=255,blank=True)  #optional
-    admission_confirm_date = models.DateField(blank=True) #optional
+    place_of_birth = models.CharField(max_length=255,blank=True,null=True) #optional
+    staff_refrence = models.CharField(max_length=255,blank=True,null=True)  #optional
+    admission_confirm_date = models.DateField(blank=True, null=True) #optional
     board_type = models.CharField(max_length=255)
     
     # parent info
     fathers_name = models.CharField(max_length=255)
-    fathers_occupation = models.CharField(max_length=255,blank=True) #optional
+    fathers_occupation = models.CharField(max_length=255,blank=True,null=True) #optional
     fathers_mob_no = models.CharField(max_length=255)
-    fathers_email = models.CharField(max_length=255,blank=True) #optional
+    fathers_email = models.CharField(max_length=255,blank=True,null=True) #optional
     mothers_name = models.CharField(max_length=255)
-    mothers_occupation = models.CharField(max_length=255,blank=True) #optional
-    mothers_mob_no = models.CharField(max_length=255,blank=True) #optional
-    mothers_email = models.CharField(max_length=255,blank=True) #optional
-    fahers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
-    mothers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
-    father_annual_income = models.CharField(max_length=255,blank=True) #optional
-    mother_annual_income = models.CharField(max_length=255,blank=True) #optional
-    father_qualification = models.CharField(max_length=255,blank=True) #optional
-    mother_qualification = models.CharField(max_length=255,blank=True) #optional
-    father_pan_no = models.CharField(max_length=255,blank=True) #optional
-    mother_pan_no = models.CharField(max_length=255,blank=True) #optional
-    guardian_name = models.CharField(max_length=255,blank=True)  #optional
-    guardian_mobile = models.CharField(max_length=255,blank=True)  #optional
-    guardian_relation = models.CharField(max_length=255,blank=True)  #optional
-    fee_deposited_by = models.CharField(max_length=255,blank=True)  #optional
-    sms_mob_no = models.CharField(max_length=255,blank=True)  #optional
+    mothers_occupation = models.CharField(max_length=255,blank=True,null=True) #optional
+    mothers_mob_no = models.CharField(max_length=255,blank=True,null=True) #optional
+    mothers_email = models.CharField(max_length=255,blank=True,null=True) #optional
+    fahers_aadhar_no = models.CharField(max_length=255,blank=True,null=True) #optional
+    mothers_aadhar_no = models.CharField(max_length=255,blank=True,null=True) #optional
+    father_annual_income = models.CharField(max_length=255,blank=True,null=True) #optional
+    mother_annual_income = models.CharField(max_length=255,blank=True,null=True) #optional
+    father_qualification = models.CharField(max_length=255,blank=True,null=True) #optional
+    mother_qualification = models.CharField(max_length=255,blank=True,null=True) #optional
+    father_pan_no = models.CharField(max_length=255,blank=True,null=True) #optional
+    mother_pan_no = models.CharField(max_length=255,blank=True,null=True) #optional
+    guardian_name = models.CharField(max_length=255,blank=True,null=True)  #optional
+    guardian_mobile = models.CharField(max_length=255,blank=True,null=True)  #optional
+    guardian_relation = models.CharField(max_length=255,blank=True,null=True)  #optional
+    fee_deposited_by = models.CharField(max_length=255,blank=True,null=True)  #optional
+    sms_mob_no = models.CharField(max_length=255,blank=True,null=True)  #optional
     student_type = models.ForeignKey(StudentType,on_delete=models.CASCADE) 
     child_status = models.ForeignKey(ChildStatus,on_delete=models.CASCADE) 
     discount_scheme = models.ForeignKey(DiscountScheme,on_delete=models.CASCADE)
@@ -121,7 +119,7 @@ class StudentProfile(models.Model):
     #  address info
     
     address1 = models.CharField(max_length=255)
-    address2 = models.CharField(max_length=255,blank=True) #optional
+    address2 = models.CharField(max_length=255,blank=True,null=True) #optional
     district = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
     pin = models.CharField(
@@ -133,19 +131,19 @@ class StudentProfile(models.Model):
     
     # previous school info
     
-    previous_school_name = models.CharField(max_length=255,blank=True) #optional
-    previous_school_address = models.CharField(max_length=255,blank=True) #optional
-    reason_of_leaving = models.CharField(max_length=255,blank=True) #optional
-    previous_year = models.CharField(max_length=255,blank=True) #optional
-    previous_class = models.CharField(max_length=255,blank=True) #optional
-    obtain_marks = models.IntegerField(blank=True) #optional
-    maximum_marks = models.IntegerField(blank=True) #optional
-    percentage = models.FloatField(blank=True) #optional
-    result = models.CharField(max_length=10,blank=True) #optional
-    previous_school_board = models.CharField(max_length=100,blank=True) #optional
-    previous_school_rollNo = models.CharField(max_length=100,blank=True) #optional
-    previous_school_class = models.CharField(max_length=100,blank=True) #optional
-    third_lang_studied = models.CharField(max_length=100,blank=True) #optional
+    previous_school_name = models.CharField(max_length=255,blank=True,null=True) #optional
+    previous_school_address = models.CharField(max_length=255,blank=True,null=True) #optional
+    reason_of_leaving = models.CharField(max_length=255,blank=True,null=True) #optional
+    previous_year = models.CharField(max_length=255,blank=True,null=True) #optional
+    previous_class = models.CharField(max_length=255,blank=True,null=True) #optional
+    obtain_marks = models.IntegerField(blank=True,null=True) #optional
+    maximum_marks = models.IntegerField(blank=True,null=True) #optional
+    percentage = models.FloatField(blank=True,null=True) #optional
+    result = models.CharField(max_length=10,blank=True,null=True) #optional
+    previous_school_board = models.CharField(max_length=100,blank=True,null=True) #optional
+    previous_school_rollNo = models.CharField(max_length=100,blank=True,null=True) #optional
+    previous_school_class = models.CharField(max_length=100,blank=True,null=True) #optional
+    third_lang_studied = models.CharField(max_length=100,blank=True,null=True) #optional
     
     student_photo = models.ImageField(upload_to='images/',blank=True,null=True) #optional
     fathers_photo = models.ImageField(upload_to='images/',blank=True,null=True) #optional
@@ -153,11 +151,23 @@ class StudentProfile(models.Model):
     guardians_photo = models.ImageField(upload_to='images/',blank=True,null=True) #optional
     
     # moneyyyy
-    caution_money_reciept_no = models.CharField(max_length=255,blank=True) #optional
-    caution_money_reciept_date = models.CharField(max_length=255,blank=True) #optional
+    caution_money_reciept_no = models.CharField(max_length=255,blank=True,null=True) #optional
+    caution_money_reciept_date = models.DateField(null=True, blank=True) #optional
     amount = models.IntegerField()
     counsellor_name = models.CharField(max_length=255)
-    remark = models.CharField(max_length=255,blank=True) #optional
+    remark = models.CharField(max_length=255,blank=True,null=True) #optional
     
     def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name} - {self.registration_number}"
+        return f"{self.user.first_name} {self.user.last_name} - {self.reg_no}"
+
+
+class Attendance(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE)
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE)
+    date = models.DateField()
+    present = models.BooleanField(default=False)    
+    absent = models.BooleanField(default=False)  
+    
+    def __str__(self):
+        return f"{self.student.user.first_name} - {self.subject.name} - {self.date}"

@@ -4,7 +4,6 @@ from colorfield.fields import ColorField
 from django.db.models import UniqueConstraint
 from accounts.models import Institute, User
 
-
 # =========================== Model For menu shown in admin panel =============================
 
 class Branches(models.Model):
@@ -76,13 +75,6 @@ class LomSignature(models.Model):
         return self.signature_name
 
 
-class Caste(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
@@ -110,6 +102,13 @@ class Religion(models.Model):
 
     def __str__(self):
         return self.name
+
+class Caste(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 
 
 class Reference(models.Model):
@@ -170,10 +169,11 @@ class Standard(models.Model):
 
 
 class Subjects(models.Model):
+    standard = models.ForeignKey(Standard,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.name  
 
 
 class Documents(models.Model):
@@ -282,10 +282,12 @@ class SubjectsForClassGroup(models.Model):
         choices=SUBJECT_TYPE_CHOICES,
         default=SELECTED,
     )
+    
 class Section(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
+    
 class DiscountScheme(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):

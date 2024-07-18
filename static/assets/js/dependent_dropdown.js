@@ -764,9 +764,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>ID Card Employee</a>
                 </li>
             </ul>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.attendance}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Attendance</span>
+                <span key="t-dashboards">Student's Attendance</span>
             </a>
             <a href="${urls.listOfMastersList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>

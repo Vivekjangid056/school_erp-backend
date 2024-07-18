@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+from scholar_register.models import Attendance
 from teacher_management.models import Employee, EmployeeMaster
 from accounts.models import Institute, User
 from django.contrib.auth.forms import UserCreationForm
@@ -133,7 +134,14 @@ class SubjectsForm(forms.ModelForm):
     class Meta:
         model = Subjects
         fields = "__all__"
-
+                
+class AttendanceForm(forms.ModelForm):
+    class Meta:
+        model = Attendance
+        fields = ['standard','student', 'subject', 'date', 'present', 'absent']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'})
+        }
 
 class DocumnetsForm(forms.ModelForm):
     class Meta:

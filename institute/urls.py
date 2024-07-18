@@ -1,5 +1,7 @@
+
 from django.urls import path
 from .views import *
+from .views import load_subjects
 
 app_name = 'institute'  # Namespace for this app
 
@@ -145,4 +147,12 @@ urlpatterns = [
     path('add-discount/', AddDiscountScheme.as_view(), name='add_discount'),
     path('update-discount/<int:pk>', UpdateDiscountScheme.as_view(), name='update_discount'),
     path('delete-discount/<int:pk>', DeleteDiscountScheme.as_view(), name='delete_discount'),
+    
+    # url for atttendance system
+    path('attendance/', attendance_view, name='attendance'),
+    path('load-subjects/', load_subjects, name='load_subjects'),
+    path('fetch-students-attendance/', fetch_students_attendance, name='fetch_students_attendance'),
+    path('attendance-list/', attendance_list, name='attendance_list'),
+    path('fetch-attendance-data/', fetch_attendance_data, name='fetch_attendance_data'),
+ 
 ]
