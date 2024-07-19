@@ -1,5 +1,5 @@
 from django.urls import path
-from .emp_views import login_view
+from .api_views import login_view
 
 
 

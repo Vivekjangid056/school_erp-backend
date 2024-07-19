@@ -827,9 +827,9 @@ document.addEventListener('DOMContentLoaded', function () {
         `,
         'hr': `
         <li class="menu-title" key="t-menu">HR</li>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.employeeAttendance}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Attendance</span>
+                <span key="t-dashboards">Employee's Attendance</span>
             </a>
             <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hr-employee" aria-expanded="false" aria-controls="pages">
             <div>

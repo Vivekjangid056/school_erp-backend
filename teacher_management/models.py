@@ -176,6 +176,11 @@ class EmployeeMaster(models.Model):
     def __str__(self):
         return f"[{self.first_name} {self.last_name} | Emp No: ({self.prefix}{self.emp_no}) | Father Name : {self.father_name}]"
     
+class EmployeeAttendance(models.Model):
+    employee = models.ForeignKey(EmployeeMaster, on_delete=models.CASCADE)
+    date = models.DateField()
+    present = models.BooleanField(default=False)    
+    absent = models.BooleanField(default=False)    
 
 
 class Employee(models.Model):

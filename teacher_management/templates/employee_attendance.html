@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block content %}
+  
+
+  <form method="post" id="employee-attendance-form">
+    {% csrf_token %}
+    
+    <div class="container-fluid ">
+      <h1>Mark Employee Attendance</h1>
+      <hr>
+      <div class="col-md-6">
+        <label for="id_date">Attendance Date:</label>
+        <input type="date" id="id_date" name="date" class="form-control">
+      </div>
+    
+      <div class="col-md-6">
+        <label for="id_department">Department:</label>
+        <select id="id_department" name="department" class="form-control">
+            <option value="">Select a department</option>
+            {% for department in departments %}
+                <option value="{{ department.id }}">{{ department.name }}</option>
+            {% endfor %}
+        </select>
+      </div>
+
+      <hr>
+    
+      <!-- Table to display employee information and attendance -->
+      
+
+     
+      <div class="table-responsive mt-3">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Name</th>
+              <th>Emp No.</th>
+              <th>Present</th>
+              <th>Absent</th>
+            </tr>
+          </thead>
+          <tbody id="employee-attendance-table-body">
+            <!-- Rows will be populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <button class="btn btn-primary col-md-2" type="submit">Submit</button>
+    </div>
+    
+  </form>
+
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        // Function to fetch and populate employee attendance table
+        function fetchAndPopulateAttendanceTable() {
+            var departmentId = $('#id_department').val();
+            var date = $('#id_date').val();
+
+            $.ajax({
+                url: '{% url "teacher:fetch_employee_attendance_data" %}',
+                method: 'GET',
+                data: {
+                    'department_id': departmentId,
+                    'date': date
+                },
+                success: function(data) {
+                    populateAttendanceTable(data.attendance_data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching employees:', error);
+                }
+            });
+        }
+
+        // Function to populate attendance table with employee data
+        function populateAttendanceTable(attendanceData) {
+            var $tableBody = $('#employee-attendance-table-body');
+            $tableBody.empty();
+
+            attendanceData.forEach(function(record, index) {
+                var srNumber = index + 1;
+                var row = '<tr>';
+                row += '<td>' + srNumber + '</td>';
+                row += '<td>' + record.name + '</td>';
+                row += '<td>' + record.emp_no + '</td>';
+                row += '<td><input type="radio" name="attendance_status_' + record.id + '" value="present" ' + (record.present ? 'checked' : '') + '></td>';
+                row += '<td><input type="radio" name="attendance_status_' + record.id + '" value="absent" ' + (record.absent ? 'checked' : '') + '></td>';
+                row += '</tr>';
+                $tableBody.append(row);
+            });
+        }
+
+        // Event listeners
+        $('#id_department, #id_date').change(function() {
+            fetchAndPopulateAttendanceTable();
+        });
+
+        // Initial fetch on page load (optional)
+        fetchAndPopulateAttendanceTable();
+
+        // Form submission handling
+        
+    });
+  </script>
+{% endblock %}
