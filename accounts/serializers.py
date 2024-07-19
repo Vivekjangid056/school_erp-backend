@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import User
-from scholar_register.models import StudentProfile
+from scholar_register.models import *
 
 class StudentLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -29,3 +29,8 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model=StudentProfile
         fields = "__all__"
+    
+class ParentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentParents
+        fields= "__all__"

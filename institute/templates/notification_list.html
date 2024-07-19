@@ -42,7 +42,6 @@
                         <tr>
                             <th>S.N</th>
                             <th>Notification Title</th>
-                            <th>Notification description</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -52,8 +51,7 @@
                         {% for notification in notifications_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{notification.title}}</td>
-                            <td>{{ notification.description|safe }}</td>
+                            <td>{{notification.title|slice:"0:130"}}</td>
                             <td>
                                 <a href="{% url 'institute:update_notification' notification.pk %}"
                                     class="btn btn-sm btn-primary" title="Edit">

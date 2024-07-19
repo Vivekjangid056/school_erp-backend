@@ -2,9 +2,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import StudentLoginSerializer, StudentSerializer
+from .serializers import *
 from scholar_register.models import StudentProfile
 from django.contrib.auth.decorators import login_required
+from scholar_register.models import *
 
 
 @api_view(['POST'])
@@ -15,14 +16,15 @@ def student_login_view(request):
 
         # Fetch the student profile after authentication
         try:
-            student = StudentProfile.objects.get(user=user)
+            parent = StudentParents.objects.get(user=user)
+            student = StudentProfile.objects.get(parent = parent)
         except StudentProfile.DoesNotExist:
             return Response({
                 'status': False,
                 'code': 404,
                 'message': 'Student profile not found'
             }, status=status.HTTP_404_NOT_FOUND)
-
+        parent_sreializer = ParentSerializer(parent)
         student_serializer = StudentSerializer(student)
 
         refresh = RefreshToken.for_user(user)
@@ -30,7 +32,7 @@ def student_login_view(request):
             'access': str(refresh.access_token),
             'status': True,
             'code': 200,
-            'data': student_serializer.data,
+            'data': {'student' : student_serializer.data, 'parent' : parent_sreializer.data},
             'message': 'Student login successfully'
         }, status=status.HTTP_200_OK)
     

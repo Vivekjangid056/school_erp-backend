@@ -36,9 +36,21 @@
 <div class="row">
     <div class="col-md-4">
         <div class="profile-header">
+            {% if user.role == "2" %}
+            {% if institute.profile_image %}
             <img src="{{institute.profile_image.url}}" alt="Profile Picture">
+            {% else %}
+            <img src="{% static 'assets/images/jack.png'%}" alt="Profile Picture">
+            {% endif %}
             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
             <p>{{ user.email }}</p>
+            {% endif %}
+            {% if user.is_superuser or user.role == "1" %}
+            <img src="{% static 'assets/images/jack.png'%}" alt="Profile Picture">
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+            <p>{{ user.email }}</p>
+            {% endif %}
+
         </div>
         <div class="list-group">
             <a href="{% url 'institute:institute_profile' %}" class="list-group-item list-group-item-action">Profile</a>
@@ -46,6 +58,7 @@
             {% comment %} <a href="{% url 'accounts:institute_update' institute.pk %}" class="list-group-item list-group-item-action">Edit Profile</a> {% endcomment %}
         </div>
     </div>
+    {% if user.role == "2" %}
         <div class="col-md-8 profile-info">
             <h3>Institute Details</h3>
             <p><strong>Registration Number:</strong> {{ institute.registration_number }}</p>
@@ -65,8 +78,10 @@
             <p><strong>Session Start Month:</strong> {{ institute.session_start_month }}</p>
             <p><strong>Accredited By:</strong> {{ institute.accredited_by }}</p> {% endcomment %}
         </div>
+        {% endif %}
     </div>
 </div>
+{% if user.is_superuser or user.role == "1" or user.role == "2" %}
 <div class="row">
     <div class="col-md-3">
         <div class="card dashboard-card bg-purple">
@@ -154,4 +169,5 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock content %}

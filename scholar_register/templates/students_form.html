@@ -7,41 +7,143 @@
     </div>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <!-- Render User Creation Form -->
-        <fieldset>
-            <legend class="card-header bg-secondary bg-gradient d-flex flex-vertical justify-content-center">
-                Parent's Authentication Information</legend>
-            <div class="row">
-                <div class="col-md-3">
-                    {{ user_form.email|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.username|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.first_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.last_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.phone_number|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.password1|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.password2|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ user_form.role|as_crispy_field }}
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label">Parent already registered?</label>
+                <div class="btn-group" role="group" aria-label="Parent registration status">
+                    <input type="radio" class="btn-check" name="parent_registered" id="parent_registered_yes" value="yes" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="parent_registered_yes">Yes</label>
+            
+                    <input type="radio" class="btn-check" name="parent_registered" id="parent_registered_no" value="no" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="parent_registered_no">No</label>
                 </div>
             </div>
-        </fieldset>
-        <hr>
-        <!-- Render Student Session Form -->
+
+            <div class="col-md-6" id="existing_parent_field" style="display:none;">
+                <label for="existing_parent" class="form-label">Select Parent:</label>
+                <select name="existing_parent" id="existing_parent" class="form-select">
+                    <option value="">Select a parent</option>
+                    {% for parent in parents %}
+                    <option value="{{ parent.id }}">{{ parent.user.email }} - {{ parent.fathers_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div id="new_parent_forms" style="display:none;">
+            <fieldset>
+                <legend class="card-header bg-secondary bg-gradient d-flex flex-vertical justify-content-center mb-3">
+                    Parent's Authentication Information</legend>
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ user_form.email|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ user_form.username|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ user_form.first_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ user_form.last_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ user_form.phone_number|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ user_form.password1|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ user_form.password2|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ user_form.role|as_crispy_field }}
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+            <fieldset>
+                <legend>Parent Information</legend>
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ parent_form.fathers_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.fathers_occupation|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.fathers_mob_no|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.fathers_email|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.mothers_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.mothers_occupation|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.mothers_mob_no|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.mothers_email|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.fathers_aadhar_no|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.mothers_aadhar_no|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.father_annual_income|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.mother_annual_income|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.father_qualification|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.mother_qualification|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.father_pan_no|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.mother_pan_no|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.guardian_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.guardian_mobile|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.guardian_relation|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.fee_deposited_by|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.sms_mob_no|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.student_type|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.child_status|as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ parent_form.discount_scheme|as_crispy_field }}
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+        </div>
         <fieldset>
-            <legend>Student Session Information</legend>
+            <legend>
+                Student Session Information</legend>
             <div class="row">
                 <div class="col-md-3">
                     {{ profile_form.session|as_crispy_field }}
@@ -68,13 +170,13 @@
                     {{ profile_form.date_of_deactivae|as_crispy_field }}
                 </div>
                 <div class="col-md-3">
+                    {{ profile_form.installment_mode|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
                     {{ profile_form.rte|as_crispy_field }}
                 </div>
                 <div class="col-md-3">
                     {{ profile_form.bpl|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.installment_mode|as_crispy_field }}
                 </div>
                 <hr>
             </div>
@@ -82,6 +184,15 @@
         <fieldset>
             <legend>Basic Information</legend>
             <div class="row">
+                <div class="col-md-3">
+                    {{ profile_form.first_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.middle_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.last_name|as_crispy_field }}
+                </div>
                 <div class="col-md-3">
                     {{ profile_form.prefix|as_crispy_field }}
                 </div>
@@ -105,9 +216,6 @@
                 </div>
                 <div class="col-md-3">
                     {{ profile_form.mother_tongue|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.middle_name|as_crispy_field }}
                 </div>
                 <div class="col-md-3">
                     {{ profile_form.gender|as_crispy_field }}
@@ -153,84 +261,6 @@
                 </div>
                 <div class="col-md-3">
                     {{ profile_form.board_type|as_crispy_field }}
-                </div>
-            </div>
-        </fieldset>
-        <hr><!-- Render Parent  Form -->
-        <fieldset>
-            <legend>Parent Information</legend>
-            <div class="row">
-                <div class="col-md-3">
-                    {{ profile_form.fathers_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fathers_occupation|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fathers_mob_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fathers_email|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_occupation|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_mob_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_email|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fahers_aadhar_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_aadhar_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.father_annual_income|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mother_annual_income|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.father_qualification|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mother_qualification|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.father_pan_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mother_pan_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.guardian_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.guardian_mobile|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.guardian_relation|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fee_deposited_by|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.sms_mob_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.student_type|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.child_status|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.discount_scheme|as_crispy_field }}
                 </div>
             </div>
         </fieldset>
@@ -300,7 +330,7 @@
                 </div>
             </div>
         </fieldset>
-        <hr>
+        <hr><!-- Render Parent  Form -->
         <fieldset>
             <legend>Photo Information</legend>
             <div class="row">
@@ -339,12 +369,44 @@
             </div>
         </fieldset>
         <hr>
-</div>
-</div>
 <!-- Submit Button -->
 <div class="container">
     <button type="submit" class="btn btn-primary col-md-2">Save</button>
 </div>
 </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const parentRegisteredYes = document.getElementById('parent_registered_yes');
+        const parentRegisteredNo = document.getElementById('parent_registered_no');
+        const existingParentField = document.getElementById('existing_parent_field');
+        const newParentForms = document.getElementById('new_parent_forms');
+        const existingParentSelect = document.getElementById('existing_parent');
+    
+        function toggleFields() {
+            const newParentFields = newParentForms.querySelectorAll('input, select, textarea');
+            if (parentRegisteredYes.checked) {
+                existingParentField.style.display = 'block';
+                newParentForms.style.display = 'none';
+                newParentFields.forEach(field => {
+                    field.required = false;
+                });
+            } else if (parentRegisteredNo.checked) {
+                existingParentField.style.display = 'none';
+                newParentForms.style.display = 'block';
+                newParentFields.forEach(field => {
+                    field.required = true;
+                });
+            }
+        }
+    
+        parentRegisteredYes.addEventListener('change', toggleFields);
+        parentRegisteredNo.addEventListener('change', toggleFields);
+        
+        toggleFields();  // Initialize on page load
+    });
+    
+</script>
+
 {% endblock content %}

@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.urls import reverse_lazy
 from .models import User
 from .forms import *
+from scholar_register.models import StudentProfile
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -49,7 +50,6 @@ def admin_dashboard(request):
     user_id = user.id
     institute = Institute.objects.filter(user_id=user_id).first()
     context = {
-        'user': user,
         'institute': institute
     }
     return render(request, 'dashboard.html', context)

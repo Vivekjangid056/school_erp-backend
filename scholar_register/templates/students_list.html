@@ -9,7 +9,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <a href="{% url 'accounts:super-admin-login' %}">
-                        <li class="breadcrumb-item active">home</li>
+                        <li class="breadcrumb-item active">home<<</li>
                     </a>
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                 </ol>
@@ -22,7 +22,7 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <!--                                    List of Institutes                                 -->
+<!--======================================= List of students ====================================-->
             <a style="text-decoration:none; color:white" href="{% url 'students:student_register' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
@@ -45,10 +45,10 @@
                         {% for student in students %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{student.reg_no}}</td>
-                            <td>{{student.user.first_name}}</td>
-                            <td>{{student.mothers_name}}</td>
-                            <td>{{student.user.phone_number}}</td>
+                            <td>{{student.reg_no|slice:"0:10"}}</td>
+                            <td>{{student.first_name}}</td>
+                            <td>{{student.parent.mothers_name}}</td>
+                            <td>{{student.parent.user.phone_number}}</td>
                             <td>{{student.standard}}</td>
                             <td>{{student.dob}}</td>
                             <td>
@@ -74,7 +74,7 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <!--                                    List of Institutes                                 -->
+<!--======================================= List of students ====================================-->
             <a style="text-decoration:none; color:white" href="{% url 'students:student_register' %}"><button
                     class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>

@@ -1,12 +1,13 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from accounts.models import User
-from .models import StudentProfile
+from .models import *
 
 
-class StudentUserCreationForm(forms.ModelForm):
+class ParentUserCreationForm(UserCreationForm):
     password1 = forms.CharField(label='password', widget=forms.PasswordInput)
     password2 = forms.CharField(
-        label='password confirmation', widget=forms.PasswordInput)
+        label='confirm password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -31,7 +32,7 @@ class StudentUserCreationForm(forms.ModelForm):
             user.save()
         return user
 
-    def clean_Password2(self):
+    def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
@@ -39,21 +40,26 @@ class StudentUserCreationForm(forms.ModelForm):
         return password2
 
 
+class ParentProfileForm(forms.ModelForm):
+    class Meta:
+        model = StudentParents
+        fields = ['fathers_name', 'fathers_occupation', 'fathers_mob_no', 'fathers_email', 'mothers_name', 
+                'mothers_occupation', 'mothers_mob_no', 'mothers_email', 'fathers_aadhar_no', 'mothers_aadhar_no', 
+                'father_annual_income', 'mother_annual_income', 'father_qualification', 
+                'mother_qualification', 'father_pan_no', 'mother_pan_no', 'guardian_name', 
+                'guardian_mobile', 'guardian_relation', 'fee_deposited_by', 'sms_mob_no', 
+                'student_type', 'child_status', 'discount_scheme']
+
+
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
-        fields = ['session', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
+        fields = ['first_name', 'last_name','session', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
                   'standard', 'section', 'date_of_deactivae', 'rte', 'bpl', 'installment_mode', 
                   'prefix', 'suffix', 'sr_no', 'reg_no', 'admission_no', 'enroll_no', 'nationality', 
                   'mother_tongue', 'middle_name', 'gender', 'dob', 'student_aadhar', 'caste', 'religion', 
                   'category', 'medium', 'rural_or_urban', 'disablity_type', 'blood_group', 'house_name', 
-                  'place_of_birth', 'staff_refrence', 'admission_confirm_date', 'board_type', 'fathers_name', 
-                  'fathers_occupation', 'fathers_mob_no', 'fathers_email', 'mothers_name', 'mothers_occupation', 
-                  'mothers_mob_no', 'mothers_email', 'fahers_aadhar_no', 'mothers_aadhar_no', 
-                  'father_annual_income', 'mother_annual_income', 'father_qualification', 
-                  'mother_qualification', 'father_pan_no', 'mother_pan_no', 'guardian_name', 
-                  'guardian_mobile', 'guardian_relation', 'fee_deposited_by', 'sms_mob_no', 
-                  'student_type', 'child_status', 'discount_scheme', 'address1', 'address2', 
+                  'place_of_birth', 'staff_refrence', 'admission_confirm_date', 'board_type', 'address1', 'address2', 
                   'district', 'state', 'pin', 'previous_school_name', 'previous_school_address', 
                   'reason_of_leaving', 'previous_year', 'previous_class', 'obtain_marks', 'maximum_marks', 
                   'percentage', 'result', 'previous_school_board', 'previous_school_rollNo', 

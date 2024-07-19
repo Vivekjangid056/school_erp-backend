@@ -9,6 +9,33 @@ from institute.models import Caste, Category, ChildStatus, DiscountScheme, FeeIn
 # model for student registration
 
 
+class StudentParents(models.Model):
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
+    fathers_name = models.CharField(max_length=255)
+    fathers_email = models.CharField(max_length=255,blank=True) #optional
+    fathers_mob_no = models.CharField(max_length=255)
+    fathers_occupation = models.CharField(max_length=255,blank=True) #optional
+    fathers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
+    father_annual_income = models.CharField(max_length=255,blank=True) #optional
+    father_qualification = models.CharField(max_length=255,blank=True) #optional
+    father_pan_no = models.CharField(max_length=255,blank=True) #optional
+    mothers_name = models.CharField(max_length=255)
+    mothers_email = models.CharField(max_length=255,blank=True) #optional
+    mothers_mob_no = models.CharField(max_length=255,blank=True) #optional
+    mothers_occupation = models.CharField(max_length=255,blank=True) #optional
+    mothers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
+    mother_annual_income = models.CharField(max_length=255,blank=True) #optional
+    mother_qualification = models.CharField(max_length=255,blank=True) #optional
+    mother_pan_no = models.CharField(max_length=255,blank=True) #optional
+    guardian_name = models.CharField(max_length=255,blank=True)  #optional
+    guardian_mobile = models.CharField(max_length=255,blank=True)  #optional
+    guardian_relation = models.CharField(max_length=255,blank=True)  #optional
+    fee_deposited_by = models.CharField(max_length=255,blank=True)  #optional
+    sms_mob_no = models.CharField(max_length=255,blank=True)  #optional
+    student_type = models.ForeignKey(StudentType,on_delete=models.CASCADE) 
+    child_status = models.ForeignKey(ChildStatus,on_delete=models.CASCADE) 
+    discount_scheme = models.ForeignKey(DiscountScheme,on_delete=models.CASCADE)
+
 class StudentProfile(models.Model):
     
     STREAM_CHOICES = (
@@ -53,8 +80,18 @@ class StudentProfile(models.Model):
         ('O- ',' O-')
     )
 
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    parent = models.ForeignKey(StudentParents, on_delete = models.CASCADE)
     # institute = models.ForeignKey(Institute, on_delete = models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    middle_name = models.CharField(max_length=100,blank=True) #optional
+    last_name = models.CharField(max_length=100)
+    gender = models.CharField(choices=GENDER_CHOICES)
+    dob = models.DateField()
+    caste = models.ForeignKey(Caste,on_delete=models.CASCADE)
+    religion = models.ForeignKey(Religion, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    nationality = models.ForeignKey(Nationality, on_delete=models.CASCADE)
+    mother_tongue = models.ForeignKey(MotherToungue,on_delete=models.CASCADE)
     session = models.CharField(max_length=100)
     form_no = models.BigIntegerField()
     date_of_admission = models.DateField()
@@ -73,15 +110,7 @@ class StudentProfile(models.Model):
     reg_no = models.CharField(max_length=255)
     admission_no = models.BigIntegerField()
     enroll_no = models.BigIntegerField()
-    nationality = models.ForeignKey(Nationality, on_delete=models.CASCADE)
-    mother_tongue = models.ForeignKey(MotherToungue,on_delete=models.CASCADE)
-    middle_name = models.CharField(max_length=100,blank=True) #optional
-    gender = models.CharField(choices=GENDER_CHOICES)
-    dob = models.DateField()
     student_aadhar = models.CharField(blank=True,max_length=100) #optional
-    caste = models.ForeignKey(Caste,on_delete=models.CASCADE)
-    religion = models.ForeignKey(Religion, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category,on_delete=models.CASCADE)
     medium = models.ForeignKey(Medium,on_delete=models.CASCADE)
     rural_or_urban = models.CharField(choices=AREA_CHOICES)
     disablity_type = models.CharField(choices=DISABLITY_CHOICES)
@@ -91,35 +120,8 @@ class StudentProfile(models.Model):
     staff_refrence = models.CharField(max_length=255,blank=True)  #optional
     admission_confirm_date = models.DateField(blank=True) #optional
     board_type = models.CharField(max_length=255)
-    
-    # parent info
-    fathers_name = models.CharField(max_length=255)
-    fathers_email = models.CharField(max_length=255,blank=True) #optional
-    fathers_mob_no = models.CharField(max_length=255)
-    fathers_occupation = models.CharField(max_length=255,blank=True) #optional
-    fahers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
-    father_annual_income = models.CharField(max_length=255,blank=True) #optional
-    father_qualification = models.CharField(max_length=255,blank=True) #optional
-    father_pan_no = models.CharField(max_length=255,blank=True) #optional
-    mothers_name = models.CharField(max_length=255)
-    mothers_email = models.CharField(max_length=255,blank=True) #optional
-    mothers_mob_no = models.CharField(max_length=255,blank=True) #optional
-    mothers_occupation = models.CharField(max_length=255,blank=True) #optional
-    mothers_aadhar_no = models.CharField(max_length=255,blank=True) #optional
-    mother_annual_income = models.CharField(max_length=255,blank=True) #optional
-    mother_qualification = models.CharField(max_length=255,blank=True) #optional
-    mother_pan_no = models.CharField(max_length=255,blank=True) #optional
-    guardian_name = models.CharField(max_length=255,blank=True)  #optional
-    guardian_mobile = models.CharField(max_length=255,blank=True)  #optional
-    guardian_relation = models.CharField(max_length=255,blank=True)  #optional
-    fee_deposited_by = models.CharField(max_length=255,blank=True)  #optional
-    sms_mob_no = models.CharField(max_length=255,blank=True)  #optional
-    student_type = models.ForeignKey(StudentType,on_delete=models.CASCADE) 
-    child_status = models.ForeignKey(ChildStatus,on_delete=models.CASCADE) 
-    discount_scheme = models.ForeignKey(DiscountScheme,on_delete=models.CASCADE)
-     
+
     #  address info
-    
     address1 = models.CharField(max_length=255)
     address2 = models.CharField(max_length=255,blank=True) #optional
     district = models.CharField(max_length=255)
