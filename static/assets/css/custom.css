@@ -99,3 +99,33 @@ ul.sidebar-dropdown{
     position: relative;
     height: 400px;
 }
+
+.profile-header {
+    background-color: #02A8F4;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+.profile-info {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-info h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+.profile-info p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}

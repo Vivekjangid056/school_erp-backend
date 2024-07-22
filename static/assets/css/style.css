@@ -53,7 +53,7 @@ body {
     cursor: pointer;
     margin: .25rem 0 .4rem 11.5rem;
     border-radius: .2rem;
-    background-color: #c8771a;
+    background-color: #02A8F4;
     display: flex;
     justify-content: center;
     padding: 0 .5rem;
@@ -286,12 +286,12 @@ header {
 }
 
 .header-menu ul.menu-ul li a:hover {
-    color: #2ca01c;
+    color: #02a8f4;
     text-decoration: none;
 }
 
 .header-menu ul.menu-ul li.active a {
-    color: #2ca01c;
+    color: #02a8f4;
     text-decoration: none;
 }
 
@@ -318,7 +318,7 @@ header {
 }
 
 .header-menu ul.social-icon-header li a:hover {
-    color: #2ca01c;
+    color: #02a8f4;
     text-decoration: none;
 }
 
@@ -333,7 +333,7 @@ header {
 }
 
 .navbar-right li {
-    background: #2ca01c;
+    background: #02a8f4;
     margin-top: 10px;
     display: inline-block;
     margin-left: 5px;
@@ -469,7 +469,7 @@ header {
     text-align: center;
     width: 150px;
     margin: auto;
-    background: #2ca01c;
+    background: #02a8f4;
     padding: 8px 0;
     font-size: 18px;
     font-weight: normal;
@@ -597,7 +597,7 @@ header {
 .modulbox:hover h4,
 .modulbox:hover p,
 .modulbox:hover i {
-    color: #2ca01c;
+    color: #02a8f4;
 }
 
 .modulbox:hover {
@@ -657,7 +657,7 @@ header {
         .modulbox:hover h4,
         .modulbox:hover p,
         .modulbox:hover i {
-            color: #2ca01c;
+            color: #02a8f4;
         }
 
         .modulbox:hover {
@@ -665,7 +665,7 @@ header {
         }
 
 .noremodu a {
-    background: #2ca01c;
+    background: #02a8f4;
     font-size: 18px;
     padding: 8px 25px;
     border-radius: 5px;
@@ -735,7 +735,7 @@ header {
     /* box-shadow: 0px 6px 12px 2px rgba(0, 0, 0, 0.15); */
     border-width: 2px;
     border-style: solid;
-    border-color: #2ca01c;
+    border-color: #02a8f4;
 }
 
 .teams h4 {
@@ -922,11 +922,11 @@ footer iframe {
 }
 
 .sideicon ul li span:hover {
-    color: #2ca01c;
+    color: #02a8f4;
 }
 
 .sideicon ul li a:hover i {
-    color: #2ca01c;
+    color: #02a8f4;
 }
 
 .sideicon ul li i {
@@ -973,7 +973,7 @@ footer iframe {
 }
 
 .caption-content h5 {
-    color: #2ca01c;
+    color: #02a8f4;
     line-height: 8px;
     letter-spacing: 3px;
     white-space: nowrap;
@@ -1282,10 +1282,10 @@ li.cs-slide span {
     }
     .header-menu ul.menu-ul li {
         margin: 0 3px;
-        border-bottom: 1px solid #2ca01c;
+        border-bottom: 1px solid #02a8f4;
     }
     .menubar i {
-        color: #2ca01c;
+        color: #02a8f4;
         font-size: 30px;
     }
     .counter-sec {
@@ -1308,7 +1308,7 @@ li.cs-slide span {
         margin: 0 0 15px;
     }
     .mnubar i {
-        color: #2ca01c;
+        color: #02a8f4;
         font-size: 30px;
     }
     .mnubar {
@@ -1349,7 +1349,7 @@ li.cs-slide span {
         font-size: 15px;
         width: 50%;
         border-left: 1px solid rgba(0, 0, 0, .1);
-        border-color: #2ca01c;
+        border-color: #02a8f4;
     }
     .countdown li {
         display: table-cell;
@@ -1471,7 +1471,7 @@ li.cs-slide span {
         font-size: 15px;
         width: 50%;
         border-left: 1px solid rgba(0, 0, 0, .1);
-        border-color: #2ca01c;
+        border-color: #02a8f4;
     }
     .countdown li {
         display: table-cell;
@@ -1488,11 +1488,11 @@ li.cs-slide span {
 }
 
 .navbar-inverse .navbar-toggle {
-    border-color: #2ca01c;
+    border-color: #02a8f4;
 }
 
 .navbar-inverse .navbar-toggle .icon-bar {
-    background-color: #2ca01c;
+    background-color: #02a8f4;
 }
 
 .navbar-toggle {
@@ -1514,7 +1514,7 @@ li.cs-slide span {
 
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
-    border-color: #2ca01c;
+    border-color: #02a8f4;
 }
 
 li.cs-slide div {
@@ -1586,7 +1586,7 @@ span.wpcf7-list-item {
 }
 
 .submcont {
-    background: #2ca01c;
+    background: #02a8f4;
     color: #fff;
     padding: 5px 25px;
     font-size: 19px;
@@ -1598,8 +1598,8 @@ span.wpcf7-list-item {
 
 .submcont:hover {
     background: #fff;
-    border: 1px solid #2ca01c;
-    color: #2ca01c;
+    border: 1px solid #02a8f4;
+    color: #02a8f4;
 }
 
 textarea.form-control {
@@ -1648,7 +1648,7 @@ textarea.form-control {
 /* The Close Button */
 
 .close {
-    color: #2ca01c;
+    color: #02a8f4;
     float: right;
     font-size: 40px;
     font-weight: bold;
@@ -1736,7 +1736,7 @@ input[type=radio] {
     -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
     text-align: center;
-    background: #2ca01c;
+    background: #02a8f4;
     border-radius: 50px;
     color: #fff;
 }
@@ -1855,7 +1855,7 @@ input[type=radio] {
 
 .arrowmoredown i {
     color: #fff;
-    background: #2ca01c;
+    background: #02a8f4;
     border-radius: 50%;
     padding: 10px;
     text-align: center;
@@ -1960,7 +1960,7 @@ input[type=radio] {
 }
 
 .content-section-pratner h2 {
-    color: #2ca01c;
+    color: #02a8f4;
     text-align: center;
     /* font-weight: bold; */
     font-size: 36px;
@@ -1978,7 +1978,7 @@ input[type=radio] {
 .hedingchlpart {
     text-align: center;
     margin-bottom: 40px;
-    color: #2ca01c;
+    color: #02a8f4;
 }
 
 .list-channel {
@@ -1997,7 +1997,7 @@ input[type=radio] {
 }
 
 .list-channel li i {
-    color: #2ca01c;
+    color: #02a8f4;
     margin-right: 10px;
 }
 
@@ -2017,7 +2017,7 @@ input[type=radio] {
 }
 
 .list-channel2 li i {
-    color: #2ca01c;
+    color: #02a8f4;
     margin-right: 10px;
 }
 
@@ -2040,11 +2040,11 @@ input[type=radio] {
 .bottom-section-pratner {
     background: #fff;
     padding: 20px 0;
-    border-top: 1px solid #2ca01c;
+    border-top: 1px solid #02a8f4;
 }
 
 .bottom-section-pratner h2 {
-    color: #2ca01c;
+    color: #02a8f4;
     margin: 5px 0 0;
     padding: 0;
     font-size: 28px;
@@ -2066,7 +2066,7 @@ button.channelbuton:hover {
 }
 
 .bottom-section-pratner button.channelbuton {
-    background: #2ca01c;
+    background: #02a8f4;
     border: none;
     color: #fff;
     text-transform: capitalize;
@@ -2116,7 +2116,7 @@ button.channelbuton:hover {
 }
 
 .content-section-career h2 {
-    color: #2ca01c;
+    color: #02a8f4;
     text-align: center;
     /* font-weight: bold; */
     font-size: 36px;
@@ -2129,9 +2129,9 @@ button.channelbuton:hover {
 }
 
 .career-positions h3 {
-    color: #2ca01c;
+    color: #02a8f4;
     margin-bottom: 15px;
-    border-bottom: 1px solid #2ca01c45;
+    border-bottom: 1px solid #02a8f445;
     padding-bottom: 15px;
 }
 
@@ -2140,7 +2140,7 @@ button.channelbuton:hover {
 }
 
 button.careerapply {
-    background: #2ca01c;
+    background: #02a8f4;
     color: #fff;
     display: inline-block;
     vertical-align: middle;
@@ -2166,7 +2166,7 @@ button.careerapply:hover {
 
 .career-positions ul li::before {
     content: "\2022";
-    color: #2ca01c;
+    color: #02a8f4;
     font-weight: bold;
     display: inline-block;
     width: 1em;
@@ -2175,7 +2175,7 @@ button.careerapply:hover {
 
 .career-positions ul li ul li::before {
     content: "\21D2";
-    color: #2ca01c;
+    color: #02a8f4;
     font-weight: bold;
     display: inline-block;
     width: 1em;
@@ -2200,7 +2200,7 @@ button.careerapply:hover {
 div#result,
 div#result1 {
     text-align: center;
-    color: #2ca01c;
+    color: #02a8f4;
     font-weight: bold;
     font-size: 18px;
 }
@@ -2293,7 +2293,7 @@ div#result1 {
 }
 
 .rigth-contact-img p a {
-    color: #2ca01c;
+    color: #02a8f4;
 }
 
 .contact-icon {
@@ -2401,7 +2401,7 @@ li.contact-buton {
 }
 
 .modulbox .modal-content {
-    background: #2ca01c !important;
+    background: #02a8f4 !important;
     border: none !important;
 }
 
@@ -2452,7 +2452,7 @@ li.contact-buton {
 }
 
 .marquess {
-    background: #2ca01c;
+    background: #02a8f4;
     color: #fff;
     padding: 5px 0;
     position: fixed;
