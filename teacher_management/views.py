@@ -1,4 +1,5 @@
 from email import message
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -165,7 +166,7 @@ class UpdateHolidayList(UpdateView):
 # ============================== Employee Master CRUD ================================
 def employee_master_create_view(request):
     if request.method == "POST":
-        form = EmployeeMasterForm(request.POST)
+        form = EmployeeMasterForm(request.POST,request.FILES)
         if form.is_valid():
             try:
                 form.save()
@@ -187,7 +188,7 @@ class EmployeeMasterList(ListView):
 def employee_master_update(request, pk):
     employee = get_object_or_404(EmployeeMaster, pk=pk)
     if request.method == "POST":
-        form = EmployeeMasterForm(request.POST, instance=employee)
+        form = EmployeeMasterForm(request.POST,request.FILES, instance=employee)
         if form.is_valid():
             form.save()
             return redirect('teacher:list_of_employee_master')  # Replace with your actual redirect URL
@@ -205,3 +206,55 @@ class DeleteHolidayList(DeleteView):
     model = LmHolidayList
     success_url = reverse_lazy('teacher:holiday_list')
     
+# <---------------Attendance for employees----------------------->
+
+def employee_attendance_view(request):
+    departments = LmDepartmentMaster.objects.all()
+    if request.method == 'POST':
+        data = request.POST
+        date = data.get('date')
+        department_id = data.get('department')
+
+        employees = EmployeeMaster.objects.filter(department_id=department_id)
+
+        for employee in employees:
+            employee_id = employee.id
+            attendance_status = data.get(f'attendance_status_{employee_id}')
+            present = attendance_status == 'present'
+            absent = attendance_status == 'absent'
+
+            EmployeeAttendance.objects.update_or_create(
+                employee_id=employee_id,
+                date=date,
+                defaults={'present': present, 'absent': absent}
+            )
+
+        return redirect('teacher:employee_attendance_list')  # Redirecting to the list of employees
+    context = {
+        'departments': departments,
+    }
+    return render(request, 'employee_attendance.html', context)
+
+def fetch_employee_attendance_data(request):
+    department_id = request.GET.get('department_id')
+    date = request.GET.get('date')
+
+    employees = EmployeeMaster.objects.all() if department_id == "all" else EmployeeMaster.objects.filter(department_id=department_id)
+
+    attendance_data = []
+    for employee in employees:
+        attendance_record = EmployeeAttendance.objects.filter(employee=employee, date=date).first()
+        attendance_data.append({
+            'id': employee.id,
+            'name': f"{employee.first_name} {employee.last_name}",
+            'emp_no': employee.emp_no,
+            'date': date,
+            'present': attendance_record.present if attendance_record else False,
+            'absent': attendance_record.absent if attendance_record else False
+        })
+    return JsonResponse({'attendance_data': attendance_data})
+
+
+def employee_attendance_list(request):
+    departments = LmDepartmentMaster.objects.all()
+    return render(request, 'employee_attendance_list.html', {'departments': departments})

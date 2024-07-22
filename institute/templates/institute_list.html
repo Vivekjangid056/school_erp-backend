@@ -59,10 +59,11 @@
                             <td>{{institute.mobile_number}}</td>
                             <td>
                                 <a href="{% url 'accounts:institute_update' institute.pk %}"
-                                    class="btn btn-sm btn-primary" title="Edit">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    class="btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
+                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
+                                <button class="btn btn-sm btn-danger"  
+style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
                                     data-url="{% url 'accounts:institute_delete' institute.pk %}">
                                     <i class="fas fa-trash-alt"></i>

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Add DataTables CSS and JS -->
+
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-end mb-3">
+        <a style="text-decoration:none; color:white" href="{% url 'institute:attendance' %}">
+            <button class="btn btn-md btn-primary">
+                <i class="fa fa-plus"></i> Take Attendance
+            </button>
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <h3 class="col-12">Attendance List</h3>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="id_standard">Select Standard:</label>
+                        <select id="id_standard" name="standard" class="form-control">
+                            <option value="">Select a standard</option>
+                            {% for standard in standards %}
+                                <option value="{{ standard.id }}">{{ standard.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="id_subject">Select Subject:</label>
+                        <select id="id_subject" name="subject" class="form-control">
+                            <option value="">Select a subject</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table id="attendance-table" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Name</th>
+                            <th>Enroll No.</th>
+                            <th>Date</th>
+                            <th>Attendance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-table-body">
+                        <!-- Rows will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    // Initialize DataTable
+    var attendanceTable = $('#attendance-table').DataTable();
+
+    function fetchAndPopulateAttendanceTable() {
+        var standardId = $('#id_standard').val();
+        var subjectId = $('#id_subject').val();
+
+        if (standardId) {
+            $.ajax({
+                url: '{% url "institute:fetch_attendance_data" %}',
+                method: 'GET',
+                data: {
+                    'standard_id': standardId,
+                    'subject_id': subjectId || null
+                },
+                success: function(data) {
+                    populateAttendanceTable(data.attendance_data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching attendance data:', error);
+                }
+            });
+        }
+    }
+
+    function populateAttendanceTable(attendanceData) {
+        attendanceTable.clear(); // Clear existing data
+
+        attendanceData.forEach(function(record, index) {
+            var srNumber = index + 1;
+            var row = [
+                srNumber,
+                record.name,
+                record.enroll_no,
+                record.date,
+                record.present ? '✔️' : '❌'
+            ];
+            attendanceTable.row.add(row);
+        });
+
+        attendanceTable.draw(); // Redraw the table
+    }
+
+    $('#id_standard').change(function() {
+        fetchAndPopulateAttendanceTable();
+        loadSubjects($(this).val());
+    });
+
+    $('#id_subject').change(function() {
+        fetchAndPopulateAttendanceTable();
+    });
+
+    function loadSubjects(standardId) {
+        if (standardId) {
+            $.ajax({
+                url: '{% url "institute:load_subjects" %}',
+                data: {
+                    'standard_id': standardId
+                },
+                success: function(data) {
+                    var $subjects = $('#id_subject');
+                    $subjects.empty();
+                    $subjects.append('<option value="">Select a subject</option>');
+                    $.each(data, function(key, value) {
+                        $subjects.append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#id_subject').empty();
+            $('#id_subject').append('<option value="">Select a subject</option>');
+        }
+    }
+
+    // Initial fetch on page load (optional)
+    fetchAndPopulateAttendanceTable();
+});
+</script>
+
+{% endblock %}

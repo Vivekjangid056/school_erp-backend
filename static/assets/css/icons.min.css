@@ -23562,8 +23562,8 @@
     font-family: boxicons;
     font-weight: 400;
     font-style: normal;
-    src: url(../fonts/boxicons.eot);
-    src: url(../fonts/boxicons.eot) format("embedded-opentype"), url(../fonts/boxicons.html) format("woff2"), url(../fonts/boxicons.woff) format("woff"), url(../fonts/boxicons.ttf) format("truetype"), url(../fonts/boxiconsd41d.svg?#boxicons) format("svg")
+    src: url(./fonts/boxicons.eot);
+    src: url(./fonts/boxicons.eot) format("embedded-opentype"), url(./fonts/boxicons.html) format("woff2"), url(./fonts/boxicons.woff) format("woff"), url(./fonts/boxicons.ttf) format("truetype"), url(./fonts/boxiconsd41d.svg?#boxicons) format("svg")
 }
 
 .bx {

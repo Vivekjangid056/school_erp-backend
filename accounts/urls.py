@@ -6,7 +6,8 @@ from .api_views import *
 app_name = "accounts"
 
 urlpatterns = [
-    path('', admin_login, name='super-admin-login'),
+    path('', home, name = "home"),
+    path('admin-login', admin_login, name='super-admin-login'),
     path('dashboard/', admin_dashboard, name='admin-dashboard'),
     path('logout/', logout_view, name='logout'),
 

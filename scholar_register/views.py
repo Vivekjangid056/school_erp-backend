@@ -114,7 +114,6 @@ def student_update(request,pk):
         return render(request,'students_update.html',{
             'profile_form': profile_form
         })
-
 def student_delete(request, pk):
     student_profile = get_object_or_404(StudentProfile, pk=pk)
     user = student_profile.parent.user

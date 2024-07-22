@@ -764,9 +764,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>ID Card Employee</a>
                 </li>
             </ul>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.attendance}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Attendance</span>
+                <span key="t-dashboards">Student's Attendance</span>
             </a>
             <a href="${urls.listOfMastersList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
@@ -827,9 +827,9 @@ document.addEventListener('DOMContentLoaded', function () {
         `,
         'hr': `
         <li class="menu-title" key="t-menu">HR</li>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.employeeAttendance}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Attendance</span>
+                <span key="t-dashboards">Employee's Attendance</span>
             </a>
             <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#hr-employee" aria-expanded="false" aria-controls="pages">
             <div>
@@ -840,7 +840,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <ul id="hr-employee" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-signature"></i>Create Employee</a>
+                    <a href="${urls.listOfMastersList}"><i class="fas fa-signature"></i>Create Employee</a>
                 </li>
                 <li class="sidebar-item ">
                     <a href="#"><i class="fas fa-user-tag"></i>Upload DocumentSalary StructureI</a>
@@ -900,7 +900,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-user-tag"></i>Monthly Attendance</a>
                 </li>
             </ul>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.hrInterviewList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Interview</span>
             </a>

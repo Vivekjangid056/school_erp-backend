@@ -54,10 +54,11 @@
                             <td>{{class_group.name}}</td>
                             <td>
                                 <a href="{% url 'institute:update_class_group' class_group.pk %}"
-                                    class="btn btn-sm btn-primary" title="Edit">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    class="btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
+                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:class_groups_delete' class_group.pk %}">
+                                <button class="btn btn-sm btn-danger"  
+style="padding:0.001rem" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:class_groups_delete' class_group.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

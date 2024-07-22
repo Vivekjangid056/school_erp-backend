@@ -2299,7 +2299,7 @@ body[data-layout=horizontal][data-layout-size=boxed] .navbar-header {
 }
 
 .simplebar-content-wrapper {
-    background-color: #ffbc12;
+    background: linear-gradient(to bottom, #02A8F4, #445CCE);
     direction: inherit;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;

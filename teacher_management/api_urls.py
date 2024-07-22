@@ -1,6 +1,8 @@
 from django.urls import path
-from .api_views import *
+from .api_views import login_view
 
-urlaptterns = [
-    
-]
+
+
+urlpatterns = [
+    path('teacherlogin/', login_view, name='login'),
+] 

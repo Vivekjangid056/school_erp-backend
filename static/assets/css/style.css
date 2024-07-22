@@ -20,7 +20,7 @@ body {
     display: flex;
     padding: .4rem;
     box-shadow: 0px 0px 3px gray;
-    background: linear-gradient(to right, #fff95b, #ff930f);
+    background: linear-gradient(to right, #02A8F4, #445CCE)
 }
 
 .site-logo {

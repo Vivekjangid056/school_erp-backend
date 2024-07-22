@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 # Create your views here.
 
+def home(request):
+    return render(request, 'index.html')
 
 def admin_login(request):
     if request.user.is_authenticated:

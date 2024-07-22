@@ -45,10 +45,11 @@
                             <td>{{ss.subject_type}}</td>
                             <td>
                                 <a href="{% url 'institute:update_of_sub_for_class_groups' ss.pk %}"
-                                    class="btn btn-sm btn-primary" title="Edit">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    class="btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
+                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal"
+                                <button class="btn btn-sm btn-danger"  
+style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
                                     data-url="{% url 'institute:delete_of_sub_for_class_groups' ss.pk %}">
                                     <i class="fas fa-trash-alt"></i>

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-end mb-3">
+        <a style="text-decoration:none; color:white" href="{% url 'teacher:employee_attendance' %}">
+            <button class="btn btn-md btn-primary">
+                <i class="fa fa-plus"></i> Take Attendance
+            </button>
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" id="attendance-form">
+                {% csrf_token %}
+                
+                <div class="row mb-3">
+                    <h3 class="col-12">Mark Employee Attendance</h3>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="id_department">Select Department:</label>
+                            <select id="id_department" name="department" class="form-control">
+                                <option value="all">All Departments</option>
+                                {% for department in departments %}
+                                    <option value="{{ department.id }}">{{ department.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="id_date">Select Date:</label>
+                            <input type="date" id="id_date" name="date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="attendance-table" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Sr.No.</th>
+                                <th>Name</th>
+                                <th>Emp No.</th>
+                                <th>Date</th>
+                                <th>Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-table-body">
+                            <!-- Rows will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    // Initialize DataTable
+    var attendanceTable = $('#attendance-table').DataTable();
+
+    function fetchAndPopulateAttendanceTable() {
+        var departmentId = $('#id_department').val();
+        var date = $('#id_date').val();
+
+        if (departmentId && date) {
+            $.ajax({
+                url: '{% url "teacher:fetch_employee_attendance_data" %}',
+                method: 'GET',
+                data: {
+                    'department_id': departmentId,
+                    'date': date
+                },
+                success: function(data) {
+                    populateAttendanceTable(data.attendance_data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching attendance data:', error);
+                }
+            });
+        }
+    }
+
+    function populateAttendanceTable(attendanceData) {
+        attendanceTable.clear(); // Clear existing data
+
+        attendanceData.forEach(function(record, index) {
+            var srNumber = index + 1;
+            var row = [
+                srNumber,
+                record.name,
+                record.emp_no,
+                record.date,
+                record.present ? '✔️' : '❌'
+            ];
+            attendanceTable.row.add(row);
+        });
+
+        attendanceTable.draw(); // Redraw the table
+    }
+
+    $('#id_department, #id_date').change(function() {
+        fetchAndPopulateAttendanceTable();
+    });
+
+    // Initial fetch on page load (optional)
+    fetchAndPopulateAttendanceTable();
+});
+</script>
+
+{% endblock %}

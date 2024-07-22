@@ -88,12 +88,12 @@
                     <!-- logo -->
                     <div class="navbar-brand-box">
 
-                        <a href="#" class="logo logo-light">
+                        <a href="#" class="logo">
                             <span class="logo-sm">
-                                <img src="{% static 'assets/images/logo-light.svg'%}" alt="" height="22">
+                                <img src="{% static 'assets/images/scholarsByte.png'%}" alt="" height="60">
                             </span>
                             <span class="logo-lg">
-                                <img src="{% static 'assets/images/logo.png'%}" alt="" height="19">
+                                <img src="{% static 'assets/images/scholarsByte.png'%}" alt="" height="56">
                             </span>
                         </a>
                     </div>
@@ -619,8 +619,16 @@
             <!--holiday list-->
             holidayList:"{% url 'teacher:holiday_list' %}",
             listOfMastersList:"{% url 'teacher:list_of_employee_master' %}",
-            studentRegistration: "{% url 'students:list_of_students' %}"
+            studentRegistration: "{% url 'students:list_of_students' %}",
 
+            <!--HR-->
+            hrInterviewList:"{% url 'hr:list_of_interview' %}",
+
+            <!-- Attendance -->
+            attendance:"{% url 'institute:attendance_list' %}",
+
+            <!--Employee Attendance-->
+            employeeAttendance:"{% url 'teacher:employee_attendance_list' %}",
 
         };
     </script>

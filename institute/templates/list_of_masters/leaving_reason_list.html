@@ -54,10 +54,11 @@
                             <td>{{leaving_reason.name}}</td>
                             <td>
                                 <a href="{% url 'institute:update_leaving_reason' leaving_reason.pk %}"
-                                    class="btn btn-sm btn-primary" title="Edit">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    class="btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
+                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:leaving_reason_delete' leaving_reason.pk %}">
+                                <button class="btn btn-sm btn-danger"  
+style="padding:0.001rem" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'institute:leaving_reason_delete' leaving_reason.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>

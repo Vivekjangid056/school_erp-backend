@@ -4,6 +4,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.views import View
+from django.views.decorators.http import require_POST
+
+from scholar_register.models import StudentProfile
 from .forms import *
 from .models import *
 from django.views.generic import UpdateView, CreateView, DeleteView, FormView, ListView
@@ -471,6 +474,9 @@ class UpdateSubjects(UpdateView):
 class SubjectDeleteView(DeleteView):
     model = Subjects
     success_url = reverse_lazy('institute:list_of_subjects')
+    
+    
+
 
 # ======================================= document CRUD =================================================
 class AddDocuments(FormView):
@@ -930,6 +936,7 @@ def notification_create_view(request):
         form = NotificationModelForm()
     return render(request, 'notification_form.html', {'form': form})
 
+#<------------------------ for SubFOrClassGroup in session settings ---------------------------------->
 
 def notification_update_view(request, pk):
     notification = get_object_or_404(NotificationModel, pk=pk)
@@ -954,11 +961,18 @@ class NotificationDeleteView(DeleteView):
 
 
 # ================================= subject for class groups data crud ================================
+class AddSubForClassGroup(CreateView):
+    template_name = "session_settings/ss_sub_for_groups_form.html"
+    form_class = SubjectsForClassGroupForm
+    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
 class listSubForClassGroup(ListView):
     template_name = "session_settings/ss_sub_for_groups_list.html"
     model = SubjectsForClassGroup
     context_object_name = 'subject_for_class_group_list'
-
 class UpdateSubForClassGroup(UpdateView):
     model = SubjectsForClassGroup
     form_class = SubjectsForClassGroupForm
@@ -1041,3 +1055,108 @@ class UpdateDiscountScheme(UpdateView):
 class DeleteDiscountScheme(DeleteView):
     model = DiscountScheme
     success_url = reverse_lazy('institute:list_of_discount')
+    
+    
+#<------------------------ for Attendance ---------------------------------->
+
+def attendance_view(request):
+    standards = Standard.objects.all()
+    if request.method == 'POST':
+        data = request.POST
+        date = data.get('date')
+        standard_id = data.get('standard')
+        subject_id = data.get('subjects')
+
+        students = StudentProfile.objects.filter(standard_id=standard_id)
+
+        for student in students:
+            student_id = student.id
+            attendance_status = data.get(f'attendance_status_{student_id}')
+            present = attendance_status == 'present'
+            absent = attendance_status == 'absent'
+
+            Attendance.objects.update_or_create(
+                student_id=student_id,
+                subject_id=subject_id,
+                standard_id = standard_id,
+                date=date,
+                defaults={'present': present, 'absent': absent}
+            )
+
+        return redirect('institute:attendance_list')  # redirecting to list of students
+    form = AttendanceForm
+    context = {
+        'standards': standards,
+        'form': form,
+    }
+    return render(request, 'attendance.html', context)
+    
+def load_subjects(request):
+    standard_id = request.GET.get('standard_id')
+    subjects = Subjects.objects.filter(standard_id=standard_id).all()
+    return JsonResponse(list(subjects.values('id', 'name')), safe=False)
+
+
+
+
+def fetch_students_attendance(request):
+    if request.method == 'GET':
+        standard_id = request.GET.get('standard_id')
+        subject_id = request.GET.get('subject_id')
+        date = request.GET.get('date')
+
+        # Fetch students based on the selected standard
+        students = StudentProfile.objects.filter(
+            standard_id=standard_id
+        ).values('id', 'user__first_name', 'user__last_name', 'enroll_no')
+
+        # Prepare attendance data
+        attendance_data = []
+        for student in students:
+            attendance_status = Attendance.objects.filter(
+                student_id=student['id'],
+                subject_id=subject_id,
+                date=date
+            ).first()
+
+            attendance_data.append({
+                'id': student['id'],
+                'name': f"{student['user__first_name']} {student['user__last_name']}",
+                'roll_no': student['enroll_no'],
+                'present': attendance_status.present if attendance_status else False,
+                'absent': attendance_status.absent if attendance_status else False
+            })
+
+        return JsonResponse({'students': attendance_data})
+
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+def attendance_list(request):
+    standards = Standard.objects.all()
+    subjects = Subjects.objects.all()
+    return render(request, 'attendance_list.html', {'standards': standards, 'subjects': subjects})
+
+
+def fetch_attendance_data(request):
+    if request.method == 'GET':
+        standard_id = request.GET.get('standard_id')
+        subject_id = request.GET.get('subject_id')
+
+        attendance_records = Attendance.objects.filter(
+            standard_id=standard_id,
+            subject_id=subject_id
+        ).select_related('student')
+
+        attendance_data = []
+        for record in attendance_records:
+            attendance_data.append({
+                'name': f"{record.student.user.first_name} {record.student.user.last_name}",
+                'enroll_no': record.student.enroll_no,
+                'present': record.present,
+                'absent': record.absent,
+                'date': record.date.strftime('%Y-%m-%d'),
+            })
+
+        return JsonResponse({'attendance_data': attendance_data})
+
+    return JsonResponse({'error': 'Method not allowed'}, status=405)

@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Mark Attendance</h1>
+
+  <form method="post" id="attendance-form">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label for="id_date">Attendance Date:</label>
+      <input type="date" id="id_date" name="date" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="id_standard">Standard:</label>
+      <select id="id_standard" name="standard" class="form-control">
+          <option value="">Select a standard</option>
+          {% for standard in standards %}
+              <option value="{{ standard.id }}">{{ standard.name }}</option>
+          {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="id_subjects">Subjects:</label>
+      <select id="id_subjects" name="subjects" class="form-control">
+          <option value="">Select a subject</option>
+          <!-- Options will be populated by JavaScript -->
+      </select>
+    </div>
+
+    <!-- Table to display student information and attendance -->
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Roll No.</th>
+            <th>Present</th>
+            <th>Absent</th>
+          </tr>
+        </thead>
+        <tbody id="attendance-table-body">
+          <!-- Rows will be populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        // Function to populate subjects dropdown based on selected standard
+        $('#id_standard').change(function() {
+            var standardId = $(this).val();
+            if (standardId) {
+                $.ajax({
+                    url: '{% url "institute:load_subjects" %}',
+                    data: {
+                        'standard_id': standardId
+                    },
+                    success: function(data) {
+                        var $subjects = $('#id_subjects');
+                        $subjects.empty();
+                        $subjects.append('<option value="">Select a subject</option>');
+                        $.each(data, function(key, value) {
+                            $subjects.append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#id_subjects').empty();
+                $('#id_subjects').append('<option value="">Select a subject</option>');
+            }
+        });
+
+        // Function to fetch and populate student attendance table
+        function fetchAndPopulateAttendanceTable() {
+            var standardId = $('#id_standard').val();
+            var subjectId = $('#id_subjects').val();
+            var date = $('#id_date').val();
+
+            $.ajax({
+                url: '{% url "institute:fetch_students_attendance" %}',
+                method: 'GET',
+                data: {
+                    'standard_id': standardId,
+                    'subject_id': subjectId,
+                    'date': date
+                },
+                success: function(data) {
+                    populateAttendanceTable(data.students);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching students:', error);
+                }
+            });
+        }
+
+        // Function to populate attendance table with student data
+        function populateAttendanceTable(students) {
+            var $tableBody = $('#attendance-table-body');
+            $tableBody.empty();
+
+            students.forEach(function(student) {
+                var row = '<tr>';
+                row += '<td>' + student.name + '</td>';
+                row += '<td>' + student.roll_no + '</td>';
+                row += '<td><input type="radio" name="attendance_status_' + student.id + '" value="present"></td>';
+                row += '<td><input type="radio" name="attendance_status_' + student.id + '" value="absent"></td>';
+                row += '</tr>';
+                $tableBody.append(row);
+            });
+        }
+
+        // Event listeners
+        $('#id_subjects, #id_date').change(function() {
+            fetchAndPopulateAttendanceTable();
+        });
+
+        // Initial fetch on page load (optional)
+        fetchAndPopulateAttendanceTable();
+
+        // Form submission handling
+       
+    });
+  </script>
+{% endblock %}

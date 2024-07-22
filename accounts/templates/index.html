@@ -1,0 +1,1378 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords" content="ERP, school ERP,college ERP, student management, academic records, attendance tracking, timetable, examination, fees management, library management, parent portal">
+
+    <title>Scholars.ERP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="icon" href="/scholarimg/favicon.png" type="image/png" sizes="16x16" />
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/welcome_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/simple-line-icons.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet" />
+    <link rel='stylesheet' id='crellyslider.min-css' href="{% static 'assets/css/crellyslider.min.css' %}" media='all' />
+
+
+    <script src="{% static 'assets/js/jquery4a5f.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.crellyslider.min.js' %}"></script>
+
+</head>
+
+<body>
+    <header>
+
+        <div class="nav-container">
+            <div class="site-logo">
+                <a href="#"><img src="{% static 'assets/images/logo.png' %}" alt="logo"></a>
+            </div>
+            <div class="nav-items">
+                <a class="smoothscroll js-scroll-trigger" href="/#home">Home</a>
+                <a class="smoothscroll js-scroll-trigger" href="/#about">About</a>
+                <a class="smoothscroll js-scroll-trigger" href="/#products">Products</a>
+                <a class="smoothscroll js-scroll-trigger" href="/#modules">Modules</a>
+                <a class="smoothscroll js-scroll-trigger" href="/#team">Team</a>
+                <a class="smoothscroll js-scroll-trigger" href="#">Partner</a>
+                <a class="smoothscroll js-scroll-trigger" href="#">Career</a>
+                <a class="smoothscroll js-scroll-trigger" href="#">Contact</a>
+            </div>
+            <ul class="login-btn">
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg></li>
+                <li class="nav-item dropdown">
+                    <a style="padding-left: .2rem;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Login
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: white;">
+                        <li><a class="dropdown-item" target="_blank" href="{% url 'accounts:super-admin-login' %}"><i class="icon icon-home"></i> Institute Login</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href=""><i class="icon icon-people"></i> Faculty Login(coming soon)</a></li>
+                        <li><a class="dropdown-item" href=""><i class="fa icon-notebook"></i> Student Login(coming soon)</a></li>
+                    </ul>
+                </li>
+                <!-- <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></li> -->
+            </ul>
+        </div>
+        <style>
+            .dropdown-menu>li {
+                margin-right: 1.25px;
+                width: 18.75rem;
+            }
+            
+            .dropdown-menu>li>a:hover {
+                font-weight: 400;
+                line-height: 1.42857143;
+                color: #030000;
+                white-space: nowrap;
+                background-color: rgb(196, 186, 186);
+            }
+            
+            .dropdown-menu>li>a {
+                display: block;
+                padding: .5rem 1.2rem;
+                clear: both;
+                font-weight: 400;
+                line-height: 1.42857143;
+                color: #333;
+                white-space: nowrap;
+                background-color: white;
+            }
+            
+            .dropdown-menu>li>a>i {
+                color: #ce8909;
+            }
+        </style>
+    </header>
+    <div class="mid-content">
+        <section class="page-section" id="home">
+
+            <div style="display: none;" class="crellyslider-slider crellyslider-slider-full-width crellyslider-slider-te crellyslider-1" id="crellyslider-1">
+                <ul>
+                    <li style="background-color: transparent;background-image: url('static/assets/images/welcome/childs.png');background-position: center top;
+                    background-repeat: no-repeat;background-size: cover;" data-in="fade" data-ease-in="300" data-out="fade" data-ease-out="300" data-time="8000">
+                        <div class="color-overlay"></div>
+                        <div class="" style="z-index: 1;" data-delay="1500" data-ease-in="300" data-ease-out="300" data-in="fadeSmallUp" data-out="fade" data-ignore-ease-out="0" data-top="92" data-left="5" data-time="all">
+                            <div>
+                                <h2><span style="font-size: 32px;">SCHOOL AND COLLEGE AUTOMATION<br />SOFTWARE WITH A DIFFERENCE<br /></span></h2>
+                                <p style="font-size: 24px; text-align: center; line-height: inherit;">Well researched, feature-rich application<br />that offers reliability and ease of use</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="background-color: transparent;background-image: url('static/assets/images/welcome/thought-catalog-505eectW54k-unsplash.jpg');background-position: center top;
+                    background-repeat: no-repeat;background-size: cover;" data-in="fade" data-ease-in="300" data-out="fade" data-ease-out="300" data-time="8000">
+                        <div class="color-overlay"></div>
+                        <div class="" style="z-index: 1;" data-delay="1500" data-ease-in="300" data-ease-out="300" data-in="fadeSmallUp" data-out="fade" data-ignore-ease-out="0" data-top="68" data-left="11" data-time="all">
+                            <div>
+                                <h2><span style="font-size: 32px;">Sturdy Support and <br />Customer-connect Practices<br /></span></h2>
+                                <p style="font-size: 24px; text-align: center; line-height: inherit;">Always with you in your quest to provide superior<br />value to your students and other stakeholders</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="background-color: transparent;background-image: url('static/assets/images/welcome/tengyart-Hcqh_QSO0kg-unsplash.jpg');background-position: top center;
+                    background-repeat: no-repeat;background-size: cover;" data-in="fade" data-ease-in="300" data-out="fade" data-ease-out="300" data-time="8000">
+                        <div class="color-overlay"></div>
+                        <div class="" style="z-index: 1;" data-delay="1500" data-ease-in="300" data-ease-out="300" data-in="fadeSmallUp" data-out="fade" data-ignore-ease-out="0" data-top="116" data-left="536" data-time="all">
+                            <div>
+                                <h2><span style="font-size: 32px;">Caters to changing dynamics<br />in imparting education<br /></span></h2>
+                                <p style="font-size: 24px; text-align: center; line-height: inherit;">Feature-rich mobile application for online classes,<br />assignments, fee, reports and much more</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="background-color: transparent;background-image: url('static/assets/images/jack.png');background-position: center top;
+                    background-repeat: no-repeat;background-size: cover;" data-in="fade" data-ease-in="300" data-out="fade" data-ease-out="300" data-time="8000">
+                        <div class="color-overlay"></div>
+                        <div class="" style="z-index: 1;" data-delay="1500" data-ease-in="300" data-ease-out="300" data-in="fadeSmallUp" data-out="fade" data-ignore-ease-out="0" data-top="68" data-left="11" data-time="all">
+                            <div>
+                                <h2><span style="font-size: 32px;">Conduct Online Exams for<br /> enhanced reach &amp; efficiency<br /></span></h2>
+                                <p style="font-size: 24px; text-align: center; line-height: inherit;">Online Examination helps save time,<br /> paper &amp; money and also offers accuracy</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <script type="text/javascript">
+                jQuery.noConflict();
+                (function($) {
+                    $(document).ready(function() {
+                        $("#crellyslider-1").crellySlider({
+                            layout: 'full-width',
+                            responsive: 1,
+                            startWidth: 1140,
+                            startHeight: 450,
+                            automaticSlide: 1,
+                            showControls: 0,
+                            showNavigation: 0,
+                            enableSwipe: 1,
+                            showProgressBar: 1,
+                            pauseOnHover: 0,
+                            randomOrder: 0,
+                            startFromSlide: 0,
+                            beforeStart: function() {},
+                            beforeSetResponsive: function() {},
+                            beforeSlideStart: function() {},
+                            beforePause: function() {},
+                            beforeResume: function() {},
+                        });
+                    });
+                })(jQuery);
+            </script>
+            <div class="social-mediaicons">
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/ScholarsErp-2641844742592347/?ref=page_internal" target="_blank"><i style="font-size: 1.4rem;" class="icon icon-social-facebook" aria-hidden="true"> </i></a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/Scholarserp/" target="_blank">
+                            <i style="font-size: 1.4rem; color: rgb(150, 11, 11);" class="icon icon-social-instagram" aria-hidden="true"> </i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/company/scholars-erp" target="_blank">
+                            <i style="font-size: 1.4rem;" class="icon icon-social-linkedin" aria-hidden="true"> </i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <style>
+                .social-mediaicons ul li {
+                    display: inline-block;
+                    margin: 0 3px;
+                }
+                
+                .social-mediaicons ul li img {
+                    height: 25px;
+                }
+                
+                .social-mediaicons ul {
+                    margin: 5px 0 0;
+                    padding: 0;
+                    list-style-type: none;
+                }
+                
+                section#demos {
+                    position: relative;
+                }
+                
+                .social-mediaicons {
+                    position: absolute;
+                    top: 80px;
+                    right: 40px;
+                }
+            </style>
+        </section>
+        <div class="counter-sec">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3 countdown wow fadeInUp">
+                        <li class="count" data-count="2000">0</li><span>+ </span>
+                        <li class="hrl"></li>
+                        <li>Clients</li>
+                    </div>
+                    <div class="col-sm-3 countdown wow fadeInUp">
+                        <li class="count" data-count="100000">0</li><span>+ </span>
+                        <li class="hrl"></li>
+                        <li>App<br /> downloads</li>
+                    </div>
+                    <div class="col-sm-3 countdown wow fadeInUp">
+                        <li class="count" data-count="15">0</li><span>+ </span>
+                        <li class="hrl"></li>
+                        <li>States</li>
+                    </div>
+                    <div class="col-sm-3 countdown wow fadeInUp">
+                        <li class="count" data-count="20">0</li><span>+ </span>
+                        <li class="hrl"></li>
+                        <li>Modules</li>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="about" class="about-section page-section">
+            <div id="about" class="about-section page-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 class="wow fadeInUp">About Us</h2>
+                            <div class="about-content wow fadeInUp">
+                                Shri Sai Softpro Softwares Pvt Ltd (S S Softpro) is amongst the fastest growing educational ERP companies in India...
+                                <a id="read-more-button" class="morecontent">Read More</a>
+                                <span id="more-content" class="morecontentabout" style="display: none;">
+                                This is the reason our products matured in over a decade...
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+
+                <div id="timeline-section" class="section-timeline" style="display: none;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-8 marginauto">
+                                <h2 class="wow fadeInUp animated">Our Journey</h2>
+
+                                <ul class="timeline">
+                                    <li class="wow fadeInUp">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-right">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-20</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">1000 clients milestone</h4>
+
+                                            </div>
+                                            <div class="timeline-body">
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-inverted wow fadeInUp">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-left">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-20</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">First Sale in Himachal Pradesh</h4>
+                                            </div>
+                                            <div class="timeline-body">
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="wow fadeInUp">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-right">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Nov-19</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">First sale in Uttar Pradesh</h4>
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Nov-19</small></p>
+                                            </div>
+                                            <div class="timeline-body">
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-inverted wow fadeInUp">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-left">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Nov-19</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">First sale in Telangana</h4>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Nov-19</small></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="wow fadeInUp">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-right">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Sep-19</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">First sale in Punjab</h4>
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Sep-19</small></p>
+                                            </div>
+                                            <div class="timeline-body">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="moretimeline timeline">
+                                    <li class="timeline-inverted">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-left">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Jul-19</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">Scholars ERP (online) product release</h4>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Jul-19</small></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-right">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Jun-19</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">Bagging a project from Indian Army</h4>
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Jun-19</small></p>
+                                            </div>
+                                            <div class="timeline-body">
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-inverted ">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-left">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Jun-19</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">500 clients milestone reached</h4>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Jun-19</small></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-right">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Mar-19</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">First sale in Madhya Pradesh</h4>
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Mar-19</small></p>
+                                            </div>
+                                            <div class="timeline-body">
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-inverted ">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-left">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Dec-17</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">Rajasthan's largest educational group added</h4>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Dec-17</small></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-right">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Jul-16</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">First 100 reached </h4>
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Jul-16</small></p>
+                                            </div>
+                                            <div class="timeline-body">
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="timeline-inverted">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-left">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Sep-15</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">Acquired our first client</h4>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Sep-15</small></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-right">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Aug-15</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">Commenced opeations </h4>
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i>Aug-15</small></p>
+                                            </div>
+                                            <div class="timeline-body">
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="timeline-inverted">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-left">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Jul-12</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">Product development started</h4>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i> Jul-12</small></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="">
+                                        <div class="timeline-badge info"></div>
+                                        <div class="timeline-date-right">
+                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Aug-10</p>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">The company was registered</h4>
+                                                <p><small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i>Aug-10</small></p>
+                                            </div>
+                                            <div class="timeline-body">
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+                                </ul>
+                                <div class="arrowmoredown">
+                                    <i id="downtimeline" class="fa fa-chevron-down" aria-hidden="true"></i>
+                                    <i id="uptimeline" class="fa fa-chevron-up" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="products" class="products-section page-section">
+                <div class="container">
+                    <div class="row">
+                        <h2 class="wow fadeInUp">Products</h2>
+
+                        <!-- First Product Section -->
+                        <div class="col-sm-12 produts-sec fiprod">
+                            <div class="row">
+                                <div class="col-sm-6 wow slideInLeft">
+                                    <div class="owl-carousel owl-theme">
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/welcome/childs.png' %}" class="img-responsive" />
+                                        </div>
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/jack.png' %}" class="img-responsive" />
+                                        </div>
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/jack.png' %}" class="img-responsive" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 contentmid second-pro wow slideInRight">
+                                    <h3>Scholars ERP</h3>
+                                    <p>One of the most sought-after solutions for school / college management. It is a feature-rich online product and a notch above the desktop version by virtue of its enhanced features and convenient mobile application
+                                        that serves as an interface between teachers, parents and students. </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clearfix for proper alignment -->
+                        <div class="clearfix"></div>
+
+                        <!-- Second Product Section -->
+                        <div class="col-sm-12 produts-sec">
+                            <div class="row">
+                                <div class="col-sm-6 contentmid wow slideInLeft">
+                                    <h3>Scholars Desk</h3>
+                                    <p>State-of-the-art and value rich solution that has been patronized by a large number of schools and colleges. It caters to the core functions of a school / college. The product is popular with small and mid-sized educational
+                                        entities. </p>
+                                </div>
+                                <div class="col-sm-6 wow slideInLeft">
+                                    <div class="owl-carousel owl-theme">
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/jack.png' %}" class="img-responsive" />
+                                        </div>
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/jack.png' %}" class="img-responsive" />
+                                        </div>
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/jack.png '%}" class="img-responsive" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clearfix for proper alignment -->
+                        <div class="clearfix"></div>
+
+                        <!-- Third Product Section -->
+                        <div class="col-sm-12 produts-sec fiprod">
+                            <div class="row">
+                                <div class="col-sm-6 wow slideInLeft">
+                                    <div class="owl-carousel owl-theme">
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/jack.png' %}" class="img-responsive" />
+                                        </div>
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/jack.png' %}" class="img-responsive" />
+                                        </div>
+                                        <div class="item">
+                                            <img src="{% static 'assets/images/jack.png' %}" class="img-responsive" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 contentmid second-pro wow slideInRight">
+                                    <h3>Scholars Eval</h3>
+                                    <p>The product helps conduct online examination – online, offline or a combination of the two. There is a provision for creating question bank and designing different types of formats for different exams / tests. The results
+                                        can be published as per schedule. The application helps save time, paper and money besides offering accuracy.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clearfix for proper alignment -->
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="modules" class="modules-section page-section">
+                <div class="container">
+                    <div class="row">
+                        <h2 class="wow fadeInUp">Modules</h2>
+                        <div class="col-sm-12 modules-sec">
+                            <div id="mostmodul">
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal101">
+                                        <i class="icon-book-open icons"></i>
+                                        <h4>Scholar Register </h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal101" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-organization icons"></i>
+                                                    <h4>Scholar Register </h4>
+                                                    <ul>
+                                                        <li>Session Records</li>
+                                                        <li>Active and Deactivated Cases</li>
+                                                        <li>Session Transfers </li>
+                                                        <li>Subject Assignments </li>
+                                                        <li>Student Logs</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal102">
+                                        <i class="icon-organization icons"></i>
+                                        <h4>Administration</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal102" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+
+                                                <div class="hideme">
+                                                    <i class="icon-organization icons"></i>
+                                                    <h4>Administration</h4>
+                                                    <ul>
+                                                        <li>User-rights Management</li>
+                                                        <li>Log Management of Students' Records / Documents</li>
+                                                        <li>Data Backup</li>
+                                                        <li>Log Management of Students' Records / Documents</li>
+                                                        <li>Session Settings</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal103">
+                                        <i class="icon-info icons"></i>
+                                        <h4>Enquiry</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal103" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-info icons"></i>
+                                                    <h4>Enquiry</h4>
+                                                    <ul>
+                                                        <li>New Enquiry (Course-wise)</li>
+                                                        <li>Enquiry raised by a User</li>
+                                                        <li>User-wise Report</li>
+                                                        <li>Enquiry Status Report</li>
+                                                        <li>Enquirires Converted Report</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal104">
+                                        <i class="icon-calendar icons"></i>
+                                        <h4>Attendance </h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal104" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-calendar icons"></i>
+                                                    <h4>Attendance</h4>
+                                                    <ul>
+                                                        <li>Daily Attendance Report</li>
+                                                        <li>Monthly Attendance Report</li>
+                                                        <li>Messaging system for Parents' Information</li>
+                                                        <li>Holidays Calendar</li>
+                                                        <li>Machine Id Assignment</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal105">
+                                        <i class="icon-wallet icons"></i>
+                                        <h4>Fee</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal105" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-wallet icons"></i>
+                                                    <h4>Fee</h4>
+                                                    <ul>
+                                                        <li>Daily Deposits Report</li>
+                                                        <li>Head-wise Feed Deposit Report</li>
+                                                        <li>Due Fee Deposit Report</li>
+                                                        <li>Alerts through Messaging</li>
+                                                        <li>Due Fees Demand Slip Generation</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal106">
+                                        <i class="icon-note icons"></i>
+                                        <h4>Examination </h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal106" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-note icons"></i>
+                                                    <h4>Examination </h4>
+                                                    <ul>
+                                                        <li>Customized Mark Sheets</li>
+                                                        <li>Examination-wise Mark Sheets</li>
+                                                        <li>Students' Progress Report</li>
+                                                        <li>Class Test with Mark Sheet</li>
+                                                        <li>PTM Format List</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal107">
+                                        <i class="icon-badge icons"></i>
+                                        <h4>Certificates</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal107" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-badge icons"></i>
+                                                    <h4>Certificates</h4>
+                                                    <ul>
+                                                        <li>Character Certificate </li>
+                                                        <li>Transfer Certificate</li>
+                                                        <li>Study Certificate</li>
+                                                        <li>Bank Challans</li>
+                                                        <li>Fee Certificate</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal108">
+                                        <i class="fa fa-bus"></i>
+                                        <h4>Transportation </h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal108" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="fa fa-bus"></i>
+                                                    <h4>Transportation </h4>
+                                                    <ul>
+                                                        <li>SMS Alerts</li>
+                                                        <li>Route List</li>
+                                                        <li>Boarding-point wise List</li>
+                                                        <li>Vehicle-wise List</li>
+                                                        <li>Allotment and Charges</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="noremodu">
+                                <a class="viewmore">View All Modules</a>
+                            </div>
+                            <div class="allmodul">
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal109">
+                                        <i class="fa fa-bed" aria-hidden="true"></i>
+                                        <h4>Hostel </h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal109" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="fa fa-bed" aria-hidden="true"></i>
+                                                    <h4>Hostel </h4>
+                                                    <ul>
+                                                        <li>Room-wise List</li>
+                                                        <li>Available Capacity List</li>
+                                                        <li>Student Details with allotted room</li>
+                                                        <li>Building / Floor wise Student Detail</li>
+                                                        <li>Warden and Hostel Allotment</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal110">
+                                        <i class="icon-layers icons"></i>
+                                        <h4>Library</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal110" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-layers icons"></i>
+                                                    <h4>Library</h4>
+                                                    <ul>
+                                                        <li>Student Access</li>
+                                                        <li>Books Stock Report</li>
+                                                        <li>Issued Books Report</li>
+                                                        <li>Due Date Report</li>
+                                                        <li>Bar Code</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal111">
+                                        <i class="icon-people icons"></i>
+                                        <h4>Staff</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal111" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-people icons"></i>
+                                                    <h4>Staff</h4>
+                                                    <ul>
+                                                        <li>Employee Information</li>
+                                                        <li>Salary Information</li>
+                                                        <li>PF / ESI</li>
+                                                        <li>Salary Slipt</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal112">
+                                        <i class="icon-layers icons"></i>
+                                        <h4>Stock</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal112" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-layers icons"></i>
+                                                    <h4>Stock</h4>
+                                                    <ul>
+                                                        <li>Easy Stock Entry</li>
+                                                        <li>Class-wise Entry Bill</li>
+                                                        <li>Short-stock Report</li>
+                                                        <li>Stock Sales and Purchase Report</li>
+                                                        <li>Tax Report</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal113">
+                                        <i class="fa fa-calculator" aria-hidden="true"></i>
+                                        <h4>Accounts</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal113" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                                                    <h4>Accounts</h4>
+                                                    <ul>
+                                                        <li>General Entry</li>
+                                                        <li>Receipt and Payment Voucher Entry</li>
+                                                        <li>Vendor List</li>
+                                                        <li>Day Book and Cash Book</li>
+                                                        <li>Receipt and Payment Account</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal114">
+                                        <i class="icon-bubbles icons"></i>
+                                        <h4>Messaging</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal114" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-bubbles icons"></i>
+                                                    <h4>Messaging</h4>
+                                                    <ul>
+                                                        <li>Daily Attendance</li>
+                                                        <li>Emergencies</li>
+                                                        <li>Defaulters</li>
+                                                        <li>Examination and Test Results</li>
+                                                        <li>Birthdays</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal115">
+                                        <i class="icon-pencil icons"></i>
+                                        <h4>Homework</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal115" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-pencil icons"></i>
+                                                    <h4>Homework</h4>
+                                                    <ul>
+                                                        <li>Homework Notification</li>
+                                                        <li>Daily Homework Report</li>
+                                                        <li>Class-wise Homework Report</li>
+                                                        <li>Subject-wise Homework Report</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal116">
+                                        <i class="icon-user icons"></i>
+                                        <h4>Visitors</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal116" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-user icons"></i>
+                                                    <h4>Visitors</h4>
+                                                    <ul>
+                                                        <li>Daily Visitors List</li>
+                                                        <li>Visitor Card</li>
+                                                        <li>Visitor-wise Report</li>
+                                                        <li>Date-wise Visitor Report</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal117">
+                                        <i class="icon-notebook icons"></i>
+                                        <h4>Tasks</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal117" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-notebook icons"></i>
+                                                    <h4>Tasks</h4>
+                                                    <ul>
+                                                        <li>Task Assignment</li>
+                                                        <li>Task Progress Report</li>
+                                                        <li>Task Analysis</li>
+                                                        <li>Auto-updates on Completed Work</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal118">
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                                        <h4>Identity Cards</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal118" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                                                    <h4>Identity Cards</h4>
+                                                    <ul>
+                                                        <li>Creation</li>
+                                                        <li>New Cards at the time of Admission</li>
+                                                        <li>Customizable Size</li>
+                                                        <li>Customizable Layout</li>
+                                                        <li>Customizable Orientation</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal119">
+                                        <i class="icon-camrecorder icons"></i>
+                                        <h4>Pictures and Videos</h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal119" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-camrecorder icons"></i>
+                                                    <h4>Pictures and Videos</h4>
+                                                    <ul>
+                                                        <li>Event-wise picture upload for Parents</li>
+                                                        <li>Event-wise videos upload for Parents</li>
+                                                        <li>Mobile Application Integration </li>
+                                                        <li>Repositories for Institute</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modulbox">
+                                    <a class="wow pulse" data-toggle="modal" data-target="#myModal120">
+                                        <i class="icon-docs icons"></i>
+                                        <h4>Reports </h4>
+                                        <p>hello test</p>
+                                    </a>
+                                    <div class="modal right fade" id="myModal120" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                        <div class="modal-dialog  col-md-4 details-fullteam" role="document">
+                                            <div class="modal-content">
+                                                <div class="hideme">
+                                                    <i class="icon-docs icons"></i>
+                                                    <h4>Reports </h4>
+                                                    <ul>
+                                                        <li>All field-wise Custom Reports</li>
+                                                        <li>Total Student Strength Report</li>
+                                                        <li>Category and Age-wise List</li>
+                                                        <li>Various types of Certificates</li>
+                                                    </ul>
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close btn-closse" data-dismiss="modal" aria-label="Close"><i class="icon icon-close" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="team" class="team-section page-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 class="wow fadeInUp">Our Dedicated Team</h2>
+                            <p class="wow fadeInUp">
+                                We are a close knit team that believes in building up a culture where there is equality, free-flow of ideas and a strong feeling of camaraderie and cooperation. The team comprises of functional experts from diverse fields viz. software development, IT
+                                &amp; ITES, telecom, pharmaceutical, academics, FMCG etc. Team Development, Support, CRM, Renewals, Sales, Marketing and Accounts work in close coordination to deliver nothing less than the best to our esteemed clients.
+                            </p>
+                            <div class="teams" style="display: flex;">
+                                <div class="col-sm-3 wow pulse">
+                                    <img src="{% static 'assets/images/john wick.png' %}" class="img-responsive" />
+                                    <h4>Dr. John Wick <span>CEO</span></h4>
+                                </div>
+                                <div class="col-sm-3 wow pulse">
+                                    <img src="{% static 'assets/images/potter.png' %}" class="img-responsive" />
+                                    <h4>Dr Harry putra <span>Director</span></h4>
+                                </div>
+                                <div class="col-sm-3 wow pulse ">
+                                    <img src="{% static 'assets/images/jack.png' %}" class="img-responsive" />
+                                    <h4>Dr jack sparrow<span>Director</span></h4>
+                                </div>
+                                <div class="col-sm-3 wow pulse">
+                                    <img src="{% static 'assets/images/walter white.png' %}" class="img-responsive" />
+                                    <h4>Dr walter white <span>Development Head</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3 addoffice">
+                        <h3>Head Office</h3>
+                        <p>
+                            <a href="http://www.sssoftpro.com/" target="_blank"><img src="{% static 'assets/images/scholarsByte.png' %}" class="img-responsive" /></a><span>Shri Sai Softpro <br />Softwares Pvt. Ltd.</span></p>
+                        <p>
+                            Address: 206-207, Venkateshwar Tower, Central Spine, Vidhyadhar Nagar, Jaipur, Rajasthan 302039
+                        </p>
+                        <p>Phone: + 91 (141) 491 7678</p>
+                        <p>Email: info@scholarserp.com</p>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1885621.3872493198!2d86.6581387754166!3d80.2700893079101!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1717408498124!5m2!1sen!2sin" width="100%" height="250" style="border:0;"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div class="col-sm-3">
+                        <h3>Quick Links</h3>
+                        <ul class="footer-menu">
+                            <li><a href="https://rajpsp.nic.in/PSP2/Home/schoollogin.aspx" target="_blank">RTE Portal (Rajasthan)</a></li>
+                            <li><a href="http://rajeduboard.rajasthan.gov.in/" target="_blank">RBSE Website</a></li>
+                            <li><a href="http://cbse.nic.in/newsite/index.html" target="_blank">CBSE Website</a></li>
+                            <li><a href="http://cbseresults.nic.in" target="_blank">CBSE Result</a></li>
+                            <li><a href="/eula.htm" target="_blank">End User License Agreement (EULA)</a></li>
+                            <li><a href="http://sssoftpro.com/PrivacyPolicy.htm" target="_blank">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-2 appscoial">
+                        <h3>Mobile App</h3>
+                        <div class="apdownlod">
+                            <p>
+                                <a target="_blank" href="https://play.google.com/store/apps/details?id=com.softproscholar"><img src="{% static 'assets/images/scholarsByte.png' %}" class="img-responsive" /></a>
+                            </p>
+                            <p>
+                                <a target="_blank" href="https://apps.apple.com/in/app/scholarserp/id1528575327"><img src="{% static 'assets/images/logo.svg' %}" class="img-responsive" /></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="footer-bootm">
+            <div class="container">
+                <div class="row">
+                    <p>Copyright © 2024 Shri Sai Softpro Softwares Pvt. Ltd. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+        <div class="sideicon">
+            <ul>
+                <li>
+                    <a href="tel:7412050005"> <span>Call @ 74120-50005</span> <i class="icon icon-call-in"> </i> </a>
+                </li>
+                <li>
+                    <a href="mailto:info@scholarserp.com"> <span> info@scholarserp.com</span> <i class="icon icon-envelope"> </i> </a>
+                </li>
+                <li>
+                    <a href="/default/contact"> <span> Product Inquiry</span> <i class="icon icon-question"> </i> </a>
+                </li>
+
+                <li>
+                    <a id="myBtn" href="/scholar.pdf" target="_blank"> <span> E-Brochure</span> <i class="icon icon-energy" aria-hidden="true"> </i> </a>
+                </li>
+
+            </ul>
+        </div>
+        <div id="msko" class="maskk wow " style="display:none">
+
+            <h2><span class="fa fa-smile-o" style="font-size:30px"></span><span> Good days</span><span> ahead!</span> </h2>
+        </div>
+        <!-- The Modal -->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{% static 'assets/js/bootstrap.min.js'%}"></script>
+        <script type="text/javascript" src="{% static 'assets/js/custom.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}" />
+
+        <script type="text/javascript" src="{% static 'assets/js/owl.carousel.js' %}"></script>
+        <script src="{% static 'assets/js/wow.min.js' %}"></script>
+        <script>
+            new WOW().init();
+        </script>
+        <script src="https://www.google.com/recaptcha/api.js" async="async" defer="defer"></script>
+        <script>
+            function onClick(e) {
+                e.preventDefault();
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6LcsxtAZAAAAAB6fjbi5oI0tP3irdtRcDPSzx0ne', {
+                        action: 'submit'
+                    }).then(function(token) {
+                        // Add your logic to submit to your backend server here.
+                    });
+                });
+            }
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#view-all-modules").click(function() {
+                    $(".module-items .module-item").show(); // Assuming you hide additional modules initially
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function() {
+                var readMoreButton = document.getElementById("read-more-button");
+                var moreContent = document.getElementById("more-content");
+                var timelineSection = document.getElementById("timeline-section");
+
+                readMoreButton.addEventListener("click", function() {
+                    if (moreContent.style.display === "none") {
+                        moreContent.style.display = "block";
+                        timelineSection.style.display = "block";
+                        readMoreButton.style.display = "none"; // Optional: Hide the "Read More" button after click
+                    } else {
+                        moreContent.style.display = "none";
+                        timelineSection.style.display = "none";
+                    }
+                });
+            });
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.count').each(function() {
+                    var $this = $(this);
+                    var countTo = $this.attr('data-count');
+                    $({
+                        countNum: $this.text()
+                    }).animate({
+                        countNum: countTo
+                    }, {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function() {
+                            $this.text(Math.floor(this.countNum));
+                        },
+                        complete: function() {
+                            $this.text(this.countNum);
+                        }
+                    });
+                });
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="{% static 'assets/js/jquery.min.js'%}"></script>
+        <script src="{% static 'assets/js/owl.carousel.js'%}"></script>
+        <script>
+            $(document).ready(function() {
+                $(".owl-carousel").owlCarousel({
+                    items: 1,
+                    loop: true,
+                    margin: 10,
+                    autoplay: true,
+                    autoplayTimeout: 3000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 1
+                        },
+                        1000: {
+                            items: 1
+                        }
+                    }
+                });
+            });
+        </script>
+
+
+        <!--    
+    <div id="GreetingmyModal" class="Greetingmodal">
+
+        <div class="modal-content" style="width:550px">
+            <span id="Greetinclose" class="close">&times;</span>
+            <img src="~/scholarimg/Holi.png" style="width:100%;margin:-18px;" />
+        </div>
+        <style>
+            /* The Modal (background) */
+            .Greetingmodal {
+                display: block; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 99999 !important; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+        </style>
+
+    </div>
+    <script type="text/javascript">
+        // Get the modal
+        var modal = document.getElementById("GreetingmyModal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementById("Greetinclose");//document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
+     -->
+</body>
+
+</html>
+
+</html>
