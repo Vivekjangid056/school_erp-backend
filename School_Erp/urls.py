@@ -32,7 +32,7 @@ urlpatterns = [
     path("dashboard/api/", include('scholar_register.api_urls')),
     # path("dashboard/api/", include('teacher_management.api_urls')),
     path("api/", include('accounts.api_urls')),
-        path("dashboard/", include("hr.urls")),
+    path("dashboard/", include("hr.urls")),
     # urls for apis
     path("api/", include("teacher_management.api_urls")),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

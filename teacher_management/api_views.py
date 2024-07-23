@@ -22,22 +22,28 @@ def login_view(request):
             refresh = RefreshToken.for_user(user)
             return Response({
                 'code':200,
-                'status': True,
+                'error': False,
                 'message': 'Login successful',
                 'access token': str(refresh.access_token),
                 'data': serializer.data,
             })
         except Employee.DoesNotExist:
             return Response({
-                'code': 404,
-                'status': False,
+                'code': 200,
+                'error': True,
                 'message': 'Employee profile not found'
             })
     else:
         return Response({
-            'code': 401,
-            'status': False,
+            'code': 200,
+            'error': True,
             'message': 'Invalid credentials'
         })
         
-        
+@api_view(['POST'])
+def logout_view(request):
+    return Response({
+        'code' : 200,
+        'error' : False,
+        'message' : 'Logged Out Successfully'
+    })
