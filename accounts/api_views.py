@@ -13,35 +13,44 @@ def student_login_view(request):
     serializer = StudentLoginSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.validated_data['user']
-
         # Fetch the student profile after authentication
         try:
             parent = StudentParents.objects.get(user=user)
-            student = StudentProfile.objects.get(parent = parent)
+            students = StudentProfile.objects.filter(parent=parent)
+        except StudentParents.DoesNotExist:
+            return Response({
+                'status': False,
+                'code': 404,
+                'message': 'Parent profile not found'
+            }, status=status.HTTP_404_NOT_FOUND)
         except StudentProfile.DoesNotExist:
             return Response({
                 'status': False,
                 'code': 404,
-                'message': 'Student profile not found'
+                'message': 'Student profiles not found'
             }, status=status.HTTP_404_NOT_FOUND)
-        parent_sreializer = ParentSerializer(parent)
-        student_serializer = StudentSerializer(student)
+
+        parent_serializer = ParentSerializer(parent)
+        student_serializer = StudentSerializer(students, many=True)
 
         refresh = RefreshToken.for_user(user)
         return Response({
-            'access': str(refresh.access_token),
+            'access_token': str(refresh.access_token),
             'status': True,
             'code': 200,
-            'data': {'student' : student_serializer.data, 'parent' : parent_sreializer.data},
-            'message': 'Student login successfully'
+            'data': {
+                'students': student_serializer.data,
+                'parent': parent_serializer.data
+            },
+            'message': 'Student login successful'
         }, status=status.HTTP_200_OK)
-    
-    return Response({
-        'status': False,
-        'code': 400,
-        'errors': serializer.errors,
-        'message': 'Invalid credentials'
-    }, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({
+            'status': False,
+            'code': 400,
+            'message': 'Invalid data',
+            'errors': serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 # @login_required
@@ -58,3 +67,4 @@ def student_dashboard_view(request):
         
         
     return Response(student_data, status=status.HTTP_200_OK)
+

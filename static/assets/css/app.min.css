@@ -27,17 +27,17 @@
 }
 
 .navbar-header .dropdown .show.header-item {
-    background-color: #a07207
+    background-color: #02A8F4
 }
 
 .navbar-brand-box {
-    padding: 0 1.5rem;
+    padding: 0 .65 0 1rem;
     text-align: center;
     width: 250px
 }
 
 .logo {
-    line-height: 70px
+    line-height: 70px;
 }
 
 .logo .logo-sm {
@@ -2806,8 +2806,8 @@ input[type=checkbox].tui-full-calendar-checkbox-round+span {
 }
 
 .swal2-icon.swal2-warning {
-    border-color: #f1b44c;
-    color: #f1b44c
+    border-color: #02A8F4;
+    color: #02A8F4
 }
 
 .swal2-styled:focus {
