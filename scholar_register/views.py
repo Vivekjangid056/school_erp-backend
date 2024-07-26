@@ -20,10 +20,11 @@ def student_list(request):
 
 @transaction.atomic
 def student_register(request):
-    print("::::::::::::::::::::::::::::::::::::;;",request.user.institute_id)
+    print("::::::::::::::::::::::::::::::::::::;;", request.user.institute_id.first())
     if request.method == 'POST':
         parent_registered = request.POST.get('parent_registered')
         profile_form = StudentProfileForm(request.POST, request.FILES)
+        fees_form = StudentFeesForm(request.POST)
         print("Parent registered:", parent_registered)
         
         if parent_registered == 'yes':
@@ -34,9 +35,9 @@ def student_register(request):
                 context = {
                     'profile_form': profile_form,
                     'parents': parents,
+                    'fees_form': fees_form
                 }
                 return render(request, 'students_form.html', context)
-            
             try:
                 parent = StudentParents.objects.get(id=existing_parent_id)
             except StudentParents.DoesNotExist:
@@ -44,14 +45,20 @@ def student_register(request):
                 parents = StudentParents.objects.all()
                 context = {
                     'profile_form': profile_form,
+                    'fees_form': fees_form,
                     'parents': parents,
                 }
                 return render(request, 'students_form.html', context)
             
-            if profile_form.is_valid():
+            if profile_form.is_valid() and fees_form.is_valid():
                 profile = profile_form.save(commit=False)
                 profile.parent = parent
                 profile.save()
+
+                fees = fees_form.save(commit=False)
+                fees.student = profile  # Set the student here
+                fees.save()
+
                 messages.success(request, "Student registered successfully.")
                 return redirect('students:list_of_students')
             else:
@@ -59,31 +66,41 @@ def student_register(request):
         else:
             user_form = ParentUserCreationForm(request.POST)
             parent_form = ParentProfileForm(request.POST, user=request.user)
-            
-            if user_form.is_valid() and parent_form.is_valid() and profile_form.is_valid():
+            profile_form = StudentProfileForm(request.POST, request.FILES)
+            fees_form = StudentFeesForm(request.POST)
+
+            if user_form.is_valid() and parent_form.is_valid() and profile_form.is_valid() and fees_form.is_valid():
                 user = user_form.save()
                 parent = parent_form.save(commit=False)
                 parent.user = user
                 parent.save()
+
                 profile = profile_form.save(commit=False)
                 profile.parent = parent
                 profile.save()
+
+                fees = fees_form.save(commit=False)
+                fees.student = profile  # Set the student here
+                fees.save()
+
                 messages.success(request, "Student and parent registered successfully.")
                 return redirect('students:list_of_students')
             else:
                 print("User form errors:", user_form.errors)
                 print("Parent form errors:", parent_form.errors)
                 print("Profile form errors:", profile_form.errors)
+                print("fees form errors:", fees_form.errors)
         
         messages.error(request, "There were errors in the form. Please correct them and try again.")
         
         # Prepare context for invalid POST
-        parents = StudentParents.objects.all()
+        parents = StudentParents.objects.filter(user = request.user)
         context = {
             'user_form': user_form if parent_registered == 'no' else ParentUserCreationForm(),
             'parent_form': parent_form if parent_registered == 'no' else ParentProfileForm(),
             'profile_form': profile_form,
             'parents': parents,
+            'fees_form': fees_form,
         }
         return render(request, 'students_form.html', context)
     else:
@@ -91,14 +108,16 @@ def student_register(request):
         user_form = ParentUserCreationForm()
         parent_form = ParentProfileForm()
         profile_form = StudentProfileForm()
+        fees_form = StudentFeesForm()
 
     # Prepare context for GET
-    parents = StudentParents.objects.all()
+    parents = StudentParents.objects.filter(institute = request.user.institute_id.first())
     context = {
         'user_form': user_form,
         'parent_form': parent_form,
         'profile_form': profile_form,
         'parents': parents,
+        'fees_form': fees_form,
     }
     
     return render(request, 'students_form.html', context)

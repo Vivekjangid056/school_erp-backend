@@ -1,8 +1,6 @@
 from django import forms 
 from .models import *
 
-
-
 class LmCategoryMasterForm(forms.ModelForm):
     class Meta:
         model = LmCategoryMaster
@@ -38,3 +36,15 @@ class EmployeeMasterForm(forms.ModelForm):
     class Meta:
         model = EmployeeMaster
         fields = "__all__"
+        exclude = ['institute']
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance

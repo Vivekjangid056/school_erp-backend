@@ -108,6 +108,7 @@ class EmployeeMaster(models.Model):
     ]
 
     # ========================= Basic Informations ========================================
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='institute')
     prefix = models.CharField(max_length=10)
     emp_no = models.CharField(max_length=10)
     join_date = models.DateField(auto_created=True)

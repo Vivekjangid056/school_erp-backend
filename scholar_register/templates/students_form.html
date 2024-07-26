@@ -170,9 +170,6 @@
                     {{ profile_form.date_of_deactivae|as_crispy_field }}
                 </div>
                 <div class="col-md-3">
-                    {{ profile_form.installment_mode|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
                     {{ profile_form.rte|as_crispy_field }}
                 </div>
                 <div class="col-md-3">
@@ -350,7 +347,11 @@
         </fieldset>
         <hr>
         <fieldset>
+            <legend>Fees Information</legend>
             <div class="row">
+                <div class="col-md-4">
+                    {{ profile_form.caution_money|as_crispy_field }}
+                </div>
                 <div class="col-md-4">
                     {{ profile_form.caution_money_reciept_no|as_crispy_field }}
                 </div>
@@ -358,7 +359,16 @@
                     {{ profile_form.caution_money_reciept_date|as_crispy_field }}
                 </div>
                 <div class="col-md-4">
+                    {{ fees_form.fee_structure|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
                     {{ profile_form.amount|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.initial_fees_deposit|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ fees_form.installment_frequency|as_crispy_field }}
                 </div>
                 <div class="col-md-4">
                     {{ profile_form.counsellor_name|as_crispy_field }}

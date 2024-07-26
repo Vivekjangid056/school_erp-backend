@@ -166,14 +166,19 @@ class UpdateHolidayList(UpdateView):
 # ============================== Employee Master CRUD ================================
 def employee_master_create_view(request):
     if request.method == "POST":
-        form = EmployeeMasterForm(request.POST,request.FILES)
+        print(user.id)
+        user = request.user
+        form = EmployeeMasterForm(request.POST,request.FILES, user=user)
         if form.is_valid():
             try:
                 form.save()
                 return redirect('teacher:list_of_employee_master')
             except Exception as e:
                 print(f"Error saving form: {e}")
+        else:
+            print("exception occured", form.errors)
     else:
+        print(request.user.institute_id.first().pk)
         form = EmployeeMasterForm()
     
     return render(request, "employees_master/employee_master_register.html", {'form': form})

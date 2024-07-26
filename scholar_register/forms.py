@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from accounts.models import User
+from fees_module.models import StudentFeePayment
 from .models import *
 
 
@@ -64,10 +65,11 @@ class ParentProfileForm(forms.ModelForm):
 
 
 class StudentProfileForm(forms.ModelForm):
+    initial_fees_deposit = forms.DecimalField(max_digits=5, decimal_places=2)
     class Meta:
         model = StudentProfile
         fields = ['first_name', 'last_name','session', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
-                  'standard', 'section', 'date_of_deactivae', 'rte', 'bpl', 'installment_mode', 
+                  'standard', 'section', 'date_of_deactivae', 'rte', 'bpl', 
                   'prefix', 'suffix', 'sr_no', 'reg_no', 'admission_no', 'enroll_no', 'nationality', 
                   'mother_tongue', 'middle_name', 'gender', 'dob', 'student_aadhar', 'caste', 'religion', 
                   'category', 'medium', 'rural_or_urban', 'disablity_type', 'blood_group', 'house_name', 
@@ -76,8 +78,8 @@ class StudentProfileForm(forms.ModelForm):
                   'reason_of_leaving', 'previous_year', 'previous_class', 'obtain_marks', 'maximum_marks', 
                   'percentage', 'result', 'previous_school_board', 'previous_school_rollNo', 
                   'previous_school_class', 'third_lang_studied', 'student_photo', 'fathers_photo', 
-                  'mothers_photo', 'guardians_photo', 'caution_money_reciept_no', 'caution_money_reciept_date', 
-                  'amount', 'counsellor_name', 'remark']
+                  'mothers_photo', 'guardians_photo', 'caution_money', 'caution_money_reciept_no', 'caution_money_reciept_date', 
+                  'amount', 'initial_fees_deposit', 'counsellor_name', 'remark']
         widgets = {
             'date_of_admission': forms.DateInput(attrs={'type': 'date'}),
             'registration_date': forms.DateInput(attrs={'type': 'date'}),
@@ -85,4 +87,13 @@ class StudentProfileForm(forms.ModelForm):
             'dob': forms.DateInput(attrs={'type': 'date'}),
             'admission_confirm_date': forms.DateInput(attrs={'type': 'date'}),
             'caution_money_reciept_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedule
+    class Meta:
+        model = StudentFeePayment
+        fields = ['fee_structure', 'installment_frequency']        
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
         }

@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from accounts.models import Institute, User
-from institute.models import Caste, Category, ChildStatus, DiscountScheme, FeeInstallments, House, Medium, MotherToungue, Nationality, PaymentMode, Religion, Section, Standard, StudentType, Subjects
+from institute.models import Caste, Category, ChildStatus, DiscountScheme, House, Medium, MotherToungue, Nationality, PaymentMode, Religion, Section, Standard, StudentType, Subjects
 # Create your models here.
 
 # model for student registration
@@ -100,7 +100,6 @@ class StudentProfile(models.Model):
     date_of_deactivae = models.DateField(blank=True, null=True) #optional
     rte = models.BooleanField(default=False)
     bpl = models.BooleanField(default=False)
-    installment_mode = models.ForeignKey(FeeInstallments,on_delete=models.CASCADE)
     # basic info
     prefix = models.CharField(max_length=100)
     suffix = models.CharField(max_length=100)
@@ -152,6 +151,7 @@ class StudentProfile(models.Model):
     guardians_photo = models.ImageField(upload_to='images/',blank=True,null=True) #optional
     
     # moneyyyy
+    caution_money = models.DecimalField(max_digits=7, decimal_places=2)
     caution_money_reciept_no = models.CharField(max_length=255,blank=True,null=True) #optional
     caution_money_reciept_date = models.DateField(null=True, blank=True) #optional
     amount = models.IntegerField()

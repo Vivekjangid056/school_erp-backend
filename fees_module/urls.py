@@ -17,7 +17,7 @@ urlpatterns = [
     path('delete-fee-strucutre/<int:pk>', FeeStructureDeleteView.as_view(), name="delete_fee_structure" ),
     
     # <________________URL FOR PAYMENT SCHEDULE____________________>
-    path('add-payment-schedule', PaymentScheduleView.as_view(), name="add_payment_schedule" ),
+    path('add-payment-schedule', payment_schedule_create, name="add_payment_schedule" ),
     # list
     path('list-payment-schedule', PaymentScheduleListView.as_view(), name="list_payment_schedule" ),
     # update

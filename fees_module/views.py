@@ -45,16 +45,19 @@ class FeeStructureDeleteView(DeleteView):
     
 # <_____________________________Payment Schedule VIEWS__________________________>
 
-class PaymentScheduleView(CreateView):
-    model = PaymentSchedule
-    form_class = PaymentScheduleForm
-    template_name = 'payment_schedule/create_schedule.html'
-    success_url = reverse_lazy('fees_module:list_payment_schedule')
+def payment_schedule_create(request):
+    if request.method == 'POST':
+        form = PaymentScheduleForm(request.POST)
+        if form.is_valid():
+            payment_schedule = form.save()
+            return redirect('fees_module:list_payment_schedule')
+    else:
+        form = PaymentScheduleForm()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['student_fee_payment_detail_url'] = reverse('fees_module:student_fee_payment_detail', kwargs={'id': 0})[:-2]  # Remove the trailing "0/" from the URL
-        return context
+    student_fee_payment_detail_url = reverse('fees_module:student_fee_payment_detail', kwargs={'id': 0})[:-2]
+
+    context = {'form': form, 'student_fee_payment_detail_url': student_fee_payment_detail_url}
+    return render(request, 'payment_schedule/create_schedule.html', context)
     
 class PaymentScheduleListView(ListView):
     model = PaymentSchedule
