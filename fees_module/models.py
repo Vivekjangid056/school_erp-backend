@@ -1,0 +1,63 @@
+from django.db import models
+
+from institute.models import Standard
+from scholar_register.models import StudentProfile
+
+# Create your models here.
+
+
+class FeeStructure(models.Model):
+   
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE)
+    total_fee = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    def __str__(self):
+        return f"{self.standard.name} - {self.total_fee}"
+   
+     
+    
+class StudentFeePayment(models.Model):                 # ui side its installement Schedule
+    HALF_YEARLY = 'Half-Yearly'
+    Monthly = 'Monthly'
+    NoInstallement = 'No Installement'
+    INSTALLMENT_FREQUENCY_CHOICES = [
+        (HALF_YEARLY, 'Half-Yearly'),
+        (Monthly, 'Monthly'),
+        (NoInstallement, 'No Installement'),
+    ]
+    
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    fee_structure = models.ForeignKey(FeeStructure, on_delete=models.CASCADE)
+    installment_frequency = models.CharField(max_length=20, choices=INSTALLMENT_FREQUENCY_CHOICES)
+    
+    
+    def __str__(self):
+        return f"{self.student.first_name} - {self.fee_structure.standard} - {self.installment_frequency}"
+    
+    
+    @property
+    def total_installments(self):
+        if self.installment_frequency == self.HALF_YEARLY:
+            return 2
+        elif self.installment_frequency == self.MONTHLY:
+            return 12
+        return 0
+    
+    @property
+    def installment_amount(self):
+        if self.total_installments > 0:
+            return self.fee_structure.total_fee / self.total_installments
+        return self.fee_structure.total_fee
+    
+
+class PaymentSchedule(models.Model):
+    student_fee_payment = models.ForeignKey(StudentFeePayment, on_delete=models.CASCADE, related_name='payments')
+    amount_paid = models.IntegerField( )
+    due_amount = models.IntegerField(blank=True, null=True)
+    payment_date = models.DateField()
+    payment_due_date = models.DateField(blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.student_fee_payment.student} - {self.amount_paid} on {self.payment_date}"
+
+   

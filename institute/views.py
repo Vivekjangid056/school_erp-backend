@@ -1108,7 +1108,7 @@ def fetch_students_attendance(request):
         # Fetch students based on the selected standard
         students = StudentProfile.objects.filter(
             standard_id=standard_id
-        ).values('id', 'user__first_name', 'user__last_name', 'enroll_no')
+        ).values('id', 'first_name', 'last_name', 'enroll_no')
 
         # Prepare attendance data
         attendance_data = []
@@ -1121,7 +1121,7 @@ def fetch_students_attendance(request):
 
             attendance_data.append({
                 'id': student['id'],
-                'name': f"{student['user__first_name']} {student['user__last_name']}",
+                'name': f"{student['first_name']} {student['last_name']}",
                 'roll_no': student['enroll_no'],
                 'present': attendance_status.present if attendance_status else False,
                 'absent': attendance_status.absent if attendance_status else False
@@ -1141,20 +1141,22 @@ def fetch_attendance_data(request):
     if request.method == 'GET':
         standard_id = request.GET.get('standard_id')
         subject_id = request.GET.get('subject_id')
+        date = request.GET.get('date')  #  date parameter
 
         attendance_records = Attendance.objects.filter(
             standard_id=standard_id,
-            subject_id=subject_id
+            subject_id=subject_id,
+            date=date
         ).select_related('student')
 
         attendance_data = []
         for record in attendance_records:
             attendance_data.append({
-                'name': f"{record.student.user.first_name} {record.student.user.last_name}",
+                'name': f"{record.student.first_name} {record.student.last_name}",
                 'enroll_no': record.student.enroll_no,
                 'present': record.present,
                 'absent': record.absent,
-                'date': record.date.strftime('%Y-%m-%d'),
+                'date': record.date.strftime('%Y-%m-%d'),  # Ensure date is included
             })
 
         return JsonResponse({'attendance_data': attendance_data})

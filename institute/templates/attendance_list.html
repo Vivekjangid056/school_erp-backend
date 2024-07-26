@@ -3,7 +3,6 @@
 
 <!-- Add DataTables CSS and JS -->
 
-
 <div class="container mt-4">
     <div class="d-flex justify-content-end mb-3">
         <a style="text-decoration:none; color:white" href="{% url 'institute:attendance' %}">
@@ -37,6 +36,12 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="id_date">Select Date:</label>
+                        <input type="date" id="id_date" name="date" class="form-control">
+                    </div>
+                </div>
             </div>
 
             <div class="table-responsive">
@@ -67,14 +72,16 @@ $(document).ready(function() {
     function fetchAndPopulateAttendanceTable() {
         var standardId = $('#id_standard').val();
         var subjectId = $('#id_subject').val();
+        var date = $('#id_date').val();
 
-        if (standardId) {
+        if (standardId && subjectId && date) {
             $.ajax({
                 url: '{% url "institute:fetch_attendance_data" %}',
                 method: 'GET',
                 data: {
                     'standard_id': standardId,
-                    'subject_id': subjectId || null
+                    'subject_id': subjectId,
+                    'date': date
                 },
                 success: function(data) {
                     populateAttendanceTable(data.attendance_data);
@@ -110,6 +117,10 @@ $(document).ready(function() {
     });
 
     $('#id_subject').change(function() {
+        fetchAndPopulateAttendanceTable();
+    });
+
+    $('#id_date').change(function() {
         fetchAndPopulateAttendanceTable();
     });
 
