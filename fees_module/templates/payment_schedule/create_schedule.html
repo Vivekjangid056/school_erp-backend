@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>{% if form.instance.pk %}Update{% else %}Create{% endif %} Payment Information</h2>
+<hr>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+           {{ form.student_fee_payment|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+           {{ form.amount_paid|as_crispy_field }}
+        </div>
+        <div class="col-md-4">
+           {{ form.due_amount|as_crispy_field }}
+        </div>
+        <div class="col-md-4">
+           {{ form.payment_date|as_crispy_field }}
+        </div>
+        <div class="col-md-4">
+           {{ form.payment_due_date|as_crispy_field }}
+        </div>
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-primary col-md-2">Save</button>
+  </form>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var amountPaidField = document.getElementById('id_amount_paid');
+        var dueAmountField = document.getElementById('id_due_amount');
+        var paymentDateField = document.getElementById('id_payment_date');
+        var paymentDueDateField = document.getElementById('id_payment_due_date');
+        var studentFeePaymentField = document.getElementById('id_student_fee_payment');
+    
+        var studentFeePaymentDetailUrl = "{{ student_fee_payment_detail_url }}";  // Pass URL from context
+    
+        function updateDueFields() {
+            var studentFeePaymentId = studentFeePaymentField.value;
+            if (!studentFeePaymentId) return;
+    
+            fetch(`${studentFeePaymentDetailUrl}${studentFeePaymentId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    var installmentFrequency = data.installment_frequency;
+                    var totalFee = parseFloat(data.fee_structure.total_fee);
+                    var amountPaid = parseFloat(amountPaidField.value) || 0;
+                    var totalInstallments = installmentFrequency === 'Half-Yearly' ? 2 : installmentFrequency === 'Monthly' ? 12 : 1;
+                    var installmentAmount = totalFee / totalInstallments;
+                    var dueAmount = installmentAmount - amountPaid;
+    
+                    // Setting the due amount field
+                    dueAmountField.value = (totalFee - amountPaid).toFixed(2);
+    
+                    // Setting the payment due date field
+                    var paymentDate = new Date(paymentDateField.value);
+                    if (!isNaN(paymentDate.getTime())) {
+                        var paymentDueDate = new Date(paymentDate);
+                        if (installmentFrequency === 'Half-Yearly') {
+                            paymentDueDate.setMonth(paymentDueDate.getMonth() + 6);
+                        } else if (installmentFrequency === 'Monthly') {
+                            paymentDueDate.setMonth(paymentDueDate.getMonth() + 1);
+                        }
+                        paymentDueDateField.value = paymentDueDate.toISOString().split('T')[0];
+                    }
+                });
+        }
+    
+        amountPaidField.addEventListener('input', updateDueFields);
+        paymentDateField.addEventListener('change', updateDueFields);
+        studentFeePaymentField.addEventListener('change', updateDueFields);
+    });
+    </script>
+{% endblock %}

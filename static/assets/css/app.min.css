@@ -446,7 +446,7 @@ body[data-layout=horizontal] .footer {
 #sidebar-menu ul li a {
     display: block;
     padding: .625rem 1.5rem;
-    color: #545a6d;
+    color: #212533;
     position: relative;
     font-size: 13px;
     -webkit-transition: all .4s;
@@ -460,17 +460,17 @@ body[data-layout=horizontal] .footer {
     font-size: 1.25rem;
     line-height: 1.40625rem;
     vertical-align: middle;
-    color: #7f8387;
+    color: #212533;
     -webkit-transition: all .4s;
     transition: all .4s
 }
 
 #sidebar-menu ul li a:hover {
-    color: #383c40
+    color: #dadbdd
 }
 
 #sidebar-menu ul li a:hover i {
-    color: #383c40
+    color: #dadbdd
 }
 
 #sidebar-menu ul li .badge {

@@ -146,9 +146,9 @@
                                     <span>Accounts Descriptions</span>
                                 </div>
                             </a> 
-                            <a class="dropdown-item d-flex" href="#" data-menu="#">
+                            <a class="dropdown-item d-flex" href="#" data-menu="fees-module">
                                 <i class="fas fa-cash-register"></i>
-                                <div  style="color:#d8d8df;" class="item-text">
+                                <div class="item-text">
                                     <span class="item-title">Fees Module</span>
                                     <span>Fees Module Descriptions</span>
                                 </div>
@@ -644,6 +644,13 @@
 
             <!--Employee Attendance-->
             employeeAttendance:"{% url 'teacher:employee_attendance_list' %}",
+
+            <!--Fees Module-->
+            feeList:"{% url 'fees_module:list_payment_schedule' %}",
+            <!--Fees structure-->
+            feeStructure:"{% url 'fees_module:list_fee_structure' %}",
+            <!--Payment Schedule-->
+            paymentSchedule:"{% url 'fees_module:student_fee_payment_list' %}",
 
         };
     </script>

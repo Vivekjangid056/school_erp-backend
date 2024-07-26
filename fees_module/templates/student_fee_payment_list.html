@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block table-content %}
+<!-- start page title -->
+<div class="row">
+  	<div class="col-12">
+      	<div class="page-title-box d-sm-flex align-items-center justify-content-between">
+			<h4 class="mb-sm-0 font-size-18">Student's Installment Schedule</h4>
+			<div class="page-title-right">
+              	<ol class="breadcrumb m-0">
+                  	<a href="{% url 'accounts:super-admin-login' %}">
+                      <li class="breadcrumb-item active">home<<</li>
+                  	</a>
+                  	<li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+              	</ol>
+          	</div>
+      	</div>
+  	</div>
+</div>
+<!-- end page title -->
+{% if student_fee_payments %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+<!--======================================= List of students ====================================-->
+            <a style="text-decoration:none; color:white" href="{% url 'fees_module:create_student_fee_payment' %}">
+                <button class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
+                     Add Fees
+                </button>
+            </a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                  <thead>
+                    <tr>
+                      <th>Sr No.</th>
+                      <th>Student</th>
+                      <th>Standard</th>
+                      <th>Total Fee</th>
+                      <th>Installment Frequency</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for student_fee_payment in student_fee_payments %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ student_fee_payment.student }}</td>
+                        <td>{{ student_fee_payment.fee_structure.standard.name }}</td>
+                        <td>{{ student_fee_payment.fee_structure.total_fee }}</td>
+                        <td>{{ student_fee_payment.installment_frequency }}</td>
+                        <td>
+                            <a href="{% url 'fees_module:update_student_fee_payment' student_fee_payment.pk %}"
+                                class="btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
+                                 <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <button class="btn btn-sm btn-danger" style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-url="{% url 'fees_module:delete_student_fee_payment' student_fee_payment.pk %}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <a style="text-decoration:none; color:white" href="{% url 'fees_module:create_student_fee_payment' %}">
+                <button class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
+                    Add Fees
+                </button>
+            </a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                  <thead>
+                    <tr>
+                        <th>Sr No.</th>
+                        <th>Student</th>
+                        <th>Standard</th>
+                        <th>Total Fee</th>
+                        <th>Installment Frequency</th>
+                        <th> Action </th>
+                    </tr>
+                  </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock table-content %}

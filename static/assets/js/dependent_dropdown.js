@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `,
         'fees-module': `
         <li class="menu-title" key="t-menu">Fees Module</li>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.feeList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Fee Deposit</span>
             </a>
@@ -696,10 +696,10 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <ul id="fees-module-fees-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-signature"></i>Installment Mode</a>
+                    <a href="${urls.paymentSchedule}"><i class="fas fa-signature"></i>Installment Schedule</a>
                 </li>
                 <li class="sidebar-item ">
-                    <a href="#"><i class="fas fa-user-tag"></i>Class Fee Structure</a>
+                    <a href="${urls.feeStructure}"><i class="fas fa-user-tag"></i>Fee Structure</a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-layer-group"></i>Installment mode Assign</a>

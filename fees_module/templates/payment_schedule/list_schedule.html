@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block table-content %}
+
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Student Payment</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <a href="{% url 'accounts:super-admin-login' %}">
+                        <li class="breadcrumb-item active">home</li>
+                    </a>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+{% if payment_schedules %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+
+            <!--                                    List of Fee structures                                 -->
+
+
+            <a style="text-decoration:none; color:white" href="{% url 'fees_module:add_payment_schedule' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>S.N</th>
+                            <th>name | class | installment</th>
+                            <th>Total Fees</th>
+                            <th>amount paid</th>
+                            <th>payment date</th>
+                            <th>payment Due date</th>
+                            <th>payment Due </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    
+
+                    <tbody>
+                        {% for schedule in payment_schedules %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{schedule.student_fee_payment}}</td>
+                            <td>{{schedule.student_fee_payment.fee_structure.total_fee }}</td>
+                            <td>{{schedule.amount_paid}}</td>
+                            <td>{{schedule.payment_date}}</td>
+                            <td>{{schedule.payment_due_date}}</td>
+                            <td>{{schedule.due_amount}}</td>
+                            <td>
+                                <a href="{% url 'fees_module:update_payment_schedule' schedule.pk %}"
+                                    class="btn btn-sm btn-primary" title="Edit">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <button class="btn btn-sm btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{% url 'fees_module:delete_payment_schedule' schedule.pk %}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <a style="text-decoration:none; color:white" href="{% url 'fees_module:add_payment_schedule' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>S.N</th>
+                            <th>student payment details</th>
+                            <th>Total Fees</th>
+                            <th>amount paid</th>
+                            <th>payment date</th>
+                            <th>payment Due date</th>
+                            <th>payment Due </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock table-content %}
