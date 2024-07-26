@@ -864,11 +864,12 @@ class EmployeeList(ListView):
     context_object_name = 'employees'
     template_name = 'employee/employee_list.html'
 
-# creating the Employee
+
 def create_employee(request):
     if request.method == 'POST':
         user_form = EmployeeRegistrationForm(request.POST)
-        profile_form = EmployeeProfileForm(request.POST, request.FILES)
+        profile_form = EmployeeProfileForm(request.POST, request.FILES, user=request.user)
+
         if user_form.is_valid() and profile_form.is_valid():
             try:
                 user = user_form.save(commit=False)
@@ -877,7 +878,7 @@ def create_employee(request):
 
                 profile = profile_form.save(commit=False)
                 profile.user = user
-                profile.save()
+                profile.save()  # This will now set the institute automatically
 
                 return redirect('institute:list_of_employees')
             except Exception as e:
@@ -885,11 +886,11 @@ def create_employee(request):
         else:
             print(f"User form errors: {user_form.errors}")
             print(f"Profile form errors: {profile_form.errors}")
-
     else:
         user_form = EmployeeRegistrationForm()
-        profile_form = EmployeeProfileForm()
-        return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
+        profile_form = EmployeeProfileForm(user=request.user)
+
+    return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 # Update the employee
@@ -973,6 +974,7 @@ class listSubForClassGroup(ListView):
     template_name = "session_settings/ss_sub_for_groups_list.html"
     model = SubjectsForClassGroup
     context_object_name = 'subject_for_class_group_list'
+
 class UpdateSubForClassGroup(UpdateView):
     model = SubjectsForClassGroup
     form_class = SubjectsForClassGroupForm
@@ -1095,8 +1097,6 @@ def load_subjects(request):
     standard_id = request.GET.get('standard_id')
     subjects = Subjects.objects.filter(standard_id=standard_id).all()
     return JsonResponse(list(subjects.values('id', 'name')), safe=False)
-
-
 
 
 def fetch_students_attendance(request):

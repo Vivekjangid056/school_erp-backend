@@ -8,7 +8,11 @@ from django.db import transaction
 
 # Create your views here.
 def student_list(request):
-    students = StudentProfile.objects.all()
+    # user_institute = request.user.institute_id.first() #or
+    user_institute = Institute.objects.get(user_id = request.user)
+# for fetching the data from a table which is not directly connected with the current table but its f
+# oreignkey table has a reference in the table then we user __
+    students = StudentProfile.objects.filter(parent__institute = user_institute) 
     context = {
         'students':students
     }
@@ -16,6 +20,7 @@ def student_list(request):
 
 @transaction.atomic
 def student_register(request):
+    print("::::::::::::::::::::::::::::::::::::;;",request.user.institute_id)
     if request.method == 'POST':
         parent_registered = request.POST.get('parent_registered')
         profile_form = StudentProfileForm(request.POST, request.FILES)
@@ -53,7 +58,7 @@ def student_register(request):
                 print("Profile form errors:", profile_form.errors)
         else:
             user_form = ParentUserCreationForm(request.POST)
-            parent_form = ParentProfileForm(request.POST)
+            parent_form = ParentProfileForm(request.POST, user=request.user)
             
             if user_form.is_valid() and parent_form.is_valid() and profile_form.is_valid():
                 user = user_form.save()

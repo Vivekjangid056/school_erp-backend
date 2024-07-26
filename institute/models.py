@@ -6,9 +6,6 @@ from accounts.models import Institute, User
 
 # =========================== Model For menu shown in admin panel =============================
 
-class Branches(models.Model):
-    pass
-
 class MainMenu(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)

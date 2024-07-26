@@ -41,7 +41,7 @@ class InstituteForm(forms.ModelForm):
     class Meta:
         model = Institute
         fields = [
-            'registration_number', 'institute_name', 'branch_name',
+            'registration_number', 'institute_name', 'number_of_branches',
             'billing_name', 'address1', 'address2', 'state', 'district', 'pin',
             'mobile_number', 'mobile_number2', 'fax_number', 'institute_email',
             'website', 'principal_name', 'acc_start_year',
@@ -56,3 +56,25 @@ class InstituteForm(forms.ModelForm):
             'login_with_single_device', 'show_yt_opt_4_app',
             'show_teach_mo_no_app', 'show_exam_list_res_wise'
         ]
+
+class InstituteBranchForm(forms.ModelForm):
+    class Meta:
+        model = InstituteBranch
+        fields = ['name', 'address']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.instutute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance
+
+class InstituteBranchUpdateForm(forms.ModelForm):
+    class Meta:
+        model = InstituteBranch
+        fields = ['name', 'address']

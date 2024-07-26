@@ -18,7 +18,7 @@
     margin: .1rem;
     width: 1rem;
     margin-right: 1rem;
-    color: #e37d35;
+    color: #02A8F4;
 }
 .dropdown-item .item-text {
     display: flex;
@@ -32,7 +32,7 @@
 }
 
 #page-topbar .bhagwa{
-    background: linear-gradient(to right, #FFF95B, #FF930F)
+    background: linear-gradient(to right, #02A8F4, #445CCE)
 }
 
 #page-topbar .profile-summary-image{
@@ -52,7 +52,7 @@
 }
 
 #page-topbar .profile .dropdown-menu{
-    background: linear-gradient(to right, #FFF95B, #FF930F)
+    background: linear-gradient(to right, #02A8F4, #445CCE)
 }
 
 .sidebar-item i{
@@ -60,7 +60,7 @@
 }
 
 ul.sidebar-dropdown{
-    background-color: #FFF95B;
+    background-color: #9ADEFE;
 }
 
 #menu-content .fa-chevron-left{
@@ -98,4 +98,34 @@ ul.sidebar-dropdown{
 .main-content .chart-container {
     position: relative;
     height: 400px;
+}
+
+.profile-header {
+    background-color: #02A8F4;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+.profile-info {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-info h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+.profile-info p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }

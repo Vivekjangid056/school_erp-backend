@@ -2497,7 +2497,7 @@ li.contact-buton {
 
 /* colour code for login page */
 .gradient{
-    background-image: linear-gradient(to right, #f00, #00f);
+    background-image: linear-gradient(to right, rgb(77, 34, 123), #00f);
   color: transparent; /* Makes text invisible and uses background color */
   background-clip: text; 
 }

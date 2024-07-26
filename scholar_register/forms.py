@@ -49,6 +49,18 @@ class ParentProfileForm(forms.ModelForm):
                 'mother_qualification', 'father_pan_no', 'mother_pan_no', 'guardian_name', 
                 'guardian_mobile', 'guardian_relation', 'fee_deposited_by', 'sms_mob_no', 
                 'student_type', 'child_status', 'discount_scheme']
+        
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance
 
 
 class StudentProfileForm(forms.ModelForm):

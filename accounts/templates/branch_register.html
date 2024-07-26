@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="card-header">
+        <div class="container">
+            {% if form.instance.pk %}
+                <h2>Modify Branch</h2>
+            {% else %}
+            <div >
+                <h2>Create Branch</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+
+            <div class="form-group">
+                {{ branch_form.name|as_crispy_field }}
+            </div>
+            <div class="form-group">
+                {{ branch_form.address|as_crispy_field }}
+            </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+{% endblock content %}

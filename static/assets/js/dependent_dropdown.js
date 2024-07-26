@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Institute Profile</span>
             </a>
+            <a href="${urls.branchList}" class="waves-effect fw-bold">
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">Branches</span>
+            </a>
             <a href="javascript: void(0);" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#system-settings-list-of-masters" aria-expanded="false" aria-controls="pages">
             <div>
                 <i class="bx bx-home-circle"></i>
@@ -192,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <a href="${urls.sendSms}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Send SMS</span>
+                <span key="t-dashboards">SMS Templates</span>
             </a>
             <!-- <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>

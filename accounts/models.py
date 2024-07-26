@@ -107,8 +107,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    def __str__(self):
-        return self.email
+    # def __str__(self):
+    #     return self.email
 
     def has_perm(self, perm, obj=None):
         return self.is_staff
@@ -118,12 +118,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Institute(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="institute_id")
     registration_number = models.CharField(max_length=20,
                                            primary_key=True,
                                            blank=False)  #reg.number/aff.number
     institute_name = models.CharField(max_length=250, blank=False)
-    branch_name = models.CharField(max_length=250, blank=True)  #optional
+    number_of_branches = models.CharField(max_length=250, blank=True)  #optional
     address1 = models.CharField(blank=False, max_length=100)
     address2 = models.CharField(blank=True, max_length=100)  #optional
     billing_name = models.CharField(max_length=200, blank=False)
@@ -211,3 +211,9 @@ class Institute(models.Model):
     class Meta:
         verbose_name = 'Institute'
         verbose_name_plural = 'Institutes'
+
+
+class InstituteBranch(models.Model):
+    institute = models.ForeignKey(Institute, on_delete= models.CASCADE, related_name='branch')
+    name = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)

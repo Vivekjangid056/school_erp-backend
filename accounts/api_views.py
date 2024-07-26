@@ -17,12 +17,6 @@ def student_login_view(request):
         try:
             parent = StudentParents.objects.get(user=user)
             students = StudentProfile.objects.filter(parent=parent)
-        except StudentParents.DoesNotExist:
-            return Response({
-                'status': False,
-                'code': 404,
-                'message': 'Parent profile not found'
-            }, status=status.HTTP_404_NOT_FOUND)
         except StudentProfile.DoesNotExist:
             return Response({
                 'status': False,

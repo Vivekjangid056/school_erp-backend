@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect, HttpResponseRedirect
 from django.urls import reverse_lazy
 from .models import User
 from .forms import *
@@ -124,6 +124,100 @@ class InstituteDeleteView(DeleteView):
     model = Institute
     success_url = reverse_lazy('accounts:institute_list')
 
+
+def institute_branch_create_view(request):
+    user = request.user
+    try:
+        user_institute = user.institute_id.first()
+    except AttributeError:
+        messages.error(request, "You don't have an associated institute.")
+        return redirect("some_error_page")
+
+    number_of_branches_permitted = int(user_institute.number_of_branches)
+    number_of_branches_created = InstituteBranch.objects.filter(institute=user_institute).count()
+
+    if request.method == "POST":
+        if number_of_branches_created < number_of_branches_permitted:
+            branch_form = InstituteBranchForm(request.POST)
+            if branch_form.is_valid():
+                try:
+                    branch = branch_form.save(commit=False)
+                    branch.institute = user_institute
+                    branch.save()
+                    messages.success(request, "Branch created successfully.")
+                    return redirect("accounts:list_of_branches")
+                except Exception as e:
+                    messages.error(request, f"Error saving form: {e}")
+            else:
+                messages.error(request, f"Branch form errors: {branch_form.errors}")
+        else:
+            messages.error(request, "You've reached the maximum number of permitted branches.")
+            return render(request, 'branch_error.html')
+    else:
+        branch_form = InstituteBranchForm()
+
+    context = {
+        'branch_form': branch_form,
+    }
+    return render(request, 'branch_register.html', context)
+
+
+def branches_list(request):
+    if request.user.role == "1":
+        institutes = Institute.objects.all()
+        branches = InstituteBranch.objects.all()
+        context = {
+            'institutes':institutes,
+            'branches':branches
+        }
+        return render(request, 'branches_list.html', context=context)
+    else:
+        user = request.user
+        try:
+            user_institute = user.institute_id.first()
+        except AttributeError:
+            messages.error(request, "You don't have an associated institute.")
+            return redirect("some_error_page")
+        branches =InstituteBranch.objects.filter(institute = request.user.institute_id.first())
+        number_of_branches_permitted = int(user_institute.number_of_branches)
+        number_of_branches_created = InstituteBranch.objects.filter(institute=user_institute).count()
+
+        context = {
+        'branches':branches,
+        'number_of_branches_permitted':number_of_branches_permitted,
+        'number_of_branches_created':number_of_branches_created
+
+        }
+        return render(request, 'branches_list.html', context=context)
+
+def institute_branch_update_view(request, pk):
+    branch = get_object_or_404(InstituteBranch, pk=pk)
+
+    if request.method == "POST":
+        branch_form = InstituteBranchUpdateForm(request.POST, instance=branch)
+        if branch_form.is_valid():
+            try:
+                branch = branch_form.save()
+                messages.success(request, "Branch updated successfully.")
+                return redirect("accounts:list_of_branches")
+            except Exception as e:
+                messages.error(request, f"Error updating branch: {e}")
+        else:
+            messages.error(request, f"Branch form errors: {branch_form.errors}")
+    else:
+        branch_form = InstituteBranchUpdateForm(instance=branch)
+
+    context = {
+        'branch_form': branch_form,
+        'branch': branch,
+    }
+    return render(request, 'branch_register.html', context)
+
+
+def institute_branch_delete_view(request, pk):
+    branch = get_object_or_404(InstituteBranch, pk=pk)
+    branch.delete()
+    return redirect('accounts:list_of_branches')
 
 # def check_session_timeout(request):
 #     last_activity = request.session.get('last_activity')

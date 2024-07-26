@@ -192,7 +192,7 @@ class ChildStatusForm(forms.ModelForm):
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['employee_name','middle_name','nick_name','position','user_image']
+        fields = ['employee_details','middle_name','nick_name','position','user_image']
         
         
         
@@ -240,7 +240,20 @@ class EmployeeRegistrationForm(forms.ModelForm):
 class EmployeeProfileForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['employee_name', 'staff_role', 'middle_name', 'nick_name', 'position', 'confirm_email', 'user_image']
+        fields = ['employee_details', 'staff_role', 'middle_name', 'nick_name', 'position', 'confirm_email', 'user_image']
+        # 'institute' is excluded from fields
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance
 
 
 # form for session settingsd

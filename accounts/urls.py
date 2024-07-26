@@ -17,6 +17,10 @@ urlpatterns = [
     path('institute-update/<int:pk>/', InstituteUpdateView.as_view(), name="institute_update"),
     path('institute-delete/<int:pk>/', InstituteDeleteView.as_view(), name="institute_delete"),
 
-    #mobile app api urls
-    path("student-login", student_login_view, name= "student_login")
+    path("student-login", student_login_view, name= "student_login"),
+    # Branch Urls
+    path('branch-create', institute_branch_create_view, name = 'add_branch'),
+    path('branches_list', branches_list, name = 'list_of_branches'),
+    path('branch-update/<int:pk>', institute_branch_update_view, name= 'branch_update'),
+    path('branch-delete/<int:pk>', institute_branch_delete_view, name = 'branch_delete')
 ]

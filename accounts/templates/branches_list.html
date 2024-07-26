@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block table-content %}
+
+{% if user.role == "1" %}
+<div class="container mt-3">
+  {% if institutes %}
+  <div class="row">
+    <div class="col-12">
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div id="accordion">
+          <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+            <thead>
+              <tr>
+                <th>S.N</th>
+                <th>Institute Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for institute in institutes %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{ institute.pk }}" aria-expanded="false"
+                    aria-controls="collapse{{ institute.pk }}">
+                    <span>{{ institute.institute_name }}</span>
+                    <button class="accordion-button-custom" type="button">
+                      <i class="fas fa-chevron-down"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="collapse{{ institute.pk }}" class="collapse" data-parent="#accordion">
+                <td colspan="2">
+                  <table class="table table-bordered">
+                    <thead style="background-color: rgb(219, 221, 224);">
+                      <tr>
+                        <th>S.N.</th>
+                        <th>Name</th>
+                        <th>Branch Address</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for branch in institute.branch.all %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{branch.name}}</td>
+                        <td>{{ branch.address }}</td>
+                        <td>
+                          <a href="{% url 'accounts:branch_update' branch.pk %}" class="btn btn-sm btn-primary"
+                            title="Edit">
+                            <i class="fas fa-pencil-alt"></i>
+                          </a>
+                          <button class="btn btn-sm btn-danger" title="Delete" data-toggle="modal"
+                            data-target="#deleteModal" data-url="{% url 'accounts:branch_delete' branch.pk %}">
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                        <td colspan="4">No branches available</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<p>No institutes found.</p>
+{% endif %}
+</div>
+
+
+{% else %}
+
+<!-- start page title -->
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0 font-size-18">Data Tables</h4>
+
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <a href="{% url 'accounts:super-admin-login' %}">
+            <li class="breadcrumb-item active">home</li>
+          </a>
+          <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-end">
+
+      <!--                                    List of Institutes                                 -->
+      {% if number_of_branches_permitted and number_of_branches_created %}
+        <div class="d-flex justify-content-end mb-3">
+            {% if number_of_branches_created < number_of_branches_permitted %} 
+                <a style="text-decoration:none; color:white" href="{% url 'accounts:add_branch' %}">
+                    <button class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button>
+                </a>
+            {% else %}
+                <button class="btn btn-md btn-primary" disabled><i class="fa fa-plus"></i> create</button>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    </div>
+    {% if branches %}
+    <div class="card">
+      <div class="card-body">
+
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+          <thead>
+            <tr>
+              <th>S.N</th>
+              <th>Branch Name</th>
+              <th>Branch Address</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for branch in branches %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{branch.name}}</td>
+              <td>{{branch.address}}</td>
+              <td>
+                <a href="{% url 'accounts:branch_update' branch.pk %}" class="btn btn-sm btn-primary"
+                  style="padding:0.001rem" title="Edit">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+                <button class="btn btn-sm btn-danger" style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
+                  data-bs-target="#deleteModal" data-url="{% url 'accounts:branch_delete' branch.pk %}">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-end">
+
+      <!--                                    List of Institutes                                 -->
+
+      <a style="text-decoration:none; color:white" href="{% url 'accounts:add_branch' %}"><button
+          class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
+    </div>
+    <div class="card">
+      <div class="card-body">
+
+        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+          <thead>
+            <tr>
+              <th>S.N</th>
+              <th>Branch Name</th>
+              <th>Branch Address</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endif %}
+{% endblock table-content %}

@@ -8,7 +8,8 @@ from institute.models import Caste, Category, ChildStatus, DiscountScheme, FeeIn
 
 
 class StudentParents(models.Model):
-    user = models.ForeignKey(User, on_delete= models.CASCADE)
+    user = models.ForeignKey(User, on_delete= models.CASCADE, related_name = "student_parent_id")
+    institute = models.ForeignKey(Institute, on_delete = models.CASCADE, related_name="student_parent_id")
     fathers_name = models.CharField(max_length=255)
     fathers_email = models.CharField(max_length=255,blank=True) #optional
     fathers_mob_no = models.CharField(max_length=255)
@@ -78,8 +79,7 @@ class StudentProfile(models.Model):
         ('O- ',' O-')
     )
 
-    parent = models.ForeignKey(StudentParents, on_delete = models.CASCADE)
-    # institute = models.ForeignKey(Institute, on_delete = models.CASCADE)
+    parent = models.ForeignKey(StudentParents, on_delete = models.CASCADE, related_name='student_id')
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100,blank=True) #optional
     last_name = models.CharField(max_length=100)

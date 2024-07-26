@@ -185,7 +185,8 @@ class EmployeeAttendance(models.Model):
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee_profile')
-    employee_name = models.ForeignKey(EmployeeMaster, on_delete= models.CASCADE)
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name="employee_profile")
+    employee_details = models.OneToOneField(EmployeeMaster, on_delete= models.CASCADE)
     staff_role =  models.ForeignKey(InstituteRole, on_delete= models.CASCADE)
     middle_name = models.CharField(max_length=100 , blank=True)   #optional
     nick_name = models.CharField(max_length=50,blank=True) #optional
