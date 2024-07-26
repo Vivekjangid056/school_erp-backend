@@ -118,7 +118,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Institute(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='institute_id')
     registration_number = models.CharField(max_length=20,
                                            primary_key=True,
                                            blank=False)  #reg.number/aff.number

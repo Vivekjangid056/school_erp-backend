@@ -307,3 +307,14 @@ class NotificationModel(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000)
     document = models.FileField(upload_to='documents/', max_length=100)
+    
+class GalleryItems(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE,related_name='institute')
+    name = models.CharField(max_length=255)
+    url_tag = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField(upload_to='gallery/',blank=True, null=True)
+    video = models.FileField(upload_to='gallery/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name

@@ -1162,3 +1162,40 @@ def fetch_attendance_data(request):
         return JsonResponse({'attendance_data': attendance_data})
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+# views for gallery section
+def gallery_list(request):
+    gallery_items = GalleryItems.objects.all()
+    return render(request, 'gallery/list.html',{'gallery_items':gallery_items})
+
+
+def gallery_add(request):
+    if request.method == 'POST':
+        user = request.user
+        form = GalleryItemsForm(request.POST, request.FILES, user = user)
+        if form.is_valid():
+            form.user = user
+            form.save()
+            return redirect('institute:gallery_list')
+        else:
+            form = GalleryItemsForm()
+        return render(request, 'gallery/list.html', {'form': form})
+    
+def gallery_update(request, pk):
+    item = get_object_or_404(GalleryItems, pk=pk)
+    if request.method == 'POST':
+        form = GalleryItemsForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect('institute:gallery_list')
+    else:
+        form = GalleryItemsForm(instance=item)
+    return render(request, 'institute/list.html', {'form': form, 'item': item})
+
+def gallery_delete(request, pk):
+    item = get_object_or_404(GalleryItems, pk=pk)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('institute:gallery_list')
+    return render(request, 'institute/list.html', {'object': item})

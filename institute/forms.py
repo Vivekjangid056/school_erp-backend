@@ -274,3 +274,38 @@ class NotificationModelForm(forms.ModelForm):
         allowed_attributes = {'a': ['href', 'title']}
         cleaned_description = bleach.clean(description, tags=allowed_tags, attributes=allowed_attributes, strip=True)
         return cleaned_description
+    
+#______ forms for gallery section ______
+
+class GalleryItemsForm(forms.ModelForm):
+    class Meta:
+        model = GalleryItems
+        fields = ['name','url_tag','image','video']
+        widgets = {
+			'image': forms.ClearableFileInput(attrs={'accept':'image/*'}),
+			'video': forms.ClearableFileInput(attrs={'accept':'video/*'}),
+		}
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        image = cleaned_data.get('image')
+        video = cleaned_data.get('video')
+        url_tag = cleaned_data.get('url_tag')
+
+        if not image and not video and not url_tag:
+            raise forms.ValidationError("You must provide an image, video, or video URL.")
+        if (image and video) or (image and url_tag) or (video and url_tag):
+            raise forms.ValidationError("You can only provide one of image, video, or video URL.")
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance    

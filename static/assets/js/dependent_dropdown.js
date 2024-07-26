@@ -194,11 +194,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Send SMS</span>
             </a>
-            <!-- <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.gallery}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">SMS Settings</span>
+                <span key="t-dashboards">Gallery</span>
             </a>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <!-- <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">SMS Templates</span>
             </a>
