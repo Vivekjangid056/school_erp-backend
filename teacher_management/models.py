@@ -132,7 +132,7 @@ class EmployeeMaster(models.Model):
     address_line_2 = models.CharField(max_length= 200, null=True, blank= True)
     city = models.CharField(max_length= 200)
     state = models.CharField(max_length= 200)
-    pin = models.CharField(max_length= 200)
+    pin = models.CharField(max_length= 6)
     mobile_number = models.CharField(max_length= 200)
     office_contact = models.CharField(max_length= 200)
     email = models.EmailField(max_length= 200)

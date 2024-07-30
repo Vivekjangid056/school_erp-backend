@@ -31,6 +31,8 @@ class AddSignature(FormView):
     success_url = reverse_lazy('institute:list_of_signatures')
 
     def form_valid(self, form):
+        signature = form.save(commit=False)
+        signature.institute = self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
     
@@ -38,6 +40,17 @@ class ListofSignatures(ListView):
     model = LomSignature
     template_name = "list_of_masters/signature_list.html"
     context_object_name = 'signature_list'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateSignature(UpdateView):
     model = LomSignature
@@ -61,6 +74,8 @@ class AddCaste(FormView):
     success_url = reverse_lazy('institute:list_of_caste')
 
     def form_valid(self, form):
+        caste = form.save(commit = False)
+        caste.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
     
@@ -68,6 +83,16 @@ class ListofCaste(ListView):
     model = Caste
     template_name = "list_of_masters/caste_list.html"
     context_object_name = 'caste_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateCaste(UpdateView):
     model = Caste
@@ -91,6 +116,8 @@ class AddCategory(FormView):
     success_url = reverse_lazy('institute:list_of_category')
 
     def form_valid(self, form):
+        category = form.save(commit = False)
+        category.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
     
@@ -98,6 +125,16 @@ class ListofCategory(ListView):
     model = Category
     template_name = "list_of_masters/category_list.html"
     context_object_name = 'category_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateCategory(UpdateView):
     model = Category
@@ -121,6 +158,8 @@ class AddHouse(FormView):
     success_url = reverse_lazy('institute:list_of_house')
 
     def form_valid(self, form):
+        house = form.save(commit = False)
+        house.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -128,6 +167,17 @@ class ListofHouse(ListView):
     model = House
     template_name = "list_of_masters/house_list.html"
     context_object_name = 'house_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
+
 
 class UpdateHouse(UpdateView):
     model = House
@@ -152,6 +202,8 @@ class AddMedium(FormView):
     success_url = reverse_lazy('institute:list_of_medium')
 
     def form_valid(self, form):
+        medium = form.save(commit = False)
+        medium.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -159,6 +211,17 @@ class ListofMedium(ListView):
     model = Medium
     template_name = "list_of_masters/medium_list.html"
     context_object_name = 'medium_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
+
 
 class UpdateMedium(UpdateView):
     model = Medium
@@ -182,6 +245,8 @@ class AddReligion(FormView):
     success_url = reverse_lazy('institute:list_of_religion')
 
     def form_valid(self, form):
+        religion = form.save(commit = False)
+        religion.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -189,6 +254,16 @@ class ListofReligion(ListView):
     model = Religion
     template_name = "list_of_masters/religion_list.html"
     context_object_name = 'religion_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateReligion(UpdateView):
     model = Religion
@@ -212,6 +287,8 @@ class AddReference(FormView):
     success_url = reverse_lazy('institute:list_of_reference')
 
     def form_valid(self, form):
+        reference = form.save(commit = False)
+        reference.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -219,6 +296,16 @@ class ListofReference(ListView):
     model = Reference
     template_name = "list_of_masters/reference_list.html"
     context_object_name = 'reference_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateReference(UpdateView):
     model = Reference
@@ -242,6 +329,8 @@ class AddNationality(FormView):
     success_url = reverse_lazy('institute:list_of_nationality')
 
     def form_valid(self, form):
+        nationality = form.save(commit = False)
+        nationality.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -249,6 +338,16 @@ class ListofNationality(ListView):
     model = Nationality
     template_name = "list_of_masters/nationality_list.html"
     context_object_name = 'nationality_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateNationality(UpdateView):
     model = Nationality
@@ -272,6 +371,8 @@ class AddMotherTongue(FormView):
     success_url = reverse_lazy('institute:list_of_mother_tongue')
 
     def form_valid(self, form):
+        mother_tongue = form.save(commit = False)
+        mother_tongue.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -279,6 +380,16 @@ class ListofMotherToungue(ListView):
     model = MotherToungue
     template_name = "list_of_masters/mother_tongue_list.html"
     context_object_name = 'mother_tongue_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateMotherTongue(UpdateView):
     model = MotherToungue
@@ -302,6 +413,8 @@ class AddFamilyRelation(FormView):
     success_url = reverse_lazy('institute:list_of_family_relation')
 
     def form_valid(self, form):
+        family_relation = form.save(commit = False)
+        family_relation.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -309,6 +422,16 @@ class ListofFamilyRelation(ListView):
     model = FamiliRelation
     template_name = "list_of_masters/family_relation_list.html"
     context_object_name = 'family_relation_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateFamilyRelation(UpdateView):
     model = FamiliRelation
@@ -332,6 +455,8 @@ class AddEnquiryType(FormView):
     success_url = reverse_lazy('institute:list_of_enquiry_type')
 
     def form_valid(self, form):
+        enquiry_type = form.save(commit = False)
+        enquiry_type.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -339,6 +464,16 @@ class ListofEnquiryType(ListView):
     model = EnquiryType
     template_name = "list_of_masters/enquiry_type_list.html"
     context_object_name = 'enquiry_type_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateEnquiryType(UpdateView):
     model = EnquiryType
@@ -362,6 +497,8 @@ class AddPaymentMode(FormView):
     success_url = reverse_lazy('institute:list_of_payment_mode')
 
     def form_valid(self, form):
+        payment_mode = form.save(commit = False)
+        payment_mode.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -369,6 +506,16 @@ class ListofPaymentMode(ListView):
     model = PaymentMode
     template_name = "list_of_masters/payment_mode_list.html"
     context_object_name = 'payment_mode_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdatePaymentMode(UpdateView):
     model = PaymentMode
@@ -392,6 +539,8 @@ class AddClassGroups(FormView):
     success_url = reverse_lazy('institute:list_of_class_groups')
 
     def form_valid(self, form):
+        class_groups = form.save(commit = False)
+        class_groups.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -399,6 +548,16 @@ class ListofClassGroups(ListView):
     model = ClassGroups
     template_name = "list_of_masters/class_groups_list.html"
     context_object_name = 'class_group_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateClassGroups(UpdateView):
     model = ClassGroups
@@ -422,6 +581,8 @@ class AddStandard(FormView):
     success_url = reverse_lazy('institute:list_of_standard')
 
     def form_valid(self, form):
+        standard = form.save(commit = False)
+        standard.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -429,6 +590,16 @@ class ListofStandard(ListView):
     model = Standard
     template_name = "list_of_masters/standard_list.html"
     context_object_name = 'standard_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateStandard(UpdateView):
     model = Standard
@@ -452,6 +623,8 @@ class AddSubject(FormView):
     success_url = reverse_lazy('institute:list_of_subjects')
 
     def form_valid(self, form):
+        subject = form.save(commit = False)
+        subject.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -459,6 +632,16 @@ class ListofSubjects(ListView):
     model = Subjects
     template_name = "list_of_masters/subject_list.html"
     context_object_name = 'subjects_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateSubjects(UpdateView):
     model = Subjects
@@ -485,6 +668,8 @@ class AddDocuments(FormView):
     success_url = reverse_lazy('institute:list_of_documents')
 
     def form_valid(self, form):
+        document = form.save(commit = False)
+        document.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -492,6 +677,16 @@ class ListofDocuments(ListView):
     model = Documents
     template_name = "list_of_masters/document_list.html"
     context_object_name = 'documents_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateDocument(UpdateView):
     model = Documents
@@ -515,6 +710,8 @@ class AddFeeHeads(FormView):
     success_url = reverse_lazy('institute:list_of_fee_heads')
 
     def form_valid(self, form):
+        fee_head = form.save(commit = False)
+        fee_head.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -522,6 +719,16 @@ class ListofFeeHeads(ListView):
     model = FeeHeads
     template_name = "list_of_masters/fee_heads_list.html"
     context_object_name = 'fee_heads_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateFeeHeads(UpdateView):
     model = FeeHeads
@@ -545,6 +752,8 @@ class AddFeeInstallments(FormView):
     success_url = reverse_lazy('institute:list_of_fee_installments')
 
     def form_valid(self, form):
+        fee_installment = form.save(commit = False)
+        fee_installment.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -552,6 +761,16 @@ class ListofFeeInstallments(ListView):
     model = FeeInstallments
     template_name = "list_of_masters/fee_installments_list.html"
     context_object_name = 'fee_installments_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateFeeInstallment(UpdateView):
     model = FeeInstallments
@@ -575,6 +794,8 @@ class AddLeavingReason(FormView):
     success_url = reverse_lazy('institute:list_of_leaving_reason')
 
     def form_valid(self, form):
+        leaving_reason = form.save(commit = False)
+        leaving_reason.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -582,6 +803,16 @@ class ListofLeavingReasonTC(ListView):
     model = LeavingReasonTC
     template_name = "list_of_masters/leaving_reason_list.html"
     context_object_name = 'leaving_reason_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateLeavingReason(UpdateView):
     model = LeavingReasonTC
@@ -605,6 +836,8 @@ class AddNameOfSainikSchool(FormView):
     success_url = reverse_lazy('institute:list_of_sainik_school')
 
     def form_valid(self, form):
+        sainik_school = form.save(commit = False)
+        sainik_school.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -612,6 +845,16 @@ class ListofNameOfSainikSchool(ListView):
     model = NameOfSainikSchool
     template_name = "list_of_masters/sainik_school_list.html"
     context_object_name = 'sainik_school_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateSainikSchool(UpdateView):
     model = NameOfSainikSchool
@@ -635,6 +878,8 @@ class AddNameOfBank(FormView):
     success_url = reverse_lazy('institute:list_of_name_of_bank')
 
     def form_valid(self, form):
+        bank_name = form.save(commit = False)
+        bank_name.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -642,6 +887,16 @@ class ListofNameOfTheBank(ListView):
     model = NameOfTheBank
     template_name = "list_of_masters/name_of_bank_list.html"
     context_object_name = 'name_of_bank_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateNameOfBank(UpdateView):
     model = NameOfTheBank
@@ -665,6 +920,8 @@ class AddStudentType(FormView):
     success_url = reverse_lazy('institute:list_of_student_type')
 
     def form_valid(self, form):
+        student_type = form.save(commit = False)
+        student_type.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -672,6 +929,16 @@ class ListofStudentType(ListView):
     model = StudentType
     template_name = "list_of_masters/student_type_list.html"
     context_object_name = 'student_type_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateStudentType(UpdateView):
     model = StudentType
@@ -695,6 +962,8 @@ class AddChildStatus(FormView):
     success_url = reverse_lazy('institute:list_of_child_status')
 
     def form_valid(self, form):
+        child_status = form.save(commit = False)
+        child_status.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -702,6 +971,16 @@ class ListofChildStatus(ListView):
     model = ChildStatus
     template_name = "list_of_masters/child_status_list.html"
     context_object_name = 'child_status_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateChildStatus(UpdateView):
     model = ChildStatus
@@ -863,6 +1142,16 @@ class EmployeeList(ListView):
     model = Employee
     context_object_name = 'employees'
     template_name = 'employee/employee_list.html'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 
 def create_employee(request):
@@ -931,13 +1220,14 @@ def notification_create_view(request):
     if request.method == 'POST':
         form = NotificationModelForm(request.POST, request.FILES)
         if form.is_valid():
+            caste = form.save(commit = False)
+            caste.institute= request.user.institute_id.first()
             form.save()
             return redirect('institute:list_of_notifications')  # Redirect to a list view or another appropriate view
     else:
         form = NotificationModelForm()
     return render(request, 'notification_form.html', {'form': form})
 
-#<------------------------ for SubFOrClassGroup in session settings ---------------------------------->
 
 def notification_update_view(request, pk):
     notification = get_object_or_404(NotificationModel, pk=pk)
@@ -954,7 +1244,17 @@ def notification_update_view(request, pk):
 class NotificationsListView(ListView):
     model = NotificationModel
     template_name = "notification_list.html"
-    context_object_name = 'notifications_list' 
+    context_object_name = 'notifications_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class NotificationDeleteView(DeleteView):
     model = NotificationModel
@@ -967,6 +1267,8 @@ class AddSubForClassGroup(CreateView):
     form_class = SubjectsForClassGroupForm
     success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
     def form_valid(self, form):
+        sfcg = form.save(commit = False)
+        sfcg.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
     
@@ -974,6 +1276,16 @@ class listSubForClassGroup(ListView):
     template_name = "session_settings/ss_sub_for_groups_list.html"
     model = SubjectsForClassGroup
     context_object_name = 'subject_for_class_group_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateSubForClassGroup(UpdateView):
     model = SubjectsForClassGroup
@@ -990,14 +1302,6 @@ class DeleteSubForClassGroup(DeleteView):
     model = SubjectsForClassGroup
     success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
 
-class AddSubForClassGroup(CreateView):
-    template_name = "session_settings/ss_sub_for_groups_form.html"
-    form_class = SubjectsForClassGroupForm
-    success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
 
 # =============================== for section in session settings ===================================
 class AddSection(CreateView):
@@ -1005,6 +1309,8 @@ class AddSection(CreateView):
     form_class = SectionForm
     success_url = reverse_lazy('institute:list_of_section')
     def form_valid(self, form):
+        section = form.save(commit = False)
+        section.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -1013,6 +1319,16 @@ class listOfSection(ListView):
     template_name = "session_settings/section_list.html"
     model = Section
     context_object_name = 'section_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateSection(UpdateView):
     model = Section
@@ -1035,6 +1351,8 @@ class AddDiscountScheme(CreateView):
     form_class = DiscountSchemeForm
     success_url = reverse_lazy('institute:list_of_discount')
     def form_valid(self, form):
+        discount_scheme = form.save(commit = False)
+        discount_scheme.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
 
@@ -1043,6 +1361,16 @@ class listOfDiscountScheme(ListView):
     template_name = "session_settings/discount_list.html"
     model = DiscountScheme
     context_object_name = 'discount_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
+
 
 class UpdateDiscountScheme(UpdateView):
     model = DiscountScheme
@@ -1162,3 +1490,40 @@ def fetch_attendance_data(request):
         return JsonResponse({'attendance_data': attendance_data})
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+# views for gallery section
+def gallery_list(request):
+    gallery_items = GalleryItems.objects.all()
+    return render(request, 'gallery/list.html',{'gallery_items':gallery_items})
+
+
+def gallery_add(request):
+    if request.method == 'POST':
+        user = request.user
+        form = GalleryItemsForm(request.POST, request.FILES, user = user)
+        if form.is_valid():
+            form.user = user
+            form.save()
+            return redirect('institute:gallery_list')
+        else:
+            form = GalleryItemsForm()
+        return render(request, 'gallery/list.html', {'form': form})
+    
+def gallery_update(request, pk):
+    item = get_object_or_404(GalleryItems, pk=pk)
+    if request.method == 'POST':
+        form = GalleryItemsForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect('institute:gallery_list')
+    else:
+        form = GalleryItemsForm(instance=item)
+    return render(request, 'institute/list.html', {'form': form, 'item': item})
+
+def gallery_delete(request, pk):
+    item = get_object_or_404(GalleryItems, pk=pk)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('institute:gallery_list')
+    return render(request, 'institute/list.html', {'object': item})

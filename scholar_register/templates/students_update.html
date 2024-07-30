@@ -42,15 +42,21 @@
                 <div class="col-md-3">
                     {{ profile_form.bpl|as_crispy_field }}
                 </div>
-                <div class="col-md-3">
-                    {{ profile_form.installment_mode|as_crispy_field }}
-                </div>
                 <hr>
             </div>
         </fieldset>
         <fieldset>
             <legend>Basic Information</legend>
             <div class="row">
+                <div class="col-md-3">
+                    {{ profile_form.first_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.middle_name|as_crispy_field }}
+                </div>
+                <div class="col-md-3">
+                    {{ profile_form.last_name|as_crispy_field }}
+                </div>
                 <div class="col-md-3">
                     {{ profile_form.prefix|as_crispy_field }}
                 </div>
@@ -74,9 +80,6 @@
                 </div>
                 <div class="col-md-3">
                     {{ profile_form.mother_tongue|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.middle_name|as_crispy_field }}
                 </div>
                 <div class="col-md-3">
                     {{ profile_form.gender|as_crispy_field }}
@@ -126,84 +129,6 @@
             </div>
         </fieldset>
         <hr><!-- Render Parent  Form -->
-        <fieldset>
-            <legend>Parent Information</legend>
-            <div class="row">
-                <div class="col-md-3">
-                    {{ profile_form.fathers_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fathers_occupation|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fathers_mob_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fathers_email|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_occupation|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_mob_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_email|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fahers_aadhar_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mothers_aadhar_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.father_annual_income|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mother_annual_income|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.father_qualification|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mother_qualification|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.father_pan_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.mother_pan_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.guardian_name|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.guardian_mobile|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.guardian_relation|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.fee_deposited_by|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.sms_mob_no|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.student_type|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.child_status|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
-                    {{ profile_form.discount_scheme|as_crispy_field }}
-                </div>
-            </div>
-        </fieldset>
-        <hr><!-- Render Address  Form -->
         <fieldset>
             <legend>Address Information</legend>
             <div class="row">
@@ -291,10 +216,16 @@
         <fieldset>
             <div class="row">
                 <div class="col-md-4">
+                    {{ profile_form.caution_money|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
                     {{ profile_form.caution_money_reciept_no|as_crispy_field }}
                 </div>
                 <div class="col-md-4">
                     {{ profile_form.caution_money_reciept_date|as_crispy_field }}
+                </div>
+                <div class="col-md-4">
+                    {{ profile_form.initial_fees_deposit|as_crispy_field }}
                 </div>
                 <div class="col-md-4">
                     {{ profile_form.amount|as_crispy_field }}

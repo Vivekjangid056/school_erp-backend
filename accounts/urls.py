@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
 
     # Institute Urls
-    path('institute-create/', InstituteRegisterView.as_view(), name='add_institute'),
+    path('institute-create/', institute_register_view, name='add_institute'),
     path('institute-list/', InstituteList.as_view(), name='institute_list'),
     path('institute-update/<int:pk>/', InstituteUpdateView.as_view(), name="institute_update"),
     path('institute-delete/<int:pk>/', InstituteDeleteView.as_view(), name="institute_delete"),

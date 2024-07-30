@@ -65,6 +65,7 @@ class Permission(models.Model):
 # List of Masters models
 
 class LomSignature(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='lom_signature')
     signature_name = models.CharField(max_length=100)
     signature_heading = models.CharField(max_length= 100)
 
@@ -73,6 +74,7 @@ class LomSignature(models.Model):
 
 
 class Category(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='category')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -80,6 +82,7 @@ class Category(models.Model):
 
 
 class House(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='house')
     name = models.CharField(max_length=100)
     color_code = ColorField(default='#ffffff')
 
@@ -88,6 +91,7 @@ class House(models.Model):
 
 
 class Medium(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='medium')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -95,12 +99,14 @@ class Medium(models.Model):
 
 
 class Religion(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='religion')
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
 class Caste(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='caste')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -109,6 +115,7 @@ class Caste(models.Model):
 
 
 class Reference(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='reference')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -116,6 +123,7 @@ class Reference(models.Model):
 
 
 class Nationality(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='nationality')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -123,6 +131,7 @@ class Nationality(models.Model):
 
 
 class MotherToungue(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='maothe_tongue')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -130,6 +139,7 @@ class MotherToungue(models.Model):
 
 
 class FamiliRelation(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='family_relation')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -137,6 +147,7 @@ class FamiliRelation(models.Model):
 
 
 class EnquiryType(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='enquiry_type')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -144,6 +155,7 @@ class EnquiryType(models.Model):
 
 
 class PaymentMode(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='payment_mode')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -151,6 +163,7 @@ class PaymentMode(models.Model):
 
 
 class ClassGroups(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='class_groups')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -159,6 +172,7 @@ class ClassGroups(models.Model):
 
 
 class Standard(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='standard')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -166,6 +180,7 @@ class Standard(models.Model):
 
 
 class Subjects(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='subjects')
     standard = models.ForeignKey(Standard,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
@@ -174,6 +189,7 @@ class Subjects(models.Model):
 
 
 class Documents(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='documents')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -181,6 +197,7 @@ class Documents(models.Model):
 
 
 class FeeHeads(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='fee_heads')
     head_name = models.CharField(max_length=100)
     tax_rate = models.IntegerField()
     default_fees = models.IntegerField(default=0)
@@ -190,13 +207,7 @@ class FeeHeads(models.Model):
 
 
 class FeeInstallments(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
-class Signature(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='fee_installments')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -204,6 +215,7 @@ class Signature(models.Model):
 
 
 class LeavingReasonTC(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='leaving_reason')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -211,6 +223,7 @@ class LeavingReasonTC(models.Model):
 
 
 class NameOfSainikSchool(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='name_of_sainik_school')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -218,6 +231,7 @@ class NameOfSainikSchool(models.Model):
 
 
 class NameOfTheBank(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='name_of_bank')
     name = models.CharField(max_length=100)
     ifsc_code = models.CharField(max_length=11)
     account_number = models.CharField(max_length=20)
@@ -230,6 +244,7 @@ class NameOfTheBank(models.Model):
 
 
 class StudentType(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='student_type')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -237,6 +252,7 @@ class StudentType(models.Model):
 
 
 class ChildStatus(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='child_status')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -244,6 +260,7 @@ class ChildStatus(models.Model):
 
 
 class NextClass(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='next_class')
     name = models.CharField(max_length=50)
 
 
@@ -251,6 +268,7 @@ class SubjectForClassGroup(models.Model):
     pass
 
 class ClassWiseSubjects(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='class_wise_subjects')
     subject_name = models.ForeignKey(Subjects, on_delete= models.CASCADE)
     compulsary = models.BooleanField(default= False)
     activity = models.BooleanField(default= False)
@@ -261,6 +279,7 @@ class ClassWiseSubjects(models.Model):
 
 
 class DocumentsRequired(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='documents_required')
     document_name = models.ForeignKey(Documents, on_delete= models.CASCADE)
     for_new = models.BooleanField(default=False)
     for_old = models.BooleanField(default=False)
@@ -274,6 +293,7 @@ class SubjectsForClassGroup(models.Model):
         (ALL, 'All'),
         (SELECTED, 'Selected'),
     ]
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='subjects_for_class_groups')
     name = models.ForeignKey(Standard, on_delete=models.CASCADE)
     subject_type = models.CharField(
         choices=SUBJECT_TYPE_CHOICES,
@@ -282,11 +302,13 @@ class SubjectsForClassGroup(models.Model):
 
 
 class Section(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='section')
     name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
     
 class DiscountScheme(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='discount_scheme')
     name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
@@ -301,6 +323,18 @@ class NotificationModel(models.Model):
         (INSTITUTE, 'Institute'),
     ]
     user = models.CharField(choices=SENDER_CHOICES, default=INSTITUTE)
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='notification')
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000)
     document = models.FileField(upload_to='documents/', max_length=100)
+    
+class GalleryItems(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE,related_name='institute_gallery')
+    name = models.CharField(max_length=255)
+    url_tag = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField(upload_to='gallery/',blank=True, null=True)
+    video = models.FileField(upload_to='gallery/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name

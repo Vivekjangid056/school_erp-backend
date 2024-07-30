@@ -40,6 +40,7 @@
                 <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
                     <thead>
                         <tr>
+                            <th>S.N</th>
                             <th>EmpNo.</th>
                             <th>Employee Name</th>
                             <th>Join Date</th>
@@ -52,6 +53,7 @@
                     <tbody>
                         {% for employee_master in employee_master_list %}
                         <tr>
+                            <td>{{forloop.counter}}</td>
                             <td>{{employee_master.emp_no}}</td>
                             <td>{{employee_master.first_name}}</td>
                             <td>{{employee_master.join_date}}</td>
@@ -95,6 +97,7 @@ style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
                 <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
                     <thead>
                         <tr>
+                            <th>S.N</th>
                             <th>EmpNo.</th>
                             <th>Employee Name</th>
                             <th>Join Date</th>

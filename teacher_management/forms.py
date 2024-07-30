@@ -27,16 +27,19 @@ class LmHolidayListForm(forms.ModelForm):
         fields = ['code','name','description']
     
 class EmployeeMasterForm(forms.ModelForm):
-    join_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
-    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
-    reliving_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
-    pass_port_end_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
-    drivint_license_issue_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
-    driving_license_expiry_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
     class Meta:
         model = EmployeeMaster
         fields = "__all__"
         exclude = ['institute']
+        widgets = {
+            'join_date': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'reliving_date': forms.DateInput(attrs={'type': 'date'}),
+            'dob': forms.DateInput(attrs={'type': 'date'}),
+            'pass_port_end_date': forms.DateInput(attrs={'type': 'date'}),
+            'drivint_license_issue_date': forms.DateInput(attrs={'type': 'date'}),
+            'driving_license_expiry_date': forms.DateInput(attrs={'type': 'date'}),
+            }
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)

@@ -166,7 +166,6 @@ class UpdateHolidayList(UpdateView):
 # ============================== Employee Master CRUD ================================
 def employee_master_create_view(request):
     if request.method == "POST":
-        print(user.id)
         user = request.user
         form = EmployeeMasterForm(request.POST,request.FILES, user=user)
         if form.is_valid():

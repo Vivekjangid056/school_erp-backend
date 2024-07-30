@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 def home(request):
@@ -57,22 +58,24 @@ def admin_dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('accounts:super-admin-login')
 
 
-class InstituteList(ListView):
+
+class InstituteList(ListView, LoginRequiredMixin):
     model = Institute
     context_object_name = 'institutes'
     template_name = 'institute_list.html'
 
 
-class InstituteUpdateView(UpdateView):
+class InstituteUpdateView(UpdateView, LoginRequiredMixin):
     model = Institute
     form_class = InstituteForm
     context_object_name = "form"
-    template_name = 'update_form.html'
+    template_name = 'institute_update_form.html'
     success_url = reverse_lazy('accounts:institute_list')
 
     def form_valid(self, form):
@@ -80,44 +83,38 @@ class InstituteUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class InstituteRegisterView(CreateView):
-    template_name = 'institute_register.html'
-    form_class = InstituteRegisterForm
-    second_form_class = InstituteForm
-    success_url = reverse_lazy('accounts:institute_list')
+@login_required
+def institute_register_view(request):
+    if request.method == 'POST':
+        user_form = InstituteRegisterForm(request.POST)
+        profile_form = InstituteForm(request.POST, request.FILES)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'profile_form' not in context:
-            context['profile_form'] = self.second_form_class()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form()
-        profile_form = self.second_form_class(request.POST, request.FILES)
-
-        print(f"User Form Errors: {form.errors}")
+        print(f"User Form Errors: {user_form.errors}")
         print(f"Profile Form Errors: {profile_form.errors}")
 
-        if form.is_valid() and profile_form.is_valid():
-            return self.form_valid(form, profile_form)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save(commit=False)
+            user.set_password(user_form.cleaned_data['password1'])  # Handle password setting
+            user.save()
+            profile = profile_form.save(commit=False)
+            profile.user_id = user  # Set the admin field to the newly created admin
+            profile.save()
+            return redirect(reverse_lazy('accounts:institute_list'))
         else:
-            return self.form_invalid(form, profile_form)
+            context = {
+                'form': user_form,
+                'profile_form': profile_form,
+            }
+            return render(request, 'institute_register.html', context)
+    else:
+        user_form = InstituteRegisterForm()
+        profile_form = InstituteForm()
 
-    def form_valid(self, form, profile_form):
-        user = form.save(commit=False)
-        user.set_password(
-            form.cleaned_data['password1'])  # Handle password setting
-        user.save()
-        profile = profile_form.save(commit=False)
-        profile.user_id = user  # Set the admin field to the newly created admin
-        profile.save()
-        return redirect(self.success_url)
-
-    def form_invalid(self, form, profile_form):
-        return self.render_to_response(
-            self.get_context_data(form=form, profile_form=profile_form))
+    context = {
+        'form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'institute_register.html', context)
 
 
 class InstituteDeleteView(DeleteView):
@@ -136,8 +133,8 @@ def institute_branch_create_view(request):
     number_of_branches_permitted = int(user_institute.number_of_branches)
     number_of_branches_created = InstituteBranch.objects.filter(institute=user_institute).count()
 
-    if request.method == "POST":
-        if number_of_branches_created < number_of_branches_permitted:
+    if number_of_branches_created < number_of_branches_permitted:
+        if request.method == "POST":
             branch_form = InstituteBranchForm(request.POST)
             if branch_form.is_valid():
                 try:
@@ -151,10 +148,10 @@ def institute_branch_create_view(request):
             else:
                 messages.error(request, f"Branch form errors: {branch_form.errors}")
         else:
-            messages.error(request, "You've reached the maximum number of permitted branches.")
-            return render(request, 'branch_error.html')
+            branch_form = InstituteBranchForm()
     else:
-        branch_form = InstituteBranchForm()
+        messages.error(request, "You've reached the maximum number of permitted branches.")
+        return render(request, 'branch_error.html')
 
     context = {
         'branch_form': branch_form,

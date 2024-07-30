@@ -158,5 +158,10 @@ urlpatterns = [
     path('fetch-students-attendance/', fetch_students_attendance, name='fetch_students_attendance'),
     path('attendance-list/', attendance_list, name='attendance_list'),
     path('fetch-attendance-data/', fetch_attendance_data, name='fetch_attendance_data'),
- 
+    
+    # url for atttendance system
+    path('gallery-list/', gallery_list, name='gallery_list'),
+    path('add/', gallery_add, name='add'),
+    path('update/<int:pk>', gallery_update, name='update'),
+    path('delete/<int:pk>', gallery_delete, name='delete'),
 ]

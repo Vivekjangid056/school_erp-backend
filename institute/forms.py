@@ -53,17 +53,20 @@ class SignatureForm(forms.ModelForm):
     class Meta:
         model = LomSignature
         fields = "__all__"
+        exclude = ['institute']
 
 class CasteForm(forms.ModelForm):
     class Meta:
         model = Caste
         fields = "__all__"
+        exclude = ['institute']
 
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = "__all__"
+        exclude = ['institute']
 
 
 class HouseForm(forms.ModelForm):
@@ -71,75 +74,88 @@ class HouseForm(forms.ModelForm):
     class Meta:
         model = House
         fields = ['name', 'color_code']
+        exclude = ['institute']
 
 
 class MediumForm(forms.ModelForm):
     class Meta:
         model = Medium
         fields = "__all__"
+        exclude = ['institute']
 
 class ReligionForm(forms.ModelForm):
     class Meta:
         model = Religion
         fields = "__all__"
+        exclude = ['institute']
 
 class ReferenceForm(forms.ModelForm):
     class Meta:
         model = Reference
         fields = "__all__"
+        exclude = ['institute']
 
 
 class NationalityForm(forms.ModelForm):
     class Meta:
         model = Nationality
         fields = "__all__"
+        exclude = ['institute']
 
 
 class MotherTongueForm(forms.ModelForm):
     class Meta:
         model = MotherToungue
         fields = "__all__"
+        exclude = ['institute']
 
 
 class FamilyRelationForm(forms.ModelForm):
     class Meta:
         model = FamiliRelation
         fields = "__all__"
+        exclude = ['institute']
 
 
 class EnquiryTypeForm(forms.ModelForm):
     class Meta:
         model = EnquiryType
         fields = "__all__"
+        exclude = ['institute']
 
 
 class PaymentModeForm(forms.ModelForm):
     class Meta:
         model = PaymentMode
         fields = "__all__"
+        exclude = ['institute']
 
 
 class ClassGroupsForm(forms.ModelForm):
     class Meta:
         model = ClassGroups
         fields = "__all__"
+        exclude = ['institute']
 
 
 class StandardForm(forms.ModelForm):
     class Meta:
         model = Standard
         fields = "__all__"
+        exclude = ['institute']
 
 
 class SubjectsForm(forms.ModelForm):
     class Meta:
         model = Subjects
         fields = "__all__"
+        exclude = ['institute']
                 
 class AttendanceForm(forms.ModelForm):
     class Meta:
         model = Attendance
         fields = ['standard','student', 'subject', 'date', 'present', 'absent']
+        exclude = ['institute']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})
         }
@@ -148,46 +164,54 @@ class DocumnetsForm(forms.ModelForm):
     class Meta:
         model = Documents
         fields = "__all__"
+        exclude = ['institute']
 
 
 class FeeHeadsForm(forms.ModelForm):
     class Meta:
         model = FeeHeads
         fields = "__all__"
+        exclude = ['institute']
 
 class FeeInstallmentForm(forms.ModelForm):
     class Meta:
         model = FeeInstallments
         fields = "__all__"
+        exclude = ['institute']
 
 
 class LeavingReasonForm(forms.ModelForm):
     class Meta:
         model = LeavingReasonTC
         fields = "__all__"
+        exclude = ['institute']
 
 
 class NameOfSainikSchoolForm(forms.ModelForm):
     class Meta:
         model = NameOfSainikSchool
         fields = "__all__"
+        exclude = ['institute']
 
 class NameOfBankForm(forms.ModelForm):
     class Meta:
         model = NameOfTheBank
         fields = "__all__"
+        exclude = ['institute']
 
 
 class StudentTypeForm(forms.ModelForm):
     class Meta:
         model = StudentType
         fields = "__all__"
+        exclude = ['institute']
 
 
 class ChildStatusForm(forms.ModelForm):
     class Meta:
         model = ChildStatus
         fields = "__all__"
+        exclude = ['institute']
         
 class EmployeeForm(forms.ModelForm):
     class Meta:
@@ -261,24 +285,28 @@ class SubjectsForClassGroupForm(forms.ModelForm):
     class Meta:
         model = SubjectsForClassGroup
         fields = "__all__"
+        exclude = ['institute']
 
     
 class SectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = "__all__"
+        exclude = ['institute']
 
     
 class DiscountSchemeForm(forms.ModelForm):
     class Meta:
         model = DiscountScheme
         fields = "__all__"
+        exclude = ['institute']
 
     
 class NotificationModelForm(forms.ModelForm):
     class Meta:
         model = NotificationModel
         fields = "__all__"
+        exclude = ['institute']
 
     def clean_description(self):
         description = self.cleaned_data['description']
@@ -287,3 +315,38 @@ class NotificationModelForm(forms.ModelForm):
         allowed_attributes = {'a': ['href', 'title']}
         cleaned_description = bleach.clean(description, tags=allowed_tags, attributes=allowed_attributes, strip=True)
         return cleaned_description
+    
+#______ forms for gallery section ______
+
+class GalleryItemsForm(forms.ModelForm):
+    class Meta:
+        model = GalleryItems
+        fields = ['name','url_tag','image','video']
+        widgets = {
+			'image': forms.ClearableFileInput(attrs={'accept':'image/*'}),
+			'video': forms.ClearableFileInput(attrs={'accept':'video/*'}),
+		}
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        image = cleaned_data.get('image')
+        video = cleaned_data.get('video')
+        url_tag = cleaned_data.get('url_tag')
+
+        if not image and not video and not url_tag:
+            raise forms.ValidationError("You must provide an image, video, or video URL.")
+        if (image and video) or (image and url_tag) or (video and url_tag):
+            raise forms.ValidationError("You can only provide one of image, video, or video URL.")
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance    
