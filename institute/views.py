@@ -1512,14 +1512,41 @@ def gallery_add(request):
     
 def gallery_update(request, pk):
     item = get_object_or_404(GalleryItems, pk=pk)
+    
     if request.method == 'POST':
-        form = GalleryItemsForm(request.POST, request.FILES, instance=item)
-        if form.is_valid():
-            form.save()
-            return redirect('institute:gallery_list')
-    else:
-        form = GalleryItemsForm(instance=item)
-    return render(request, 'institute/list.html', {'form': form, 'item': item})
+        name = request.POST.get('name')
+        image = request.FILES.get('image')
+        video = request.FILES.get('video')
+        url_tag = request.POST.get('url_tag')
+        
+        item.name = name
+        if image:
+            item.image = image
+            item.video = None
+            item.url_tag = ''
+        if video:
+            item.video = video
+            item.image = None
+            item.url_tag = ''
+        if url_tag:
+            item.url_tag = url_tag
+            item.image = None
+            item.video = None
+        item.save()
+        return redirect('institute:gallery_list')  
+    
+    return render(request, 'gallery/edit_item.html', {'item': item})
+
+def get_item_data(request, pk):
+    item = get_object_or_404(GalleryItems, pk=pk)
+    data = {
+        'id': item.id,
+        'name': item.name,
+        'image': item.image.url if item.image else '',
+        'video': item.video.url if item.video else '',
+        'url_tag': item.url_tag,
+    }
+    return JsonResponse(data)
 
 def gallery_delete(request, pk):
     item = get_object_or_404(GalleryItems, pk=pk)

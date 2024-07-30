@@ -24,12 +24,12 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
-            <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#addImageModal">
+            <button class="btn btn-md btn-info" data-bs-toggle="modal" data-bs-target="#addImageModal">
                 <i class="fa fa-plus"></i>
                 Add Image
             </button>
 
-            <button class="btn btn-secondary ml-2" data-bs-toggle="modal" data-bs-target="#addVideoModal">
+            <button class="btn btn-info ml-2" data-bs-toggle="modal" data-bs-target="#addVideoModal">
                 <i class="fa fa-plus"></i>
                 Add Video
             </button>
@@ -68,14 +68,14 @@
                     </td>
                     <td>
                         <button class="btn btn-sm btn-primary btn-edit"
-                         data-id="{{ item.pk }}" data-bs-toggle="modal" data-bs-target="#editModal{{ item.pk }}">
+                         data-id="{{ item.pk }}" onclick="window.location.href='{% url 'institute:update' item.pk %}'">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
                         <button class="btn btn-sm btn-danger btn-delete" data-id="{{ item.pk }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ item.pk }}"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
 
-                <!-- Edit Modal -->
+                {% comment %} <!-- Edit Modal -->
                 <div class="modal fade" id="editModal{{ item.pk }}" tabindex="-1" aria-labelledby="editModalLabel{{ item.pk }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -108,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
 
                 <!-- Delete Modal -->
                 <div class="modal fade" id="deleteModal{{ item.pk }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ item.pk }}" aria-hidden="true">

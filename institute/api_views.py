@@ -1,6 +1,6 @@
 from rest_framework.response import Response
-from .models import NotificationModel
-from .serializers import NotificationSerializer
+from .models import GalleryItems, NotificationModel
+from .serializers import GallerySerializer, NotificationSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 
@@ -11,10 +11,10 @@ def notification_list(request):
         if notifications:
             serializer = NotificationSerializer(notifications, many=True)
             data = {
-                'status': True,
+                'error': False,
                 'code': 200,
-                'data': serializer.data,
-                'message': "Notifications fetched successfully"
+                'message': "Notifications fetched successfully",
+                'data': serializer.data
             }
             return Response(data, status=status.HTTP_200_OK)
         else:
@@ -50,7 +50,7 @@ def notification_detail(request, pk):
         notification = NotificationModel.objects.get(pk=pk)
     except NotificationModel.DoesNotExist:
         data = {
-            'status': False,
+            'error': True,
             'code': 404,
             'message': "Notification with given id is not found"
         }
@@ -59,10 +59,10 @@ def notification_detail(request, pk):
     if request.method == 'GET':
         serializer = NotificationSerializer(notification)
         data = {
-            'status': True,
+            'error': False,
             'code': 200,
-            'data': serializer.data,
-            'message': "Notification fetched successfully"
+            'message': "Notification fetched successfully",
+            'data': serializer.data
         }
         return Response(data, status=status.HTTP_200_OK)
 
@@ -71,14 +71,14 @@ def notification_detail(request, pk):
         if serializer.is_valid():
             serializer.save()
             data = {
-                'status': True,
+                'error': False,
                 'code': 200,
-                'data': serializer.data,
-                'message': "Notification updated successfully"
+                'message': "Notification updated successfully",
+                'data': serializer.data
             }
             return Response(data, status=status.HTTP_200_OK)
         data = {
-            'status': False,
+            'error': True,
             'code': 400,
             'errors': serializer.errors,
             'message': "Failed to update notification"
@@ -88,8 +88,57 @@ def notification_detail(request, pk):
     elif request.method == 'DELETE':
         notification.delete()
         data = {
-            'status': True,
+            'error': False,
             'code': 200,
             'message': "Notification deleted successfully"
         }
         return Response(data, status=status.HTTP_200_OK)
+    
+    
+# @api_view(['GET'])
+# def gallery_list(request):
+#     if request.method == 'GET':
+#         gallery = GalleryItems.objects.all()
+        
+#         serializer = GallerySerializer(gallery, many = True, context={'request': request})
+        
+        
+#         data = {
+#             'code':200,
+#             'error':False,
+#             'data':serializer.data,
+#         }
+#         return Response(data, status=status.HTTP_200_OK)
+
+
+# following api is for custom grouping , like all images , videos , and urls
+@api_view(['GET'])
+def gallery_list(request):
+    if request.method == 'GET':
+        gallery = GalleryItems.objects.all()
+        
+        # filter the gallery items based on the presence of media types
+        images = gallery.filter(image__isnull=False)
+        videos = gallery.filter(video__isnull=False) | gallery.filter(url_tag__isnull=False)  # Combine video and URL items
+        
+        # serialize each media type separately
+        image_serializer = GallerySerializer(images, many=True, context={'request': request})
+        video_serializer = GallerySerializer(videos, many=True, context={'request': request})
+        
+        data = {
+            'image': [{'name': item['name'], 'image': item['image']} for item in image_serializer.data],
+            'video': [
+                {
+                    'name': item['name'],
+                    'video': item['video'] if item['video'] else None,
+                    'url': item['url_tag'] if item['url_tag'] else None
+                } for item in video_serializer.data
+            ]
+        }
+        
+        return Response({
+            'status': 200,
+            'error': False,
+            'message': 'gallery list fetched successfully',
+            'data': data
+        })
