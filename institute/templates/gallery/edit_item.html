@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>Edit Item</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" action="{% url 'institute:update' item.id %}">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="editName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="editName" name="name" value="{{ item.name }}">
+                    </div>
+                </div>
+                {% if item.image %}
+                <div class="mb-3">
+                    <div class="col-md-2">
+                        <label for="editImage" class="form-label">Current Image</label>
+                        <div>
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="editImage" class="form-label mt-2">Change Image</label>
+                        <input type="file" class="form-control" id="editImage" name="image" accept="image/*">
+                    </div>
+                </div>
+                {% endif %}
+                {% if item.video %}
+                <div class=" mb-3">
+                    <div class="col-md-3">
+                        <label for="editVideo" class="form-label">Current Video</label>
+                        <div>
+                            <video class="img-fluid rounded" controls>
+                                <source src="{{ item.video.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="editVideo" class="form-label mt-2">Change Video</label>
+                        <input type="file" class="form-control" id="editVideo" name="video" accept="video/*">
+                    </div>
+                </div>
+                {% endif %}
+                {% if item.url_tag %}
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="editUrl" class="form-label">Current URL</label>
+                        <div>
+                            <a href="{{ item.url_tag }}" target="_blank">{{ item.url_tag }}</a>
+                        </div>
+                        <label for="editUrl" class="form-label mt-2">Change URL</label>
+                        <input type="text" class="form-control" id="editUrl" name="url_tag" value="{{ item.url_tag }}">
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
