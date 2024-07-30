@@ -5,7 +5,8 @@ from .forms import HrInterviewForm
 # Create your views here.
 
 def interview_list(request):
-    interview = HrInterview.objects.all()
+    user = request.user
+    interview = HrInterview.objects.filter(institute= user.institute_id.first())
     context = {
         'interview':interview
     }
@@ -14,11 +15,13 @@ def interview_list(request):
 
 def interview_register(request):
     if request.method == 'POST':
-        interview_form = HrInterviewForm(request.POST, request.FILES)
+        user = request.user
+        interview_form = HrInterviewForm(request.POST, request.FILES, user = request.user)
         
         if interview_form.is_valid():
             try:
                 interview = interview_form.save(commit=False)
+                interview.user = user
                 interview.save()
                 return redirect('hr:list_of_interview')
             except Exception as e:

@@ -1,14 +1,14 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
-from institute.models import Category
+from institute.models import *
 from accounts.models import *
-from institute.models import InstituteRole
 
 # Create your models here.
 
 
 class LmCategoryMaster(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmcategory')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     
@@ -16,6 +16,7 @@ class LmCategoryMaster(models.Model):
         return self.name
     
 class LmDesignationMaster(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmdesignation')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     
@@ -23,6 +24,7 @@ class LmDesignationMaster(models.Model):
         return self.name
     
 class LmDepartmentMaster(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmdepartment')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)    
     
@@ -50,6 +52,7 @@ class LmAttendanceType(models.Model):
         return self.name     
     
 class LmHolidayList(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='lmholiday')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -187,7 +190,7 @@ class EmployeeAttendance(models.Model):
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee_profile')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name="employee_profile")
-    employee_details = models.OneToOneField(EmployeeMaster, on_delete= models.CASCADE)
+    employee_details = models.OneToOneField(EmployeeMaster, on_delete= models.CASCADE, related_name='employee_profile')
     staff_role =  models.ForeignKey(InstituteRole, on_delete= models.CASCADE)
     middle_name = models.CharField(max_length=100 , blank=True)   #optional
     nick_name = models.CharField(max_length=50,blank=True) #optional
@@ -196,4 +199,4 @@ class Employee(models.Model):
     user_image = models.ImageField(upload_to='images/',blank=True,null=True)  #optional
     
     def __str__(self):
-        return self.employee_name.first_name
+        return self.employee_details.first_name

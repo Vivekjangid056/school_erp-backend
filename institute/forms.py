@@ -270,6 +270,8 @@ class EmployeeProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+        if self.user:
+            self.fields['employee_details'].queryset = EmployeeMaster.objects.filter(institute=self.user.institute_id.first())
 
     def save(self, commit=True):
         instance = super().save(commit=False)

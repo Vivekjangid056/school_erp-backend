@@ -10,7 +10,8 @@ from .models import *
 
 # =============================== views for list_master CRUD ===============================
 def category_master_list(request):
-    data = LmCategoryMaster.objects.all()
+    institute = Institute.objects.get(user_id = request.user)
+    data = LmCategoryMaster.objects.filter(institute = institute)
     context = {
         'data' : data
     }
@@ -23,6 +24,8 @@ class AddMasterCategory(CreateView):
     success_url = reverse_lazy('teacher:category_master_list')
     
     def form_valid(self, form):
+        category = form.save(commit = False)
+        category.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
     
@@ -42,7 +45,8 @@ class deleteMasterCategory(DeleteView):
 
 # ============================== designation views CRUD =============================== 
 def designation_master_list(request):
-    data = LmDesignationMaster.objects.all()
+    institute = Institute.objects.get(user_id = request.user)
+    data = LmDesignationMaster.objects.filter(institute = institute)
     context = {
         'data': data
     }
@@ -53,7 +57,9 @@ class CreateDesignationMaster(CreateView):
     form_class = LmDesignationMasterForm
     success_url = reverse_lazy('teacher:designation_master_list')
     
-    def form_valid(self,form):
+    def form_valid(self, form):
+        designation = form.save(commit = False)
+        designation.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
     
@@ -73,7 +79,8 @@ class DeleteDesignationMaster(DeleteView):
     
 # ========================== Department maser views CRUD ==============================
 def department_master_list(request):
-    data = LmDepartmentMaster.objects.all()
+    institute = Institute.objects.get(user_id = request.user)
+    data = LmDepartmentMaster.objects.filter(institute = institute)
     context = {
         'data': data
     }
@@ -84,7 +91,9 @@ class CreateDepartmentMaster(CreateView):
     form_class = LmDepartmentMasterForm
     success_url = reverse_lazy('teacher:department_master_list')
     
-    def form_valid(self,form):
+    def form_valid(self, form):
+        department = form.save(commit = False)
+        department.institute= self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
     
@@ -137,7 +146,8 @@ class DeleteAttendanceType(DeleteView):
 # ============================= holiday list CRUD ================================
 
 def holiday_list(request):
-    data = LmHolidayList.objects.all()
+    institute = Institute.objects.get(user_id = request.user)
+    data = LmHolidayList.objects.filter(institute = institute)
     context = {
         'data':data
     }
@@ -149,6 +159,8 @@ class CreateHolidayList(CreateView):
     success_url = reverse_lazy('teacher:holiday_list')
     
     def form_valid(self,form):
+        holiday = form.save(commit=False)
+        holiday.institute = self.request.user.institute_id.first()
         form.save()
         return super().form_valid(form)
     
@@ -187,6 +199,16 @@ class EmployeeMasterList(ListView):
     template_name = "employees_master/employee_list.html"
     model = EmployeeMaster
     context_object_name = 'employee_master_list'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
 
 
 def employee_master_update(request, pk):

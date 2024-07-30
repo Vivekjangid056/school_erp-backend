@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 
+from accounts.models import Institute
 from institute.models import Category
 from teacher_management.models import Employee, LmDepartmentMaster, LmDesignationMaster
 
@@ -48,7 +49,7 @@ class HrInterview(models.Model):
     ]
     
     # ================ General Information =============
-    
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='interview')
     interview_no = models.IntegerField()
     interview_date = models.DateField()
     reference = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=True, related_name='hr_interviews_reference') #optional
@@ -81,11 +82,6 @@ class HrInterview(models.Model):
     mobile = models.CharField(max_length=12)
     mobile2 = models.CharField(max_length=12, blank=True)  #optional
     email = models.EmailField()
-    
-    # ===================== Qualification  Info ==========================  
-    
-    
-    
     # ======================== Previous Company Details =================== 
     
     company_name = models.CharField(max_length=255)

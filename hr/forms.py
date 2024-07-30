@@ -14,3 +14,14 @@ class HrInterviewForm(forms.ModelForm):
             'leaving_date' : forms.DateInput(attrs={'type':'date'}),
             'date' : forms.DateInput(attrs={'type':'date'}),
         }
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance
