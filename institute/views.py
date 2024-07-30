@@ -1494,7 +1494,9 @@ def fetch_attendance_data(request):
 
 # views for gallery section
 def gallery_list(request):
-    gallery_items = GalleryItems.objects.all()
+    user = request.user
+    institute = user.institute_id
+    gallery_items = GalleryItems.objects.filter(institute_id = institute.first())
     return render(request, 'gallery/list.html',{'gallery_items':gallery_items})
 
 
