@@ -308,6 +308,11 @@ class SectionForm(forms.ModelForm):
         model = Section
         fields = "__all__"
         exclude = ['institute']
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.user:
+            self.fields['standard'].queryset = Standard.objects.filter(institute = self.user.institute_id.first())
 
     
 class DiscountSchemeForm(forms.ModelForm):
