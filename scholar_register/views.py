@@ -20,18 +20,19 @@ def student_list(request):
 
 @transaction.atomic
 def student_register(request):
+    user = request.user
     print("::::::::::::::::::::::::::::::::::::;;", request.user.institute_id.first())
     if request.method == 'POST':
         parent_registered = request.POST.get('parent_registered')
         profile_form = StudentProfileForm(request.POST, request.FILES)
         fees_form = StudentFeesForm(request.POST)
         print("Parent registered:", parent_registered)
-        
+
         if parent_registered == 'yes':
             existing_parent_id = request.POST.get('existing_parent')
             if not existing_parent_id:
                 messages.error(request, "Please select an existing parent.")
-                parents = StudentParents.objects.all()
+                parents = StudentParents.objects.filter(institute = request.user.institute_id.first())
                 context = {
                     'profile_form': profile_form,
                     'parents': parents,
@@ -42,7 +43,7 @@ def student_register(request):
                 parent = StudentParents.objects.get(id=existing_parent_id)
             except StudentParents.DoesNotExist:
                 messages.error(request, "Selected parent not found.")
-                parents = StudentParents.objects.all()
+                parents = StudentParents.objects.filter(institute = request.user.institute_id.first())
                 context = {
                     'profile_form': profile_form,
                     'fees_form': fees_form,
@@ -91,10 +92,10 @@ def student_register(request):
                 print("Profile form errors:", profile_form.errors)
                 print("fees form errors:", fees_form.errors)
         
-        messages.error(request, "There were errors in the form. Please correct them and try again.")
+                messages.error(request, "There were errors in the form. Please correct them and try again.")
         
-        # Prepare context for invalid POST
-        parents = StudentParents.objects.filter(user = request.user)
+                # Prepare context for invalid POST
+        parents = StudentParents.objects.filter(institute = request.user.institute_id.first())
         context = {
             'user_form': user_form if parent_registered == 'no' else ParentUserCreationForm(),
             'parent_form': parent_form if parent_registered == 'no' else ParentProfileForm(),
@@ -105,10 +106,11 @@ def student_register(request):
         return render(request, 'students_form.html', context)
     else:
         # GET request
+        user = request.user
         user_form = ParentUserCreationForm()
-        parent_form = ParentProfileForm()
-        profile_form = StudentProfileForm()
-        fees_form = StudentFeesForm()
+        parent_form = ParentProfileForm(user = user)
+        profile_form = StudentProfileForm(user = user)
+        fees_form = StudentFeesForm(user = user)
 
     # Prepare context for GET
     parents = StudentParents.objects.filter(institute = request.user.institute_id.first())

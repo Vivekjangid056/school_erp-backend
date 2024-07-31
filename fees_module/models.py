@@ -1,5 +1,6 @@
 from django.db import models
 
+from accounts.models import Institute
 from institute.models import Standard
 from scholar_register.models import StudentProfile
 
@@ -7,8 +8,8 @@ from scholar_register.models import StudentProfile
 
 
 class FeeStructure(models.Model):
-   
-    standard = models.ForeignKey(Standard, on_delete=models.CASCADE)
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='fee_structure')
+    standard = models.OneToOneField(Standard, on_delete=models.CASCADE)
     total_fee = models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):

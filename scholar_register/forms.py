@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from accounts.models import User
-from fees_module.models import StudentFeePayment
+from fees_module.models import FeeStructure, StudentFeePayment
 from .models import *
 
 
@@ -50,10 +50,14 @@ class ParentProfileForm(forms.ModelForm):
                 'mother_qualification', 'father_pan_no', 'mother_pan_no', 'guardian_name', 
                 'guardian_mobile', 'guardian_relation', 'fee_deposited_by', 'sms_mob_no', 
                 'student_type', 'child_status', 'discount_scheme']
-        
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+        if self.user:
+            self.fields['student_type'].queryset= StudentType.objects.filter(institute = self.user.institute_id.first())
+            self.fields['child_status'].queryset= ChildStatus.objects.filter(institute = self.user.institute_id.first())
+            self.fields['discount_scheme'].queryset= DiscountScheme.objects.filter(institute = self.user.institute_id.first())
+
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -88,6 +92,19 @@ class StudentProfileForm(forms.ModelForm):
             'admission_confirm_date': forms.DateInput(attrs={'type': 'date'}),
             'caution_money_reciept_date': forms.DateInput(attrs={'type': 'date'}),
         }
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.user:
+            self.fields['caste'].queryset= Caste.objects.filter(institute = self.user.institute_id.first())
+            self.fields['religion'].queryset= Religion.objects.filter(institute = self.user.institute_id.first())
+            self.fields['category'].queryset= Category.objects.filter(institute = self.user.institute_id.first())
+            self.fields['nationality'].queryset= Nationality.objects.filter(institute = self.user.institute_id.first())
+            self.fields['mother_tongue'].queryset= MotherToungue.objects.filter(institute = self.user.institute_id.first())
+            self.fields['standard'].queryset= Standard.objects.filter(institute = self.user.institute_id.first())
+            self.fields['section'].queryset= Section.objects.filter(institute = self.user.institute_id.first())
+            self.fields['medium'].queryset= Medium.objects.filter(institute = self.user.institute_id.first())
+            self.fields['house_name'].queryset= House.objects.filter(institute = self.user.institute_id.first())
 
 class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedule
     class Meta:
@@ -97,3 +114,9 @@ class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedu
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        print(self.user)
+        if self.user:
+            self.fields['fee_structure'].queryset= FeeStructure.objects.filter(institute = self.user.institute_id.first())

@@ -18,15 +18,31 @@ class FeeStructureCreateView(CreateView):
     form_class = FeeStructureForm
     template_name = 'fee_structure/structure_create.html'
     success_url = reverse_lazy('fees_module:list_fee_structure')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
     
     def form_valid(self, form):
-        form.save()
+        fees = form.save(commit=False)
+        fees.institute= self.request.user.institute_id.first()
+        fees.save()
         return super().form_valid(form)
-    
+
 class FeeStructureListView(ListView):
     model = FeeStructure
     template_name = 'fee_structure/structure_list.html'
     context_object_name = 'fee_structure_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated:
+            institute_id = user.institute_id
+            queryset = queryset.filter(institute_id=institute_id.first())
+            print(queryset)
+        return queryset
 
 class FeeStructureUpdateView(UpdateView):
     model = FeeStructure

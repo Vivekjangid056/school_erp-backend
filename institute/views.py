@@ -622,6 +622,11 @@ class AddSubject(FormView):
     form_class = SubjectsForm
     success_url = reverse_lazy('institute:list_of_subjects')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         subject = form.save(commit = False)
         subject.institute= self.request.user.institute_id.first()
@@ -1266,6 +1271,13 @@ class AddSubForClassGroup(CreateView):
     template_name = "session_settings/ss_sub_for_groups_form.html"
     form_class = SubjectsForClassGroupForm
     success_url = reverse_lazy('institute:list_of_sub_for_class_groups')
+
+    def get_form_kwargs(self):
+        kwargs =super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
     def form_valid(self, form):
         sfcg = form.save(commit = False)
         sfcg.institute= self.request.user.institute_id.first()
@@ -1390,7 +1402,8 @@ class DeleteDiscountScheme(DeleteView):
 #<------------------------ for Attendance ---------------------------------->
 
 def attendance_view(request):
-    standards = Standard.objects.all()
+    user = request.user
+    standards = Standard.objects.filter(institute = user.institute_id.first())
     if request.method == 'POST':
         data = request.POST
         date = data.get('date')

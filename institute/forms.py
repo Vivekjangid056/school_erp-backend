@@ -150,6 +150,12 @@ class SubjectsForm(forms.ModelForm):
         model = Subjects
         fields = "__all__"
         exclude = ['institute']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.user:
+            self.fields['standard'].queryset = Standard.objects.filter(institute=self.user.institute_id.first())
                 
 class AttendanceForm(forms.ModelForm):
     class Meta:
@@ -288,6 +294,11 @@ class SubjectsForClassGroupForm(forms.ModelForm):
         model = SubjectsForClassGroup
         fields = "__all__"
         exclude = ['institute']
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.user:
+            self.fields['name'].queryset = Subjects.objects.filter(institute = self.user.institute_id.first())
 
     
 class SectionForm(forms.ModelForm):
