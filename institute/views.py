@@ -1321,6 +1321,12 @@ class AddSection(CreateView):
     template_name = "session_settings/section_form.html"
     form_class = SectionForm
     success_url = reverse_lazy('institute:list_of_section')
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    
     def form_valid(self, form):
         section = form.save(commit = False)
         section.institute= self.request.user.institute_id.first()
