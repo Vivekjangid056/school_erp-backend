@@ -2,7 +2,8 @@ from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
 from django.db.models import UniqueConstraint
-from accounts.models import Institute, User
+from accounts.models import Institute
+
 
 # =========================== Model For menu shown in admin panel =============================
 
@@ -303,13 +304,15 @@ class SubjectsForClassGroup(models.Model):
 
 class Section(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='section')
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='section')
     name = models.CharField(max_length=50)
     def __str__(self):
-        return self.name
+        return f"{self.standard.name} - {self.name}"
     
 class DiscountScheme(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='discount_scheme')
     name = models.CharField(max_length=50)
+    
     def __str__(self):
         return self.name
 

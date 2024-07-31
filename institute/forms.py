@@ -1,5 +1,7 @@
 import bleach
 from django import forms
+
+from hr.models import TimeTable
 from .models import *
 from scholar_register.models import Attendance
 from teacher_management.models import Employee, EmployeeMaster
@@ -350,3 +352,31 @@ class GalleryItemsForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance    
+    
+class TimetableForm(forms.ModelForm):
+    class Meta:
+        model = TimeTable
+        fields = ['standard', 'section', 'subject', 'faculty', 'day_of_week', 'period_no', 'start_time', 'end_time']    
+        widgets = {
+            'start_time': forms.TimeInput(format='%I:%M %p', attrs={'type': 'time'}),
+            'end_time': forms.TimeInput(format='%I:%M %p', attrs={'type': 'time'})
+        }
+   
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.user:
+            institute = self.user.institute_id.first()
+            print(f"User Institute: {institute}")
+            self.fields['standard'].queryset = Standard.objects.filter(institute=institute )
+            self.fields['section'].queryset = Section.objects.filter(institute= self.user.institute_id.first())
+            self.fields['subject'].queryset = Subjects.objects.filter(institute= self.user.institute_id.first())
+            self.fields['faculty'].queryset = Employee.objects.filter(institute= self.user.institute_id.first())
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance      

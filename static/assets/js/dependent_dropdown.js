@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Gallery</span>
             </a>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.scheduleTimeTable}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Time Table</span>
             </a>

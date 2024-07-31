@@ -164,4 +164,13 @@ urlpatterns = [
     path('add/', gallery_add, name='add'),
     path('update/<int:pk>', gallery_update, name='update'),
     path('delete/<int:pk>', gallery_delete, name='delete'),
+    
+    # url for timetable 
+    path('timetable-list/',timetable_list, name='timetable_list'), 
+    path('create-timetable/',create_timetable, name='create_timetable'),
+    path('edit-timetable/<int:pk>',edit_timetable, name='edit_timetable'),
+    path('delete-timetable/<int:pk>',delete_timetable, name='delete_timetable'),
+    
+    path('get-sections/', get_sections, name='get_sections'),
+    path('get-subjects/', get_subjects, name='get_subjects'),
 ]

@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.views import View
 from django.views.decorators.http import require_POST
 
+from hr.models import TimeTable
 from scholar_register.models import StudentProfile
 from .forms import *
 from .models import *
@@ -1554,3 +1555,78 @@ def gallery_delete(request, pk):
         item.delete()
         return redirect('institute:gallery_list')
     return render(request, 'institute/list.html', {'object': item})
+
+
+# ____________________________________________ views for timetable _______________________________________
+
+def timetable_list(request):
+    user = request.user
+    standard_id = request.GET.get('standard')
+    day_of_week = request.GET.get('day_of_week')
+    
+    timetables = TimeTable.objects.filter(institute=user.institute_id.first())
+    # for dependent handling 
+    if standard_id:
+        timetables = timetables.filter(standard_id=standard_id)
+    
+    if day_of_week:
+        timetables = timetables.filter(day_of_week=day_of_week)
+    
+    standards = Standard.objects.filter(institute=user.institute_id.first())
+    
+    context = {
+        'timetables': timetables,
+        'standards': standards,
+        'selected_standard': standard_id,
+        'selected_day': day_of_week,
+    }
+    
+    return render(request, 'timetable/list.html', context)
+
+def create_timetable(request):
+    if request.method == 'POST':
+        user = request.user
+        form = TimetableForm(request.POST, user = user)
+        
+        if form.is_valid():
+            form.user = user
+            form.save()
+            return redirect('institute:timetable_list')
+        else:
+            print(form.errors)  # Print form errors
+    else:
+        user = request.user
+        form = TimetableForm(user = user)
+        context ={
+            'form':form
+        }
+            
+        return render(request, 'timetable/create.html',context=context)
+
+def edit_timetable(request, pk):
+    timetable = get_object_or_404(TimeTable, pk=pk)
+    if request.method == 'POST':
+        form = TimetableForm(request.POST, instance = timetable , user = request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('institute:timetable_list')
+    else:
+        form = TimetableForm(instance=timetable, user=request.user)
+    
+    return render(request, 'timetable/create.html', {'form':form , 'timetable': timetable})
+
+def delete_timetable(request, pk):
+    timetable = get_object_or_404(TimeTable, pk=pk)
+    timetable.delete()
+    return redirect('institute:timetable_list')      
+    
+# for dependent dropdown
+def get_sections(request):
+    standard_id = request.GET.get('standard_id')
+    sections = Section.objects.filter(standard_id=standard_id).values('id', 'name')
+    return JsonResponse({'sections': list(sections)})
+
+def get_subjects(request):
+    standard_id = request.GET.get('standard_id')
+    subjects = Subjects.objects.filter(standard_id=standard_id).values('id', 'name')
+    return JsonResponse({'subjects': list(subjects)})
