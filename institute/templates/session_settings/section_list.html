@@ -32,6 +32,7 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
+                            <th>Class Name</th>
                             <th>Section Name</th>
                             <th>Action</th>
                         </tr>
@@ -40,6 +41,7 @@
                         {% for ss in section_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
+                            <td>{{ss.standard.name}}</td>
                             <td>{{ss.name}}</td>
                             <td>
                                 <a href="{% url 'institute:update_section' ss.pk %}"

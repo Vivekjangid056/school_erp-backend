@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
 from institute.models import *
+from institute.models import Category
 from accounts.models import *
 
 # Create your models here.
@@ -126,8 +127,8 @@ class EmployeeMaster(models.Model):
     pan_no = models.CharField(max_length= 10)
     aadhar_no = models.CharField(max_length= 12)
     marital_status = models.CharField(choices=MARITAL_STATUS_CHOICES, default= SINGLE)
-    reliving_reason = models.CharField(max_length= 200)
-    reliving_date = models.DateField()
+    reliving_reason = models.CharField(max_length= 200, blank=True, null=True)
+    reliving_date = models.DateField(blank=True,null=True)
     is_driver = models.BooleanField(default=False)
 
     # ========================== Contacr Information ======================================
@@ -143,7 +144,7 @@ class EmployeeMaster(models.Model):
     # ========================== Official Information =====================================
     department = models.ForeignKey(LmDepartmentMaster, on_delete=models.CASCADE)
     designation = models.ForeignKey(LmDesignationMaster, on_delete=models.CASCADE)
-    category = models.ForeignKey(LmCategoryMaster, on_delete=models.CASCADE)
+    category = models.ForeignKey(LmCategoryMaster, on_delete=models.CASCADE, related_name='employee_master')
     # Reporting_authority = models.ForeignKey(max_length= 200)
     roll_no_10th = models.CharField(max_length= 200, null=True, blank= True)
     board_year_10th = models.CharField(max_length= 200, null=True, blank= True)

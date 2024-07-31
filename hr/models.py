@@ -1,8 +1,9 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from requests import options
 
 from accounts.models import Institute
-from institute.models import Category
+from institute.models import Category, Section, Standard, Subjects
 from teacher_management.models import Employee, LmDepartmentMaster, LmDesignationMaster
 
 # Create your models here.
@@ -103,3 +104,28 @@ class HrInterview(models.Model):
     status = models.CharField(choices=STATUS_CHOICES)
     overall_comment = models.CharField(max_length=255)
     remark = models.CharField(max_length=100)
+    
+    
+class TimeTable(models.Model):
+    DAYS_OF_WEEK = [
+        ('MON', 'Monday'),
+        ('TUE', 'Tuesday'),
+        ('WED', 'Wednesday'),
+        ('THU', 'Thursday'),
+        ('FRI', 'Friday'),
+        ('SAT', 'Saturday'),
+        ('SUN', 'Sunday'),
+    ]
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='timetable')    
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='timetable')   
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='timetable')   
+    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='timetable') 
+    faculty = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='timetable')
+    day_of_week = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
+    period_no = models.IntegerField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    
+    def __str__(self):
+        return f"{self.faculty.user.first_name}{self.standard.name} {self.section.name} - {self.subject.name} - {self.day_of_week} Period {self.period_no}"    

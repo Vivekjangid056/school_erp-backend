@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <h2>{% if form.instance.pk %}Update{% else %}Create{% endif %} Time</h2>
+    <hr>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-3 form-group">
+                {{ form.standard|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="section">Section</label>
+                <select id="section" name="section" class="form-control">
+                    <option value="">Select Section</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="subject">Subject</label>
+                <select id="subject" name="subject" class="form-control">
+                    <option value="">Select Subject</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.faculty|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.day_of_week|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.period_no|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.start_time|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.end_time|as_crispy_field }}
+            </div>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-primary col-md-2">Save</button>
+    </form>
+</div>
+
+<script>
+$(document).ready(function() {
+    var standardFieldId = '{{ form.standard.id_for_label }}';
+    var sectionFieldId = 'section';
+    var subjectFieldId = 'subject';
+
+    function loadSectionsAndSubjects(standardId) {
+        if (standardId) {
+            // Fetch sections
+            $.ajax({
+                url: '{% url "institute:get_sections" %}',
+                data: {
+                    'standard_id': standardId
+                },
+                success: function(data) {
+                    $('#' + sectionFieldId).empty();
+                    $('#' + sectionFieldId).append('<option value="">Select Section</option>');
+                    $.each(data.sections, function(index, section) {
+                        $('#' + sectionFieldId).append('<option value="' + section.id + '">' + section.name + '</option>');
+                    });
+                    // Pre-select the section if editing
+                    var selectedSection = '{{ form.instance.section.id }}';
+                    if (selectedSection) {
+                        $('#' + sectionFieldId).val(selectedSection);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching sections:', status, error);
+                }
+            });
+
+            // Fetch subjects
+            $.ajax({
+                url: '{% url "institute:get_subjects" %}',
+                data: {
+                    'standard_id': standardId
+                },
+                success: function(data) {
+                    $('#' + subjectFieldId).empty();
+                    $('#' + subjectFieldId).append('<option value="">Select Subject</option>');
+                    $.each(data.subjects, function(index, subject) {
+                        $('#' + subjectFieldId).append('<option value="' + subject.id + '">' + subject.name + '</option>');
+                    });
+                    // Pre-select the subject if editing
+                    var selectedSubject = '{{ form.instance.subject.id }}';
+                    if (selectedSubject) {
+                        $('#' + subjectFieldId).val(selectedSubject);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching subjects:', status, error);
+                }
+            });
+        } else {
+            $('#' + sectionFieldId).empty().append('<option value="">Select Section</option>');
+            $('#' + subjectFieldId).empty().append('<option value="">Select Subject</option>');
+        }
+    }
+
+    // Load sections and subjects when the standard is changed
+    $('#' + standardFieldId).change(function() {
+        var standardId = $(this).val();
+        loadSectionsAndSubjects(standardId);
+    });
+
+    // Trigger change to load sections and subjects if editing an existing instance
+    var initialStandardId = '{{ form.instance.standard.id }}';
+    if (initialStandardId) {
+        loadSectionsAndSubjects(initialStandardId);
+    }
+});
+</script>
+{% endblock %}

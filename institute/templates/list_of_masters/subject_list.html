@@ -34,6 +34,7 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
+                            <th>Standard</th>
                             <th>Subject Name</th>
                             <th>Action</th>
                         </tr>
@@ -44,6 +45,7 @@
                         {% for subject in subjects_list %}
                         <tr>
                             <td>{{forloop.counter}}</td>
+                            <td>{{subject.standard.name}}</td>
                             <td>{{subject.name}}</td>
                             <td>
                                 <a href="{% url 'institute:update_subject' subject.pk %}"
