@@ -43,7 +43,7 @@ class LmAttendanceType(models.Model):
         (ABSENT,'Absent'),
         (LEAVE,'Leave'),
     ]
-    
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name = 'lm_attendace_type')
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
     nature = models.CharField(max_length=100,choices=NATURE_CHOICES,default=PRESENT)

@@ -194,8 +194,7 @@ def institute_branch_update_view(request, pk):
         branch_form = InstituteBranchUpdateForm(request.POST, instance=branch)
         if branch_form.is_valid():
             try:
-                branch = branch_form.save()
-                messages.success(request, "Branch updated successfully.")
+                branch_form.save()
                 return redirect("accounts:list_of_branches")
             except Exception as e:
                 messages.error(request, f"Error updating branch: {e}")
@@ -215,6 +214,62 @@ def institute_branch_delete_view(request, pk):
     branch = get_object_or_404(InstituteBranch, pk=pk)
     branch.delete()
     return redirect('accounts:list_of_branches')
+
+def session_create(request):
+    if request.method == "POST":
+        session_form = AcademicSessionForm(request.POST, user=request.user)
+        if session_form.is_valid():
+            try:
+                session = session_form.save(commit=False)
+                session.institute = request.user.institute_id.first()
+                session.save()
+                return redirect('accounts:list_of_sessions')
+            except Exception as e:
+                print(f"Error saving form: {e}")
+        else:
+            print("Error in form validation", session_form.errors)
+    else:
+        session_form = AcademicSessionForm(user=request.user)
+
+    context = {
+        'session_form': session_form
+    }
+    return render(request, 'session_register.html', context=context)
+
+
+
+def sessions_list(request):
+    user = request.user
+    sessions = AcademicSession.objects.filter(institute = user.institute_id.first())
+    context = {
+        'sessions':sessions
+    }
+    return render(request, 'sessions_list.html', context=context)
+
+def session_update(request, pk):
+    session = get_object_or_404(AcademicSession, pk=pk)
+    if request.method=="POST":
+        session_form = AcademicSessionForm(request.POST, instance = session)
+        if session_form.is_valid():
+            session_form.save()
+            return redirect('accounts:list_of_sessions')
+        else:
+            print('error saving form :', session_form.errors)
+    else:
+        session_form = AcademicSessionForm(instance = session)
+        context = {
+            'session_form':session_form,
+            'session':session
+        }
+        return render(request, 'session_register.html', context=context)
+
+
+def session_delete(request, pk):
+    session = get_object_or_404(AcademicSession, pk=pk)
+    if request.method == 'POST':
+        session.delete()
+        return redirect('accounts:list_of_sessions')
+
 
 # def check_session_timeout(request):
 #     last_activity = request.session.get('last_activity')

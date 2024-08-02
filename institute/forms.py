@@ -9,6 +9,8 @@ from accounts.models import Institute, User
 from django.contrib.auth.forms import UserCreationForm
 
 # ================================= User Register Form =======================================
+
+
 class CustomUserRegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -24,7 +26,8 @@ class CustomUserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone_number', 'role']
+        fields = ['first_name', 'last_name',
+                  'username', 'email', 'phone_number', 'role']
 
 
 # =================================== institute role form ====================================
@@ -39,15 +42,31 @@ class InstituteRoleForm(forms.ModelForm):
         widget=forms.Select(),  # Use Select widget
         required=True
     )
+
     class Meta:
         model = InstituteRole
         fields = ['name', 'description', 'is_active', 'menu', 'branches']
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance
+
 # =================================== Permissions form =======================================
+
+
 class PermissionForm(forms.ModelForm):
     class Meta:
         model = Permission
-        fields = ['menu', 'submenu', 'supersubmenu', 'can_add', 'can_edit', 'can_view', 'can_delete', 'can_print']
+        fields = ['menu', 'submenu', 'supersubmenu', 'can_add',
+                  'can_edit', 'can_view', 'can_delete', 'can_print']
 
 
 # ==================================List Of Masters Forms ====================================
@@ -56,6 +75,7 @@ class SignatureForm(forms.ModelForm):
         model = LomSignature
         fields = "__all__"
         exclude = ['institute']
+
 
 class CasteForm(forms.ModelForm):
     class Meta:
@@ -73,6 +93,7 @@ class CategoryForm(forms.ModelForm):
 
 class HouseForm(forms.ModelForm):
     color_code = ColorField(default='#ffffff')
+
     class Meta:
         model = House
         fields = ['name', 'color_code']
@@ -85,11 +106,13 @@ class MediumForm(forms.ModelForm):
         fields = "__all__"
         exclude = ['institute']
 
+
 class ReligionForm(forms.ModelForm):
     class Meta:
         model = Religion
         fields = "__all__"
         exclude = ['institute']
+
 
 class ReferenceForm(forms.ModelForm):
     class Meta:
@@ -157,16 +180,20 @@ class SubjectsForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields['standard'].queryset = Standard.objects.filter(institute=self.user.institute_id.first())
-                
+            self.fields['standard'].queryset = Standard.objects.filter(
+                institute=self.user.institute_id.first())
+
+
 class AttendanceForm(forms.ModelForm):
     class Meta:
         model = Attendance
-        fields = ['standard','student', 'subject', 'date', 'present', 'absent']
+        fields = ['standard', 'student',
+                  'subject', 'date', 'present', 'absent']
         exclude = ['institute']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})
         }
+
 
 class DocumnetsForm(forms.ModelForm):
     class Meta:
@@ -180,6 +207,7 @@ class FeeHeadsForm(forms.ModelForm):
         model = FeeHeads
         fields = "__all__"
         exclude = ['institute']
+
 
 class FeeInstallmentForm(forms.ModelForm):
     class Meta:
@@ -201,6 +229,7 @@ class NameOfSainikSchoolForm(forms.ModelForm):
         fields = "__all__"
         exclude = ['institute']
 
+
 class NameOfBankForm(forms.ModelForm):
     class Meta:
         model = NameOfTheBank
@@ -220,16 +249,16 @@ class ChildStatusForm(forms.ModelForm):
         model = ChildStatus
         fields = "__all__"
         exclude = ['institute']
-        
+
+
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['employee_details','middle_name','nick_name','position','user_image']
-        
-        
-        
-# =================================== Employee Form =========================================
+        fields = ['employee_details', 'middle_name',
+                  'nick_name', 'position', 'user_image']
 
+
+# =================================== Employee Form =========================================
 """
 This model is defined into the models.py file of teacher management app 
 because of circular import error:- the circular import is like when a model is imported from another app into current 
@@ -240,12 +269,14 @@ file the this error comes into the picture (django don't allow circular import o
 
 class EmployeeRegistrationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Confirm Password', widget=forms.PasswordInput)
     confirm_email = forms.EmailField(label='Confirm Email')
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone_number', 'role']
+        fields = ['first_name', 'last_name',
+                  'username', 'email', 'phone_number', 'role']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -268,18 +299,21 @@ class EmployeeRegistrationForm(forms.ModelForm):
         return cleaned_data
 
 
-
 class EmployeeProfileForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['employee_details', 'staff_role', 'middle_name', 'nick_name', 'position', 'confirm_email', 'user_image']
+        fields = ['employee_details', 'staff_role', 'middle_name',
+                  'nick_name', 'position', 'confirm_email', 'user_image']
         # 'institute' is excluded from fields
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields['employee_details'].queryset = EmployeeMaster.objects.filter(institute=self.user.institute_id.first())
+            self.fields['employee_details'].queryset = EmployeeMaster.objects.filter(
+                institute=self.user.institute_id.first())
+            self.fields['staff_role'].queryset = InstituteRole.objects.filter(
+                institute=self.user.institute_id.first())
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -296,60 +330,80 @@ class SubjectsForClassGroupForm(forms.ModelForm):
         model = SubjectsForClassGroup
         fields = "__all__"
         exclude = ['institute']
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields['name'].queryset = Subjects.objects.filter(institute = self.user.institute_id.first())
+            self.fields['name'].queryset = Standard.objects.filter(
+                institute_id=self.user.institute_id.first())
 
-    
+
 class SectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = "__all__"
         exclude = ['institute']
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields['standard'].queryset = Standard.objects.filter(institute = self.user.institute_id.first())
+            self.fields['standard'].queryset = Standard.objects.filter(
+                institute=self.user.institute_id.first())
 
-    
+
 class DiscountSchemeForm(forms.ModelForm):
     class Meta:
         model = DiscountScheme
         fields = "__all__"
         exclude = ['institute']
 
-    
+
 class NotificationModelForm(forms.ModelForm):
     class Meta:
         model = NotificationModel
         fields = "__all__"
         exclude = ['institute']
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        print(self.user)
+
     def clean_description(self):
         description = self.cleaned_data['description']
         # Allow only specific HTML tags and attributes
         allowed_tags = ['p', 'b', 'i', 'u', 'em', 'strong', 'a']
         allowed_attributes = {'a': ['href', 'title']}
-        cleaned_description = bleach.clean(description, tags=allowed_tags, attributes=allowed_attributes, strip=True)
+        cleaned_description = bleach.clean(
+            description, tags=allowed_tags, attributes=allowed_attributes, strip=True)
         return cleaned_description
-    
-#______ forms for gallery section ______
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance
+
+# ______ forms for gallery section ______
+
 
 class GalleryItemsForm(forms.ModelForm):
     class Meta:
         model = GalleryItems
-        fields = ['name','url_tag','image','video']
+        fields = ['name', 'url_tag', 'image', 'video']
         widgets = {
-			'image': forms.ClearableFileInput(attrs={'accept':'image/*'}),
-			'video': forms.ClearableFileInput(attrs={'accept':'video/*'}),
-		}
+            'image': forms.ClearableFileInput(attrs={'accept': 'image/*'}),
+            'video': forms.ClearableFileInput(attrs={'accept': 'video/*'}),
+        }
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-    
+
     def clean(self):
         cleaned_data = super().clean()
         image = cleaned_data.get('image')
@@ -357,9 +411,11 @@ class GalleryItemsForm(forms.ModelForm):
         url_tag = cleaned_data.get('url_tag')
 
         if not image and not video and not url_tag:
-            raise forms.ValidationError("You must provide an image, video, or video URL.")
+            raise forms.ValidationError(
+                "You must provide an image, video, or video URL.")
         if (image and video) or (image and url_tag) or (video and url_tag):
-            raise forms.ValidationError("You can only provide one of image, video, or video URL.")
+            raise forms.ValidationError(
+                "You can only provide one of image, video, or video URL.")
 
         return cleaned_data
 
@@ -369,27 +425,33 @@ class GalleryItemsForm(forms.ModelForm):
             instance.institute = self.user.institute_id.first()
         if commit:
             instance.save()
-        return instance    
-    
+        return instance
+
+
 class TimetableForm(forms.ModelForm):
     class Meta:
         model = TimeTable
-        fields = ['standard', 'section', 'subject', 'faculty', 'day_of_week', 'period_no', 'start_time', 'end_time']    
+        fields = ['standard', 'section', 'subject', 'faculty',
+                  'day_of_week', 'period_no', 'start_time', 'end_time']
         widgets = {
             'start_time': forms.TimeInput(format='%I:%M %p', attrs={'type': 'time'}),
             'end_time': forms.TimeInput(format='%I:%M %p', attrs={'type': 'time'})
         }
-   
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
             institute = self.user.institute_id.first()
             print(f"User Institute: {institute}")
-            self.fields['standard'].queryset = Standard.objects.filter(institute=institute )
-            self.fields['section'].queryset = Section.objects.filter(institute= self.user.institute_id.first())
-            self.fields['subject'].queryset = Subjects.objects.filter(institute= self.user.institute_id.first())
-            self.fields['faculty'].queryset = Employee.objects.filter(institute= self.user.institute_id.first())
+            self.fields['standard'].queryset = Standard.objects.filter(
+                institute=institute)
+            self.fields['section'].queryset = Section.objects.filter(
+                institute=self.user.institute_id.first())
+            self.fields['subject'].queryset = Subjects.objects.filter(
+                institute=self.user.institute_id.first())
+            self.fields['faculty'].queryset = Employee.objects.filter(
+                institute=self.user.institute_id.first())
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -397,4 +459,4 @@ class TimetableForm(forms.ModelForm):
             instance.institute = self.user.institute_id.first()
         if commit:
             instance.save()
-        return instance      
+        return instance

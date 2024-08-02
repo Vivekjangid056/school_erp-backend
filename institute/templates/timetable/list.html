@@ -52,7 +52,7 @@
         <tbody>
             {% for timetable in timetables %}
                 <tr>
-					<td>{{ timetable.get_day_of_week_display }}</td>
+					<td>{{ timetable.day_of_week }}</td>
                     <td>{{ timetable.period_no }}</td>
                     <td>{{ timetable.standard.name }}</td>
                     <td>{{ timetable.section.name }}</td>

@@ -1,7 +1,10 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django_countries.fields import CountryField
 from django.core.validators import RegexValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
+from calendar import month_name
 
 
 class UserManager(BaseUserManager):
@@ -92,8 +95,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         'auth.Group',
         blank=True,
         related_name='user_set',  # Custom name for reverse accessor
-        help_text=
-        'The groups this user belongs to. A user can belong to multiple groups. A group grants access to a set of permissions.',
+        help_text='The groups this user belongs to. A user can belong to multiple groups. A group grants access to a set of permissions.',
         verbose_name='groups')
     user_permissions = models.ManyToManyField(
         'auth.Permission',
@@ -118,14 +120,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Institute(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="institute_id")
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="institute_id")
     registration_number = models.CharField(max_length=20,
                                            primary_key=True,
-                                           blank=False)  #reg.number/aff.number
+                                           blank=False)  # reg.number/aff.number
     institute_name = models.CharField(max_length=250, blank=False)
-    number_of_branches = models.CharField(max_length=250, blank=True)  #optional
+    number_of_branches = models.CharField(
+        max_length=250, blank=True)  # optional
     address1 = models.CharField(blank=False, max_length=100)
-    address2 = models.CharField(blank=True, max_length=100)  #optional
+    address2 = models.CharField(blank=True, max_length=100)  # optional
     billing_name = models.CharField(max_length=200, blank=False)
     state = models.CharField(max_length=200, blank=False)
     district = models.CharField(max_length=200, blank=False)
@@ -147,73 +151,113 @@ class Institute(models.Model):
             RegexValidator(regex='^\d{10,12}$',
                            message='Mobile number must be 10 to 12 digits.')
         ])  # optional
-    fax_number = models.CharField(max_length=100, blank=True)  #optional
+    fax_number = models.CharField(max_length=100, blank=True)  # optional
     institute_email = models.EmailField(blank=False, max_length=100)
     website = models.CharField(blank=True, max_length=255)
     principal_name = models.CharField(blank=True, max_length=100)
     acc_start_year = models.CharField(blank=False,
-                                      max_length=100)  #account start year
+                                      max_length=100)  # account start year
     session_start_month = models.CharField(blank=False, max_length=15)
     accredited_by = models.CharField(blank=False, max_length=20)
-    scholar_prefix = models.CharField(blank=True, max_length=50)  #optional
-    scholar_suffix = models.CharField(blank=True, max_length=50)  #optional
+    scholar_prefix = models.CharField(blank=True, max_length=50)  # optional
+    scholar_suffix = models.CharField(blank=True, max_length=50)  # optional
     emp_no_prefix = models.CharField(
-        max_length=100, blank=True)  #optional,employee number prefix
+        max_length=100, blank=True)  # optional,employee number prefix
     no_of_pg_in_tcbook = models.CharField(
-        max_length=255, blank=True)  #number of page in one tc book
+        max_length=255, blank=True)  # number of page in one tc book
 
     auto_enroll_no = models.BooleanField(
-        default=False)  #auto enrollment number
+        default=False)  # auto enrollment number
     std_attd_assignment = models.BooleanField(
-        default=False)  #student attendance through assignment
+        default=False)  # student attendance through assignment
     live_class_show_time = models.BooleanField(default=False)
     allow_edit_emp_attd_time = models.BooleanField(
-        default=False)  #allow to edit emp attendance time
+        default=False)  # allow to edit emp attendance time
     show_std_contact_no_app = models.BooleanField(
         default=False
-    )  #show student contact number in application in mobile or ios
+    )  # show student contact number in application in mobile or ios
 
     change_zoom_url = models.BooleanField(default=False)
     auto_admin_number = models.BooleanField(
-        default=False)  #auto admission number
+        default=False)  # auto admission number
     live_class_log_Std = models.BooleanField(
-        default=False)  #live class join log of students
+        default=False)  # live class join log of students
     suggest_auto_section = models.BooleanField(default=False)
     send_Std_wc_msg = models.BooleanField(
-        default=False)  #send student welcome message to class teacher
-    auto_scholar_no = models.BooleanField(default=False)  #auto scholar number
+        default=False)  # send student welcome message to class teacher
+    auto_scholar_no = models.BooleanField(default=False)  # auto scholar number
 
     auto_scholar_no = models.BooleanField(default=False)
     single_login = models.BooleanField(default=False)
     suggest_auto_house = models.BooleanField(default=False)
     allow_ss_in_app = models.BooleanField(
-        default=True)  #allow screenshots in app
+        default=True)  # allow screenshots in app
     auto_emp_no = models.BooleanField(default=False)
 
     std_attd_through_live_class = models.BooleanField(
-        default=False)  #student attendance through live classes
+        default=False)  # student attendance through live classes
     login_with_single_device = models.BooleanField(default=False)
     show_yt_opt_4_app = models.BooleanField(
-        default=False)  #show youtube option for mobile/ios app
+        default=False)  # show youtube option for mobile/ios app
     show_teach_mo_no_app = models.BooleanField(
         default=False
-    )  #show teacher mobile number in application for android/ios
+    )  # show teacher mobile number in application for android/ios
     show_exam_list_res_wise = models.BooleanField(
-        default=False)  #show exam list result wise
+        default=False)  # show exam list result wise
 
     profile_image = models.ImageField(upload_to='images/',
                                       blank=True,
-                                      null=True)  #optional
+                                      null=True)  # optional
 
     def __str__(self):
         return self.institute_name
 
+
+class AcademicSession(models.Model):
+
+    DURATION_CHOICES = [
+        (1, "1 month"),
+        (2, "2 months"),
+        (3, "3 months"),
+        (4, "4 months"),
+        (5, "5 months"),
+        (6, "6 months"),
+        (7, "7 months"),
+        (8, "8 months"),
+        (9, "9 months"),
+        (10, "10 months"),
+        (11, "11 months"),
+        (12, "12 months"),
+    ]
+
+    MONTH_CHOICES = [(i, month_name[i]) for i in range(1, 13)]
+
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='sessions')
+    name = models.CharField(max_length=100, unique=True, help_text="Name of the academic session")
+    session_start_month = models.IntegerField(
+        choices=MONTH_CHOICES,
+        validators=[MinValueValidator(1), MaxValueValidator(12)],
+        help_text="Month when the academic session starts"
+    )
+    session_duration = models.IntegerField(
+        choices=DURATION_CHOICES,
+        default=6,
+        help_text="Duration of the academic session in months"
+    )
+    start_date = models.DateField()
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name}"
+
     class Meta:
-        verbose_name = 'Institute'
-        verbose_name_plural = 'Institutes'
+        ordering = ['-start_date']
+        verbose_name = "Academic Session"
+        verbose_name_plural = "Academic Sessions"
 
 
 class InstituteBranch(models.Model):
-    institute = models.ForeignKey(Institute, on_delete= models.CASCADE, related_name='branch')
+    institute = models.ForeignKey(
+        Institute, on_delete=models.CASCADE, related_name='branch')
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)

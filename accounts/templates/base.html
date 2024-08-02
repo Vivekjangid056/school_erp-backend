@@ -262,9 +262,6 @@
                                 <p style="margin: 0.2rem" ;>{{user.first_name}} {{user.last_name}}</p>
                                 <p style="margin: 0.2rem">User ID: {{user.id}}</p>
                                 <p>Registered since {{user.date_joined}}
-                                    {% for institute in institute_list %}
-                                    {{institute}}</p>
-                                    {% endfor %}
                                 <div class="d-flex bg-light justify-content-between p-3">
                                     <button type="button" class="btn btn-primary btn-sm">
                                         <a href="#">Profile</a>
@@ -612,6 +609,7 @@
             ssSubForClassGroup:"{% url 'institute:list_of_sub_for_class_groups' %}",
             section:"{% url 'institute:list_of_section' %}",
             discountSection:"{% url 'institute:list_of_discount' %}",
+            sessionCreate:"{% url 'accounts:list_of_sessions' %}",
             
             <!--employee url for crete role in  dependent dropdown-->
             listOfEmployees : "{% url 'institute:list_of_employees' %}",

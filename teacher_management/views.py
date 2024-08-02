@@ -114,7 +114,7 @@ class deleteDepartmentMaster(DeleteView):
 # ================================= attendance type ===================================
 
 def attendance_type(request):
-    data = LmAttendanceType.objects.all()
+    data = LmAttendanceType.objects.filter(institute = request.user.institute_id.first())
     context = {
         'data': data
     }

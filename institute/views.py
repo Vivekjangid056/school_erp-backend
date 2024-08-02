@@ -1047,7 +1047,7 @@ def get_menu_data(request):
 # ================== Create The Role and assign the permission at the same time =====================
 def role_create(request):
     if request.method == 'POST':
-        form = InstituteRoleForm(request.POST)
+        form = InstituteRoleForm(request.POST, user = request.user)
         if not form.is_valid():
             errors = form.errors
             for field, error_list in errors.items():
@@ -1089,7 +1089,7 @@ def role_create(request):
 
 # List of Role Created
 def role_list(request):
-    roles = InstituteRole.objects.all()
+    roles = InstituteRole.objects.filter(institute_id = request.user.institute_id.first())
     return render(request, 'role/list_of_roles.html', {'roles': roles})
 
 # Update The Role
@@ -1182,6 +1182,7 @@ def create_employee(request):
             print(f"User form errors: {user_form.errors}")
             print(f"Profile form errors: {profile_form.errors}")
     else:
+        user = request.user
         user_form = EmployeeRegistrationForm()
         profile_form = EmployeeProfileForm(user=request.user)
 
@@ -1224,10 +1225,10 @@ class EmployeeDeleteView(DeleteView):
 # ===================================== Notification CRUD ============================================
 def notification_create_view(request):
     if request.method == 'POST':
-        form = NotificationModelForm(request.POST, request.FILES)
+        form = NotificationModelForm(request.POST, request.FILES, user = request.user)
         if form.is_valid():
-            caste = form.save(commit = False)
-            caste.institute= request.user.institute_id.first()
+            notification = form.save(commit = False)
+            notification.institute= request.user.institute_id.first()
             form.save()
             return redirect('institute:list_of_notifications')  # Redirect to a list view or another appropriate view
     else:
@@ -1280,6 +1281,7 @@ class AddSubForClassGroup(CreateView):
 
 
     def form_valid(self, form):
+        print("#######################$$$$$$$$$$$$$$$")
         sfcg = form.save(commit = False)
         sfcg.institute= self.request.user.institute_id.first()
         form.save()
@@ -1583,7 +1585,7 @@ def gallery_delete(request, pk):
 def timetable_list(request):
     user = request.user
     standard_id = request.GET.get('standard')
-    day_of_week = request.GET.get('day_of_week')
+    day_of_week = request.GET.get('get_day_of_week_display')
     
     timetables = TimeTable.objects.filter(institute=user.institute_id.first())
     # for dependent handling 

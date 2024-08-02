@@ -78,3 +78,23 @@ class InstituteBranchUpdateForm(forms.ModelForm):
     class Meta:
         model = InstituteBranch
         fields = ['name', 'address']
+
+
+class AcademicSessionForm(forms.ModelForm):
+    class Meta:
+        model = AcademicSession
+        fields = "__all__"
+        exclude = ['institute']  # Exclude institute as it will be set programmatically
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        print(self.user)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()  # Set the institute from the user
+        if commit:
+            instance.save()
+        return instance

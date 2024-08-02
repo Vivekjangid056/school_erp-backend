@@ -4,9 +4,7 @@ from colorfield.fields import ColorField
 from django.db.models import UniqueConstraint
 from accounts.models import Institute
 
-
 # =========================== Model For menu shown in admin panel =============================
-
 class MainMenu(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
@@ -34,6 +32,7 @@ class SuperSubMenu(models.Model):
 
 
 class InstituteRole(models.Model):
+    institute = models.ForeignKey(Institute, on_delete= models.CASCADE, related_name="institute_role")
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
@@ -204,7 +203,7 @@ class FeeHeads(models.Model):
     default_fees = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return self.head_name
 
 
 class FeeInstallments(models.Model):

@@ -22,5 +22,11 @@ urlpatterns = [
     path('branch-create', institute_branch_create_view, name = 'add_branch'),
     path('branches_list', branches_list, name = 'list_of_branches'),
     path('branch-update/<int:pk>', institute_branch_update_view, name= 'branch_update'),
-    path('branch-delete/<int:pk>', institute_branch_delete_view, name = 'branch_delete')
+    path('branch-delete/<int:pk>', institute_branch_delete_view, name = 'branch_delete'),
+
+    #Session Urls
+    path('session-create', session_create, name = 'add_session'),
+    path('session-list', sessions_list, name = 'list_of_sessions'),
+    path('session-update/<int:pk>', session_update, name = 'session_update'),
+    path('session-delete/<int:pk>', session_delete, name = 'session_delete'),
 ]

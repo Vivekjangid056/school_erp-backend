@@ -109,10 +109,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 <li class="sidebar-item">
                     <a href="${urls.section}"><i class="fas fa-layer-group"></i>Section</a>
                 </li>
-                <!-- <li class="sidebar-item ">
-                    <a href="#"><i class="fas fa-user-tag"></i>Class</a>
+                <li class="sidebar-item ">
+                    <a href="${urls.sessionCreate}"><i class="fas fa-user-tag"></i>Session Create</a>
                 </li>
-                <li class="sidebar-item">
+                <!-- <li class="sidebar-item">
                     <a href="#"><i class="fas fa-book-open"></i>Classes in Class Groups</a>
                 </li>
                 <li class="sidebar-item">

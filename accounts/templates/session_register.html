@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="card-header">
+        <div class="container">
+            {% if form.instance.pk %}
+                <h2>Modify Session</h2>
+            {% else %}
+            <div >
+                <h2>Create Session</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ session_form.name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ session_form.session_duration|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ session_form.session_start_month|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ session_form.start_date|as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ session_form.is_active|as_crispy_field }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+{% endblock content %}
