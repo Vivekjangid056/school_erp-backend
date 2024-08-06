@@ -123,7 +123,7 @@ class StudentProfile(models.Model):
     district = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
     pin = models.CharField(
-        max_length=6, 
+        max_length=6,
         validators=[
             RegexValidator(regex='^\d{6}$', message='PIN must be 6 digits.')
         ]
@@ -151,7 +151,7 @@ class StudentProfile(models.Model):
     guardians_photo = models.ImageField(upload_to='images/',blank=True,null=True) #optional
     
     # moneyyyy
-    caution_money = models.DecimalField(max_digits=7, decimal_places=2)
+    caution_money = models.IntegerField()
     caution_money_reciept_no = models.CharField(max_length=255,blank=True,null=True) #optional
     caution_money_reciept_date = models.DateField(null=True, blank=True) #optional
     amount = models.IntegerField()
@@ -167,8 +167,8 @@ class Attendance(models.Model):
     subject = models.ForeignKey(Subjects, on_delete=models.CASCADE)
     standard = models.ForeignKey(Standard, on_delete=models.CASCADE)
     date = models.DateField()
-    present = models.BooleanField(default=False)    
-    absent = models.BooleanField(default=False)  
+    present = models.BooleanField(default=False)
+    absent = models.BooleanField(default=False)
     
     def __str__(self):
         return f"{self.student.user.first_name} - {self.subject.name} - {self.date}"

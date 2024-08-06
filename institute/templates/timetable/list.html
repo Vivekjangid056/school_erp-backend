@@ -18,19 +18,22 @@
         <div class="col-md-3">
             <select id="day_of_week" class="form-control">
                 <option value="">Select Day</option>
-                <option value="1" {% if selected_day == '1' %}selected{% endif %}>Monday</option>
-                <option value="2" {% if selected_day == '2' %}selected{% endif %}>Tuesday</option>
-                <option value="3" {% if selected_day == '3' %}selected{% endif %}>Wednesday</option>
-                <option value="4" {% if selected_day == '4' %}selected{% endif %}>Thursday</option>
-                <option value="5" {% if selected_day == '5' %}selected{% endif %}>Friday</option>
-                <option value="6" {% if selected_day == '6' %}selected{% endif %}>Saturday</option>
-                <option value="7" {% if selected_day == '7' %}selected{% endif %}>Sunday</option>
+				<option value="MON" {% if selected_day == 'MON' %}selected{% endif %}>Monday</option>
+                <option value="TUE" {% if selected_day == 'TUE' %}selected{% endif %}>Tuesday</option>
+                <option value="WED" {% if selected_day == 'WED' %}selected{% endif %}>Wednesday</option>
+                <option value="THU" {% if selected_day == 'THU' %}selected{% endif %}>Thursday</option>
+                <option value="FRI" {% if selected_day == 'FRI' %}selected{% endif %}>Friday</option>
+                <option value="SAT" {% if selected_day == 'SAT' %}selected{% endif %}>Saturday</option>
+                <option value="SUN" {% if selected_day == 'SUN' %}selected{% endif %}>Sunday</option>
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <button id="filter-button" class="btn btn-primary">Filter</button>
         </div>
-		<div class="col-md-3 text-right">
+        <div class="col-md-2 text-right">
+            <a href="{% url 'institute:timetable_list' %}" class="btn btn-primary">All Data</a>
+        </div>
+		<div class="col-md-2 text-right">
             <a href="{% url 'institute:create_timetable' %}" class="btn btn-info">Create Timetable</a>
         </div>
     </div>
@@ -52,7 +55,7 @@
         <tbody>
             {% for timetable in timetables %}
                 <tr>
-					<td>{{ timetable.get_day_of_week_display }}</td>
+					<td>{{ timetable.get_day_of_week_display }}</td>   <!--The get_day_of_week_display method is a built-in Django method that returns the human-readable value for a model's choices field. It’s used to get the display value of a field that has choices defined.-->
                     <td>{{ timetable.period_no }}</td>
                     <td>{{ timetable.standard.name }}</td>
                     <td>{{ timetable.section.name }}</td>

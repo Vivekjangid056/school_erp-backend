@@ -11,7 +11,7 @@ from .models import *
 # =============================== views for list_master CRUD ===============================
 def category_master_list(request):
     institute = Institute.objects.get(user_id = request.user)
-    data = LmCategoryMaster.objects.filter(institute = institute)
+    data = LmCategoryMaster.objects.filter(institute_id = institute)
     context = {
         'data' : data
     }

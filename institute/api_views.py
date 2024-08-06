@@ -1,7 +1,11 @@
 from rest_framework.response import Response
-from .models import GalleryItems, NotificationModel
-from .serializers import GallerySerializer, NotificationSerializer
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
+from accounts.models import Institute, User
+from hr.models import TimeTable
+from .models import ChatMessage, GalleryItems, NotificationModel
+from .serializers import ChatMessageSerializer, GallerySerializer, NotificationSerializer, TimeTableSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 @api_view(['GET', 'POST'])
@@ -141,4 +145,177 @@ def gallery_list(request):
             'error': False,
             'message': 'gallery list fetched successfully',
             'data': data
+        })
+        
+# API for time table
+
+@api_view(['GET'])
+def timetable_list(request):
+    standard_id = request.GET.get('standard_id')  # Get the standard ID from the request
+    institute_id = request.GET.get('institute_id')  # Get the institute ID from the request
+    
+    if not standard_id or not institute_id:
+        return Response({
+            'status': 400,
+            'error': True,
+            'message': 'Standard ID and Institute ID are required'
+    })
+
+    days_of_week = {
+        'Monday': 'MON',
+        'Tuesday': 'TUE',
+        'Wednesday': 'WED',
+        'Thursday': 'THU',
+        'Friday': 'FRI',
+        'Saturday': 'SAT',
+        'Sunday': 'SUN'
+    }
+    
+    # Filter timetable entries by standard ID and institute ID
+    timetables = TimeTable.objects.filter(
+        standard_id=standard_id,
+        institute_id=institute_id
+    )
+    
+    # Organize data by day of the week
+    response_data = {}
+    
+    for display_name, db_value in days_of_week.items():
+        filtered_timetables = timetables.filter(day_of_week=db_value)
+        serializer = TimeTableSerializer(filtered_timetables, many=True)
+        response_data[display_name] = serializer.data
+    
+    return Response({
+        'status': 200,
+        'error': False,
+        'message': 'Time Table fetched successfully',
+        'data': response_data
+    })
+    
+# @api_view(['GET'])        
+# def timetable_list(request):
+#     standard_id = request.GET.get('standard_id')  # Get the standard ID from the request
+    
+#     if not standard_id:
+#         return Response({
+#             'status': 400,
+#             'error': True,
+#             'message': 'Standard ID is required'
+#         }, status=400)
+    
+    
+#     days_of_week = {
+#         'Monday': 'MON',
+#         'Tuesday': 'TUE',
+#         'Wednesday': 'WED',
+#         'Thursday': 'THU',
+#         'Friday': 'FRI',
+#         'Saturday': 'SAT',
+#         'Sunday': 'SUN'
+#     }
+    
+#     # Filter timetable entries by standard ID
+#     timetables = TimeTable.objects.filter(standard_id=standard_id)
+    
+#     # Organize data by day of the week and then by standard
+#     response_data = defaultdict(lambda: defaultdict(list))
+    
+#     for display_name, db_value in days_of_week.items():
+#         filtered_timetables = timetables.filter(day_of_week=db_value)
+#         serializer = TimeTableSerializer(filtered_timetables, many=True)
+#         for timetable in serializer.data:
+#             standard = timetable.pop('standard')
+#             response_data[display_name][standard].append(timetable)
+    
+#     return Response({
+#         'status': 200,
+#         'error': False,
+#         'message': 'Time Table fetched successfully',
+#         'data': response_data
+#     })
+
+
+
+# api view for chat application
+
+class CreateChatMessageView(APIView):
+    # permission_classes = [IsAuthenticated] token authentication
+    def post(self, request):
+        serializer = ChatMessageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': status.HTTP_200_OK,
+                'error':False,
+                'message':'chat sent successfully',
+                'data':serializer.data
+            })
+        return Response({
+            'status':status.HTTP_400_BAD_REQUEST,
+            'error':serializer.errors,
+            'message':'server side error while sending chat'
+        })
+        
+# API class for group messages
+class ClassChatMessageView(APIView):
+    def post(self,request):
+        data = request.data
+        institute_id = data.get('institute')
+        standard_id = data.get('standard')
+        section_id = data.get('section')
+        
+        if not (institute_id and standard_id and section_id):
+            return Response({
+                'status':400,
+                'error':True,
+                'message':'Institute, standard, section Ids are required!!!!'
+            })
+            
+        messages = ChatMessage.objects.filter(
+            institute_id = institute_id,
+            standard_id = standard_id,
+            section_id = section_id,
+            is_individual = False
+        ).order_by('time_stamp')
+        
+        serializer = ChatMessageSerializer(messages, many=True)
+        return Response({
+            'status':200,
+            'error':False,
+            'message':'class chat messages fetched successfully',
+            'data':serializer.data
+        })
+        
+        # API class for individual chat messages
+class IndividualChatMessageView(APIView):
+    def post(self, request):
+        data = request.data
+        institute_id = data.get('institute')
+        standard_id = data.get('standard')
+        section_id = data.get('section')
+        sender_id = data.get('sender')
+        receiver_id = data.get('receiver')
+        
+        if not (institute_id and standard_id and section_id and sender_id and receiver_id):
+            return Response({
+                'status':400,
+                'error':True,
+                'message':'Institute, standard, section, sender and receiver IDs are required'
+            })
+            
+        messages = ChatMessage.objects.filter(
+            institute_id = institute_id,
+            standard_id = standard_id,
+            section_id = section_id,
+            sender_id = sender_id,
+            receiver_id = receiver_id,
+            is_individual = True
+        ).order_by('time_stamp')
+        
+        serializer = ChatMessageSerializer(messages, many = True)
+        return Response({
+            'status':200,
+            'error':False,
+            'message':'Individual Chat messages fetched successfully',
+            'data':serializer.data
         })
