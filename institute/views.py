@@ -1644,7 +1644,7 @@ def timetable_list(request):
         timetables = timetables.filter(day_of_week=day_of_week)
     
     standards = Standard.objects.filter(institute=user.institute_id.first())
-    
+
     context = {
         'timetables': timetables,
         'standards': standards,

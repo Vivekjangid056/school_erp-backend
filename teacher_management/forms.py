@@ -82,7 +82,10 @@ class EmployeeMasterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-
+        if self.user is not None:
+            self.fields['category'].queryset = LmCategoryMaster.objects.filter(institute = self.user.institute_id.first())
+            self.fields['department'].queryset = LmDepartmentMaster.objects.filter(institute = self.user.institute_id.first())
+            self.fields['designation'].queryset = LmDesignationMaster.objects.filter(institute = self.user.institute_id.first())
     def save(self, commit=True):
         instance = super().save(commit=False)
         if self.user:

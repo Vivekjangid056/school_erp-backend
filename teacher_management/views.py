@@ -190,7 +190,7 @@ def employee_master_create_view(request):
             print("exception occured", form.errors)
     else:
         print(request.user.institute_id.first().pk)
-        form = EmployeeMasterForm()
+        form = EmployeeMasterForm(user = request.user)
     
     return render(request, "employees_master/employee_master_register.html", {'form': form})
 
@@ -235,7 +235,7 @@ class DeleteHolidayList(DeleteView):
 # <---------------Attendance for employees----------------------->
 
 def employee_attendance_view(request):
-    departments = LmDepartmentMaster.objects.all()
+    departments = LmDepartmentMaster.objects.filter(institute = request.user.institute_id.first())
     if request.method == 'POST':
         data = request.POST
         date = data.get('date')
@@ -265,7 +265,7 @@ def fetch_employee_attendance_data(request):
     department_id = request.GET.get('department_id')
     date = request.GET.get('date')
 
-    employees = EmployeeMaster.objects.all() if department_id == "all" else EmployeeMaster.objects.filter(department_id=department_id)
+    employees = EmployeeMaster.objects.filter(request.user.institute_id.first()) if department_id == "all" else EmployeeMaster.objects.filter(department_id=department_id)
 
     attendance_data = []
     for employee in employees:
@@ -282,5 +282,5 @@ def fetch_employee_attendance_data(request):
 
 
 def employee_attendance_list(request):
-    departments = LmDepartmentMaster.objects.all()
+    departments = LmDepartmentMaster.objects.filter(institute = request.user.institute_id.first())
     return render(request, 'employee_attendance_list.html', {'departments': departments})
