@@ -2,7 +2,8 @@ from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
 from django.db.models import UniqueConstraint
-from accounts.models import AcademicSession, Institute
+from accounts.models import Institute, User, AcademicSession
+
 
 # =========================== Model For menu shown in admin panel =============================
 class MainMenu(models.Model):
@@ -266,8 +267,6 @@ class NextClass(models.Model):
     name = models.CharField(max_length=50)
 
 
-class SubjectForClassGroup(models.Model):
-    pass
 
 class ClassWiseSubjects(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='class_wise_subjects')
@@ -296,7 +295,7 @@ class SubjectsForClassGroup(models.Model):
         (SELECTED, 'Selected'),
     ]
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='subjects_for_class_groups')
-    name = models.ForeignKey(Standard, on_delete=models.CASCADE)
+    name = models.ForeignKey(Subjects, on_delete=models.CASCADE)
     subject_type = models.CharField(
         choices=SUBJECT_TYPE_CHOICES,
         default=SELECTED,
@@ -342,3 +341,24 @@ class GalleryItems(models.Model):
     
     def __str__(self):
         return self.name
+    
+class ChatMessage(models.Model):
+    MESSAGE_TYPES = [
+        ('text','Text'),
+        ('image','Image'),
+        ('doc','Document'),
+        ('video','Video'),
+    ]
+    
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_message')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recieved_message',blank=True,null=True)
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, null=True,blank=True )
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True,blank=True )
+    message_type = models.CharField(max_length=10, choices=MESSAGE_TYPES)
+    message = models.TextField()
+    is_individual = models.BooleanField(default=False)
+    time_stamp = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Message from {self.sender} to {self.receiver if self.is_individual else 'class'}"

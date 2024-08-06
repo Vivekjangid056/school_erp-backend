@@ -13,11 +13,13 @@ def login_view(request):
     password = request.data.get('password')
     
     user = authenticate(request, username=email, password=password)
+    print(user)
 
     if user is not None:
         try:
             employee = Employee.objects.get(user=user)
             serializer = EmployeeSerializer(employee)
+            # empmaster = serializer.data.employee_det
             
             refresh = RefreshToken.for_user(user)
             access_token =  str(refresh.access_token)
@@ -31,7 +33,7 @@ def login_view(request):
             return Response({
                 'code':200,
                 'error': False,
-                'message': 'Login successful',
+                'message': 'Successfully logged in',
                 'data': response_data
             })
         except Employee.DoesNotExist:
