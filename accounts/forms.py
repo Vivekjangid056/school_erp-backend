@@ -84,7 +84,7 @@ class AcademicSessionForm(forms.ModelForm):
     class Meta:
         model = AcademicSession
         fields = "__all__"
-        exclude = ['institute']  # Exclude institute as it will be set programmatically
+        exclude = ['institute', 'is_active']  # Exclude institute as it will be set programmatically
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)

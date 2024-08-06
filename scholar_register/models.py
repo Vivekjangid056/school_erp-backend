@@ -1,11 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from accounts.models import Institute, User
+from accounts.models import *
 from institute.models import Caste, Category, ChildStatus, DiscountScheme, House, Medium, MotherToungue, Nationality, PaymentMode, Religion, Section, Standard, StudentType, Subjects
 # Create your models here.
-
-# model for student registration
-
 
 class StudentParents(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE, related_name = "student_parent_id")
@@ -80,6 +77,7 @@ class StudentProfile(models.Model):
     )
 
     parent = models.ForeignKey(StudentParents, on_delete = models.CASCADE, related_name='student_id')
+    branch = models.ForeignKey(InstituteBranch, on_delete = models.CASCADE, related_name = "student_branch")
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100,blank=True) #optional
     last_name = models.CharField(max_length=100)

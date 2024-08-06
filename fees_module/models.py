@@ -1,6 +1,5 @@
 from django.db import models
-
-from accounts.models import Institute
+from accounts.models import Institute, AcademicSession
 from institute.models import Standard
 from scholar_register.models import StudentProfile
 
@@ -8,6 +7,7 @@ from scholar_register.models import StudentProfile
 
 
 class FeeStructure(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='fee_structure')
     standard = models.OneToOneField(Standard, on_delete=models.CASCADE)
     total_fee = models.DecimalField(max_digits=10, decimal_places=2)
@@ -52,6 +52,7 @@ class StudentFeePayment(models.Model):                 # ui side its installemen
     
 
 class PaymentSchedule(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='payment_schedule')
     student_fee_payment = models.ForeignKey(StudentFeePayment, on_delete=models.CASCADE, related_name='payments')
     amount_paid = models.IntegerField( )
     due_amount = models.IntegerField(blank=True, null=True)

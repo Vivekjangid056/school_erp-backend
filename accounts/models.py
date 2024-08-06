@@ -211,6 +211,34 @@ class Institute(models.Model):
 
     def __str__(self):
         return self.institute_name
+    
+    def create_current_session(self):
+        today = timezone.now().date()
+        year = today.year
+        month = int(self.session_start_month)
+        
+        # If the default start month has already passed this year, create for next year
+        if today.month > month:
+            year += 1
+
+        start_date = timezone.datetime(year, month, 1).date()
+        
+        session = AcademicSession.objects.create(
+            institute=self,
+            name=f"{year}-{year+1}",
+            session_start_month=month,
+            session_duration=12,  # Assuming a full year, adjust if needed
+            start_date=start_date,
+            is_active=True
+        )
+        return session
+
+    def get_current_session(self):
+        today = timezone.now().date()
+        return self.sessions.filter(
+            start_date__lte=today,
+            is_active=True
+        ).first()
 
 
 class AcademicSession(models.Model):
@@ -261,3 +289,6 @@ class InstituteBranch(models.Model):
         Institute, on_delete=models.CASCADE, related_name='branch')
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name

@@ -1,8 +1,10 @@
 from django.contrib import messages
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views import View
+from accounts.models import AcademicSession
 from fees_module.forms import FeeStructureForm, PaymentScheduleForm, StudentFeePaymentForm
 from fees_module.models import FeeStructure, PaymentSchedule, StudentFeePayment
 from django.views.decorators.http import require_GET
@@ -26,9 +28,26 @@ class FeeStructureCreateView(CreateView):
     
     def form_valid(self, form):
         fees = form.save(commit=False)
-        fees.institute= self.request.user.institute_id.first()
+    
+        # Get the active session
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+
+        if not active_session:
+            messages.error(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+    
+        # Assign the institute and session fields
+        fees.institute = institute
+        fees.session = active_session
         fees.save()
+    
+        messages.success(self.request, "Fee structure created successfully.")
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
 
 class FeeStructureListView(ListView):
     model = FeeStructure
@@ -65,20 +84,57 @@ def payment_schedule_create(request):
     if request.method == 'POST':
         form = PaymentScheduleForm(request.POST)
         if form.is_valid():
-            payment_schedule = form.save()
+            payment_schedule = form.save(commit=False)
+            
+            # Get the active session
+            institute = request.user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+
+            if not active_session:
+                messages.error(request, "No active session found. Please create or activate a session.")
+                return render(request, 'payment_schedule/create_schedule.html', {'form': form})
+
+            # Assign the institute and session fields
+            payment_schedule.institute = institute
+            payment_schedule.session = active_session
+            payment_schedule.save()
+
+            messages.success(request, "Payment schedule created successfully.")
             return redirect('fees_module:list_payment_schedule')
     else:
         form = PaymentScheduleForm()
 
     student_fee_payment_detail_url = reverse('fees_module:student_fee_payment_detail', kwargs={'id': 0})[:-2]
 
-    context = {'form': form, 'student_fee_payment_detail_url': student_fee_payment_detail_url}
+    context = {
+        'form': form, 
+        'student_fee_payment_detail_url': student_fee_payment_detail_url
+    }
     return render(request, 'payment_schedule/create_schedule.html', context)
     
 class PaymentScheduleListView(ListView):
     model = PaymentSchedule
     template_name = 'payment_schedule/list_schedule.html'
     context_object_name = 'payment_schedules'
+
+    def get_queryset(self):
+        # Get the active session for the current user's institute
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+
+        if not active_session:
+            messages.warning(self.request, "No active session found. Please activate a session to view payment schedules.")
+            return PaymentSchedule.objects.none()
+
+        # Return only the payment schedules for the active session
+        return PaymentSchedule.objects.filter(institute=institute, session=active_session)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        context['active_session'] = active_session
+        return context
 
 class PaymentScheduleUpdateView(UpdateView):
     model = PaymentSchedule

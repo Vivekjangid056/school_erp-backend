@@ -29,4 +29,5 @@ urlpatterns = [
     path('session-list', sessions_list, name = 'list_of_sessions'),
     path('session-update/<int:pk>', session_update, name = 'session_update'),
     path('session-delete/<int:pk>', session_delete, name = 'session_delete'),
+    path('session-change/', change_session, name = 'session_change'),
 ]

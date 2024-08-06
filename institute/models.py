@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
 from django.db.models import UniqueConstraint
-from accounts.models import Institute
+from accounts.models import AcademicSession, Institute
 
 # =========================== Model For menu shown in admin panel =============================
 class MainMenu(models.Model):
@@ -180,6 +180,7 @@ class Standard(models.Model):
 
 
 class Subjects(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='subjects')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='subjects')
     standard = models.ForeignKey(Standard,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -189,6 +190,7 @@ class Subjects(models.Model):
 
 
 class Documents(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='documents')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='documents')
     name = models.CharField(max_length=100)
 

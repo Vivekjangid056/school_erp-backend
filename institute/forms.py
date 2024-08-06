@@ -5,7 +5,7 @@ from hr.models import TimeTable
 from .models import *
 from scholar_register.models import Attendance
 from teacher_management.models import Employee, EmployeeMaster
-from accounts.models import Institute, User
+from accounts.models import Institute, User, InstituteBranch
 from django.contrib.auth.forms import UserCreationForm
 
 # ================================= User Register Form =======================================
@@ -33,7 +33,7 @@ class CustomUserRegisterForm(UserCreationForm):
 # =================================== institute role form ====================================
 class InstituteRoleForm(forms.ModelForm):
     branches = forms.ModelMultipleChoiceField(
-        queryset=Institute.objects.all(),
+        queryset=InstituteBranch.objects.none(),
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
@@ -50,6 +50,11 @@ class InstituteRoleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+        print("'''';;;;;;;;;;;;;;;;;;;;;;;;;;;", self.user)
+
+        if self.user is not None:
+            # Filter branches based on the user's institute_id
+            self.fields['branches'].queryset = InstituteBranch.objects.filter(institute=self.user.institute_id.first())
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -174,7 +179,7 @@ class SubjectsForm(forms.ModelForm):
     class Meta:
         model = Subjects
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute', 'session']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -199,7 +204,7 @@ class DocumnetsForm(forms.ModelForm):
     class Meta:
         model = Documents
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute', 'session']
 
 
 class FeeHeadsForm(forms.ModelForm):

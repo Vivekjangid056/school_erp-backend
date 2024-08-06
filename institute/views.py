@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.views import View
 from django.views.decorators.http import require_POST
 
+from accounts.models import AcademicSession
 from hr.models import TimeTable
 from scholar_register.models import StudentProfile
 from .forms import *
@@ -629,24 +630,48 @@ class AddSubject(FormView):
         return kwargs
 
     def form_valid(self, form):
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        if not active_session:
+            messages.error(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid()
         subject = form.save(commit = False)
         subject.institute= self.request.user.institute_id.first()
+        subject.session= active_session
         form.save()
         return super().form_valid(form)
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
 
 class ListofSubjects(ListView):
     model = Subjects
     template_name = "list_of_masters/subject_list.html"
     context_object_name = 'subjects_list'
+
     def get_queryset(self):
-        queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
+                return Subjects.objects.none()
+
+            queryset = Subjects.objects.filter(institute_id=institute, session=active_session)
+            return queryset
+        
+        return Subjects.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            institute = self.request.user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            context['active_session'] = active_session
+        return context
 
 
 class UpdateSubjects(UpdateView):
@@ -674,8 +699,16 @@ class AddDocuments(FormView):
     success_url = reverse_lazy('institute:list_of_documents')
 
     def form_valid(self, form):
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+
+        if not active_session:
+            messages.error(self.request, "No active session found. Please activate a session to view subjects.")
+            return Documents.objects.none
+        
         document = form.save(commit = False)
         document.institute= self.request.user.institute_id.first()
+        document.session= active_session
         form.save()
         return super().form_valid(form)
 
@@ -683,15 +716,30 @@ class ListofDocuments(ListView):
     model = Documents
     template_name = "list_of_masters/document_list.html"
     context_object_name = 'documents_list'
+
     def get_queryset(self):
-        queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view documents.")
+                return Documents.objects.none()
+
+            queryset = Documents.objects.filter(institute_id=institute, session=active_session)
+            return queryset
+        
+        return Documents.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            institute = self.request.user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            context['active_session'] = active_session
+        return context
 
 
 class UpdateDocument(UpdateView):
@@ -1078,7 +1126,7 @@ def role_create(request):
                     permission.save()
             return redirect('institute:list_of_roles')
     else:
-        form = InstituteRoleForm()
+        form = InstituteRoleForm(user = request.user)
 
     main_menus = MainMenu.objects.all()
     context = {

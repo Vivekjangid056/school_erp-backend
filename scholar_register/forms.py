@@ -72,7 +72,7 @@ class StudentProfileForm(forms.ModelForm):
     initial_fees_deposit = forms.DecimalField(max_digits=5, decimal_places=2)
     class Meta:
         model = StudentProfile
-        fields = ['first_name', 'last_name','session', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
+        fields = ['branch','first_name', 'last_name','session', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
                   'standard', 'section', 'date_of_deactivae', 'rte', 'bpl', 
                   'prefix', 'suffix', 'sr_no', 'reg_no', 'admission_no', 'enroll_no', 'nationality', 
                   'mother_tongue', 'middle_name', 'gender', 'dob', 'student_aadhar', 'caste', 'religion', 
@@ -105,6 +105,7 @@ class StudentProfileForm(forms.ModelForm):
             self.fields['section'].queryset= Section.objects.filter(institute = self.user.institute_id.first())
             self.fields['medium'].queryset= Medium.objects.filter(institute = self.user.institute_id.first())
             self.fields['house_name'].queryset= House.objects.filter(institute = self.user.institute_id.first())
+            self.fields['branch'].queryset = InstituteBranch.objects.filter(institute = self.user.institute_id.first())
 
 class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedule
     class Meta:
