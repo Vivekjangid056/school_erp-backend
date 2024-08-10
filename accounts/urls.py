@@ -14,7 +14,7 @@ urlpatterns = [
     # Institute Urls
     path('institute-create/', institute_register_view, name='add_institute'),
     path('institute-list/', InstituteList.as_view(), name='institute_list'),
-    path('institute-update/<int:pk>/', InstituteUpdateView.as_view(), name="institute_update"),
+    path('institute-update/<int:pk>/', institute_update, name="institute_update"),
     path('institute-delete/<int:pk>/', InstituteDeleteView.as_view(), name="institute_delete"),
 
     path("student-login", student_login_view, name= "student_login"),
@@ -23,6 +23,7 @@ urlpatterns = [
     path('branches_list', branches_list, name = 'list_of_branches'),
     path('branch-update/<int:pk>', institute_branch_update_view, name= 'branch_update'),
     path('branch-delete/<int:pk>', institute_branch_delete_view, name = 'branch_delete'),
+    path('branch-change/', change_branch, name='change_branch'),
 
     #Session Urls
     path('session-create', session_create, name = 'add_session'),

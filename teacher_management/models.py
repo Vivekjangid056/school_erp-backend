@@ -10,6 +10,8 @@ from accounts.models import *
 
 class LmCategoryMaster(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmcategory')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'lm_category_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name = 'lm_category_session')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     
@@ -18,6 +20,8 @@ class LmCategoryMaster(models.Model):
     
 class LmDesignationMaster(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmdesignation')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'lm_designation_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name = 'lm_designation_session')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     
@@ -26,6 +30,8 @@ class LmDesignationMaster(models.Model):
     
 class LmDepartmentMaster(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmdepartment')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'lm_department_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name = 'lm_department_session')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)    
     
@@ -43,7 +49,9 @@ class LmAttendanceType(models.Model):
         (ABSENT,'Absent'),
         (LEAVE,'Leave'),
     ]
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name = 'lm_attendace_type')
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='lm_attendace_type')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='lm_attendance_type_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='lm_attendance_type_session')
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
     nature = models.CharField(max_length=100,choices=NATURE_CHOICES,default=PRESENT)
@@ -54,6 +62,8 @@ class LmAttendanceType(models.Model):
     
 class LmHolidayList(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='lmholiday')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='lm_holiday_list_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='lm_holiday_list_session')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -113,6 +123,8 @@ class EmployeeMaster(models.Model):
 
     # ========================= Basic Informations ========================================
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='institute')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='employee_master_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='employee_master_session')
     prefix = models.CharField(max_length=10)
     emp_no = models.CharField(max_length=10)
     join_date = models.DateField(auto_created=True)
@@ -183,6 +195,8 @@ class EmployeeMaster(models.Model):
     
 class EmployeeAttendance(models.Model):
     employee = models.ForeignKey(EmployeeMaster, on_delete=models.CASCADE)
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='employee_attendance_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='employee_attendance_session')
     date = models.DateField()
     present = models.BooleanField(default=False)    
     absent = models.BooleanField(default=False)    
@@ -191,6 +205,8 @@ class EmployeeAttendance(models.Model):
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee_profile')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name="employee_profile")
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='employee_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='employee_session')
     employee_details = models.OneToOneField(EmployeeMaster, on_delete= models.CASCADE, related_name='employee_profile')
     staff_role =  models.ForeignKey(InstituteRole, on_delete= models.CASCADE)
     middle_name = models.CharField(max_length=100 , blank=True)   #optional

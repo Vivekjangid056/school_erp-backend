@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 from requests import options
 
-from accounts.models import Institute
+from accounts.models import AcademicSession, Institute, InstituteBranch
 from institute.models import Category, Section, Standard, Subjects
 from teacher_management.models import Employee, LmDepartmentMaster, LmDesignationMaster
 
@@ -51,6 +51,8 @@ class HrInterview(models.Model):
     
     # ================ General Information =============
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='interview')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name = 'hr_interview')
+    branch = models.ForeignKey(InstituteBranch, on_delete = models.CASCADE, related_name= 'hr_interivew')
     interview_no = models.IntegerField()
     interview_date = models.DateField()
     reference = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=True, related_name='hr_interviews_reference') #optional
@@ -116,10 +118,12 @@ class TimeTable(models.Model):
         ('SAT', 'Saturday'),
         ('SUN', 'Sunday'),
     ]
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='timetable')    
-    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='timetable')   
-    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='timetable')   
-    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='timetable') 
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='timetable')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='timetable_branch')
+    session=models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='timetable_session')
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='timetable')
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='timetable')
+    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='timetable')
     faculty = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='timetable')
     day_of_week = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
     period_no = models.IntegerField()

@@ -50,7 +50,6 @@ class InstituteRoleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        print("'''';;;;;;;;;;;;;;;;;;;;;;;;;;;", self.user)
 
         if self.user is not None:
             # Filter branches based on the user's institute_id
@@ -79,7 +78,7 @@ class SignatureForm(forms.ModelForm):
     class Meta:
         model = LomSignature
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute', 'session']
 
 
 class CasteForm(forms.ModelForm):
@@ -102,7 +101,6 @@ class HouseForm(forms.ModelForm):
     class Meta:
         model = House
         fields = ['name', 'color_code']
-        exclude = ['institute']
 
 
 class MediumForm(forms.ModelForm):
@@ -123,7 +121,7 @@ class ReferenceForm(forms.ModelForm):
     class Meta:
         model = Reference
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute', 'branch', 'session']
 
 
 class NationalityForm(forms.ModelForm):
@@ -172,21 +170,23 @@ class StandardForm(forms.ModelForm):
     class Meta:
         model = Standard
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['branch', 'institute']
 
 
 class SubjectsForm(forms.ModelForm):
     class Meta:
         model = Subjects
         fields = "__all__"
-        exclude = ['institute', 'session']
+        exclude = ['institute', 'session', 'branch']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
+            institute = self.user.institute_id.first()
+            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
             self.fields['standard'].queryset = Standard.objects.filter(
-                institute=self.user.institute_id.first())
+                branch=active_branch)
 
 
 class AttendanceForm(forms.ModelForm):
@@ -204,7 +204,7 @@ class DocumnetsForm(forms.ModelForm):
     class Meta:
         model = Documents
         fields = "__all__"
-        exclude = ['institute', 'session']
+        exclude = ['institute', 'session', 'branch']
 
 
 class FeeHeadsForm(forms.ModelForm):
@@ -218,7 +218,7 @@ class FeeInstallmentForm(forms.ModelForm):
     class Meta:
         model = FeeInstallments
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute', 'session', 'branch']
 
 
 class LeavingReasonForm(forms.ModelForm):
@@ -334,42 +334,47 @@ class SubjectsForClassGroupForm(forms.ModelForm):
     class Meta:
         model = SubjectsForClassGroup
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute', 'session', 'branch']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields['name'].queryset = Standard.objects.filter(
-                institute_id=self.user.institute_id.first())
+            institute = self.user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+            self.fields['name'].queryset = Subjects.objects.filter(
+                branch=active_branch, session=active_session)
 
 
 class SectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute', 'branch']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
+            institute = self.user.institute_id.first()
+            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
             self.fields['standard'].queryset = Standard.objects.filter(
-                institute=self.user.institute_id.first())
+                branch=active_branch)
 
 
 class DiscountSchemeForm(forms.ModelForm):
     class Meta:
         model = DiscountScheme
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute', 'branch', 'session']
 
 
 class NotificationModelForm(forms.ModelForm):
     class Meta:
         model = NotificationModel
         fields = "__all__"
-        exclude = ['institute']
+        exclude = ['institute','branch']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -448,13 +453,15 @@ class TimetableForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.user:
             institute = self.user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
             print(f"User Institute: {institute}")
             self.fields['standard'].queryset = Standard.objects.filter(
-                institute=institute)
+                branch=active_branch)
             self.fields['section'].queryset = Section.objects.filter(
                 institute=self.user.institute_id.first())
             self.fields['subject'].queryset = Subjects.objects.filter(
-                institute=self.user.institute_id.first())
+                branch=active_branch, session=active_session)
             self.fields['faculty'].queryset = Employee.objects.filter(
                 institute=self.user.institute_id.first())
 

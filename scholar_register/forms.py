@@ -72,7 +72,7 @@ class StudentProfileForm(forms.ModelForm):
     initial_fees_deposit = forms.DecimalField(max_digits=5, decimal_places=2)
     class Meta:
         model = StudentProfile
-        fields = ['branch','first_name', 'last_name','session', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
+        fields = ['first_name', 'last_name','session', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
                   'standard', 'section', 'date_of_deactivae', 'rte', 'bpl', 
                   'prefix', 'suffix', 'sr_no', 'reg_no', 'admission_no', 'enroll_no', 'nationality', 
                   'mother_tongue', 'middle_name', 'gender', 'dob', 'student_aadhar', 'caste', 'religion', 
@@ -96,16 +96,17 @@ class StudentProfileForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields['caste'].queryset= Caste.objects.filter(institute = self.user.institute_id.first())
-            self.fields['religion'].queryset= Religion.objects.filter(institute = self.user.institute_id.first())
-            self.fields['category'].queryset= Category.objects.filter(institute = self.user.institute_id.first())
-            self.fields['nationality'].queryset= Nationality.objects.filter(institute = self.user.institute_id.first())
-            self.fields['mother_tongue'].queryset= MotherToungue.objects.filter(institute = self.user.institute_id.first())
-            self.fields['standard'].queryset= Standard.objects.filter(institute = self.user.institute_id.first())
-            self.fields['section'].queryset= Section.objects.filter(institute = self.user.institute_id.first())
-            self.fields['medium'].queryset= Medium.objects.filter(institute = self.user.institute_id.first())
-            self.fields['house_name'].queryset= House.objects.filter(institute = self.user.institute_id.first())
-            self.fields['branch'].queryset = InstituteBranch.objects.filter(institute = self.user.institute_id.first())
+            institute=self.user.institute_id.first()
+            active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+            self.fields['caste'].queryset= Caste.objects.filter(institute = institute)
+            self.fields['religion'].queryset= Religion.objects.filter(institute = institute)
+            self.fields['category'].queryset= Category.objects.filter(institute = institute)
+            self.fields['nationality'].queryset= Nationality.objects.filter(institute = institute)
+            self.fields['mother_tongue'].queryset= MotherToungue.objects.filter(institute = institute)
+            self.fields['standard'].queryset= Standard.objects.filter(branch=active_branch)
+            self.fields['section'].queryset= Section.objects.filter(institute = institute)
+            self.fields['medium'].queryset= Medium.objects.filter(institute = institute)
+            self.fields['house_name'].queryset= House.objects.filter(institute = institute)
 
 class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedule
     class Meta:
@@ -120,4 +121,7 @@ class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedu
         super().__init__(*args, **kwargs)
         print(self.user)
         if self.user:
-            self.fields['fee_structure'].queryset= FeeStructure.objects.filter(institute = self.user.institute_id.first())
+            institute = self.user.institute_id.first()
+            active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            self.fields['fee_structure'].queryset= FeeStructure.objects.filter(branch=active_branch, session=active_session)

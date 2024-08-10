@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
 from django.db.models import UniqueConstraint
-from accounts.models import Institute, User, AcademicSession
+from accounts.models import Institute, InstituteBranch, User, AcademicSession
 
 
 # =========================== Model For menu shown in admin panel =============================
@@ -34,6 +34,7 @@ class SuperSubMenu(models.Model):
 
 class InstituteRole(models.Model):
     institute = models.ForeignKey(Institute, on_delete= models.CASCADE, related_name="institute_role")
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='institute_role_branch')
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
@@ -46,6 +47,7 @@ class InstituteRole(models.Model):
 
 class Permission(models.Model):
     role = models.ForeignKey(InstituteRole, on_delete=models.CASCADE, related_name='permissions')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='permissions_branch')
     menu = models.ForeignKey(MainMenu, on_delete=models.CASCADE, null=True, blank=True)
     submenu = models.ForeignKey(SubMenu, on_delete=models.CASCADE, null=True, blank=True)
     supersubmenu = models.ForeignKey(SuperSubMenu, on_delete=models.CASCADE, null=True, blank=True)
@@ -66,6 +68,7 @@ class Permission(models.Model):
 # List of Masters models
 
 class LomSignature(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='lom_signature')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='lom_signature')
     signature_name = models.CharField(max_length=100)
     signature_heading = models.CharField(max_length= 100)
@@ -83,7 +86,9 @@ class Category(models.Model):
 
 
 class House(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='House')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='house')
+    branch= models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='house_branch')
     name = models.CharField(max_length=100)
     color_code = ColorField(default='#ffffff')
 
@@ -117,6 +122,8 @@ class Caste(models.Model):
 
 class Reference(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='reference')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='reference_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name ="reference_session")
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -173,6 +180,7 @@ class ClassGroups(models.Model):
 
 
 class Standard(models.Model):
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'standard_branch')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='standard')
     name = models.CharField(max_length=100)
 
@@ -183,6 +191,7 @@ class Standard(models.Model):
 class Subjects(models.Model):
     session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='subjects')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='subjects')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='subjects_branch')
     standard = models.ForeignKey(Standard,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
@@ -193,6 +202,7 @@ class Subjects(models.Model):
 class Documents(models.Model):
     session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='documents')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='documents')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='documents_branch')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -210,7 +220,9 @@ class FeeHeads(models.Model):
 
 
 class FeeInstallments(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='fee_installment_session')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='fee_installments')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='fee_installment_branch')
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -269,8 +281,10 @@ class NextClass(models.Model):
 
 
 class ClassWiseSubjects(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='class_wise_subjects')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='class_wise_subjects')
-    subject_name = models.ForeignKey(Subjects, on_delete= models.CASCADE)
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='class_wise_subjects_branch')
+    subject_name = models.ForeignKey(Subjects, on_delete= models.CASCADE, related_name='class_wise_subjects_subject')
     compulsary = models.BooleanField(default= False)
     activity = models.BooleanField(default= False)
     additional = models.BooleanField(default= False)
@@ -280,7 +294,9 @@ class ClassWiseSubjects(models.Model):
 
 
 class DocumentsRequired(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='documents_required')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='documents_required')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='documents_required_branch')
     document_name = models.ForeignKey(Documents, on_delete= models.CASCADE)
     for_new = models.BooleanField(default=False)
     for_old = models.BooleanField(default=False)
@@ -294,7 +310,9 @@ class SubjectsForClassGroup(models.Model):
         (ALL, 'All'),
         (SELECTED, 'Selected'),
     ]
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='sub_for_class_groups')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='subjects_for_class_groups')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='subjects_for_class_group_branch')
     name = models.ForeignKey(Subjects, on_delete=models.CASCADE)
     subject_type = models.CharField(
         choices=SUBJECT_TYPE_CHOICES,
@@ -303,6 +321,7 @@ class SubjectsForClassGroup(models.Model):
 
 
 class Section(models.Model):
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='section_branch')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='section')
     standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='section')
     name = models.CharField(max_length=50)
@@ -310,7 +329,9 @@ class Section(models.Model):
         return f"{self.standard.name} - {self.name}"
     
 class DiscountScheme(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='discount_scheme')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='discount_scheme')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='discount_scheme_branch')
     name = models.CharField(max_length=50)
     
     def __str__(self):
@@ -327,12 +348,15 @@ class NotificationModel(models.Model):
     ]
     user = models.CharField(choices=SENDER_CHOICES, default=INSTITUTE)
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='notification')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='notification_branch')
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000)
     document = models.FileField(upload_to='documents/', max_length=100)
     
 class GalleryItems(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='gallery_items')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE,related_name='institute_gallery')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='gallery_items_branch')
     name = models.CharField(max_length=255)
     url_tag = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to='gallery/',blank=True, null=True)
@@ -349,8 +373,9 @@ class ChatMessage(models.Model):
         ('doc','Document'),
         ('video','Video'),
     ]
-    
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='chat_messsage')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='chat_messages_branch')
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_message')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recieved_message',blank=True,null=True)
     standard = models.ForeignKey(Standard, on_delete=models.CASCADE, null=True,blank=True )

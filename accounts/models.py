@@ -261,7 +261,7 @@ class AcademicSession(models.Model):
     MONTH_CHOICES = [(i, month_name[i]) for i in range(1, 13)]
 
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='sessions')
-    name = models.CharField(max_length=100, unique=True, help_text="Name of the academic session")
+    name = models.CharField(max_length=100, help_text="Name of the academic session")
     session_start_month = models.IntegerField(
         choices=MONTH_CHOICES,
         validators=[MinValueValidator(1), MaxValueValidator(12)],
@@ -287,6 +287,7 @@ class AcademicSession(models.Model):
 class InstituteBranch(models.Model):
     institute = models.ForeignKey(
         Institute, on_delete=models.CASCADE, related_name='branch')
+    is_active = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
 
