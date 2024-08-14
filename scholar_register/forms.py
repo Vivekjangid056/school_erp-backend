@@ -72,7 +72,7 @@ class StudentProfileForm(forms.ModelForm):
     initial_fees_deposit = forms.DecimalField(max_digits=5, decimal_places=2)
     class Meta:
         model = StudentProfile
-        fields = ['first_name', 'last_name','session', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
+        fields = ['first_name', 'last_name', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
                   'standard', 'section', 'date_of_deactivae', 'rte', 'bpl', 
                   'prefix', 'suffix', 'sr_no', 'reg_no', 'admission_no', 'enroll_no', 'nationality', 
                   'mother_tongue', 'middle_name', 'gender', 'dob', 'student_aadhar', 'caste', 'religion', 

@@ -50,13 +50,13 @@ class AddCategoryMaster(CreateView):
 
         if not active_session:
             messages.warning(
-                self.request, "No active session found. Please activate a session to view Categories.")
-            return self.form_invalid()
+                self.request, "No active session found. Please activate a session to add Categories.")
+            return self.form_invalid(form)
 
         if not active_branch:
             messages.warning(
-                self.request, "No active Branch found. Please activate a Branch to view Categories.")
-            return self.form_invalid()
+                self.request, "No active Branch found. Please activate a Branch to add Categories.")
+            return self.form_invalid(form)
         category.institute = institute
         category.branch = active_branch
         category.session = active_session
@@ -77,11 +77,9 @@ class updateMasterCategory(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
 
         # Fetch the institute related to the user
-        # Assuming the related name is `institute_id`
-        institute = user.institute_id.first()
+        institute = self.request.user.institute_id.first()
 
         # Fetch the branches related to the user's institute
         branches = InstituteBranch.objects.filter(institute=institute)
@@ -145,12 +143,12 @@ class CreateDesignationMaster(CreateView):
         if not active_session:
             messages.warning(
                 self.request, "No active session found. Please activate a session to view Categories.")
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         if not active_branch:
             messages.warning(
                 self.request, "No active Branch found. Please activate a Branch to view Categories.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         designation.institute = institute
         designation.branch = active_branch
         designation.session = active_session
@@ -223,12 +221,12 @@ class CreateDepartmentMaster(CreateView):
         if not active_session:
             messages.warning(
                 self.request, "No active session found. Please activate a session to view Categories.")
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         if not active_branch:
             messages.warning(
                 self.request, "No active Branch found. Please activate a Branch to view Categories.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         department.institute = institute
         department.branch = active_branch
         department.session = active_session
@@ -301,12 +299,12 @@ class CreateAttendanceType(CreateView):
         if not active_session:
             messages.warning(
                 self.request, "No active session found. Please activate a session to view Categories.")
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         if not active_branch:
             messages.warning(
                 self.request, "No active Branch found. Please activate a Branch to view Categories.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         attendance_type = form.save(commit=False)
         attendance_type.institute=institute
         attendance_type.branch = active_branch
@@ -378,12 +376,12 @@ class CreateHolidayList(CreateView):
         if not active_session:
             messages.warning(
                 self.request, "No active session found. Please activate a session to view Categories.")
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         if not active_branch:
             messages.warning(
                 self.request, "No active Branch found. Please activate a Branch to view Categories.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         holiday = form.save(commit=False)
         holiday.institute = institute
         holiday.branch = active_branch
@@ -451,6 +449,7 @@ def employee_master_create_view(request):
                 employee_master= form.save(commit=False)
                 employee_master.session= active_session
                 employee_master.branch=active_branch 
+                form.save()
                 return redirect('teacher:list_of_employee_master')
 
             except Exception as e:

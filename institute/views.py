@@ -37,7 +37,7 @@ class AddSignature(FormView):
         active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         signature = form.save(commit=False)
         signature.institute = institute
         signature.session = active_session
@@ -181,11 +181,11 @@ class AddHouse(FormView):
         active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         
         if not active_branch:
             messages.warning(self.request, "No active branch found. Please create or activate a branch.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         house = form.save(commit = False)
         house.institute= institute
         house.session = active_session
@@ -339,11 +339,11 @@ class AddReference(FormView):
         active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         
         if not active_branch:
             messages.warning(self.request, "No active branch found. Please create or activate a branch.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         reference = form.save(commit = False)
         reference.institute= institute
         reference.session = active_session
@@ -661,7 +661,7 @@ class AddStandard(FormView):
         active_branch = InstituteBranch.objects.filter(institute= institute, is_active = True).first()
         if not active_branch:
             messages.error(self.request, "No active branch found. Please create or activate a branch.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         
         standard.institute= institute
         standard.branch = active_branch
@@ -718,11 +718,11 @@ class AddSubject(FormView):
         active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
         if not active_session:
             messages.error(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         if not active_branch:
             messages.error(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         subject = form.save(commit = False)
         subject.institute= self.request.user.institute_id.first()
@@ -754,7 +754,7 @@ class ListofSubjects(ListView):
 
             if not active_branch:
                 messages.error(self.request, "No active session found. Please create or activate a session.")
-                return self.form_invalid()
+                return Subjects.objects.none()
             
             queryset = Subjects.objects.filter(branch=active_branch, session=active_session)
             return queryset
@@ -795,7 +795,7 @@ class AddDocuments(FormView):
         
         if not active_branch:
             messages.error(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         
         document = form.save(commit = False)
         document.institute= self.request.user.institute_id.first()
@@ -914,11 +914,11 @@ class AddFeeInstallments(FormView):
 
         if not active_session:
             messages.error(self.request, "No active session found. Please activate a session to view subjects.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         
         if not active_branch:
             messages.error(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         fee_installment = form.save(commit = False)
         fee_installment.institute= institute
@@ -1233,8 +1233,21 @@ def role_create(request):
             for field, error_list in errors.items():
                 for error in error_list:
                     print(f"Error in field '{field}': {error}")
+        institute = request.user.institute_id.first()
+        active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+        if not active_session:
+            messages.warning(request, 'No active session found. Please activate a session to view subjects')
+            return Subjects.objects.none()
+        
+        if not active_branch:
+            messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+            return Subjects.objects.none()
         if form.is_valid():
-            role = form.save()
+            role = form.save(commit=False)
+            role.branch = active_branch
+            form.save()
             for key, value in request.POST.items():
                 if key.startswith('permissions'):
                     parts = key.split('[')
@@ -1328,15 +1341,28 @@ class EmployeeList(ListView):
     model = Employee
     context_object_name = 'employees'
     template_name = 'employee/employee_list.html'
+    
     def get_queryset(self):
-        queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view installments.")
+                return Employee.objects.none()
+            
+            if not active_branch:
+                messages.error(self.request, "No active session found. Please create or activate a session.")
+                return Employee.objects.none()
+
+            queryset = Employee.objects.filter(branch=active_branch, session=active_session)
+            return queryset
+        
+        return Documents.objects.none()
 
 
 
@@ -1345,6 +1371,17 @@ def create_employee(request):
         user_form = EmployeeRegistrationForm(request.POST)
         profile_form = EmployeeProfileForm(request.POST, request.FILES, user=request.user)
 
+        institute = request.user.institute_id.first()
+        active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+        if not active_session:
+            messages.warning(request, 'No active session found. Please activate a session to view subjects')
+            return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
+        
+        if not active_branch:
+            messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+            return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
         if user_form.is_valid() and profile_form.is_valid():
             try:
                 user = user_form.save(commit=False)
@@ -1353,7 +1390,9 @@ def create_employee(request):
 
                 profile = profile_form.save(commit=False)
                 profile.user = user
-                profile.save()  # This will now set the institute automatically
+                profile.session = active_session
+                profile.branch = active_branch
+                profile_form.save()  # This will now set the institute automatically
 
                 return redirect('institute:list_of_employees')
             except Exception as e:
@@ -1491,11 +1530,11 @@ class AddSubForClassGroup(CreateView):
 
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         if not active_branch:
             messages.warning(self.request, 'No active session found. Please create or activate a session.')
-            return self.form_invalid()
+            return self.form_invalid(form)
 
         sfcg = form.save(commit = False)
         sfcg.institute= self.request.user.institute_id.first()
@@ -1570,7 +1609,7 @@ class AddSection(CreateView):
 
         if not active_branch:
             messages.error(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         
         section = form.save(commit = False)
         section.institute= institute
@@ -1632,11 +1671,11 @@ class AddDiscountScheme(CreateView):
 
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         
         if not active_branch:
             messages.warning(self.request, "No active Branch found. Please create or activate a Branch.")
-            return self.form_invalid()
+            return self.form_invalid(form)
         
         discount_scheme = form.save(commit = False)
         discount_scheme.institute= institute

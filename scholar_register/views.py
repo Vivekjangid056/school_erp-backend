@@ -42,6 +42,9 @@ def student_register(request):
     active_branch = InstituteBranch.objects.filter(
         institute=institute, is_active=True).first()
     
+    print("active sessiuonjioerflsnkdgfs:::::::::::::::::::::::::::::",active_session)
+    print("active branchuonjioerflsnkdgfs:::::::::::::::::::::::::::::",active_branch)
+    
     parents = StudentParents.objects.filter(institute = request.user.institute_id.first())
     user_form = ParentUserCreationForm()
     parent_form = ParentProfileForm(user = user)

@@ -89,7 +89,6 @@ class StudentProfile(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     nationality = models.ForeignKey(Nationality, on_delete=models.CASCADE)
     mother_tongue = models.ForeignKey(MotherToungue,on_delete=models.CASCADE)
-    session = models.CharField(max_length=100)
     form_no = models.BigIntegerField()
     date_of_admission = models.DateField()
     registration_date = models.DateField()

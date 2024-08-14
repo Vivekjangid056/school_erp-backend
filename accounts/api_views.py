@@ -16,34 +16,37 @@ def student_login_view(request):
         # Fetch the student profile after authentication
         try:
             parent = StudentParents.objects.get(user=user)
-            students = StudentProfile.objects.filter(parent=parent)
+            print("parent data :",parent)
+            students = StudentProfile.objects.filter(parent=parent).first()
+            print("Students data",students)
         except StudentProfile.DoesNotExist:
             return Response({
-                'status': False,
-                'code': 404,
+                'error': True,
+                'code': 200,
                 'message': 'Student profiles not found'
-            }, status=status.HTTP_404_NOT_FOUND)
+            })
 
         parent_serializer = ParentSerializer(parent)
-        student_serializer = StudentSerializer(students, many=True)
+        student_serializer = StudentSerializer(students)
 
         refresh = RefreshToken.for_user(user)
         return Response({
             'access_token': str(refresh.access_token),
-            'status': True,
+            'error': False,
             'code': 200,
             'data': {
-                'students': student_serializer.data,
+                'student': student_serializer.data,
                 'parent': parent_serializer.data
             },
             'message': 'Student login successful'
         }, status=status.HTTP_200_OK)
     else:
         return Response({
-            'status': False,
-            'code': 400,
+            'error': True,
+            'code': 200,
             'message': 'Invalid data',
-            'errors': serializer.errors
+            'errors': serializer.errors,
+            'data':{}
         }, status=status.HTTP_400_BAD_REQUEST)
 
 
