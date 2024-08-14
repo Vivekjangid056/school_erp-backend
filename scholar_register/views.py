@@ -9,6 +9,7 @@ from django.db import transaction
 # Create your views here.
 def student_list(request):
     # user_institute = request.user.institute_id.first() #or
+<<<<<<< HEAD
     if request.user.is_authenticated:
         institute = Institute.objects.get(user_id = request.user)
         active_session = AcademicSession.objects.filter(institute = institute , is_active = True).first()
@@ -23,10 +24,71 @@ def student_list(request):
             'students':students
         }
         return render(request, 'students_list.html',context=context)
+=======
+    institute = Institute.objects.get(user_id = request.user)
+# for fetching the data from a table which is not directly connected with the current table but its f
+# oreignkey table has a reference in the table then we user __
+    active_session = AcademicSession.objects.filter(
+        institute=institute, is_active=True).first()
+    active_branch = InstituteBranch.objects.filter(
+        institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(
+            request, "No active session found. Please activate a session to view Categories.")
+        return StudentProfile.objects.none()
+
+    if not active_branch:
+        messages.warning(
+            request, "No active Branch found. Please activate a Branch to view Categories.")
+        StudentProfile.objects.none()
+    students = StudentProfile.objects.filter(parent__institute = institute, branch=active_branch, session=active_session)
+    context = {
+        'students':students
+    }
+    return render(request, 'students_list.html',context=context)
+>>>>>>> 87655b10607cd7b9f99eaeb296ba6a380e997683
 
 @transaction.atomic
 def student_register(request):
+
     user = request.user
+<<<<<<< HEAD
+=======
+    institute = Institute.objects.get(user_id=user)
+    active_session = AcademicSession.objects.filter(
+        institute=institute, is_active=True).first()
+    active_branch = InstituteBranch.objects.filter(
+        institute=institute, is_active=True).first()
+    
+    print("active sessiuonjioerflsnkdgfs:::::::::::::::::::::::::::::",active_session)
+    print("active branchuonjioerflsnkdgfs:::::::::::::::::::::::::::::",active_branch)
+    
+    parents = StudentParents.objects.filter(institute = request.user.institute_id.first())
+    user_form = ParentUserCreationForm()
+    parent_form = ParentProfileForm(user = user)
+    profile_form = StudentProfileForm(user = user)
+    fees_form = StudentFeesForm(user = user)
+
+    context={
+        'user_form': user_form,
+        'parent_form': parent_form,
+        'profile_form': profile_form,
+        'parents': parents,
+        'fees_form': fees_form,
+    }
+
+    if not active_session:
+        messages.warning(
+            request, "No active session found. Please activate a session to view Categories.")
+        return render(request, 'student_form.html', context=context)
+
+    if not active_branch:
+        messages.warning(
+            request, "No active Branch found. Please activate a Branch to view Categories.")
+        return render(request, 'student_form.html', context=context)
+
+>>>>>>> 87655b10607cd7b9f99eaeb296ba6a380e997683
     if request.method == 'POST':
         parent_registered = request.POST.get('parent_registered')
         profile_form = StudentProfileForm(request.POST, request.FILES)
@@ -58,6 +120,8 @@ def student_register(request):
             if profile_form.is_valid() and fees_form.is_valid():
                 profile = profile_form.save(commit=False)
                 profile.parent = parent
+                profile.branch = active_branch
+                profile.session =active_session
                 profile.save()
 
                 fees = fees_form.save(commit=False)
@@ -82,6 +146,8 @@ def student_register(request):
 
                 profile = profile_form.save(commit=False)
                 profile.parent = parent
+                profile.branch = active_branch
+                profile.session =active_session
                 profile.save()
 
                 fees = fees_form.save(commit=False)
@@ -127,7 +193,7 @@ def student_register(request):
     }
     
     return render(request, 'students_form.html', context)
-    
+
 def student_update(request,pk):
         student_profile = get_object_or_404(StudentProfile, pk=pk)
         if request.method == 'POST':

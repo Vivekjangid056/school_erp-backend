@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Institute, AcademicSession
+from accounts.models import Institute, AcademicSession, InstituteBranch
 from institute.models import Standard
 from scholar_register.models import StudentProfile
 
@@ -7,16 +7,17 @@ from scholar_register.models import StudentProfile
 
 
 class FeeStructure(models.Model):
-    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='fee_structure')
-    standard = models.OneToOneField(Standard, on_delete=models.CASCADE)
+    institute = models.ForeignKey(Institute, on_delete= models.CASCADE, related_name = "fee_structure_institute")
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name="fee_structure_session")
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='fee_structure_branch')
+    standard = models.OneToOneField(Standard, on_delete=models.CASCADE, related_name='fee_structure_standard')
     total_fee = models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):
         return f"{self.standard.name} - {self.total_fee}"
    
      
-    
+
 class StudentFeePayment(models.Model):                 # ui side its installement Schedule
     HALF_YEARLY = 'Half-Yearly'
     Monthly = 'Monthly'
@@ -30,12 +31,11 @@ class StudentFeePayment(models.Model):                 # ui side its installemen
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     fee_structure = models.ForeignKey(FeeStructure, on_delete=models.CASCADE)
     installment_frequency = models.CharField(max_length=20, choices=INSTALLMENT_FREQUENCY_CHOICES)
-    
-    
+
     def __str__(self):
         return f"{self.student.first_name} - {self.fee_structure.standard} - {self.installment_frequency}"
-    
-    
+
+
     @property
     def total_installments(self):
         if self.installment_frequency == self.HALF_YEARLY:
@@ -52,7 +52,9 @@ class StudentFeePayment(models.Model):                 # ui side its installemen
     
 
 class PaymentSchedule(models.Model):
+    institute = models.ForeignKey(Institute, on_delete= models.CASCADE, related_name = 'payment_schedule')
     session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='payment_schedule')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'payment_schedule_branch')
     student_fee_payment = models.ForeignKey(StudentFeePayment, on_delete=models.CASCADE, related_name='payments')
     amount_paid = models.IntegerField( )
     due_amount = models.IntegerField(blank=True, null=True)

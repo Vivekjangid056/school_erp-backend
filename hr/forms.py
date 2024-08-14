@@ -1,5 +1,8 @@
 from django import forms
 from .models import HrInterview
+from institute.models import Category
+from teacher_management.models import LmDesignationMaster, LmDepartmentMaster
+from accounts.models import AcademicSession, InstituteBranch
 
 
 
@@ -17,6 +20,14 @@ class HrInterviewForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+
+        if self.user:
+            institute = self.user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active = True).first()
+            active_branch = InstituteBranch.objects.filter(institute=institute, is_active = True).first()
+            self.fields['category'].queryset = Category.objects.filter(institute = institute)
+            self.fields['department'].queryset = LmDepartmentMaster.objects.filter(session = active_session, branch = active_branch)
+            self.fields['designation'].queryset = LmDesignationMaster.objects.filter(session = active_session, branch = active_branch)
         
     def save(self, commit=True):
         instance = super().save(commit=False)

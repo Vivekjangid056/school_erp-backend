@@ -7,7 +7,7 @@ app_name = 'teacher'
 urlpatterns = [
     # ================================ category master ========================================
     path('category-master-list/',category_master_list, name='category_master_list'),
-    path('category-master-create/', AddMasterCategory.as_view(), name='create_category_master'),
+    path('category-master-create/', AddCategoryMaster.as_view(), name='create_category_master'),
     path('category-master-update<int:pk>',updateMasterCategory.as_view(),name="update_category_master"),
     path('category-master-delete<int:pk>',deleteMasterCategory.as_view(),name="delete_category_master"),
     
@@ -24,7 +24,7 @@ urlpatterns = [
     path('department-master-delete<int:pk>',deleteDepartmentMaster.as_view(),name='delete_department_master'),
     
     # ================================== attendance type ========================================
-    path('attendance-type-list/',attendance_type,name='attendance_type_list'),
+    path('attendance-type-list/',attendance_type_list,name='attendance_type_list'),
     path('attendance-type-create/',CreateAttendanceType.as_view(), name='attendance_type_create'),
     path('attendance-type-update<int:pk>',EditAttendanceType.as_view(), name='attendance_type_update'),
     path('attendance-type-delete<int:pk>',DeleteAttendanceType.as_view(), name='attendance_type_delete'),

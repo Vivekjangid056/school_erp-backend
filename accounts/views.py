@@ -77,16 +77,24 @@ class InstituteList(ListView, LoginRequiredMixin):
     template_name = 'institute_list.html'
 
 
-class InstituteUpdateView(UpdateView, LoginRequiredMixin):
-    model = Institute
-    form_class = InstituteForm
-    context_object_name = "form"
-    template_name = 'institute_update_form.html'
-    success_url = reverse_lazy('accounts:institute_list')
+def institute_update(request, pk):
+    institute = get_object_or_404(Institute, pk=pk)  # Use 'pk=pk' or just 'pk' as a positional argument
+    branch = InstituteBranch.objects.filter(name=institute.institute_name).first()
+    
+    if request.method == 'POST':
+        form = InstituteForm(request.POST, instance=institute)
+        if form.is_valid():
+            # Update the branch information with the current institute's data
+            if branch:
+                branch.name = form.cleaned_data['institute_name']
+                branch.address = f"{form.cleaned_data['address1']} {form.cleaned_data['address2']}"
+                branch.save()  # Make sure to save the updated branch
+            form.save()
+            return redirect(reverse_lazy('accounts:institute_list'))
+    else:
+        form = InstituteForm(instance=institute)
 
-    def form_valid(self, form):
-        messages.success(self.request, "Institute updated successfully!")
-        return super().form_valid(form)
+    return render(request, 'institute_update_form.html', {'form': form})
 
 
 @login_required
@@ -107,7 +115,8 @@ def institute_register_view(request):
             profile.user_id = user  # Set the admin field to the newly created admin
             profile.save()
             InstituteBranch.objects.create(
-                institute=profile, name=profile.institute_name, address=profile.address1 + profile.address2)
+                institute=profile, name=profile.institute_name, address=profile.address1 + profile.address2,
+                is_active = True)
             return redirect(reverse_lazy('accounts:institute_list'))
         else:
             context = {
@@ -134,22 +143,24 @@ class InstituteDeleteView(DeleteView):
 def institute_branch_create_view(request):
     user = request.user
     try:
-        user_institute = user.institute_id.first()
+        institute = user.institute_id.first()
     except AttributeError:
         messages.error(request, "You don't have an associated institute.")
         return redirect("some_error_page")
 
-    number_of_branches_permitted = int(user_institute.number_of_branches)
+    number_of_branches_permitted = int(institute.number_of_branches)
     number_of_branches_created = InstituteBranch.objects.filter(
-        institute=user_institute).count()
+        institute=institute).count()
 
     if number_of_branches_created < number_of_branches_permitted:
         if request.method == "POST":
+            InstituteBranch.objects.filter(institute= institute, is_active=True).update(is_active= False)
             branch_form = InstituteBranchForm(request.POST)
             if branch_form.is_valid():
                 try:
                     branch = branch_form.save(commit=False)
-                    branch.institute = user_institute
+                    branch.institute = institute
+                    branch.is_active = True
                     branch.save()
                     messages.success(request, "Branch created successfully.")
                     return redirect("accounts:list_of_branches")
@@ -303,13 +314,31 @@ def change_session(request):
         for i in session_list:
             i.is_active = (i == session)
             i.save()
-        
+
         messages.success(request, f'Session changed to {session.name}')
     else:
         messages.error(request, 'Invalid session selected')
     
     return redirect('accounts:admin-dashboard')
-            
+
+@require_POST
+def change_branch(request):
+    branch_pk = request.POST.get('branch')
+    if branch_pk:
+        institute = request.user.institute_id.first()
+        branch = get_object_or_404(InstituteBranch, pk = branch_pk)
+        branch_list = InstituteBranch.objects.filter(institute = institute)
+
+        for i in branch_list:
+            i.is_active = (i==branch)
+            i.save()
+
+        messages.success(request, f'Branch changed to {branch.name}')
+    else:
+        messages.error(request, 'invalid branch selected')
+
+    return redirect('accounts:admin-dashboard')
+
 
 # def check_session_timeout(request):
 #     last_activity = request.session.get('last_activity')

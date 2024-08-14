@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from accounts.models import AcademicSession
+from accounts.models import AcademicSession, InstituteBranch
 from fees_module.forms import FeeStructureForm, PaymentScheduleForm, StudentFeePaymentForm
 from fees_module.models import FeeStructure, PaymentSchedule, StudentFeePayment
 from django.views.decorators.http import require_GET
@@ -32,14 +32,18 @@ class FeeStructureCreateView(CreateView):
         # Get the active session
         institute = self.request.user.institute_id.first()
         active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active=True).first()
 
         if not active_session:
             messages.error(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
+        if not active_branch:
+            messages.error(self.request, "No active branch found. Please create or activate a branch.")
     
         # Assign the institute and session fields
         fees.institute = institute
         fees.session = active_session
+        fees.branch = active_branch
         fees.save()
     
         messages.success(self.request, "Fee structure created successfully.")
@@ -53,15 +57,36 @@ class FeeStructureListView(ListView):
     model = FeeStructure
     template_name = 'fee_structure/structure_list.html'
     context_object_name = 'fee_structure_list'
+    
     def get_queryset(self):
-        queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view Fee Structure.")
+                return FeeStructure.objects.none()
+
+            if not active_branch:
+                messages.error(self.request, "No active branch found. Please create or activate a branch.")
+                return FeeStructure.objects.none()
+
+            # Filter by active session and active branch
+            queryset = FeeStructure.objects.filter(institute=institute, session=active_session, branch=active_branch)
+            return queryset
+
+        return FeeStructure.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['active_session'] = AcademicSession.objects.filter(
+            institute=self.request.user.institute_id.first(), is_active=True).first()
+        context['active_branch'] = InstituteBranch.objects.filter(
+            institute=self.request.user.institute_id.first(), is_active=True).first()
+        return context
 
 class FeeStructureUpdateView(UpdateView):
     model = FeeStructure
@@ -69,6 +94,21 @@ class FeeStructureUpdateView(UpdateView):
     context_object_name = 'form'
     template_name = 'fee_structure/structure_create.html'
     success_url = reverse_lazy('fees_module:list_fee_structure')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        # Fetch the institute related to the user
+        institute = user.institute_id.first()  # Assuming the related name is `institute_id`
+
+        # Fetch the branches related to the user's institute
+        branches = InstituteBranch.objects.filter(institute=institute)
+        print(branches)
+
+        # Add branches to the context
+        context['branches'] = branches
+        return context
     
     def form_valid(self, form):
         messages.success(self.request, "signature updated successfully!")
@@ -89,14 +129,19 @@ def payment_schedule_create(request):
             # Get the active session
             institute = request.user.institute_id.first()
             active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
 
             if not active_session:
                 messages.error(request, "No active session found. Please create or activate a session.")
                 return render(request, 'payment_schedule/create_schedule.html', {'form': form})
+            
+            if not active_branch:
+                messages.error(request, "No active branch found. Please create or activate a branch.")
 
             # Assign the institute and session fields
             payment_schedule.institute = institute
             payment_schedule.session = active_session
+            payment_schedule.branch = active_branch
             payment_schedule.save()
 
             messages.success(request, "Payment schedule created successfully.")
@@ -118,22 +163,32 @@ class PaymentScheduleListView(ListView):
     context_object_name = 'payment_schedules'
 
     def get_queryset(self):
-        # Get the active session for the current user's institute
+        # Get the active session and branch for the current user's institute
         institute = self.request.user.institute_id.first()
         active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
 
+        # Handle case where there's no active session or branch
         if not active_session:
             messages.warning(self.request, "No active session found. Please activate a session to view payment schedules.")
             return PaymentSchedule.objects.none()
 
-        # Return only the payment schedules for the active session
-        return PaymentSchedule.objects.filter(institute=institute, session=active_session)
+        if not active_branch:
+            messages.error(self.request, "No active branch found. Please create or activate a branch.")
+            return PaymentSchedule.objects.none()
+
+        # Return only the payment schedules for the active session and active branch
+        return PaymentSchedule.objects.filter(institute=institute, session=active_session, branch=active_branch)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         institute = self.request.user.institute_id.first()
         active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
         context['active_session'] = active_session
+        context['active_branch'] = active_branch
+
         return context
 
 class PaymentScheduleUpdateView(UpdateView):
@@ -142,7 +197,7 @@ class PaymentScheduleUpdateView(UpdateView):
     context_object_name = 'form'
     template_name = 'payment_schedule/create_schedule.html'
     success_url = reverse_lazy('fees_module:list_payment_schedule')
-    
+
     def form_valid(self, form):
         messages.success(self.request, "signature updated successfully!")
         return super().form_valid(form)
@@ -156,12 +211,12 @@ class PaymentScheduleDeleteView(DeleteView):
 # create student fee payment
 def create_student_fee_payment(request):
     if request.method == 'POST':
-        form = StudentFeePaymentForm(request.POST)
+        form = StudentFeePaymentForm(request.POST, user = request.user)
         if form.is_valid():
             form.save()
             return redirect('fees_module:student_fee_payment_list')
     else:
-        form = StudentFeePaymentForm()
+        form = StudentFeePaymentForm(user = request.user)
     return render(request, 'create_student_fee_payment.html', {'form': form})
 
 # List Student Fee Payments

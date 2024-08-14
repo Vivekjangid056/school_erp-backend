@@ -80,8 +80,9 @@ class StudentProfile(models.Model):
     parent = models.ForeignKey(StudentParents, on_delete = models.CASCADE, related_name='student_id')
     session = models.ForeignKey(AcademicSession, on_delete = models.CASCADE, related_name='student_id')
     branch = models.ForeignKey(InstituteBranch, on_delete = models.CASCADE, related_name = "student_branch")
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='student_profile_session')
     first_name = models.CharField(max_length=100)
-    middle_name = models.CharField(max_length=100,blank=True) #optional
+    middle_name = models.CharField(max_length=100,blank=True, null=True) #optional
     last_name = models.CharField(max_length=100)
     gender = models.CharField(choices=GENDER_CHOICES)
     dob = models.DateField()
@@ -162,9 +163,9 @@ class StudentProfile(models.Model):
 
 
 class Attendance(models.Model):
-    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE)
-    standard = models.ForeignKey(Standard, on_delete=models.CASCADE)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name = 'attendance_student')
+    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='attendance_subject')
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='attendance_standard')
     date = models.DateField()
     present = models.BooleanField(default=False)
     absent = models.BooleanField(default=False)

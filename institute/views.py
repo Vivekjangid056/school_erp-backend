@@ -33,10 +33,20 @@ class AddSignature(FormView):
     success_url = reverse_lazy('institute:list_of_signatures')
 
     def form_valid(self, form):
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        if not active_session:
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
         signature = form.save(commit=False)
-        signature.institute = self.request.user.institute_id.first()
+        signature.institute = institute
+        signature.session = active_session
         form.save()
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
     
 class ListofSignatures(ListView):
     model = LomSignature
@@ -48,10 +58,16 @@ class ListofSignatures(ListView):
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view Signatures.")
+                return LomSignature.objects.none()
+            queryset = LomSignature.objects.filter(institute_id=institute, session=active_session)
+            return queryset
+        
+        return LomSignature.objects.none()
 
 
 class UpdateSignature(UpdateView):
@@ -160,24 +176,53 @@ class AddHouse(FormView):
     success_url = reverse_lazy('institute:list_of_house')
 
     def form_valid(self, form):
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+        if not active_session:
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+        
+        if not active_branch:
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
+            return self.form_invalid(form)
         house = form.save(commit = False)
-        house.institute= self.request.user.institute_id.first()
+        house.institute= institute
+        house.session = active_session
+        house.branch=active_branch
         form.save()
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
 
 class ListofHouse(ListView):
     model = House
     template_name = "list_of_masters/house_list.html"
     context_object_name = 'house_list'
+
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
+        institute = user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
+                return House.objects.none()
+            
+            if not active_branch:
+                messages.warning(self.request, 'No active branch found. Please activate a branch to view subjects.')
+            queryset = House.objects.filter(branch=active_branch, session=active_session)
+            return queryset
+        
+        return House.objects.none()
 
 
 
@@ -289,10 +334,26 @@ class AddReference(FormView):
     success_url = reverse_lazy('institute:list_of_reference')
 
     def form_valid(self, form):
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+        if not active_session:
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+        
+        if not active_branch:
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
+            return self.form_invalid(form)
         reference = form.save(commit = False)
-        reference.institute= self.request.user.institute_id.first()
+        reference.institute= institute
+        reference.session = active_session
+        reference.branch=active_branch
         form.save()
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
 
 class ListofReference(ListView):
     model = Reference
@@ -301,12 +362,24 @@ class ListofReference(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
+        institute = user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
+                return Reference.objects.none()
+            
+            if not active_branch:
+                messages.warning(self.request, 'No active branch found. Please activate a branch to view subjects.')
+            queryset = Reference.objects.filter(branch=active_branch, session=active_session)
+            return queryset
+        
+        return Reference.objects.none()
 
 
 class UpdateReference(UpdateView):
@@ -584,7 +657,14 @@ class AddStandard(FormView):
 
     def form_valid(self, form):
         standard = form.save(commit = False)
-        standard.institute= self.request.user.institute_id.first()
+        institute = Institute.objects.get(user_id = self.request.user)
+        active_branch = InstituteBranch.objects.filter(institute= institute, is_active = True).first()
+        if not active_branch:
+            messages.error(self.request, "No active branch found. Please create or activate a branch.")
+            return self.form_invalid(form)
+        
+        standard.institute= institute
+        standard.branch = active_branch
         form.save()
         return super().form_valid(form)
 
@@ -596,10 +676,13 @@ class ListofStandard(ListView):
         queryset = super().get_queryset()
         user = self.request.user
 
+
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
+            institute = user.institute_id.first()
+            active_branch = InstituteBranch.objects.filter(institute= institute, is_active = True).first()
+            if institute and active_branch:
+                queryset = queryset.filter(institute=institute, branch = active_branch)
+                print(queryset)
         return queryset
 
 
@@ -632,14 +715,22 @@ class AddSubject(FormView):
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
         active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
         if not active_session:
             messages.error(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid()
+            return self.form_invalid(form)
+
+        if not active_branch:
+            messages.error(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+
         subject = form.save(commit = False)
         subject.institute= self.request.user.institute_id.first()
         subject.session= active_session
+        subject.branch = active_branch
         form.save()
         return super().form_valid(form)
+
     def form_invalid(self, form):
         messages.error(self.request, "There was an error in your form. Please check and try again.")
         return super().form_invalid(form)
@@ -655,23 +746,20 @@ class ListofSubjects(ListView):
         if user.is_authenticated:
             institute = user.institute_id.first()
             active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
 
             if not active_session:
                 messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
                 return Subjects.objects.none()
 
-            queryset = Subjects.objects.filter(institute_id=institute, session=active_session)
+            if not active_branch:
+                messages.error(self.request, "No active session found. Please create or activate a session.")
+                return Subjects.objects.none()
+            
+            queryset = Subjects.objects.filter(branch=active_branch, session=active_session)
             return queryset
         
         return Subjects.objects.none()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            institute = self.request.user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            context['active_session'] = active_session
-        return context
 
 
 class UpdateSubjects(UpdateView):
@@ -688,8 +776,6 @@ class UpdateSubjects(UpdateView):
 class SubjectDeleteView(DeleteView):
     model = Subjects
     success_url = reverse_lazy('institute:list_of_subjects')
-    
-    
 
 
 # ======================================= document CRUD =================================================
@@ -701,16 +787,26 @@ class AddDocuments(FormView):
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
         active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
 
         if not active_session:
             messages.error(self.request, "No active session found. Please activate a session to view subjects.")
             return Documents.objects.none
         
+        if not active_branch:
+            messages.error(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+        
         document = form.save(commit = False)
         document.institute= self.request.user.institute_id.first()
         document.session= active_session
+        document.branch= active_branch
         form.save()
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
 
 class ListofDocuments(ListView):
     model = Documents
@@ -723,12 +819,18 @@ class ListofDocuments(ListView):
         if user.is_authenticated:
             institute = user.institute_id.first()
             active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
 
             if not active_session:
                 messages.warning(self.request, "No active session found. Please activate a session to view documents.")
                 return Documents.objects.none()
+            
+            if not active_branch:
+                messages.error(self.request, "No active session found. Please create or activate a session.")
+                return Documents.objects.none()
 
-            queryset = Documents.objects.filter(institute_id=institute, session=active_session)
+            queryset = Documents.objects.filter(branch=active_branch, session=active_session)
             return queryset
         
         return Documents.objects.none()
@@ -806,24 +908,54 @@ class AddFeeInstallments(FormView):
     success_url = reverse_lazy('institute:list_of_fee_installments')
 
     def form_valid(self, form):
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+        if not active_session:
+            messages.error(self.request, "No active session found. Please activate a session to view subjects.")
+            return self.form_invalid(form)
+        
+        if not active_branch:
+            messages.error(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+
         fee_installment = form.save(commit = False)
-        fee_installment.institute= self.request.user.institute_id.first()
+        fee_installment.institute= institute
+        fee_installment.branch = active_branch
+        fee_installment.session = active_session
         form.save()
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
 
 class ListofFeeInstallments(ListView):
     model = FeeInstallments
     template_name = "list_of_masters/fee_installments_list.html"
     context_object_name = 'fee_installments_list'
     def get_queryset(self):
-        queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view installments.")
+                return FeeInstallments.objects.none()
+            
+            if not active_branch:
+                messages.error(self.request, "No active session found. Please create or activate a session.")
+                return FeeInstallments.objects.none()
+
+            queryset = FeeInstallments.objects.filter(branch=active_branch, session=active_session)
+            return queryset
+        
+        return Documents.objects.none()
 
 
 class UpdateFeeInstallment(UpdateView):
@@ -1101,8 +1233,21 @@ def role_create(request):
             for field, error_list in errors.items():
                 for error in error_list:
                     print(f"Error in field '{field}': {error}")
+        institute = request.user.institute_id.first()
+        active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+        if not active_session:
+            messages.warning(request, 'No active session found. Please activate a session to view subjects')
+            return Subjects.objects.none()
+        
+        if not active_branch:
+            messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+            return Subjects.objects.none()
         if form.is_valid():
-            role = form.save()
+            role = form.save(commit=False)
+            role.branch = active_branch
+            form.save()
             for key, value in request.POST.items():
                 if key.startswith('permissions'):
                     parts = key.split('[')
@@ -1196,15 +1341,28 @@ class EmployeeList(ListView):
     model = Employee
     context_object_name = 'employees'
     template_name = 'employee/employee_list.html'
+    
     def get_queryset(self):
-        queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view installments.")
+                return Employee.objects.none()
+            
+            if not active_branch:
+                messages.error(self.request, "No active session found. Please create or activate a session.")
+                return Employee.objects.none()
+
+            queryset = Employee.objects.filter(branch=active_branch, session=active_session)
+            return queryset
+        
+        return Documents.objects.none()
 
 
 
@@ -1213,6 +1371,17 @@ def create_employee(request):
         user_form = EmployeeRegistrationForm(request.POST)
         profile_form = EmployeeProfileForm(request.POST, request.FILES, user=request.user)
 
+        institute = request.user.institute_id.first()
+        active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+        if not active_session:
+            messages.warning(request, 'No active session found. Please activate a session to view subjects')
+            return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
+        
+        if not active_branch:
+            messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+            return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
         if user_form.is_valid() and profile_form.is_valid():
             try:
                 user = user_form.save(commit=False)
@@ -1221,7 +1390,9 @@ def create_employee(request):
 
                 profile = profile_form.save(commit=False)
                 profile.user = user
-                profile.save()  # This will now set the institute automatically
+                profile.session = active_session
+                profile.branch = active_branch
+                profile_form.save()  # This will now set the institute automatically
 
                 return redirect('institute:list_of_employees')
             except Exception as e:
@@ -1272,11 +1443,23 @@ class EmployeeDeleteView(DeleteView):
 
 # ===================================== Notification CRUD ============================================
 def notification_create_view(request):
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects')
+        return Section.objects.none()
+    
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+        return Section.objects.none()
     if request.method == 'POST':
         form = NotificationModelForm(request.POST, request.FILES, user = request.user)
         if form.is_valid():
             notification = form.save(commit = False)
-            notification.institute= request.user.institute_id.first()
+            notification.institute= institute
+            notification.branch= active_branch
             form.save()
             return redirect('institute:list_of_notifications')  # Redirect to a list view or another appropriate view
     else:
@@ -1301,14 +1484,26 @@ class NotificationsListView(ListView):
     template_name = "notification_list.html"
     context_object_name = 'notifications_list'
     def get_queryset(self):
-        queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view installments.")
+                return NotificationModel.objects.none()
+            
+            if not active_branch:
+                messages.error(self.request, "No active session found. Please create or activate a session.")
+                return NotificationModel.objects.none()
+
+            queryset = NotificationModel.objects.filter(branch=active_branch)
+            return queryset
+        
+        return Documents.objects.none()
 
 
 class NotificationDeleteView(DeleteView):
@@ -1329,11 +1524,28 @@ class AddSubForClassGroup(CreateView):
 
 
     def form_valid(self, form):
-        print("#######################$$$$$$$$$$$$$$$")
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+        if not active_session:
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+
+        if not active_branch:
+            messages.warning(self.request, 'No active session found. Please create or activate a session.')
+            return self.form_invalid(form)
+
         sfcg = form.save(commit = False)
         sfcg.institute= self.request.user.institute_id.first()
+        sfcg.session = active_session
+        sfcg.branch = active_branch
         form.save()
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
     
 class listSubForClassGroup(ListView):
     template_name = "session_settings/ss_sub_for_groups_list.html"
@@ -1342,12 +1554,26 @@ class listSubForClassGroup(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
+        institute = user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active=True).first()
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
+                return SubjectsForClassGroup.objects.none()
+
+            if not active_branch:
+                messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
+                return SubjectsForClassGroup.objects.none()
+
+            queryset = SubjectsForClassGroup.objects.filter(branch=active_branch, session=active_session) 
+            return queryset
+        
+        return SubjectsForClassGroup.objects.none()
 
 
 class UpdateSubForClassGroup(UpdateView):
@@ -1378,10 +1604,22 @@ class AddSection(CreateView):
         return kwargs
     
     def form_valid(self, form):
+        institute = self.request.user.institute_id.first()
+        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+
+        if not active_branch:
+            messages.error(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+        
         section = form.save(commit = False)
-        section.institute= self.request.user.institute_id.first()
+        section.institute= institute
+        section.branch= active_branch
         form.save()
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error in your form. Please check and try again.")
+        return super().form_invalid(form)
 
 
 class listOfSection(ListView):
@@ -1389,14 +1627,20 @@ class listOfSection(ListView):
     model = Section
     context_object_name = 'section_list'
     def get_queryset(self):
-        queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+            
+            if not active_branch:
+                messages.error(self.request, "No active session found. Please create or activate a session.")
+                return Section.objects.none()
+
+            queryset = Section.objects.filter(branch=active_branch)
+            return queryset
+        
+        return Documents.objects.none()
 
 
 class UpdateSection(UpdateView):
@@ -1419,9 +1663,24 @@ class AddDiscountScheme(CreateView):
     template_name = "session_settings/discount_form.html"
     form_class = DiscountSchemeForm
     success_url = reverse_lazy('institute:list_of_discount')
+
     def form_valid(self, form):
+        institute = self.request.user.institute_id.first()
+        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+        active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+        if not active_session:
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
+        
+        if not active_branch:
+            messages.warning(self.request, "No active Branch found. Please create or activate a Branch.")
+            return self.form_invalid(form)
+        
         discount_scheme = form.save(commit = False)
-        discount_scheme.institute= self.request.user.institute_id.first()
+        discount_scheme.institute= institute
+        discount_scheme.session = active_session
+        discount_scheme.branch = active_branch
         form.save()
         return super().form_valid(form)
 
@@ -1435,10 +1694,22 @@ class listOfDiscountScheme(ListView):
         user = self.request.user
 
         if user.is_authenticated:
-            institute_id = user.institute_id
-            queryset = queryset.filter(institute_id=institute_id.first())
-            print(queryset)
-        return queryset
+            institute = user.institute_id.first()
+            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+
+            if not active_session:
+                messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
+                return DiscountScheme.objects.none()
+            
+            if not active_branch:
+                messages.warning(self.request, "No active branch found. Please activate a branch to view subjects.")
+                return DiscountScheme.objects.none()
+            queryset = DiscountScheme.objects.filter(branch=active_branch, session=active_session)
+            return queryset
+        
+        return Subjects.objects.none()
 
 
 class UpdateDiscountScheme(UpdateView):
@@ -1459,15 +1730,17 @@ class DeleteDiscountScheme(DeleteView):
 #<------------------------ for Attendance ---------------------------------->
 
 def attendance_view(request):
-    user = request.user
-    standards = Standard.objects.filter(institute = user.institute_id.first())
+    institute = request.user.institute_id.first()
+    active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    standards = Standard.objects.filter(branch=active_branch)
     if request.method == 'POST':
         data = request.POST
         date = data.get('date')
         standard_id = data.get('standard')
         subject_id = data.get('subjects')
 
-        students = StudentProfile.objects.filter(standard_id=standard_id)
+        students = StudentProfile.objects.filter(standard_id=standard_id, branch=active_branch, session=active_session)
 
         for student in students:
             student_id = student.id
@@ -1492,8 +1765,20 @@ def attendance_view(request):
     return render(request, 'attendance.html', context)
     
 def load_subjects(request):
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects')
+        return Subjects.objects.none()
+    
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+        return Subjects.objects.none()
+
     standard_id = request.GET.get('standard_id')
-    subjects = Subjects.objects.filter(standard_id=standard_id).all()
+    subjects = Subjects.objects.filter(standard_id=standard_id, session=active_session, branch=active_branch).all()
     return JsonResponse(list(subjects.values('id', 'name')), safe=False)
 
 
@@ -1530,8 +1815,19 @@ def fetch_students_attendance(request):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def attendance_list(request):
-    standards = Standard.objects.all()
-    subjects = Subjects.objects.all()
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects')
+        return Subjects.objects.none()
+    
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+        return Subjects.objects.none()
+    standards = Standard.objects.filter(branch=active_branch)
+    subjects = Subjects.objects.filter(branch=active_branch, session=active_session)
     return render(request, 'attendance_list.html', {'standards': standards, 'subjects': subjects})
 
 
@@ -1562,24 +1858,48 @@ def fetch_attendance_data(request):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
-# views for gallery section
+# ========================================== Gallery CRUD ================================================
 def gallery_list(request):
-    user = request.user
-    institute = user.institute_id
-    gallery_items = GalleryItems.objects.filter(institute_id = institute.first())
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects')
+        return GalleryItems.objects.none()
+
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+        return GalleryItems.objects.none()
+
+    gallery_items = GalleryItems.objects.filter(branch=active_branch, session=active_session)
     return render(request, 'gallery/list.html',{'gallery_items':gallery_items})
 
 
 def gallery_add(request):
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    print(active_session)
+
     if request.method == 'POST':
-        user = request.user
-        form = GalleryItemsForm(request.POST, request.FILES, user = user)
+        if not active_session:
+            messages.warning(request, 'No active session found. Please activate a session.')
+            return render(request, 'gallery/list.html', {'form': form})
+        
+        if not active_branch:
+            messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+            return render(request, 'gallery/list.html', {'form': form})
+        form = GalleryItemsForm(request.POST, request.FILES, user = request.user)
         if form.is_valid():
-            form.user = user
+            gallery = form.save(commit=False)
+            gallery.institute = institute
+            gallery.session = active_session
+            gallery.branch = active_branch
             form.save()
             return redirect('institute:gallery_list')
         else:
-            form = GalleryItemsForm()
+            form = GalleryItemsForm(user=request.user)
         return render(request, 'gallery/list.html', {'form': form})
     
 def gallery_update(request, pk):
@@ -1631,11 +1951,22 @@ def gallery_delete(request, pk):
 # ____________________________________________ views for timetable _______________________________________
 
 def timetable_list(request):
-    user = request.user
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects')
+        return TimeTable.objects.none()
+    
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+        return TimeTable.objects.none()
+
     standard_id = request.GET.get('standard')
     day_of_week = request.GET.get('get_day_of_week_display')
     
-    timetables = TimeTable.objects.filter(institute=user.institute_id.first())
+    timetables = TimeTable.objects.filter(branch=active_branch, session=active_session)
     # for dependent handling 
     if standard_id:
         timetables = timetables.filter(standard_id=standard_id)
@@ -1643,7 +1974,7 @@ def timetable_list(request):
     if day_of_week:
         timetables = timetables.filter(day_of_week=day_of_week)
     
-    standards = Standard.objects.filter(institute=user.institute_id.first())
+    standards = Standard.objects.filter(branch=active_branch)
 
     context = {
         'timetables': timetables,
@@ -1655,12 +1986,25 @@ def timetable_list(request):
     return render(request, 'timetable/list.html', context)
 
 def create_timetable(request):
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects')
+        return Section.objects.none()
+    
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+        return Section.objects.none()
     if request.method == 'POST':
-        user = request.user
-        form = TimetableForm(request.POST, user = user)
+        form = TimetableForm(request.POST, user = request.user)
         
         if form.is_valid():
-            form.user = user
+            time_table = form.save(commit=False)
+            time_table.institute=institute
+            time_table.session=active_session
+            time_table.branch=active_branch
             form.save()
             return redirect('institute:timetable_list')
         else:
@@ -1693,11 +2037,33 @@ def delete_timetable(request, pk):
     
 # for dependent dropdown
 def get_sections(request):
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects')
+        return Section.objects.none()
+    
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+        return Section.objects.none()
     standard_id = request.GET.get('standard_id')
-    sections = Section.objects.filter(standard_id=standard_id).values('id', 'name')
+    sections = Section.objects.filter(standard_id=standard_id, branch=active_branch).values('id', 'name')
     return JsonResponse({'sections': list(sections)})
 
 def get_subjects(request):
+    institute = request.user.institute_id.first()
+    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects')
+        return Subjects.objects.none()
+    
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
+        return Subjects.objects.none()
     standard_id = request.GET.get('standard_id')
-    subjects = Subjects.objects.filter(standard_id=standard_id).values('id', 'name')
+    subjects = Subjects.objects.filter(standard_id=standard_id, branch=active_branch, session=active_session).values('id', 'name')
     return JsonResponse({'subjects': list(subjects)})

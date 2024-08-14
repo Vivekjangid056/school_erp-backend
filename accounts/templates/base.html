@@ -242,21 +242,47 @@
                     {% endif %}
                 </div>
                 <div class="d-flex align-items-center">
-                    <div class="dropdown d-inline-block kala me-3">
-                        <button type="button" class="btn header-item waves-effect font-size-16">
-                            <a href="#" class="text-decoration-none text-dark">{{ institute.institute_name }}</a>
-                        </button>
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown me-3">
+                            {% if active_branch %}
+                            <button class="btn header-item waves-effect font-size-16 dropdown-toggle" type="button" id="branchDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ active_branch.name }}
+                            </button>
+                            {% else %}
+                            <button class="btn header-item waves-effect font-size-16">
+                                <a href="{% url 'accounts:add_branch' %}">No Branch Selected</a>
+                            </button>
+                            {% endif %}
+                            <ul class="dropdown-menu" aria-labelledby="branchDropdownButton">
+                                {% for branch in institute.branch.all %}
+                                <li>
+                                    <a href="#" class="dropdown-item" onclick="document.getElementById('branchForm_{{ branch.pk }}').submit();">
+                                        {{ branch.name }}
+                                        {% if branch.is_active %}
+                                            <span class="text-muted">(Active)</span>
+                                        {% endif %}
+                                    </a>
+                                    <form id="branchForm_{{ branch.pk }}" method="POST" action="{% url 'accounts:change_branch' %}" class="d-none">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="branch" value="{{ branch.pk }}">
+                                    </form>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 
                     <div class="d-flex align-items-center">
                         <div class="dropdown me-3">
+                            {% if active_session %}
                             <button class="btn header-item waves-effect font-size-16 dropdown-toggle" type="button" id="sessionDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                {% if active_session %}
-                                    {{ active_session.name }}
-                                {% else %}
-                                    No Active Session
-                                {% endif %}
+                                {{ active_session.name }}
                             </button>
+                            {% else %}
+                            <button class="btn header-item waves-effect font-size-16">
+                                <a href="{% url 'accounts:add_session' %}">No Active Session</a>
+                            </button>
+                            {% endif %}
                             <ul class="dropdown-menu" aria-labelledby="sessionDropdownButton">
                                 {% for session in institute.sessions.all %}
                                 <li>
@@ -274,7 +300,7 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                    </div>                
+                    </div>
                     <div class="dropdown d-inline-block profile">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle header-profile-user" src="{% static 'assets/images/jack.png' %}" alt="Header Avatar">
