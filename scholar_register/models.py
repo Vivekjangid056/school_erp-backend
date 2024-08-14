@@ -7,6 +7,7 @@ from institute.models import Caste, Category, ChildStatus, DiscountScheme, House
 class StudentParents(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE, related_name = "student_parent_id")
     institute = models.ForeignKey(Institute, on_delete = models.CASCADE, related_name="student_parent_id")
+    session = models.ForeignKey(AcademicSession, on_delete = models.CASCADE, related_name='student_parent_id')
     fathers_name = models.CharField(max_length=255)
     fathers_email = models.CharField(max_length=255,blank=True) #optional
     fathers_mob_no = models.CharField(max_length=255)
@@ -77,6 +78,7 @@ class StudentProfile(models.Model):
     )
 
     parent = models.ForeignKey(StudentParents, on_delete = models.CASCADE, related_name='student_id')
+    session = models.ForeignKey(AcademicSession, on_delete = models.CASCADE, related_name='student_id')
     branch = models.ForeignKey(InstituteBranch, on_delete = models.CASCADE, related_name = "student_branch")
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100,blank=True) #optional
@@ -88,7 +90,6 @@ class StudentProfile(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     nationality = models.ForeignKey(Nationality, on_delete=models.CASCADE)
     mother_tongue = models.ForeignKey(MotherToungue,on_delete=models.CASCADE)
-    session = models.CharField(max_length=100)
     form_no = models.BigIntegerField()
     date_of_admission = models.DateField()
     registration_date = models.DateField()

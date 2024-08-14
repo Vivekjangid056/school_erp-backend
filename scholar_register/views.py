@@ -9,24 +9,28 @@ from django.db import transaction
 # Create your views here.
 def student_list(request):
     # user_institute = request.user.institute_id.first() #or
-    user_institute = Institute.objects.get(user_id = request.user)
-# for fetching the data from a table which is not directly connected with the current table but its f
-# oreignkey table has a reference in the table then we user __
-    students = StudentProfile.objects.filter(parent__institute = user_institute) 
-    context = {
-        'students':students
-    }
-    return render(request, 'students_list.html',context=context)
+    if request.user.is_authenticated:
+        institute = Institute.objects.get(user_id = request.user)
+        active_session = AcademicSession.objects.filter(institute = institute , is_active = True).first()
+        print("active session",active_session)
+        if not active_session:
+            messages.warning(request,'No active session found.  Please create or activate a session.')
+            return StudentProfile.objects.none()
+            # for fetching the data from a table which is not directly connected with the current table but its f
+            # oreignkey table has a reference in the table then we user __
+        students = StudentProfile.objects.filter(parent__institute = institute, session = active_session) 
+        context = {
+            'students':students
+        }
+        return render(request, 'students_list.html',context=context)
 
 @transaction.atomic
 def student_register(request):
     user = request.user
-    print("::::::::::::::::::::::::::::::::::::;;", request.user.institute_id.first())
     if request.method == 'POST':
         parent_registered = request.POST.get('parent_registered')
         profile_form = StudentProfileForm(request.POST, request.FILES)
         fees_form = StudentFeesForm(request.POST)
-        print("Parent registered:", parent_registered)
 
         if parent_registered == 'yes':
             existing_parent_id = request.POST.get('existing_parent')
