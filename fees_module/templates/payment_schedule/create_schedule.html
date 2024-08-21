@@ -44,7 +44,7 @@
                 .then(response => response.json())
                 .then(data => {
                     var installmentFrequency = data.installment_frequency;
-                    var totalFee = parseFloat(data.fee_structure.total_fee);
+                    var totalFee = parseFloat(data.due_amount);
                     var amountPaid = parseFloat(amountPaidField.value) || 0;
                     var totalInstallments = installmentFrequency === 'Half-Yearly' ? 2 : installmentFrequency === 'Monthly' ? 12 : 1;
                     var installmentAmount = totalFee / totalInstallments;

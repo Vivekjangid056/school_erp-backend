@@ -69,11 +69,11 @@ class ParentProfileForm(forms.ModelForm):
 
 
 class StudentProfileForm(forms.ModelForm):
-    initial_fees_deposit = forms.DecimalField(max_digits=5, decimal_places=2)
+    initial_fees_deposit = forms.DecimalField(max_digits=10, decimal_places=2)
     class Meta:
         model = StudentProfile
         fields = ['first_name', 'last_name', 'form_no', 'date_of_admission', 'registration_date', 'stream', 
-                  'standard', 'section', 'date_of_deactivae', 'rte', 'bpl', 
+                  'standard', 'section', 'roll_number', 'date_of_deactivae', 'rte', 'bpl', 
                   'prefix', 'suffix', 'sr_no', 'reg_no', 'admission_no', 'enroll_no', 'nationality', 
                   'mother_tongue', 'middle_name', 'gender', 'dob', 'student_aadhar', 'caste', 'religion', 
                   'category', 'medium', 'rural_or_urban', 'disablity_type', 'blood_group', 'house_name', 
@@ -83,7 +83,7 @@ class StudentProfileForm(forms.ModelForm):
                   'percentage', 'result', 'previous_school_board', 'previous_school_rollNo', 
                   'previous_school_class', 'third_lang_studied', 'student_photo', 'fathers_photo', 
                   'mothers_photo', 'guardians_photo', 'caution_money', 'caution_money_reciept_no', 'caution_money_reciept_date', 
-                  'amount', 'initial_fees_deposit', 'counsellor_name', 'remark']
+                  'initial_fees_deposit', 'counsellor_name', 'remark']
         widgets = {
             'date_of_admission': forms.DateInput(attrs={'type': 'date'}),
             'registration_date': forms.DateInput(attrs={'type': 'date'}),
@@ -111,7 +111,7 @@ class StudentProfileForm(forms.ModelForm):
 class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedule
     class Meta:
         model = StudentFeePayment
-        fields = ['fee_structure', 'installment_frequency']        
+        fields = ['fee_structure', 'paying_amount', 'installment_frequency']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),

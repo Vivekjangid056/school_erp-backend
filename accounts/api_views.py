@@ -6,6 +6,7 @@ from .serializers import *
 from scholar_register.models import StudentProfile
 from django.contrib.auth.decorators import login_required
 from scholar_register.models import *
+from fees_module.models import PaymentSchedule, StudentFeePayment
 
 
 @api_view(['POST'])
@@ -25,18 +26,15 @@ def student_login_view(request):
                 'code': 200,
                 'message': 'Student profiles not found'
             })
-
-        parent_serializer = ParentSerializer(parent)
-        student_serializer = StudentSerializer(students)
+        student_serializer = StudentSerializer(students, context={'request': request})
 
         refresh = RefreshToken.for_user(user)
         return Response({
-            'access_token': str(refresh.access_token),
             'error': False,
             'code': 200,
             'data': {
+                'access_token': str(refresh.access_token),
                 'student': student_serializer.data,
-                'parent': parent_serializer.data
             },
             'message': 'Student login successful'
         }, status=status.HTTP_200_OK)
@@ -53,10 +51,11 @@ def student_login_view(request):
 # @login_required
 @api_view(['GET'])
 def student_dashboard_view(request):
+    # fees_date = 
     student_data ={
         'message':'student data fetched successfully',
         'code':200,
-        'status':True,
+        'error':False,
         'data' : {"fees_data": {'annual':40000, 'deposit':10000, 'total due': 30000},
                 'attendance_data' : {'total':30, 'present':22, 'absent':3, 'leaves':5},
                 'custom_menu' : "custom menu data"}

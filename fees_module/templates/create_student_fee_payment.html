@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-
 <div class="container">
-
     <fieldset>
         <legend class="card-header d-flex flex-vertical justify-content-center mb-3">
             {% if form.instance.pk %}
@@ -15,7 +13,6 @@
                 {% endif %}
         </legend>
     </fieldset>
-    
     <form method="post">
         {% csrf_token %}
         <div class="row ">
@@ -26,13 +23,14 @@
                {{form.fee_structure|as_crispy_field}}
             </div>
             <div class="col-md-4">
+                {{form.paying_amount|as_crispy_field}}
+            </div>
+            <div class="col-md-4">
                {{form.installment_frequency|as_crispy_field}}
             </div>
         </div>
         <hr>
         <button type="submit" class="btn btn-primary col-md-2">Save</button>
     </form>
-
 </div>
-
 {% endblock %}

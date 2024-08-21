@@ -99,6 +99,7 @@ class StudentProfile(models.Model):
     rte = models.BooleanField(default=False)
     bpl = models.BooleanField(default=False)
     # basic info
+    roll_number = models.CharField(max_length=10)
     prefix = models.CharField(max_length=100)
     suffix = models.CharField(max_length=100)
     sr_no = models.CharField(max_length=100)
@@ -152,7 +153,6 @@ class StudentProfile(models.Model):
     caution_money = models.IntegerField()
     caution_money_reciept_no = models.CharField(max_length=255,blank=True,null=True) #optional
     caution_money_reciept_date = models.DateField(null=True, blank=True) #optional
-    amount = models.IntegerField()
     counsellor_name = models.CharField(max_length=255)
     remark = models.CharField(max_length=255,blank=True,null=True) #optional
     
