@@ -38,7 +38,7 @@ class PaymentScheduleForm(forms.ModelForm):
 class StudentFeePaymentForm(forms.ModelForm):        # ui side its installement Schedule
     class Meta:
         model = StudentFeePayment
-        fields = ['student', 'fee_structure', 'installment_frequency']
+        fields = ['student', 'fee_structure', 'paying_amount', 'installment_frequency']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),

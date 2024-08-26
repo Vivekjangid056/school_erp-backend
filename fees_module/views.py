@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from accounts.models import AcademicSession, InstituteBranch
+from accounts.models import AcademicSession, Institute, InstituteBranch
 from fees_module.forms import FeeStructureForm, PaymentScheduleForm, StudentFeePaymentForm
 from fees_module.models import FeeStructure, PaymentSchedule, StudentFeePayment
 from django.views.decorators.http import require_GET
@@ -109,7 +109,7 @@ class FeeStructureUpdateView(UpdateView):
         # Add branches to the context
         context['branches'] = branches
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, "signature updated successfully!")
         return super().form_valid(form)
@@ -210,18 +210,59 @@ class PaymentScheduleDeleteView(DeleteView):
 #  <__________________Installement Views __________________________>  
 # create student fee payment
 def create_student_fee_payment(request):
+    institute = request.user.institute_id.first()
+    active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    form = StudentFeePaymentForm(user=request.user)
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects.')
+        return render(request, 'create_student_fee_payment.html', {'form': form})
+
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects.')
+        return render(request, 'create_student_fee_payment.html', {'form': form})
+
     if request.method == 'POST':
-        form = StudentFeePaymentForm(request.POST, user = request.user)
+        form = StudentFeePaymentForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
-            form.save()
+            student_fees = form.save(commit=False)
+            student_fees.branch = active_branch
+            student_fees.session = active_session
+            student_fees.save()
+            messages.success(request, 'Student fee payment created successfully.')
             return redirect('fees_module:student_fee_payment_list')
+        else:
+            messages.error(request, 'Form validation error. Please correct the errors and try again.')
     else:
-        form = StudentFeePaymentForm(user = request.user)
-    return render(request, 'create_student_fee_payment.html', {'form': form})
+        return render(request, 'create_student_fee_payment.html', {'form': form})
 
 # List Student Fee Payments
 def student_fee_payment_list(request):
-    student_fee_payments = StudentFeePayment.objects.all()
+    try:
+        # Get the institute related to the logged-in user
+        institute = get_object_or_404(Institute, user_id=request.user)
+        
+        # Get the active branch and session for the institute
+        active_branch = InstituteBranch.objects.get(institute=institute, is_active=True)
+        active_session = AcademicSession.objects.get(institute=institute, is_active=True)
+
+        # Filter the StudentFeePayment objects based on the active branch and session
+        student_fee_payments = StudentFeePayment.objects.filter(branch=active_branch, session=active_session)
+
+    except InstituteBranch.DoesNotExist:
+        messages.warning(request, 'No active branch found for your institute.')
+        return InstituteBranch.objects.none()
+    
+    except AcademicSession.DoesNotExist:
+        messages.warning(request, 'No active session found for your institute.')
+        return AcademicSession.objects.none()
+
+    except Exception as e:
+        messages.error(request, f'An unexpected error occurred: {str(e)}')
+        return InstituteBranch.objects.none()
+
+    # If everything is fine, render the template with filtered data
     return render(request, 'student_fee_payment_list.html', {'student_fee_payments': student_fee_payments})
 
 # update student fee payment
@@ -251,11 +292,18 @@ class StudentFeePaymentDetailView(View):
     def get(self, request, id):
         try:
             student_fee_payment = StudentFeePayment.objects.get(id=id)
+            payment_schedule = PaymentSchedule.objects.filter(student_fee_payment_id = id)
+            due_amounts = []
+            for i in payment_schedule:
+                due_amounts.append(i.due_amount)
+            print(due_amounts)
+            due_amount = min(due_amounts)
+            
+            print(payment_schedule)
+            print("student_fee_payment:::::::::::::::::::::;;",student_fee_payment)
             data = {
                 'installment_frequency': student_fee_payment.installment_frequency,
-                'fee_structure': {
-                    'total_fee': student_fee_payment.fee_structure.total_fee,
-                },
+                'due_amount': due_amount,
             }
             return JsonResponse(data)
         except StudentFeePayment.DoesNotExist:

@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import login
 from accounts.models import User
+from fees_module.models import PaymentSchedule
 from scholar_register.models import StudentProfile
 from .forms import *
 from django.contrib import messages
 from django.db import transaction
+import datetime
 
 # Create your views here.
 def student_list(request):
@@ -42,9 +44,6 @@ def student_register(request):
     active_branch = InstituteBranch.objects.filter(
         institute=institute, is_active=True).first()
     
-    print("active sessiuonjioerflsnkdgfs:::::::::::::::::::::::::::::",active_session)
-    print("active branchuonjioerflsnkdgfs:::::::::::::::::::::::::::::",active_branch)
-    
     parents = StudentParents.objects.filter(institute = request.user.institute_id.first())
     user_form = ParentUserCreationForm()
     parent_form = ParentProfileForm(user = user)
@@ -73,6 +72,9 @@ def student_register(request):
         parent_registered = request.POST.get('parent_registered')
         profile_form = StudentProfileForm(request.POST, request.FILES)
         fees_form = StudentFeesForm(request.POST)
+        paying_amount = request.POST.get('paying_amount')
+        initial_payment = request.POST.get('initial_fees_deposit')
+        due_amount = int(paying_amount) - int(initial_payment)
 
         if parent_registered == 'yes':
             existing_parent_id = request.POST.get('existing_parent')
@@ -102,11 +104,24 @@ def student_register(request):
                 profile.parent = parent
                 profile.branch = active_branch
                 profile.session =active_session
-                profile.save()
+                profile_form.save()
 
                 fees = fees_form.save(commit=False)
                 fees.student = profile  # Set the student here
-                fees.save()
+                fees.branch= active_branch
+                fees.session=active_session
+                fees_form.save()
+
+                payment_schedule_data = {
+                    'institute' : institute, 
+                    'session' : active_session,
+                    'branch' : active_branch,
+                    'student_fee_payment' : fees,
+                    'amount_paid' : initial_payment,
+                    'due_amount' : due_amount,
+                    'payment_date' : datetime.date.today()
+                }
+                payment_schedule = PaymentSchedule.objects.create(**payment_schedule_data)
 
                 messages.success(request, "Student registered successfully.")
                 return redirect('students:list_of_students')
@@ -132,7 +147,20 @@ def student_register(request):
 
                 fees = fees_form.save(commit=False)
                 fees.student = profile  # Set the student here
+                fees.branch = active_branch
+                fees.session=active_session
                 fees.save()
+
+                payment_schedule_data = {
+                    'institute' : institute, 
+                    'session' : active_session,
+                    'branch' : active_branch,
+                    'student_fee_payment' : fees,
+                    'amount_paid' : initial_payment,
+                    'due_amount' : due_amount,
+                    'payment_date' : datetime.date.today()
+                }
+                PaymentSchedule.objects.create(**payment_schedule_data)
 
                 messages.success(request, "Student and parent registered successfully.")
                 return redirect('students:list_of_students')

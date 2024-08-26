@@ -194,7 +194,7 @@ class AttendanceForm(forms.ModelForm):
         model = Attendance
         fields = ['standard', 'student',
                   'subject', 'date', 'present', 'absent']
-        exclude = ['institute']
+        exclude = ['institute', 'session', 'branch']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})
         }
@@ -464,6 +464,25 @@ class TimetableForm(forms.ModelForm):
                 branch=active_branch, session=active_session)
             self.fields['faculty'].queryset = Employee.objects.filter(
                 institute=self.user.institute_id.first())
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance
+    
+class CustomMenuForm(forms.ModelForm):
+    class Meta:
+        model = CustomMenu
+        fields = "__all__"
+        exclude = ['institute']
+    
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        print(self.user)
 
     def save(self, commit=True):
         instance = super().save(commit=False)

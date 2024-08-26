@@ -99,6 +99,7 @@ class StudentProfile(models.Model):
     rte = models.BooleanField(default=False)
     bpl = models.BooleanField(default=False)
     # basic info
+    roll_number = models.CharField(max_length=10)
     prefix = models.CharField(max_length=100)
     suffix = models.CharField(max_length=100)
     sr_no = models.CharField(max_length=100)
@@ -152,7 +153,6 @@ class StudentProfile(models.Model):
     caution_money = models.IntegerField()
     caution_money_reciept_no = models.CharField(max_length=255,blank=True,null=True) #optional
     caution_money_reciept_date = models.DateField(null=True, blank=True) #optional
-    amount = models.IntegerField()
     counsellor_name = models.CharField(max_length=255)
     remark = models.CharField(max_length=255,blank=True,null=True) #optional
     
@@ -161,6 +161,8 @@ class StudentProfile(models.Model):
 
 
 class Attendance(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name = 'ttendance_session')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='attendance_branch')
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name = 'attendance_student')
     subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='attendance_subject')
     standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='attendance_standard')
@@ -169,4 +171,4 @@ class Attendance(models.Model):
     absent = models.BooleanField(default=False)
     
     def __str__(self):
-        return f"{self.student.user.first_name} - {self.subject.name} - {self.date}"
+        return f"{self.student.first_name} - {self.subject.name} - {self.date} - {self.present}"
