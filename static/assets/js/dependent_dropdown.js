@@ -206,6 +206,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Time Table</span>
             </a>
+            <a href="${urls.customMenu}" class="waves-effect fw-bold">
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">Custom Menu</span>
+            </a>
             <!-- <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">SMS Templates</span>

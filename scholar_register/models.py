@@ -161,6 +161,8 @@ class StudentProfile(models.Model):
 
 
 class Attendance(models.Model):
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name = 'ttendance_session')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='attendance_branch')
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name = 'attendance_student')
     subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='attendance_subject')
     standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='attendance_standard')
@@ -169,4 +171,4 @@ class Attendance(models.Model):
     absent = models.BooleanField(default=False)
     
     def __str__(self):
-        return f"{self.student.user.first_name} - {self.subject.name} - {self.date}"
+        return f"{self.student.first_name} - {self.subject.name} - {self.date} - {self.present}"

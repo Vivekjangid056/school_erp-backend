@@ -292,12 +292,18 @@ class StudentFeePaymentDetailView(View):
     def get(self, request, id):
         try:
             student_fee_payment = StudentFeePayment.objects.get(id=id)
-            payment_schedule = PaymentSchedule.objects.get(student_fee_payment_id = id)
-            print(payment_schedule.due_amount)
+            payment_schedule = PaymentSchedule.objects.filter(student_fee_payment_id = id)
+            due_amounts = []
+            for i in payment_schedule:
+                due_amounts.append(i.due_amount)
+            print(due_amounts)
+            due_amount = min(due_amounts)
+            
+            print(payment_schedule)
             print("student_fee_payment:::::::::::::::::::::;;",student_fee_payment)
             data = {
                 'installment_frequency': student_fee_payment.installment_frequency,
-                'due_amount': payment_schedule.due_amount,
+                'due_amount': due_amount,
             }
             return JsonResponse(data)
         except StudentFeePayment.DoesNotExist:

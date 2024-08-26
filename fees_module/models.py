@@ -64,6 +64,6 @@ class PaymentSchedule(models.Model):
     payment_due_date = models.DateField(blank=True, null=True)
     
     def __str__(self):
-        return f"{self.student_fee_payment.student} - {self.amount_paid} on {self.payment_date}"
+        return f"{self.student_fee_payment.student} - {self.amount_paid} on {self.payment_date} and due amount is {self.due_amount}"
 
    

@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import User
 from scholar_register.models import *
+from institute.models import CustomMenu
 
 class StudentLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -73,3 +74,9 @@ class StudentSerializer(serializers.ModelSerializer):
                   'last_name', 'gender', 'dob', 'date_of_admission', 'standard', 'section','enroll_no', 
                   'address1', 'address2', 'pin', 'district', 'state','blood_group', 'house_name', 
                   'student_aadhar', 'student_photo', 'fathers_photo', 'mothers_photo']
+        
+
+class CustomMenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomMenu
+        fields = '__all__'

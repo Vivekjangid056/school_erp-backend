@@ -104,11 +104,13 @@ def student_register(request):
                 profile.parent = parent
                 profile.branch = active_branch
                 profile.session =active_session
-                profile.save()
+                profile_form.save()
 
                 fees = fees_form.save(commit=False)
                 fees.student = profile  # Set the student here
-                fees.save()
+                fees.branch= active_branch
+                fees.session=active_session
+                fees_form.save()
 
                 payment_schedule_data = {
                     'institute' : institute, 
@@ -145,6 +147,8 @@ def student_register(request):
 
                 fees = fees_form.save(commit=False)
                 fees.student = profile  # Set the student here
+                fees.branch = active_branch
+                fees.session=active_session
                 fees.save()
 
                 payment_schedule_data = {

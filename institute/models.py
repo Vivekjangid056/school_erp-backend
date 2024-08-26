@@ -387,3 +387,9 @@ class ChatMessage(models.Model):
     
     def __str__(self):
         return f"Message from {self.sender} to {self.receiver if self.is_individual else 'class'}"
+    
+class CustomMenu(models.Model):
+    institute = models.ForeignKey(Institute, on_delete = models.CASCADE, related_name='custom_menu_institute')
+    name = models.CharField(max_length = 100)
+    url = models.URLField()
+    image = models.ImageField(upload_to='gallery/',blank=True, null=True)

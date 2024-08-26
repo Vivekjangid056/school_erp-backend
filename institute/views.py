@@ -1749,6 +1749,8 @@ def attendance_view(request):
             absent = attendance_status == 'absent'
 
             Attendance.objects.update_or_create(
+                session_id=active_session.id,
+                branch_id=active_branch.id,
                 student_id=student_id,
                 subject_id=subject_id,
                 standard_id = standard_id,
@@ -2067,3 +2069,62 @@ def get_subjects(request):
     standard_id = request.GET.get('standard_id')
     subjects = Subjects.objects.filter(standard_id=standard_id, branch=active_branch, session=active_session).values('id', 'name')
     return JsonResponse({'subjects': list(subjects)})
+
+
+def add_custom_menu(request):
+    if request.method == 'POST':
+        menu_form = CustomMenuForm(request.POST, request.FILES, user=request.user)
+        if menu_form.is_valid():
+            custom_menu = menu_form.save(commit=False)
+            custom_menu.institute = request.user.institute_id.first()
+            custom_menu.save()  # Save the custom menu after setting the institute
+            return redirect('institute:list_of_custom_menu')  # Redirect to a success page or the list of custom menus
+    else:
+        form = CustomMenuForm(user=request.user)
+    
+    context = {
+        "form": form
+    }
+    return render(request, 'list_of_masters/lom_form.html', context=context)
+    
+
+def list_custom_menu(request):
+    institute = request.user.institute_id.first()
+    custom_menu_data = CustomMenu.objects.filter(institute=institute)
+    context = {
+        'custom_menu_data':custom_menu_data
+    }
+    return render(request, 'list_of_custom_menu.html', context=context)
+
+
+def update_custom_menu(request, pk):
+    custom_menu = get_object_or_404(CustomMenu, pk=pk)
+    
+    if request.method == 'POST':
+        menu_form = CustomMenuForm(request.POST, request.FILES, instance=custom_menu, user=request.user)
+        if menu_form.is_valid():
+            custom_menu = menu_form.save(commit=False)
+            custom_menu.institute = request.user.institute_id.first()
+            custom_menu.save()  # Save the updated custom menu
+            return redirect('institute:list_of_custom_menu')  # Redirect to a success page or the list of custom menus
+    else:
+        form = CustomMenuForm(instance=custom_menu, user=request.user)
+    
+    context = {
+        "form": form,
+        "custom_menu": custom_menu
+    }
+    return render(request, 'list_of_masters/lom_form.html', context=context)
+
+
+def delete_custom_menu(request, pk):
+    custom_menu = get_object_or_404(CustomMenu, pk=pk)
+    
+    if request.method == 'POST':
+        custom_menu.delete()
+        return redirect('institute:list_of_custom_menu')  # Redirect to the list of custom menus after deletion
+    
+    context = {
+        "custom_menu": custom_menu
+    }
+    return render(request, 'list_of_masters/lom_confirm_delete.html', context=context)

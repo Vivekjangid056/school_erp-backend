@@ -173,4 +173,12 @@ urlpatterns = [
     
     path('get-sections/', get_sections, name='get_sections'),
     path('get-subjects/', get_subjects, name='get_subjects'),
+    
+    # Custom Menu URLS
+    
+    path('add-custom-menu', add_custom_menu, name='add_custom_menu'),
+    path('list-custom-menu', list_custom_menu, name='list_of_custom_menu'),
+    path('update-custom-menu<int:pk>', update_custom_menu, name='update_custom_menu'),
+    path('delete-custom-menu<int:pk>', delete_custom_menu, name='delete_custom_menu'),
+    
 ]
