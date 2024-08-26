@@ -4,7 +4,8 @@ from accounts.models import Institute, User
 from hr.models import TimeTable
 from .models import ChatMessage, GalleryItems, NotificationModel
 from .serializers import ChatMessageSerializer, GallerySerializer, NotificationSerializer, TimeTableSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 @api_view(['GET', 'POST'])
@@ -12,7 +13,7 @@ def notification_list(request):
     if request.method == 'GET':
         notifications = NotificationModel.objects.all()
         if notifications:
-            serializer = NotificationSerializer(notifications, many=True, context={'request': request})
+            serializer = NotificationSerializer(notifications, many=True)
             data = {
                 'error': False,
                 'code': 200,

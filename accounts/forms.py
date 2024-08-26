@@ -84,8 +84,10 @@ class AcademicSessionForm(forms.ModelForm):
     class Meta:
         model = AcademicSession
         fields = "__all__"
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+        }
         exclude = ['institute', 'is_active']  # Exclude institute as it will be set programmatically
-
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)

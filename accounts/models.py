@@ -269,7 +269,7 @@ class AcademicSession(models.Model):
     )
     session_duration = models.IntegerField(
         choices=DURATION_CHOICES,
-        default=6,
+        default=12,
         help_text="Duration of the academic session in months"
     )
     start_date = models.DateField()

@@ -95,20 +95,7 @@ class StudentProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        active_session = AcademicSession.objects.filter(institute = self.user.institute_id.first(), is_active = True)
         if self.user:
-<<<<<<< HEAD
-            self.fields['caste'].queryset= Caste.objects.filter(institute = self.user.institute_id.first())
-            self.fields['religion'].queryset= Religion.objects.filter(institute = self.user.institute_id.first())
-            self.fields['category'].queryset= Category.objects.filter(institute = self.user.institute_id.first())
-            self.fields['nationality'].queryset= Nationality.objects.filter(institute = self.user.institute_id.first())
-            self.fields['mother_tongue'].queryset= MotherToungue.objects.filter(institute = self.user.institute_id.first())
-            self.fields['standard'].queryset= Standard.objects.filter(institute = self.user.institute_id.first())
-            self.fields['section'].queryset= Section.objects.filter(institute = self.user.institute_id.first())
-            self.fields['medium'].queryset= Medium.objects.filter(institute = self.user.institute_id.first())
-            self.fields['house_name'].queryset= House.objects.filter(institute = self.user.institute_id.first(), session = active_session)
-            self.fields['branch'].queryset = InstituteBranch.objects.filter(institute = self.user.institute_id.first())
-=======
             institute=self.user.institute_id.first()
             active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
             self.fields['caste'].queryset= Caste.objects.filter(institute = institute)
@@ -120,7 +107,6 @@ class StudentProfileForm(forms.ModelForm):
             self.fields['section'].queryset= Section.objects.filter(institute = institute)
             self.fields['medium'].queryset= Medium.objects.filter(institute = institute)
             self.fields['house_name'].queryset= House.objects.filter(institute = institute)
->>>>>>> 87655b10607cd7b9f99eaeb296ba6a380e997683
 
 class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedule
     class Meta:

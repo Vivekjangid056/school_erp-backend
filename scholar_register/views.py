@@ -9,22 +9,6 @@ from django.db import transaction
 # Create your views here.
 def student_list(request):
     # user_institute = request.user.institute_id.first() #or
-<<<<<<< HEAD
-    if request.user.is_authenticated:
-        institute = Institute.objects.get(user_id = request.user)
-        active_session = AcademicSession.objects.filter(institute = institute , is_active = True).first()
-        print("active session",active_session)
-        if not active_session:
-            messages.warning(request,'No active session found.  Please create or activate a session.')
-            return StudentProfile.objects.none()
-            # for fetching the data from a table which is not directly connected with the current table but its f
-            # oreignkey table has a reference in the table then we user __
-        students = StudentProfile.objects.filter(parent__institute = institute, session = active_session) 
-        context = {
-            'students':students
-        }
-        return render(request, 'students_list.html',context=context)
-=======
     institute = Institute.objects.get(user_id = request.user)
 # for fetching the data from a table which is not directly connected with the current table but its f
 # oreignkey table has a reference in the table then we user __
@@ -47,14 +31,11 @@ def student_list(request):
         'students':students
     }
     return render(request, 'students_list.html',context=context)
->>>>>>> 87655b10607cd7b9f99eaeb296ba6a380e997683
 
 @transaction.atomic
 def student_register(request):
 
     user = request.user
-<<<<<<< HEAD
-=======
     institute = Institute.objects.get(user_id=user)
     active_session = AcademicSession.objects.filter(
         institute=institute, is_active=True).first()
@@ -88,7 +69,6 @@ def student_register(request):
             request, "No active Branch found. Please activate a Branch to view Categories.")
         return render(request, 'student_form.html', context=context)
 
->>>>>>> 87655b10607cd7b9f99eaeb296ba6a380e997683
     if request.method == 'POST':
         parent_registered = request.POST.get('parent_registered')
         profile_form = StudentProfileForm(request.POST, request.FILES)
