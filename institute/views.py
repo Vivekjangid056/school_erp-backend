@@ -1187,12 +1187,15 @@ class ChildStatusDeleteView(DeleteView):
 # ============================================ working on role Element ==================================
 def permission_create(request, role_id):
     role = get_object_or_404(InstituteRole, id=role_id)
+    print("branch:::::::::::branch", role_id)
+    branch = InstituteBranch.objects.filter(id = role.institute.id)
     if request.method == 'POST':
         form = PermissionForm(request.POST)
         if form.is_valid():
             permission = form.save(commit=False)
             permission.role = role
-            permission.save()
+            permission.branch= branch
+            form.save()
             return redirect('update_role', role_id=role.id)
     return redirect('role_update', role_id=role.id)
 
@@ -1263,6 +1266,7 @@ def role_create(request):
 
                     permission, created = Permission.objects.get_or_create(
                         role=role,
+                        branch = active_branch,
                         menu=menu,
                         submenu=submenu,
                         supersubmenu=supersubmenu

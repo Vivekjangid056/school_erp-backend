@@ -72,7 +72,6 @@ class PermissionForm(forms.ModelForm):
         fields = ['menu', 'submenu', 'supersubmenu', 'can_add',
                   'can_edit', 'can_view', 'can_delete', 'can_print']
 
-
 # ==================================List Of Masters Forms ====================================
 class SignatureForm(forms.ModelForm):
     class Meta:

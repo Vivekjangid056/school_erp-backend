@@ -13,9 +13,6 @@
             <legend>Student Session Information</legend>
             <div class="row">
                 <div class="col-md-3">
-                    {{ profile_form.session|as_crispy_field }}
-                </div>
-                <div class="col-md-3">
                     {{ profile_form.form_no|as_crispy_field }}
                 </div>
                 <div class="col-md-3">
@@ -226,9 +223,6 @@
                 </div>
                 <div class="col-md-4">
                     {{ profile_form.initial_fees_deposit|as_crispy_field }}
-                </div>
-                <div class="col-md-4">
-                    {{ profile_form.amount|as_crispy_field }}
                 </div>
                 <div class="col-md-4">
                     {{ profile_form.counsellor_name|as_crispy_field }}

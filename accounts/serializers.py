@@ -74,7 +74,13 @@ class StudentSerializer(serializers.ModelSerializer):
                   'last_name', 'gender', 'dob', 'date_of_admission', 'standard', 'section','enroll_no', 
                   'address1', 'address2', 'pin', 'district', 'state','blood_group', 'house_name', 
                   'student_aadhar', 'student_photo', 'fathers_photo', 'mothers_photo']
-        
+
+
+class AllStudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentProfile
+        fields =['id', 'first_name', 'middle_name', 'last_name']
+
 
 class CustomMenuSerializer(serializers.ModelSerializer):
     class Meta:
