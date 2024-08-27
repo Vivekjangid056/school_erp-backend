@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from teacher_management.models import Employee, EmployeeMaster
 from institute.models import CustomMenu
 from .serializers import *
 from scholar_register.models import StudentProfile
@@ -29,8 +29,7 @@ def student_login_view(request):
                 'message': 'Student profiles not found'
             })
         student_serializer = StudentSerializer(students, context={'request': request})
-        all_childrens = StudentProfile.objects.filter(parent = parent)
-        all_childrens_serializer = AllStudentSerializer(all_childrens, many=True)
+        
 
         refresh = RefreshToken.for_user(user)
         return Response({
@@ -39,7 +38,6 @@ def student_login_view(request):
             'data': {
                 'access_token': str(refresh.access_token),
                 'student': student_serializer.data,
-                'all_childs': all_childrens_serializer.data
             },
             'message': 'Student login successful'
         }, status=status.HTTP_200_OK)
@@ -60,7 +58,6 @@ def student_dashboard_view(request):
     session_id = data.get('session_id')
     branch_id = data.get('branch_id')
     standard_id = data.get('standard_id')
-    section_id = data.get('section_id')
     
     # Check for required parameters
     if not (branch_id and session_id):
@@ -115,6 +112,12 @@ def student_dashboard_view(request):
     custom_menu_data = CustomMenuSerializer(custom_menu, context={'request':request}).data if custom_menu else None
     
     # Prepare the response data
+    # all childs data
+    student = StudentProfile.objects.get(id= student_id)
+    parent = StudentParents.objects.get(id = student.parent.id)
+
+    all_childs = StudentProfile.objects.filter(parent = parent)
+    all_childrens_serializer = AllStudentSerializer(all_childs, many=True, context={'request':request})
     student_data = {
         'message': 'Student data fetched successfully',
         'code': 200,
@@ -130,11 +133,68 @@ def student_dashboard_view(request):
                 'total_working_days': attendances.count(),
                 'present': present,
                 'absent': absent,
-                'holidays': 5  # Replace with actual holiday count if available
             },
-            'custom_menu': custom_menu_data
+            'custom_menu': custom_menu_data,
+            'all_childs': all_childrens_serializer.data
         }
     }
     
     return Response(student_data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def teacher_login_view(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+    
+    user = authenticate(request, username=email, password=password)
+
+    if user is not None:
+        try:
+            employee = Employee.objects.get(user=user)
+            data = EmployeeMaster.objects.get(employee_profile=employee.id)
+            
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            
+            # Get the image URL if user_image is an ImageField
+            image_url = employee.user_image.url if employee.user_image else None
+            
+            response_data = {
+                'id': employee.id,
+                'token': access_token,
+                'first_name': data.first_name,
+                'middle_name': employee.middle_name,
+                'last_name': data.last_name,
+                'image': image_url,
+                'email': employee.email,
+                'mobile': user.phone_number,
+            }
+            
+            return Response({
+                'code': 200,
+                'error': False,
+                'message': 'Successfully logged in',
+                'data': response_data
+            })
+        except Employee.DoesNotExist:
+            return Response({
+                'code': 200,
+                'error': True,
+                'message': 'Employee profile not found'
+            })
+    else:
+        return Response({
+            'code': 200,
+            'error': True,
+            'message': 'Invalid credentials'
+        })
+        
+@api_view(['POST'])
+def teacher_logout_view(request):
+    return Response({
+        'code' : 200,
+        'error' : False,
+        'message' : 'Logged Out Successfully'
+    })
 

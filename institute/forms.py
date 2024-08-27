@@ -307,7 +307,7 @@ class EmployeeProfileForm(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ['employee_details', 'staff_role', 'middle_name',
-                  'nick_name', 'position', 'confirm_email', 'user_image']
+                  'nick_name', 'position', 'email', 'user_image']
         # 'institute' is excluded from fields
 
     def __init__(self, *args, **kwargs):

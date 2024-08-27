@@ -11,6 +11,7 @@ from rest_framework import status
 @api_view(['GET', 'POST'])
 def notification_list(request):
     if request.method == 'GET':
+        print(request.user)
         notifications = NotificationModel.objects.all()
         if notifications:
             serializer = NotificationSerializer(notifications, many=True)
@@ -191,50 +192,6 @@ def timetable_list(request):
         'message': 'Time Table fetched successfully',
         'data': response_data
     })
-    
-# @api_view(['GET'])        
-# def timetable_list(request):
-#     standard_id = request.GET.get('standard_id')  # Get the standard ID from the request
-    
-#     if not standard_id:
-#         return Response({
-#             'status': 400,
-#             'error': True,
-#             'message': 'Standard ID is required'
-#         }, status=400)
-    
-    
-#     days_of_week = {
-#         'Monday': 'MON',
-#         'Tuesday': 'TUE',
-#         'Wednesday': 'WED',
-#         'Thursday': 'THU',
-#         'Friday': 'FRI',
-#         'Saturday': 'SAT',
-#         'Sunday': 'SUN'
-#     }
-    
-#     # Filter timetable entries by standard ID
-#     timetables = TimeTable.objects.filter(standard_id=standard_id)
-    
-#     # Organize data by day of the week and then by standard
-#     response_data = defaultdict(lambda: defaultdict(list))
-    
-#     for display_name, db_value in days_of_week.items():
-#         filtered_timetables = timetables.filter(day_of_week=db_value)
-#         serializer = TimeTableSerializer(filtered_timetables, many=True)
-#         for timetable in serializer.data:
-#             standard = timetable.pop('standard')
-#             response_data[display_name][standard].append(timetable)
-    
-#     return Response({
-#         'status': 200,
-#         'error': False,
-#         'message': 'Time Table fetched successfully',
-#         'data': response_data
-#     })
-
-
 
 # api view for chat application
 

@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from .models import User
 from scholar_register.models import *
 from institute.models import CustomMenu
+from teacher_management.models import Employee
 
 class StudentLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -85,4 +86,11 @@ class AllStudentSerializer(serializers.ModelSerializer):
 class CustomMenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomMenu
+        fields = '__all__'
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Employee
         fields = '__all__'

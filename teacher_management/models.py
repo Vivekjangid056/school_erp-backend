@@ -65,6 +65,7 @@ class LmHolidayList(models.Model):
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='lm_holiday_list_branch')
     session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='lm_holiday_list_session')
     code = models.CharField(max_length=100)
+    date = models.DateField()
     name = models.CharField(max_length=100)
     description = models.TextField()
 
@@ -212,7 +213,7 @@ class Employee(models.Model):
     middle_name = models.CharField(max_length=100 , blank=True)   #optional
     nick_name = models.CharField(max_length=50,blank=True) #optional
     position = models.CharField(max_length=50,blank=True)   #optional
-    confirm_email= models.EmailField(max_length= 200, null=True, blank=True)
+    email= models.EmailField(max_length= 200, null=True, blank=True)
     user_image = models.ImageField(upload_to='images/',blank=True,null=True)  #optional
     
     def __str__(self):
