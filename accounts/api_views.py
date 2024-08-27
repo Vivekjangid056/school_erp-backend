@@ -59,7 +59,8 @@ def student_dashboard_view(request):
     student_id = data.get('student_id')
     session_id = data.get('session_id')
     branch_id = data.get('branch_id')
-    subject_id = data.get('subject_id')
+    standard_id = data.get('standard_id')
+    section_id = data.get('section_id')
     
     # Check for required parameters
     if not (branch_id and session_id):
@@ -93,7 +94,7 @@ def student_dashboard_view(request):
     
     # Get attendance information
     attendances = Attendance.objects.filter(
-        subject_id=subject_id, student_id=student_id, session_id=session_id, branch_id=branch_id
+        standard_id = standard_id, student_id=student_id, session_id=session_id, branch_id=branch_id
     )
     
     present = attendances.filter(present=True).count()
@@ -111,7 +112,7 @@ def student_dashboard_view(request):
             'data': {}
         })
 
-    custom_menu_data = CustomMenuSerializer(custom_menu).data if custom_menu else None
+    custom_menu_data = CustomMenuSerializer(custom_menu, context={'request':request}).data if custom_menu else None
     
     # Prepare the response data
     student_data = {

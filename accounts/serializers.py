@@ -70,7 +70,7 @@ class StudentSerializer(serializers.ModelSerializer):
     house_name = HouseSerializer(read_only=True)
     class Meta:
         model=StudentProfile
-        fields = ['parent', 'branch', 'session' , 'sr_no', 'roll_number', 'first_name', 'middle_name', 
+        fields = ['id','parent', 'branch', 'session' , 'sr_no', 'roll_number', 'first_name', 'middle_name',
                   'last_name', 'gender', 'dob', 'date_of_admission', 'standard', 'section','enroll_no', 
                   'address1', 'address2', 'pin', 'district', 'state','blood_group', 'house_name', 
                   'student_aadhar', 'student_photo', 'fathers_photo', 'mothers_photo']
