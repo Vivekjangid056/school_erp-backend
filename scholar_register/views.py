@@ -207,8 +207,10 @@ def student_update(request, pk):
     
     if request.method == 'POST':
         profile_form = StudentProfileForm(request.POST, request.FILES, instance=student_profile, user=request.user)
+        print("jhgDHFBASMFASDFSGDHJF::::::::::::::::::::")
         
         if profile_form.is_valid():
+            print("form is valid :::::::::::::::::::::::::::;")
             try:
                 profile_form.save()
                 messages.success(request, "Student profile updated successfully.")
@@ -216,7 +218,8 @@ def student_update(request, pk):
             except Exception as e:
                 messages.error(request, f"Error saving form: {e}")
         else:
-            messages.error(request, "Please correct the errors in the form.")
+            print(messages.error(request, "Please correct the errors in the form.", profile_form.errors))
+            print(profile_form.errors)
     
     else:
         profile_form = StudentProfileForm(instance=student_profile, user=request.user)
