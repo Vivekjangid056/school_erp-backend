@@ -29,8 +29,8 @@ urlpatterns = [
     path("dashboard/", include("fees_module.urls")),
 
     # registering the corresponding api urls files
-    path("dashboard/api/", include('institute.api_urls')),
-    path("dashboard/api/", include('scholar_register.api_urls')),
+    path("api/", include('institute.api_urls')),
+    path("api/", include('scholar_register.api_urls')),
     # path("dashboard/api/", include('teacher_management.api_urls')),
     path("api/", include('accounts.api_urls')),
     path("dashboard/", include("hr.urls")),

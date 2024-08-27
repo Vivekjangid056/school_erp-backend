@@ -202,22 +202,32 @@ def student_register(request):
     
     return render(request, 'students_form.html', context)
 
-def student_update(request,pk):
-        student_profile = get_object_or_404(StudentProfile, pk=pk)
-        if request.method == 'POST':
-            profile_form = StudentProfileForm(request.POST, instance=student_profile)
-            if profile_form.is_valid():
-                try:
-                    profile = profile_form.save(commit=False)
-                    profile.save()
-                    return redirect('students:list_of_students')
-                except Exception as e:
-                    print(f"Error saving form: {e}")
+def student_update(request, pk):
+    student_profile = get_object_or_404(StudentProfile, pk=pk)
+    
+    if request.method == 'POST':
+        profile_form = StudentProfileForm(request.POST, request.FILES, instance=student_profile, user=request.user)
+        print("jhgDHFBASMFASDFSGDHJF::::::::::::::::::::")
+        
+        if profile_form.is_valid():
+            print("form is valid :::::::::::::::::::::::::::;")
+            try:
+                profile_form.save()
+                messages.success(request, "Student profile updated successfully.")
+                return redirect('students:list_of_students')
+            except Exception as e:
+                messages.error(request, f"Error saving form: {e}")
         else:
-            profile_form = StudentProfileForm(instance=student_profile)
-        return render(request,'students_update.html',{
-            'profile_form': profile_form
-        })
+            print(messages.error(request, "Please correct the errors in the form.", profile_form.errors))
+            print(profile_form.errors)
+    
+    else:
+        profile_form = StudentProfileForm(instance=student_profile, user=request.user)
+
+    return render(request, 'students_update.html', {
+        'profile_form': profile_form
+    })
+
 def student_delete(request, pk):
     student_profile = get_object_or_404(StudentProfile, pk=pk)
     user = student_profile.parent.user
