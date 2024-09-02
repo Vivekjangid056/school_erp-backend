@@ -198,3 +198,6 @@ def teacher_logout_view(request):
         'message' : 'Logged Out Successfully'
     })
 
+@api_view(['POST'])
+def teacher_dashboard(request):
+    data = request.data

@@ -1425,6 +1425,7 @@ def update_employee(request, pk):
                 user = user_form.save(commit=False)
                 user.set_password(user_form.cleaned_data["password1"])
                 user.save()
+                user_form.save()
             except Exception as e:
                 print(e)
 
@@ -1441,9 +1442,14 @@ def update_employee(request, pk):
         return render(request, 'employee/update_employee.html', {'user_form': user_form, 'profile_form': profile_form})
 
 # Delete Employee data
-class EmployeeDeleteView(DeleteView):
-    model = Employee
-    success_url = reverse_lazy('institute:list_of_employees')
+def employee_delete(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    user = employee.user
+    employee.delete()
+    user.delete()
+    return redirect('institute:list_of_employees')
+
+    
 
 # ===================================== Notification CRUD ============================================
 def notification_create_view(request):

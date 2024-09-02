@@ -66,6 +66,9 @@ class LmHolidayListForm(forms.ModelForm):
         model = LmHolidayList
         fields = "__all__"
         exclude = ['institute', 'branch', 'session']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'})
+            }
     
 class EmployeeMasterForm(forms.ModelForm):
     class Meta:
