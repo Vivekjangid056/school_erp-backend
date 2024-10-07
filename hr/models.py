@@ -106,8 +106,20 @@ class HrInterview(models.Model):
     status = models.CharField(choices=STATUS_CHOICES)
     overall_comment = models.CharField(max_length=255)
     remark = models.CharField(max_length=100)
+
     
-    
+class ClassTimePeriod(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='class_time_period_institute')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'class_time_period_branch')
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='class_time_period_session')
+    period_no = models.IntegerField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    def __str__(self):
+        return str(self.period_no)
+
+
 class TimeTable(models.Model):
     DAYS_OF_WEEK = [
         ('MON', 'Monday'),
@@ -121,15 +133,12 @@ class TimeTable(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='timetable')
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='timetable_branch')
     session=models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='timetable_session')
+    period = models.ForeignKey(ClassTimePeriod, on_delete=models.CASCADE, related_name='time_table_period')
     standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='timetable')
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='timetable')
     subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='timetable')
     faculty = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='timetable')
     day_of_week = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
-    period_no = models.IntegerField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
 
-    
     def __str__(self):
-        return f"{self.faculty.user.first_name}{self.standard.name} {self.section.name} - {self.subject.name} - {self.day_of_week} Period {self.period_no}"    
+        return f"{self.faculty.user.first_name}{self.standard.name} {self.section.name} - {self.subject.name} - {self.day_of_week} Period {self.period}"

@@ -2,7 +2,6 @@ from django.db import models
 from django.core.validators import RegexValidator
 from colorfield.fields import ColorField
 from institute.models import *
-from institute.models import Category
 from accounts.models import *
 
 # Create your models here.
@@ -11,7 +10,6 @@ from accounts.models import *
 class LmCategoryMaster(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmcategory')
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'lm_category_branch')
-    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name = 'lm_category_session')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     
@@ -21,7 +19,6 @@ class LmCategoryMaster(models.Model):
 class LmDesignationMaster(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmdesignation')
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'lm_designation_branch')
-    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name = 'lm_designation_session')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     
@@ -31,7 +28,6 @@ class LmDesignationMaster(models.Model):
 class LmDepartmentMaster(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name= 'lmdepartment')
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'lm_department_branch')
-    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name = 'lm_department_session')
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)    
     
@@ -51,7 +47,6 @@ class LmAttendanceType(models.Model):
     ]
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='lm_attendace_type')
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='lm_attendance_type_branch')
-    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='lm_attendance_type_session')
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
     nature = models.CharField(max_length=100,choices=NATURE_CHOICES,default=PRESENT)
@@ -65,10 +60,11 @@ class LmHolidayList(models.Model):
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='lm_holiday_list_branch')
     session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='lm_holiday_list_session')
     code = models.CharField(max_length=100)
+    date = models.DateField()
     name = models.CharField(max_length=100)
     description = models.TextField()
 
-class EmployeeMaster(models.Model):
+class Employee(models.Model):
     MALE = '1'
     FEMALE = '2'
     OTHER = '3'
@@ -122,9 +118,11 @@ class EmployeeMaster(models.Model):
     ]
 
     # ========================= Basic Informations ========================================
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='institute')
-    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='employee_master_branch')
-    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='employee_master_session')
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='employee_institute')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='employee_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='employee_session')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="employee_user")
+    staff_role = models.ForeignKey(InstituteRole, on_delete=models.CASCADE, related_name = 'employee_staff_role')
     prefix = models.CharField(max_length=10)
     emp_no = models.CharField(max_length=10)
     join_date = models.DateField(auto_created=True)
@@ -135,7 +133,7 @@ class EmployeeMaster(models.Model):
     father_name = models.CharField(max_length= 200)
     mother_name = models.CharField(max_length= 200)
     date_of_birth = models.DateField()
-    category_cast= models.ForeignKey(Category, on_delete= models.CASCADE)
+    category_cast= models.ForeignKey(Category, on_delete= models.CASCADE, related_name='employee_category_cast')
     pan_no = models.CharField(max_length= 10)
     aadhar_no = models.CharField(max_length= 12)
     marital_status = models.CharField(choices=MARITAL_STATUS_CHOICES, default= SINGLE)
@@ -148,15 +146,20 @@ class EmployeeMaster(models.Model):
     address_line_2 = models.CharField(max_length= 200, null=True, blank= True)
     city = models.CharField(max_length= 200)
     state = models.CharField(max_length= 200)
-    pin = models.CharField(max_length= 6)
+    pin = models.CharField(
+        max_length=6,
+        validators=[
+            RegexValidator(regex='^\d{6}$', message='PIN must be 6 digits.')
+        ]
+    )
     mobile_number = models.CharField(max_length= 200)
     office_contact = models.CharField(max_length= 200)
-    email = models.EmailField(max_length= 200)
+    personal_email = models.EmailField(max_length= 200)
 
     # ========================== Official Information =====================================
-    department = models.ForeignKey(LmDepartmentMaster, on_delete=models.CASCADE)
-    designation = models.ForeignKey(LmDesignationMaster, on_delete=models.CASCADE)
-    category = models.ForeignKey(LmCategoryMaster, on_delete=models.CASCADE, related_name='employee_master')
+    department = models.ForeignKey(LmDepartmentMaster, on_delete=models.CASCADE, related_name='employee_department')
+    designation = models.ForeignKey(LmDesignationMaster, on_delete=models.CASCADE, related_name="employee_category")
+    category = models.ForeignKey(LmCategoryMaster, on_delete=models.CASCADE, related_name='employee_category')
     # Reporting_authority = models.ForeignKey(max_length= 200)
     roll_no_10th = models.CharField(max_length= 200, null=True, blank= True)
     board_year_10th = models.CharField(max_length= 200, null=True, blank= True)
@@ -182,7 +185,7 @@ class EmployeeMaster(models.Model):
 
     # ============================ License Information ====================================
     driving_license_no = models.CharField(max_length= 200)
-    drivint_license_issue_date = models.DateField()
+    driving_license_issue_date = models.DateField()
     driving_license_expiry_date = models.DateField()
     driving_license_issue_palace = models.CharField(max_length= 200)
     # employee_level = models.ForeignKey(max_length= 200)
@@ -192,9 +195,9 @@ class EmployeeMaster(models.Model):
 
     def __str__(self):
         return f"[{self.first_name} {self.last_name} | Emp No: ({self.prefix}{self.emp_no}) | Father Name : {self.father_name}]"
-    
+
 class EmployeeAttendance(models.Model):
-    employee = models.ForeignKey(EmployeeMaster, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='employee_attendance_branch')
     session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='employee_attendance_session')
     date = models.DateField()
@@ -202,18 +205,30 @@ class EmployeeAttendance(models.Model):
     absent = models.BooleanField(default=False)    
 
 
-class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee_profile')
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name="employee_profile")
-    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='employee_branch')
-    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='employee_session')
-    employee_details = models.OneToOneField(EmployeeMaster, on_delete= models.CASCADE, related_name='employee_profile')
-    staff_role =  models.ForeignKey(InstituteRole, on_delete= models.CASCADE)
-    middle_name = models.CharField(max_length=100 , blank=True)   #optional
-    nick_name = models.CharField(max_length=50,blank=True) #optional
-    position = models.CharField(max_length=50,blank=True)   #optional
-    confirm_email= models.EmailField(max_length= 200, null=True, blank=True)
-    user_image = models.ImageField(upload_to='images/',blank=True,null=True)  #optional
-    
-    def __str__(self):
-        return self.employee_details.first_name
+class LiveClass(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='live_class_institute')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='live_class_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='live_class_session')
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='live_class_employee')
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='live_class_standard')
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='live_class_section')
+    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='live_class_subjects')
+    class_date = models.DateField(null=True, blank=True)
+    class_time = models.TimeField(null=True, blank=True)
+    chapter = models.CharField(max_length=200, null=True, blank=True)
+    message = models.CharField(max_length=200, null=True, blank=True)
+
+
+class Assignments(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='assignment_institute')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='assignment_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='assignment_session')
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='assignment_employee')
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, related_name='assignment_standard')
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='assignment_section')
+    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='assignment_subjects')
+    title = models.CharField(max_length=40)
+    submission_date = models.DateField(null=True, blank=True)
+    message = models.CharField(max_length=200, null=True, blank=True)
+    attachment = models.FileField(upload_to='documents/', max_length=100)
+

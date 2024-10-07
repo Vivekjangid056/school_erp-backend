@@ -24,6 +24,7 @@ class FeeStructureCreateView(CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['session'] = self.request.session
         return kwargs
     
     def form_valid(self, form):
@@ -31,14 +32,17 @@ class FeeStructureCreateView(CreateView):
     
         # Get the active session
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active=True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.error(self.request, "No active session found. Please create or activate a session.")
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
+        
         if not active_branch:
-            messages.error(self.request, "No active branch found. Please create or activate a branch.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
+            return self.form_invalid(form)
     
         # Assign the institute and session fields
         fees.institute = institute
@@ -63,8 +67,10 @@ class FeeStructureListView(ListView):
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
 
             if not active_session:
                 messages.warning(self.request, "No active session found. Please activate a session to view Fee Structure.")
@@ -128,9 +134,10 @@ def payment_schedule_create(request):
             
             # Get the active session
             institute = request.user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
-
+            branch= request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
+            session=request.session.get('session_id')
+            active_session=AcademicSession.objects.get(pk=session)
             if not active_session:
                 messages.error(request, "No active session found. Please create or activate a session.")
                 return render(request, 'payment_schedule/create_schedule.html', {'form': form})
@@ -165,9 +172,10 @@ class PaymentScheduleListView(ListView):
     def get_queryset(self):
         # Get the active session and branch for the current user's institute
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-        active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         # Handle case where there's no active session or branch
         if not active_session:
             messages.warning(self.request, "No active session found. Please activate a session to view payment schedules.")
@@ -210,9 +218,10 @@ class PaymentScheduleDeleteView(DeleteView):
 #  <__________________Installement Views __________________________>  
 # create student fee payment
 def create_student_fee_payment(request):
-    institute = request.user.institute_id.first()
-    active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
     form = StudentFeePaymentForm(user=request.user)
 
     if not active_session:
@@ -224,7 +233,7 @@ def create_student_fee_payment(request):
         return render(request, 'create_student_fee_payment.html', {'form': form})
 
     if request.method == 'POST':
-        form = StudentFeePaymentForm(request.POST, request.FILES, user=request.user)
+        form = StudentFeePaymentForm(request.POST, request.FILES, user=request.user, session=request.session)
         if form.is_valid():
             student_fees = form.save(commit=False)
             student_fees.branch = active_branch
@@ -244,8 +253,10 @@ def student_fee_payment_list(request):
         institute = get_object_or_404(Institute, user_id=request.user)
         
         # Get the active branch and session for the institute
-        active_branch = InstituteBranch.objects.get(institute=institute, is_active=True)
-        active_session = AcademicSession.objects.get(institute=institute, is_active=True)
+        branch= request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
+        session= request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
 
         # Filter the StudentFeePayment objects based on the active branch and session
         student_fee_payments = StudentFeePayment.objects.filter(branch=active_branch, session=active_session)

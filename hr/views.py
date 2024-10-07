@@ -15,8 +15,10 @@ def interview_list(request):
     user = request.user
     institute = user.institute_id.first()
 
-    active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(institute=institute, is_active = True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(request, "No active session found. Please activate a session to view interviews.")
@@ -38,10 +40,11 @@ def interview_list(request):
 def interview_register(request):
     if request.method == 'POST':
         user = request.user
-        institute = user.institute_id.first()
-        interview_form = HrInterviewForm(request.POST, request.FILES, user = request.user)
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+        interview_form = HrInterviewForm(request.POST, request.FILES, user = request.user, session = request.session)
+        branch= request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
+        session= request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
         if not active_session:
             messages.warning(request, "No active session found. Please create or activate a session.")
             return HrInterview.objects.none()
@@ -72,7 +75,7 @@ def interview_update(request, pk):
         hr_interview = get_object_or_404(HrInterview, pk=pk)
         
         if request.method == 'POST':
-            interview_form = HrInterviewForm(request.POST, request.FILES, instance=hr_interview)
+            interview_form = HrInterviewForm(request.POST, request.FILES, instance=hr_interview, user=request.user, session=request.session)
             
             if interview_form.is_valid():
                 try:

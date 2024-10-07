@@ -1,321 +1,446 @@
+from django.conf import settings
+from django.http import JsonResponse
+import jwt
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from accounts.models import Institute, User
+from django.db.models import Q
 from hr.models import TimeTable
+from scholar_register.models import StudentParents
 from .models import ChatMessage, GalleryItems, NotificationModel
-from .serializers import ChatMessageSerializer, GallerySerializer, NotificationSerializer, TimeTableSerializer
+from .serializers import *
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from django.core.exceptions import ObjectDoesNotExist
 
-@api_view(['GET', 'POST'])
-def notification_list(request):
-    if request.method == 'GET':
-        notifications = NotificationModel.objects.all()
-        if notifications:
-            serializer = NotificationSerializer(notifications, many=True)
-            data = {
-                'error': False,
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_notifications(request):
+    data = request.data
+    type = data.get("type")
+    if type == "student":
+        notifications = NotificationModel.objects.filter(
+            Q(receiver__contains="all_students"))
+        if not notifications:
+            response_data = {
+                'error': True,
                 'code': 200,
-                'message': "Notifications fetched successfully",
-                'data': serializer.data
+                'data': {},
+                'message': 'No notification Here'
             }
-            return Response(data, status=status.HTTP_200_OK)
+            return Response(response_data)
         else:
-            data = {
-                'status': False,
-                'code': 404,
-                'message': "Notifications not found"
-            }
-            return Response(data, status=status.HTTP_404_NOT_FOUND)
-    
-    elif request.method == 'POST':
-        serializer = NotificationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            data = {
-                'status': True,
-                'code': 201,
-                'data': serializer.data,
-                'message': "Notification created successfully"
-            }
-            return Response(data, status=status.HTTP_201_CREATED)
-        data = {
-            'status': False,
-            'code': 400,
-            'errors': serializer.errors,
-            'message': "Failed to create notification"
-        }
-        return Response(data, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def notification_detail(request, pk):
-    try:
-        notification = NotificationModel.objects.get(pk=pk)
-    except NotificationModel.DoesNotExist:
-        data = {
-            'error': True,
-            'code': 404,
-            'message': "Notification with given id is not found"
-        }
-        return Response(data, status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = NotificationSerializer(notification)
-        data = {
-            'error': False,
-            'code': 200,
-            'message': "Notification fetched successfully",
-            'data': serializer.data
-        }
-        return Response(data, status=status.HTTP_200_OK)
-
-    elif request.method == 'PUT':
-        serializer = NotificationSerializer(notification, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            data = {
+            notification_serializer = NotificationSerializer(
+                notifications, many=True, context={"request": request})
+            response_data = {
                 'error': False,
                 'code': 200,
-                'message': "Notification updated successfully",
-                'data': serializer.data
+                'data': {
+                    'notifications': notification_serializer.data,
+                },
+                'message': 'Notification Fetched Successfully'
             }
-            return Response(data, status=status.HTTP_200_OK)
-        data = {
-            'error': True,
-            'code': 400,
-            'errors': serializer.errors,
-            'message': "Failed to update notification"
-        }
-        return Response(data, status=status.HTTP_400_BAD_REQUEST)
+            return Response(response_data)
 
-    elif request.method == 'DELETE':
-        notification.delete()
-        data = {
-            'error': False,
-            'code': 200,
-            'message': "Notification deleted successfully"
-        }
-        return Response(data, status=status.HTTP_200_OK)
-    
-    
-# @api_view(['GET'])
-# def gallery_list(request):
-#     if request.method == 'GET':
-#         gallery = GalleryItems.objects.all()
-        
-#         serializer = GallerySerializer(gallery, many = True, context={'request': request})
-        
-        
-#         data = {
-#             'code':200,
-#             'error':False,
-#             'data':serializer.data,
-#         }
-#         return Response(data, status=status.HTTP_200_OK)
-
-
-# following api is for custom grouping , like all images , videos , and urls
-@api_view(['GET'])
-def gallery_list(request):
-    if request.method == 'GET':
-        gallery = GalleryItems.objects.all()
-        
-        # filter the gallery items based on the presence of media types
-        images = gallery.filter(image__isnull=False)
-        videos = gallery.filter(video__isnull=False) | gallery.filter(url_tag__isnull=False)  # Combine video and URL items
-        
-        # serialize each media type separately
-        image_serializer = GallerySerializer(images, many=True, context={'request': request})
-        video_serializer = GallerySerializer(videos, many=True, context={'request': request})
-        
-        data = {
-            'image': [{'name': item['name'], 'image': item['image']} for item in image_serializer.data],
-            'video': [
-                {
-                    'name': item['name'],
-                    'video': item['video'] if item['video'] else None,
-                    'url': item['url_tag'] if item['url_tag'] else None
-                } for item in video_serializer.data
-            ]
-        }
-        
+    elif type == "teacher":
+        notifications = NotificationModel.objects.filter(
+            Q(receiver__contains="all_teachers"))
+        if not notifications:
+            response_data = {
+                'error': True,
+                'code': 200,
+                'data': {},
+                'message': 'No notification Here'
+            }
+            return Response(response_data)
+        else:
+            notification_serializer = NotificationSerializer(
+                notifications, many=True, context={"request": request})
+            response_data = {
+                'error': False,
+                'code': 200,
+                'data': {
+                    'notifications': notification_serializer.data,
+                },
+                'message': 'Notification Fetched Successfully'
+            }
+            return Response(response_data)
+    else:
         return Response({
-            'status': 200,
-            'error': False,
-            'message': 'gallery list fetched successfully',
-            'data': data
+            'error': True,
+            'code': 200,
+            'data': {},
+            'message': "Invalid Type Sent please only 'teacher' and 'student' are accepted"
         })
-        
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def gallery_items_view(request):
+    # Extract data from request body
+    institute_id = request.data.get('institute_id')
+    branch_id = request.data.get('branch_id')
+    session_id = request.data.get('session_id')
+
+    if not (institute_id and branch_id and session_id):
+        return Response({
+            'code': 400,
+            'error': True,
+            'message': 'institute id, branch id and session id is required',
+            'data': {}
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    # Filter GalleryItems based on the provided data
+    gallery_items = GalleryItems.objects.filter(
+        institute_id=institute_id,
+        branch_id=branch_id,
+        session_id=session_id
+    )
+
+    # Serialize the data
+    serializer = GalleryItemSerializer(
+        gallery_items, many=True, context={'request': request})
+
+    # Separate serialized data into images, videos, and URLs (YouTube links)
+    image_data = []
+    video_data = []
+    url_data = []
+
+    for item in serializer.data:
+        if item['image_url']:
+            image_data.append(
+                {'id': item['id'], 'name': item['name'], 'type': 'image', 'url': item['image_url']})
+        elif item['video_url']:
+            video_data.append(
+                {'id': item['id'], 'name': item['name'], 'type': 'video', 'url': item['video_url']})
+        elif item['url_tag']:
+            url_data.append({'id': item['id'], 'name': item['name'],
+                            'type': 'you_tube_link', 'url': item['url_tag']})
+
+    # Format the response
+    response_data = {
+        'code': 200,
+        'error': False,
+        'message': 'Image and video data fetched successfully',
+        'data': {
+            'images': image_data,
+            'videos': video_data,
+            'url': url_data
+        }
+    }
+
+    return Response(response_data)
+
 # API for time table
 
-@api_view(['GET'])
-def timetable_list(request):
-    standard_id = request.GET.get('standard_id')  # Get the standard ID from the request
-    institute_id = request.GET.get('institute_id')  # Get the institute ID from the request
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_timetable(request):
+    institute_id = request.data.get('institute_id')
+    branch_id = request.data.get('branch_id')
+    session_id = request.data.get('session_id')
+    standard_id = request.data.get('standard_id')
+    section_id = request.data.get('section_id')
+
+    # Validate required parameters
+    if not all([institute_id, branch_id, session_id, standard_id, section_id]):
+        return JsonResponse({
+            'code': 400,
+            'error': True,
+            'message': 'institute id, branch id, session id, standard id and section id are required',
+            'data': []
+        })
+
+    # Fetch timetable data
+    timetables = TimeTable.objects.filter(
+        institute_id=institute_id,
+        branch_id=branch_id,
+        session_id=session_id,
+        standard_id=standard_id,
+        section_id=section_id
+    )
+
+    # Prepare the response data grouped by day of the week
+    grouped_data = {}
+    for timetable in timetables:
+        day = timetable.get_day_of_week_display()
+        if day not in grouped_data:
+            grouped_data[day] = []
+
+        grouped_data[day].append({
+            'period_no': timetable.period.period_no,
+            'subject': timetable.subject.name,
+            'start_time': timetable.period.start_time,
+            'end_time': timetable.period.end_time,
+            'faculty': timetable.faculty.user.first_name
+        })
+
+    # Convert the grouped data into a list format
+    response_data = []
+    for day, schedules in grouped_data.items():
+        response_data.append({
+            'day': day,
+            'schedules': schedules
+        })
+
+    return Response({
+        'code': 200,
+        'error': False,
+        'message': 'Timetable data fetched successfully',
+        'data': response_data
+    })
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_chat_messages(request):
+    data = request.data
+    institute_id = data.get('institute_id')
+    branch_id = data.get('branch_id')
+    session_id = data.get('session_id')
+    sender_id = data.get('sender_id')
+    standard_id = data.get('standard_id')
+    section_id = data.get('section_id')
+    message_type = data.get('message_type')
+    message = data.get('message')
+    is_individual = data.get(
+        'is_individual', 'False').lower() == 'true'  # Convert to boolean
+    student_id = data.get('student_id')
+    receiver_id = data.get('receiver_id') if is_individual else None
+
+    # Validate required fields
+    required_fields = [institute_id, branch_id, session_id,
+                       sender_id, standard_id, section_id, student_id]
+    if any(field is None for field in required_fields):
+        return Response({
+            'status': status.HTTP_400_BAD_REQUEST,
+            'error': True,
+            'message': 'institute id, branch id, session id, sender id, standard id, section id, student id and receiver id are required',
+            'data': {}
+        })
+
+    user = request.user
+    try:
+        data_sender = User.objects.get(id=sender_id)
+    except ObjectDoesNotExist as e:
+        return Response({
+                'status': status.HTTP_400_BAD_REQUEST,
+                'error': True,
+                'message': 'User corresponding to the sender id does not exist',
+                'data': {}
+            })
+    data_sender = User.objects.get(id=sender_id)
+    if user.role == data_sender.role:
+        pass
+    else:
+        return Response({
+            'status': status.HTTP_400_BAD_REQUEST,
+            'error': True,
+            'message': 'sender id and login user id must be same',
+            'data': {}
+        })
     
-    if not standard_id or not institute_id:
+    if user.role =="3":
+        pass
+    elif user.role == "5":
+        parent = StudentParents.objects.get(user=user)
+        students= StudentProfile.objects.filter(parent = parent)
+        if not students.filter(id=student_id).exists():
+            return Response({
+            'error': True,
+            'code': 200,
+            'message': "this student is not associated with you",
+            'data': {}
+            })
+
+    if is_individual and not receiver_id:
+        return Response({
+            'status': status.HTTP_400_BAD_REQUEST,
+            'error': True,
+            'message': 'Receiver id is required if is_individual is set to True',
+            'data': {}
+        })
+
+    if not is_individual and receiver_id:
+        return Response({
+            'status': status.HTTP_400_BAD_REQUEST,
+            'error': True,
+            'message': 'Receiver id should not be provided when is_individual is False',
+            'data': {}
+        })
+
+    # Retrieve model instances
+    try:
+        institute = Institute.objects.get(registration_number=institute_id)
+        branch = InstituteBranch.objects.get(id=branch_id)
+        session = AcademicSession.objects.get(id=session_id)
+        sender = User.objects.get(id=sender_id)
+        receiver = User.objects.get(id=receiver_id) if is_individual else None
+        standard = Standard.objects.get(id=standard_id)
+        section = Section.objects.get(id=section_id)
+        student = StudentProfile.objects.get(id=student_id)
+    except ObjectDoesNotExist as e:
+        return Response({
+            'status': status.HTTP_400_BAD_REQUEST,
+            'error': True,
+            'message': f'Error retrieving data: {str(e)}',
+            'data': {}
+        })
+
+    # Create and save new chat message
+    new_chat_message = ChatMessage.objects.create(
+        institute=institute,
+        branch=branch,
+        session=session,
+        sender=sender,
+        receiver=receiver,  # Only used if is_individual is True
+        standard=standard,
+        section=section,
+        student=student,
+        message_type=message_type,
+        message=message,
+        is_individual=is_individual
+    )
+
+    serializer = ChatMessageSerializer(
+        new_chat_message, context={'request': request})
+    return Response({
+        'status': status.HTTP_201_CREATED,
+        'error': False,
+        'message': 'Chat message created successfully',
+        'data': serializer.data
+    })
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def claas_chat_messages(request):
+    data = request.data
+    institute_id = data.get('institute_id')
+    branch_id = data.get('branch_id')
+    session_id = data.get('session_id')
+    standard_id = data.get('standard_id')
+    section_id = data.get('section_id')
+    if not (institute_id and branch_id and standard_id and section_id):
         return Response({
             'status': 400,
             'error': True,
-            'message': 'Standard ID and Institute ID are required'
-    })
-
-    days_of_week = {
-        'Monday': 'MON',
-        'Tuesday': 'TUE',
-        'Wednesday': 'WED',
-        'Thursday': 'THU',
-        'Friday': 'FRI',
-        'Saturday': 'SAT',
-        'Sunday': 'SUN'
-    }
-    
-    # Filter timetable entries by standard ID and institute ID
-    timetables = TimeTable.objects.filter(
+            'message': 'Institute, branch, session, standard, section Ids are required!!!!'
+        })
+    messages = ChatMessage.objects.filter(
+        institute_id=institute_id,
+        branch_id=branch_id,
+        session_id=session_id,
         standard_id=standard_id,
-        institute_id=institute_id
-    )
-    
-    # Organize data by day of the week
-    response_data = {}
-    
-    for display_name, db_value in days_of_week.items():
-        filtered_timetables = timetables.filter(day_of_week=db_value)
-        serializer = TimeTableSerializer(filtered_timetables, many=True)
-        response_data[display_name] = serializer.data
-    
+        section_id=section_id,
+        is_individual=False
+    ).order_by('time_stamp')
+
+    serializer = ClassChatMessageSerializer(
+        messages, many=True, context={'request': request})
+
     return Response({
         'status': 200,
         'error': False,
-        'message': 'Time Table fetched successfully',
-        'data': response_data
+        'message': 'class chat messages fetched successfully',
+        'data': serializer.data
     })
-    
-# @api_view(['GET'])        
-# def timetable_list(request):
-#     standard_id = request.GET.get('standard_id')  # Get the standard ID from the request
-    
-#     if not standard_id:
-#         return Response({
-#             'status': 400,
-#             'error': True,
-#             'message': 'Standard ID is required'
-#         }, status=400)
-    
-    
-#     days_of_week = {
-#         'Monday': 'MON',
-#         'Tuesday': 'TUE',
-#         'Wednesday': 'WED',
-#         'Thursday': 'THU',
-#         'Friday': 'FRI',
-#         'Saturday': 'SAT',
-#         'Sunday': 'SUN'
-#     }
-    
-#     # Filter timetable entries by standard ID
-#     timetables = TimeTable.objects.filter(standard_id=standard_id)
-    
-#     # Organize data by day of the week and then by standard
-#     response_data = defaultdict(lambda: defaultdict(list))
-    
-#     for display_name, db_value in days_of_week.items():
-#         filtered_timetables = timetables.filter(day_of_week=db_value)
-#         serializer = TimeTableSerializer(filtered_timetables, many=True)
-#         for timetable in serializer.data:
-#             standard = timetable.pop('standard')
-#             response_data[display_name][standard].append(timetable)
-    
-#     return Response({
-#         'status': 200,
-#         'error': False,
-#         'message': 'Time Table fetched successfully',
-#         'data': response_data
-#     })
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def individual_chat_messages(request):
+    data = request.data
+    institute_id = data.get('institute_id')
+    branch_id = data.get('branch_id')
+    session_id = data.get('session_id')
+    standard_id = data.get('standard_id')
+    section_id = data.get('section_id')
+    sender_id = data.get('sender_id')
+    receiver_id = data.get('receiver_id')
+    student_id = data.get('student_id')
 
-# api view for chat application
-
-class CreateChatMessageView(APIView):
-    # permission_classes = [IsAuthenticated] token authentication
-    def post(self, request):
-        serializer = ChatMessageSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                'status': status.HTTP_200_OK,
-                'error':False,
-                'message':'chat sent successfully',
-                'data':serializer.data
-            })
+    if not (institute_id and branch_id and session_id and standard_id and section_id and sender_id and receiver_id and student_id):
         return Response({
-            'status':status.HTTP_400_BAD_REQUEST,
-            'error':serializer.errors,
-            'message':'server side error while sending chat'
+            'status': 400,
+            'error': True,
+            'message': 'Institute, branch, session, standard, section, sender, student, and receiver IDs are required'
         })
-        
-# API class for group messages
-class ClassChatMessageView(APIView):
-    def post(self,request):
-        data = request.data
-        institute_id = data.get('institute')
-        standard_id = data.get('standard')
-        section_id = data.get('section')
-        
-        if not (institute_id and standard_id and section_id):
-            return Response({
-                'status':400,
-                'error':True,
-                'message':'Institute, standard, section Ids are required!!!!'
-            })
-            
-        messages = ChatMessage.objects.filter(
-            institute_id = institute_id,
-            standard_id = standard_id,
-            section_id = section_id,
-            is_individual = False
-        ).order_by('time_stamp')
-        
-        serializer = ChatMessageSerializer(messages, many=True)
+
+    user = request.user
+    print(user)
+    try:
+        data_sender = User.objects.get(id=sender_id)
+    except ObjectDoesNotExist as e:
         return Response({
-            'status':200,
-            'error':False,
-            'message':'class chat messages fetched successfully',
-            'data':serializer.data
-        })
-        
-        # API class for individual chat messages
-class IndividualChatMessageView(APIView):
-    def post(self, request):
-        data = request.data
-        institute_id = data.get('institute')
-        standard_id = data.get('standard')
-        section_id = data.get('section')
-        sender_id = data.get('sender')
-        receiver_id = data.get('receiver')
-        
-        if not (institute_id and standard_id and section_id and sender_id and receiver_id):
-            return Response({
-                'status':400,
-                'error':True,
-                'message':'Institute, standard, section, sender and receiver IDs are required'
+                'status': status.HTTP_400_BAD_REQUEST,
+                'error': True,
+                'message': 'User corresponding to the sender id does not exist',
+                'data': {}
             })
-            
-        messages = ChatMessage.objects.filter(
-            institute_id = institute_id,
-            standard_id = standard_id,
-            section_id = section_id,
-            sender_id = sender_id,
-            receiver_id = receiver_id,
-            is_individual = True
-        ).order_by('time_stamp')
-        
-        serializer = ChatMessageSerializer(messages, many = True)
+    print(data_sender)
+    if data_sender:
+        if user.role == data_sender.role:
+            pass
+        else:
+            return Response({
+                'status': status.HTTP_400_BAD_REQUEST,
+                'error': True,
+                'message': 'sender id and login user id must be same',
+                'data': {}
+            })
+    else:
         return Response({
-            'status':200,
-            'error':False,
-            'message':'Individual Chat messages fetched successfully',
-            'data':serializer.data
-        })
+                'status': status.HTTP_400_BAD_REQUEST,
+                'error': True,
+                'message': 'the sender Id does not belong to any valid user',
+                'data': {}
+            })
+    
+    if user.role =="3":
+        pass
+    elif user.role == "5":
+        parent = StudentParents.objects.get(user=user)
+        students= StudentProfile.objects.filter(parent = parent)
+        if not students.filter(id=student_id).exists():
+            return Response({
+            'error': True,
+            'code': 200,
+            'message': "You do not have permission to access this student's data.",
+            'data': {}
+            })
+
+    messages1 = ChatMessage.objects.filter(
+        institute_id=institute_id,
+        branch_id=branch_id,
+        session_id=session_id,
+        standard_id=standard_id,
+        section_id=section_id,
+        sender_id=sender_id,
+        receiver_id=receiver_id,
+        student_id=student_id,  # Filter by student if provided
+        is_individual=True
+    ).order_by('time_stamp')
+
+    messages2 = ChatMessage.objects.filter(
+        institute_id=institute_id,
+        branch_id=branch_id,
+        session_id=session_id,
+        standard_id=standard_id,
+        section_id=section_id,
+        sender_id=receiver_id,
+        receiver_id=sender_id,
+        student_id=student_id,  # Filter by student if provided
+        is_individual=True
+    ).order_by('time_stamp')
+    messages = messages1 | messages2
+    serializer = ChatMessageSerializer(
+        messages, many=True, context={'request': request})
+    return Response({
+        'status': 200,
+        'error': False,
+        'message': 'Individual Chat messages fetched successfully',
+        'data': serializer.data
+    })

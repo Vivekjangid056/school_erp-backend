@@ -13,10 +13,12 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
+        ('auth', '0012_alter_user_first_name_max_length'),
     ]
 
     operations = [
         migrations.CreateModel(
+            name='User',
             name='User',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -35,8 +37,25 @@ class Migration(migrations.Migration):
                 ('is_superuser', models.BooleanField(default=False)),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user can belong to multiple groups. A group grants access to a set of permissions.', related_name='user_set', to='auth.group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_permissions', to='auth.permission', verbose_name='user permissions')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('password', models.CharField(max_length=128, verbose_name='password')),
+                ('email', models.EmailField(max_length=255, unique=True)),
+                ('username', models.CharField(max_length=255, unique=True)),
+                ('first_name', models.CharField(max_length=255)),
+                ('last_name', models.CharField(max_length=255)),
+                ('role', models.CharField(choices=[('1', 'Super_admin'), ('2', 'Institute_Owner'), ('3', 'Management_Employee'), ('4', 'Employee'), ('5', 'Student')], max_length=2)),
+                ('phone_number', models.CharField(blank=True, max_length=20, null=True)),
+                ('country_code', django_countries.fields.CountryField(blank=True, max_length=2, null=True)),
+                ('date_joined', models.DateTimeField(auto_now_add=True)),
+                ('last_login', models.DateTimeField(auto_now=True)),
+                ('is_active', models.BooleanField(default=True)),
+                ('is_staff', models.BooleanField(default=False)),
+                ('is_superuser', models.BooleanField(default=False)),
+                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user can belong to multiple groups. A group grants access to a set of permissions.', related_name='user_set', to='auth.group', verbose_name='groups')),
+                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_permissions', to='auth.permission', verbose_name='user permissions')),
             ],
             options={
+                'abstract': False,
                 'abstract': False,
             },
         ),

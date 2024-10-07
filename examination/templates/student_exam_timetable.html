@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Timetable</title>
+    <style>
+        body, html {
+            height: 100%;
+        }
+
+        #page-topbar {
+            background: linear-gradient(to right, #02A8F4, #445CCE);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-card {
+            background: linear-gradient(to right, #02A8F4, #445CCE);
+            color: white;
+            text-align: center;
+        }
+
+        .header-card h1 {
+            color: white;
+        }
+
+        .header-card small {
+            color: #e0e0e0;
+        }
+
+        /* Full screen on mobile */
+        @media (max-width: 767.98px) {
+            .container-fluid {
+                padding: 0;
+                margin: 0;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .header-card, h1 {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Fixed table on mobile */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table thead {
+            background-color: #02A8F4;
+            color: white;
+        }
+
+        table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* On small devices */
+        @media (max-width: 767.98px) {
+            .table {
+                table-layout: fixed;
+                width: 100%;
+            }
+            .table th, .table td {
+                word-wrap: break-word;
+                white-space: normal;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="page-topbar" class="py-3">
+        <div class="container-fluid text-center">
+            <img src="{% static 'assets/images/scholarsByte.png' %}" alt="ScholarsByte Logo" class="img-fluid" style="max-width: 200px;">
+        </div>
+    </header>
+
+    <div class="container-fluid py-3">
+        <div class="content">
+            <div class="card header-card p-4 mb-4">
+                <h1>{{ student.parent.institute.institute_name }}</h1>
+                <p>{{ student.branch.name }}</p>
+                <p>{{ student.branch.address }}</p>
+                <small>
+                    Reg No: {{ student.parent.institute.registration_number }} | Mob No: 
+                    {{ student.parent.institute.mobile_number }} | Email: {{ student.parent.institute.institute_email }} | 
+                    Fax No: {{ student.parent.institute.fax_number }}
+                </small>
+            </div>
+
+            <h1 class="mb-4">Exam Timetable of class Standard: {{ student.standard.name }}</h1>
+
+            <div class="form-group">
+                <label for="examTypeSelector">Select Exam Type</label>
+                <select id="examTypeSelector" class="form-control">
+                    <option value="">Select Exam Type</option>
+                    {% for exam_type in exam_types %}
+                    <option value="{{ exam_type }}">{{ exam_type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="timetableContainer" class="table-responsive"></div>
+        </div>
+    </div>
+
+    <script>
+        const groupedData = {{ grouped_data|safe }};
+
+        function displayTimetable(examType) {
+            const container = document.getElementById('timetableContainer');
+            container.innerHTML = ''; // Clear previous content
+
+            if (!examType) {
+                container.innerHTML = '<p class="text-danger">Please select an exam type.</p>';
+                return;
+            }
+
+            const timetables = groupedData[examType];
+            if (!timetables || timetables.length === 0) {
+                container.innerHTML = '<p class="text-warning">No timetable available for this exam type.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.classList.add('table', 'table-bordered', 'table-hover');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${timetables.map(timetable => `
+                        <tr>
+                            <td>${timetable.subject}</td>
+                            <td>${timetable.date}</td>
+                            <td>${timetable.start_time}</td>
+                            <td>${timetable.end_time}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+
+            container.appendChild(table);
+        }
+
+        document.getElementById('examTypeSelector').addEventListener('change', function () {
+            displayTimetable(this.value);
+        });
+    </script>
+</body>
+
+</html>

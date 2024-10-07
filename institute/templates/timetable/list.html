@@ -31,7 +31,7 @@
             <button id="filter-button" class="btn btn-primary">Filter</button>
         </div>
         <div class="col-md-2 text-right">
-            <a href="{% url 'institute:timetable_list' %}" class="btn btn-primary">All Data</a>
+            <a href="{% url 'institute:timetable_list' %}?all_data=1" class="btn btn-primary">All Data</a>
         </div>
 		<div class="col-md-2 text-right">
             <a href="{% url 'institute:create_timetable' %}" class="btn btn-info">Create Timetable</a>
@@ -45,8 +45,6 @@
                 <th>Period</th>
                 <th>Standard</th>
                 <th>Section</th>
-                <th>Start Time</th>
-                <th>End Time</th>
                 <th>Subject</th>
                 <th>Teacher</th>
                 <th>Actions</th>
@@ -56,15 +54,13 @@
             {% for timetable in timetables %}
                 <tr>
 					<td>{{ timetable.get_day_of_week_display }}</td>   <!--The get_day_of_week_display method is a built-in Django method that returns the human-readable value for a model's choices field. It’s used to get the display value of a field that has choices defined.-->
-                    <td>{{ timetable.period_no }}</td>
+                    <td>{{ timetable.period.period_no }}</td>
                     <td>{{ timetable.standard.name }}</td>
                     <td>{{ timetable.section.name }}</td>
-                    <td>{{ timetable.start_time }}</td>
-                    <td>{{ timetable.end_time }}</td>
                     <td>{{ timetable.subject.name }}</td>
                     <td>{{ timetable.faculty.user.first_name }} </td>
                     <td>
-						<a href="{% url 'institute:edit_timetable' timetable.id %}"
+						<a href="{% url 'institute:update_timetable' timetable.id %}"
 							class="btn btn-sm btn-primary"
 							title="Edit">
 							<i class="fas fa-pencil-alt"></i>

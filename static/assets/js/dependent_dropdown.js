@@ -186,10 +186,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="#"><i class="fas fa-globe"></i>Student ID Card Format</a>
                 </li>
             </ul> -->
-            <a href="${urls.listOfEmployees}" class="waves-effect fw-bold">
-                <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">create user</span>
-            </a>
             <a href="${urls.listOfRoles}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">create roles</span>
@@ -201,10 +197,6 @@ document.addEventListener('DOMContentLoaded', function () {
             <a href="${urls.gallery}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Gallery</span>
-            </a>
-            <a href="${urls.scheduleTimeTable}" class="waves-effect fw-bold">
-                <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Time Table</span>
             </a>
             <a href="${urls.customMenu}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
@@ -780,9 +772,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Student's Attendance</span>
             </a>
-            <a href="${urls.listOfMastersList}" class="waves-effect fw-bold">
+            <a href="${urls.listOfEmployees}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Employee Master</span>
+            </a>
+            <a href="${urls.scheduleTimeTable}" class="waves-effect fw-bold">
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">Time Table</span>
+            </a>
+            <a href="${urls.classPeriods}" class="waves-effect fw-bold">
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">Class Periods</span>
             </a>
             <a href="javascript: void(0);" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
@@ -848,7 +848,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </a>
             <ul id="hr-employee" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
                 <li class="sidebar-item">
-                    <a href="${urls.listOfMastersList}"><i class="fas fa-signature"></i>Create Employee</a>
+                    <a href="#"><i class="fas fa-signature"></i>Create Employee</a>
                 </li>
                 <li class="sidebar-item ">
                     <a href="#"><i class="fas fa-user-tag"></i>Upload DocumentSalary StructureI</a>
@@ -1062,16 +1062,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span key="t-dashboards">Admit Card Settings</span>
             </a>
             <a href="javascript: void(0);" class="waves-effect fw-bold">
-                <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Print Admit card</span>
+            <i class="bx bx-home-circle"></i>
+            <span key="t-dashboards">Print Admit card</span>
             </a>
-            <a href="javascript: void(0);" class="waves-effect fw-bold">
+            <a href="${urls.gradingList}" class="waves-effect fw-bold">
                 <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Exam Time Table Setting</span>
+                <span key="t-dashboards">Grading List</span>
+            </a>
+            <a href="${urls.examTimeTable}" class="waves-effect fw-bold">
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">Exam Time Table</span>
+            </a>
+            <a href="${urls.examTypeList}" class="waves-effect fw-bold">
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">Exam Type</span>
+            </a>
+            <a href="${urls.examinationMarks}" class="waves-effect fw-bold">
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">Examination marks</span>
             </a>
             <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#examination-examination" aria-expanded="false" aria-controls="pages">
-                <i class="bx bx-home-circle"></i>
-                <span key="t-dashboards">Examination</span>
+                <div>
+                    <i class="bx bx-home-circle"></i>
+                    <span key="t-dashboards">Examination</span>
+                </div>
                 <i class="fa fa-chevron-left collapse-chevron"></i>
             </a>
             <ul id="examination-examination" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">

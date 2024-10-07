@@ -1,11 +1,9 @@
 from django.contrib import messages
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth import login
-from django.views import View
 from django.views.decorators.http import require_POST
-
+from hr.models import ClassTimePeriod
 from accounts.models import AcademicSession
 from hr.models import TimeTable
 from scholar_register.models import StudentProfile
@@ -34,10 +32,8 @@ class AddSignature(FormView):
 
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        if not active_session:
-            messages.warning(self.request, "No active session found. Please create or activate a session.")
-            return self.form_invalid(form)
+        session = self.request.session.get('session_id')
+        active_session= AcademicSession.objects.get(pk=session)
         signature = form.save(commit=False)
         signature.institute = institute
         signature.session = active_session
@@ -59,7 +55,8 @@ class ListofSignatures(ListView):
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
 
             if not active_session:
                 messages.warning(self.request, "No active session found. Please activate a session to view Signatures.")
@@ -177,8 +174,10 @@ class AddHouse(FormView):
 
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
@@ -206,13 +205,13 @@ class ListofHouse(ListView):
         queryset = super().get_queryset()
         user = self.request.user
         institute = user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
-
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
             if not active_session:
                 messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
                 return House.objects.none()
@@ -335,8 +334,10 @@ class AddReference(FormView):
 
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
@@ -363,12 +364,13 @@ class ListofReference(ListView):
         queryset = super().get_queryset()
         user = self.request.user
         institute = user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
 
             if not active_session:
                 messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
@@ -658,7 +660,8 @@ class AddStandard(FormView):
     def form_valid(self, form):
         standard = form.save(commit = False)
         institute = Institute.objects.get(user_id = self.request.user)
-        active_branch = InstituteBranch.objects.filter(institute= institute, is_active = True).first()
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_branch:
             messages.error(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
@@ -679,7 +682,8 @@ class ListofStandard(ListView):
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_branch = InstituteBranch.objects.filter(institute= institute, is_active = True).first()
+            branch=self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
             if institute and active_branch:
                 queryset = queryset.filter(institute=institute, branch = active_branch)
                 print(queryset)
@@ -710,18 +714,21 @@ class AddSubject(FormView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['session']= self.request.session
+        kwargs['session'] = self.request.session
         return kwargs
 
     def form_valid(self, form):
-        institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.error(self.request, "No active session found. Please create or activate a session.")
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
-
+        
         if not active_branch:
-            messages.error(self.request, "No active session found. Please create or activate a session.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
 
         subject = form.save(commit = False)
@@ -745,8 +752,10 @@ class ListofSubjects(ListView):
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
 
             if not active_session:
                 messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
@@ -786,15 +795,16 @@ class AddDocuments(FormView):
 
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.error(self.request, "No active session found. Please activate a session to view subjects.")
-            return Documents.objects.none
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
+            return self.form_invalid(form)
         
         if not active_branch:
-            messages.error(self.request, "No active session found. Please create or activate a session.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
         
         document = form.save(commit = False)
@@ -818,8 +828,10 @@ class ListofDocuments(ListView):
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
 
 
             if not active_session:
@@ -909,15 +921,16 @@ class AddFeeInstallments(FormView):
 
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.error(self.request, "No active session found. Please activate a session to view subjects.")
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
         
         if not active_branch:
-            messages.error(self.request, "No active session found. Please create or activate a session.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
 
         fee_installment = form.save(commit = False)
@@ -940,8 +953,10 @@ class ListofFeeInstallments(ListView):
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
 
 
             if not active_session:
@@ -1236,10 +1251,10 @@ def role_create(request):
             for field, error_list in errors.items():
                 for error in error_list:
                     print(f"Error in field '{field}': {error}")
-        institute = request.user.institute_id.first()
-        active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-        active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
-
+        session = request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
             messages.warning(request, 'No active session found. Please activate a session to view subjects')
             return Subjects.objects.none()
@@ -1286,7 +1301,8 @@ def role_create(request):
 
 # List of Role Created
 def role_list(request):
-    roles = InstituteRole.objects.filter(institute_id = request.user.institute_id.first())
+    branch = request.session.get('branch_id')
+    roles = InstituteRole.objects.filter(institute_id = request.user.institute_id.first(), branch_id =branch)
     return render(request, 'role/list_of_roles.html', {'roles': roles})
 
 # Update The Role
@@ -1338,148 +1354,47 @@ class RoleDeleteView(DeleteView):
     model = InstituteRole
     success_url = reverse_lazy('institute:list_of_roles')
 
-# ================================== create users section started ====================================
-
-# list of Employees
-class EmployeeList(ListView):
-    model = Employee
-    context_object_name = 'employees'
-    template_name = 'employee/employee_list.html'
-    
-    def get_queryset(self):
-        user = self.request.user
-
-        if user.is_authenticated:
-            institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
-
-
-            if not active_session:
-                messages.warning(self.request, "No active session found. Please activate a session to view installments.")
-                return Employee.objects.none()
-            
-            if not active_branch:
-                messages.error(self.request, "No active session found. Please create or activate a session.")
-                return Employee.objects.none()
-
-            queryset = Employee.objects.filter(branch=active_branch, session=active_session)
-            return queryset
-        
-        return Documents.objects.none()
-
-
-
-def create_employee(request):
-    if request.method == 'POST':
-        user_form = EmployeeRegistrationForm(request.POST)
-        profile_form = EmployeeProfileForm(request.POST, request.FILES, user=request.user)
-
-        institute = request.user.institute_id.first()
-        active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-        active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
-
-        if not active_session:
-            messages.warning(request, 'No active session found. Please activate a session to view subjects')
-            return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
-        
-        if not active_branch:
-            messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
-            return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
-        if user_form.is_valid() and profile_form.is_valid():
-            try:
-                user = user_form.save(commit=False)
-                user.set_password(user_form.cleaned_data["password1"])
-                user.save()
-
-                profile = profile_form.save(commit=False)
-                profile.user = user
-                profile.session = active_session
-                profile.branch = active_branch
-                profile_form.save()  # This will now set the institute automatically
-
-                return redirect('institute:list_of_employees')
-            except Exception as e:
-                print(f"Error saving user or profile: {e}")
-        else:
-            print(f"User form errors: {user_form.errors}")
-            print(f"Profile form errors: {profile_form.errors}")
-    else:
-        user = request.user
-        user_form = EmployeeRegistrationForm()
-        profile_form = EmployeeProfileForm(user=request.user)
-
-    return render(request, 'employee/create_employee.html', {'user_form': user_form, 'profile_form': profile_form})
-
-
-# Update the employee
-def update_employee(request, pk):
-    profile = get_object_or_404(Employee, pk=pk)
-    user = get_object_or_404(User, pk= profile.user.id)
-    if request.method == 'POST':
-        user_form = EmployeeRegistrationForm(request.POST, instance=user)
-        profile_form = EmployeeProfileForm(request.POST, request.FILES, instance=profile)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            try:
-                user = user_form.save(commit=False)
-                user.set_password(user_form.cleaned_data["password1"])
-                user.save()
-            except Exception as e:
-                print(e)
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-
-            return redirect('institute:list_of_employees')
-        else:
-            return render(request, 'employee/update_employee.html', {'user_form': user_form, 'profile_form': profile_form})
-    else:
-        user_form = EmployeeRegistrationForm(instance=user)
-        profile_form = EmployeeProfileForm(instance=profile)
-        return render(request, 'employee/update_employee.html', {'user_form': user_form, 'profile_form': profile_form})
-
-# Delete Employee data
-class EmployeeDeleteView(DeleteView):
-    model = Employee
-    success_url = reverse_lazy('institute:list_of_employees')
 
 # ===================================== Notification CRUD ============================================
 def notification_create_view(request):
     institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
 
     if not active_session:
         messages.warning(request, 'No active session found. Please activate a session to view subjects')
-        return Section.objects.none()
-    
+        return redirect('some_error_page')
+
     if not active_branch:
         messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
-        return Section.objects.none()
+        return redirect('some_error_page')
+
     if request.method == 'POST':
-        form = NotificationModelForm(request.POST, request.FILES, user = request.user)
+        form = NotificationModelForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
-            notification = form.save(commit = False)
-            notification.institute= institute
-            notification.branch= active_branch
-            form.save()
-            return redirect('institute:list_of_notifications')  # Redirect to a list view or another appropriate view
+            notification = form.save(commit=False)
+            notification.institute = institute
+            notification.branch = active_branch
+            notification.save()
+            return redirect('institute:list_of_notifications')
     else:
-        form = NotificationModelForm()
+        form = NotificationModelForm(user=request.user)
+
     return render(request, 'notification_form.html', {'form': form})
+
 
 
 def notification_update_view(request, pk):
     notification = get_object_or_404(NotificationModel, pk=pk)
     if request.method == 'POST':
-        form = NotificationModelForm(request.POST, request.FILES, instance=notification)
+        form = NotificationModelForm(request.POST, request.FILES, instance=notification, user = request.user)
         if form.is_valid():
             form.save()
             return redirect('institute:list_of_notifications')  # Redirect to the detail view or another appropriate view
     else:
-        form = NotificationModelForm(instance=notification)
+        form = NotificationModelForm(instance=notification, user=request.user)
     return render(request, 'notification_form.html', {'form': form})
 
 
@@ -1492,8 +1407,10 @@ class NotificationsListView(ListView):
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
 
 
             if not active_session:
@@ -1524,20 +1441,22 @@ class AddSubForClassGroup(CreateView):
     def get_form_kwargs(self):
         kwargs =super().get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['session'] = self.request.session
         return kwargs
 
 
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
-
+        
         if not active_branch:
-            messages.warning(self.request, 'No active session found. Please create or activate a session.')
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
 
         sfcg = form.save(commit = False)
@@ -1558,13 +1477,12 @@ class listSubForClassGroup(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
-        institute = user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active=True).first()
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
 
         if user.is_authenticated:
-            institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
 
             if not active_session:
                 messages.warning(self.request, "No active session found. Please activate a session to view subjects.")
@@ -1605,11 +1523,13 @@ class AddSection(CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['session'] = self.request.session
         return kwargs
     
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
-        active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+        branch= self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
 
         if not active_branch:
             messages.error(self.request, "No active session found. Please create or activate a session.")
@@ -1635,7 +1555,8 @@ class listOfSection(ListView):
 
         if user.is_authenticated:
             institute = user.institute_id.first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active = True).first()
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
             
             if not active_branch:
                 messages.error(self.request, "No active session found. Please create or activate a session.")
@@ -1670,8 +1591,10 @@ class AddDiscountScheme(CreateView):
 
     def form_valid(self, form):
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
-        active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
 
         if not active_session:
             messages.warning(self.request, "No active session found. Please create or activate a session.")
@@ -1698,9 +1621,10 @@ class listOfDiscountScheme(ListView):
         user = self.request.user
 
         if user.is_authenticated:
-            institute = user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
 
 
             if not active_session:
@@ -1735,8 +1659,10 @@ class DeleteDiscountScheme(DeleteView):
 
 def attendance_view(request):
     institute = request.user.institute_id.first()
-    active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
+    branch = request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session = request.session.get('session_id')
+    active_session=AcademicSession.objects.get(pk=session)
     standards = Standard.objects.filter(branch=active_branch)
     if request.method == 'POST':
         data = request.POST
@@ -1769,11 +1695,13 @@ def attendance_view(request):
         'form': form,
     }
     return render(request, 'attendance.html', context)
-    
+
 def load_subjects(request):
     institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(request, 'No active session found. Please activate a session to view subjects')
@@ -1789,6 +1717,7 @@ def load_subjects(request):
 
 
 def fetch_students_attendance(request):
+    print("student attendance")
     if request.method == 'GET':
         standard_id = request.GET.get('standard_id')
         subject_id = request.GET.get('subject_id')
@@ -1821,9 +1750,10 @@ def fetch_students_attendance(request):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def attendance_list(request):
-    institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(request, 'No active session found. Please activate a session to view subjects')
@@ -1867,8 +1797,10 @@ def fetch_attendance_data(request):
 # ========================================== Gallery CRUD ================================================
 def gallery_list(request):
     institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(request, 'No active session found. Please activate a session to view subjects')
@@ -1884,9 +1816,10 @@ def gallery_list(request):
 
 def gallery_add(request):
     institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
-    print(active_session)
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if request.method == 'POST':
         if not active_session:
@@ -1954,85 +1887,190 @@ def gallery_delete(request, pk):
     return render(request, 'institute/list.html', {'object': item})
 
 
+# ________________________________________ views for class time period ___________________________________
+
+def periods_list(request):
+    institute = request.user.institute_id.first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
+    period_data = ClassTimePeriod.objects.filter(institute=institute, branch=active_branch, session=active_session)
+
+    context={
+        'period_data':period_data
+    }
+    return render(request, 'periods_list.html', context= context)
+
+
+def create_period(request):
+    if request.method == "POST":
+        institute = request.user.institute_id.first()
+        branch= request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
+        session= request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+
+        form = ClassTimePeriodForm(request.POST, user=request.user)
+        if form.is_valid():
+            period = form.save(commit=False)
+            period.institute = institute
+            period.branch = active_branch
+            period.session = active_session
+
+            period.save()
+            return redirect('institute:class_periods')
+        else:
+            return render(request, 'class_period_create.html', {'form': form})
+    
+    else:
+        form = ClassTimePeriodForm(user=request.user)
+        return render(request, 'class_period_create.html', {'form': form})
+
+
+def update_period(request, pk):
+    period = get_object_or_404(ClassTimePeriod, pk=pk)
+    
+    if request.method == "POST":
+        form = ClassTimePeriodForm(request.POST, instance=period, user=request.user)
+        branch= request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
+        session= request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        if form.is_valid():
+            period = form.save(commit=False)
+            period.institute = request.user.institute_id.first()
+            period.branch = active_branch
+            period.session = active_session
+            period.save()
+            return redirect('institute:class_periods')
+        else:
+            return render(request, 'class_period_create.html', {'form': form})
+
+    else:
+        form = ClassTimePeriodForm(instance=period, user=request.user)
+        return render(request, 'class_period_create.html', {'form': form})
+
+
+def delete_period(request, pk):
+    period = get_object_or_404(ClassTimePeriod, pk=pk)
+    period.delete()
+    return redirect('institute:class_periods')  # Update with the correct URL name
+
+
 # ____________________________________________ views for timetable _______________________________________
 
 def timetable_list(request):
     institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
-        messages.warning(request, 'No active session found. Please activate a session to view subjects')
-        return TimeTable.objects.none()
-    
-    if not active_branch:
-        messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
-        return TimeTable.objects.none()
+        messages.warning(request, 'No active session found. Please activate a session to view subjects.')
+        return render(request, 'timetable/list.html', {'timetables': TimeTable.objects.none()})
 
-    standard_id = request.GET.get('standard')
-    day_of_week = request.GET.get('get_day_of_week_display')
-    
-    timetables = TimeTable.objects.filter(branch=active_branch, session=active_session)
-    # for dependent handling 
-    if standard_id:
-        timetables = timetables.filter(standard_id=standard_id)
-    
-    if day_of_week:
-        timetables = timetables.filter(day_of_week=day_of_week)
-    
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects.')
+        return render(request, 'timetable/list.html', {'timetables': TimeTable.objects.none()})
+
+    # Check if the "all_data" parameter is present in the request
+    show_all = request.GET.get('all_data')
+
+    if show_all:
+        # Return all timetables without filtering
+        timetables = TimeTable.objects.filter(branch=active_branch, session=active_session)
+    else:
+        # Apply filtering based on standard and day_of_week
+        standard_id = request.GET.get('standard')
+        day_of_week = request.GET.get('day_of_week')
+
+        timetables = TimeTable.objects.none()  # Empty queryset by default
+
+        if standard_id or day_of_week:
+            timetables = TimeTable.objects.filter(branch=active_branch, session=active_session)
+            
+            if standard_id:
+                timetables = timetables.filter(standard_id=standard_id)
+            
+            if day_of_week:
+                timetables = timetables.filter(day_of_week=day_of_week)
+
     standards = Standard.objects.filter(branch=active_branch)
 
     context = {
         'timetables': timetables,
         'standards': standards,
-        'selected_standard': standard_id,
-        'selected_day': day_of_week,
+        'selected_standard': request.GET.get('standard'),
+        'selected_day': request.GET.get('day_of_week'),
     }
     
     return render(request, 'timetable/list.html', context)
 
+
 def create_timetable(request):
     institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(request, 'No active session found. Please activate a session to view subjects')
         return Section.objects.none()
-    
+
     if not active_branch:
         messages.warning(request, 'No active branch found. Please activate a branch to view subjects')
         return Section.objects.none()
+
     if request.method == 'POST':
-        form = TimetableForm(request.POST, user = request.user)
-        
-        if form.is_valid():
-            time_table = form.save(commit=False)
-            time_table.institute=institute
-            time_table.session=active_session
-            time_table.branch=active_branch
-            form.save()
-            return redirect('institute:timetable_list')
+        standard = request.POST.get('standard')
+        section = request.POST.get('section')
+        day_of_week = request.POST.get('day_of_week')
+        period_no = request.POST.get('period')
+
+        existing_record = TimeTable.objects.filter(institute=institute, branch=active_branch, 
+        session=active_session, standard=standard, section=section, day_of_week=day_of_week, period=period_no)
+        if not existing_record:
+            form = TimetableForm(request.POST, user = request.user, session=request.session)
+            if form.is_valid():
+                time_table = form.save(commit=False)
+                time_table.institute=institute
+                time_table.session=active_session
+                time_table.branch=active_branch
+                form.save()
+                return redirect('institute:timetable_list')
+            else:
+                print(form.errors)  # Print form errors
         else:
-            print(form.errors)  # Print form errors
+            existing_record = TimeTable.objects.get(institute=institute, branch=active_branch, 
+        session=active_session, standard=standard, section=section, day_of_week=day_of_week, period=period_no)
+            form=TimetableForm(request.POST, instance=existing_record, user=request.user, session=request.session)
+            if form.is_valid():
+                form.save()
+                return redirect('institute:timetable_list')
+            else:
+                print(form.errors)
     else:
         user = request.user
         form = TimetableForm(user = user)
         context ={
             'form':form
         }
-            
+
         return render(request, 'timetable/create.html',context=context)
 
-def edit_timetable(request, pk):
+def update_timetable(request, pk):
     timetable = get_object_or_404(TimeTable, pk=pk)
+    print(':::::::::::::::::::::::::::::::::::::', timetable)
     if request.method == 'POST':
-        form = TimetableForm(request.POST, instance = timetable , user = request.user)
+        form = TimetableForm(request.POST, instance = timetable , user = request.user, session=request.session)
         if form.is_valid():
             form.save()
             return redirect('institute:timetable_list')
     else:
-        form = TimetableForm(instance=timetable, user=request.user)
+        form = TimetableForm(instance=timetable, user=request.user, session=request.session)
     
     return render(request, 'timetable/create.html', {'form':form , 'timetable': timetable})
 
@@ -2040,12 +2078,13 @@ def delete_timetable(request, pk):
     timetable = get_object_or_404(TimeTable, pk=pk)
     timetable.delete()
     return redirect('institute:timetable_list')      
-    
+
 # for dependent dropdown
 def get_sections(request):
-    institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(request, 'No active session found. Please activate a session to view subjects')
@@ -2060,8 +2099,10 @@ def get_sections(request):
 
 def get_subjects(request):
     institute = request.user.institute_id.first()
-    active_session=AcademicSession.objects.filter(institute=institute, is_active=True).first()
-    active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(request, 'No active session found. Please activate a session to view subjects')
@@ -2073,7 +2114,6 @@ def get_subjects(request):
     standard_id = request.GET.get('standard_id')
     subjects = Subjects.objects.filter(standard_id=standard_id, branch=active_branch, session=active_session).values('id', 'name')
     return JsonResponse({'subjects': list(subjects)})
-
 
 def add_custom_menu(request):
     if request.method == 'POST':
@@ -2089,8 +2129,7 @@ def add_custom_menu(request):
     context = {
         "form": form
     }
-    return render(request, 'list_of_masters/lom_form.html', context=context)
-    
+    return render(request, 'custom_url.html', context=context)
 
 def list_custom_menu(request):
     institute = request.user.institute_id.first()
@@ -2118,7 +2157,7 @@ def update_custom_menu(request, pk):
         "form": form,
         "custom_menu": custom_menu
     }
-    return render(request, 'list_of_masters/lom_form.html', context=context)
+    return render(request, 'custom_url.html', context=context)
 
 
 def delete_custom_menu(request, pk):
@@ -2132,3 +2171,80 @@ def delete_custom_menu(request, pk):
         "custom_menu": custom_menu
     }
     return render(request, 'list_of_masters/lom_confirm_delete.html', context=context)
+
+
+# ============================================ Grading System Crud ======================================
+
+
+def grading_system_list(request):
+    try:
+        # Get the institute related to the logged-in user
+        institute = get_object_or_404(Institute, user_id=request.user)
+        
+        # Get the active branch and session for the institute
+        branch= request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
+        session= request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        print("branch: ",active_session)
+
+        # Filter the StudentFeePayment objects based on the active branch and session
+        grading_systems = GradingSystem.objects.filter(institute=institute, branch=active_branch, session=active_session)
+        print(grading_systems)
+        return render(request, 'grading/grading_system_list.html', {'grading_systems': grading_systems})
+
+    except InstituteBranch.DoesNotExist:
+        messages.warning(request, 'No active branch found for your institute.')
+        return InstituteBranch.objects.none()
+    
+    except AcademicSession.DoesNotExist:
+        messages.warning(request, 'No active session found for your institute.')
+        return AcademicSession.objects.none()
+
+
+# Create View
+def grading_system_create(request):
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
+    form = GradingSystemForm(request.POST)
+
+    if not active_session:
+        messages.warning(request, 'No active session found. Please activate a session to view subjects.')
+        return render(request, 'create_student_fee_payment.html', {'form': form})
+
+    if not active_branch:
+        messages.warning(request, 'No active branch found. Please activate a branch to view subjects.')
+        return render(request, 'create_student_fee_payment.html', {'form': form})
+    if request.method == 'POST':
+        if form.is_valid():
+            grading = form.save(commit=False)
+            grading.institute = request.user.institute_id.first()
+            grading.branch=active_branch
+            grading.session=active_session
+            grading.save()
+            return redirect('institute:grading_system_list')
+    else:
+        form = GradingSystemForm()
+    return render(request, 'grading/grading_system_form.html', {'form': form})
+
+# Update View
+def grading_system_update(request, pk):
+    grading_system = get_object_or_404(GradingSystem, pk=pk)
+    if request.method == 'POST':
+        form = GradingSystemForm(request.POST, instance=grading_system)
+        if form.is_valid():
+            form.save()
+            return redirect('institute:grading_system_list')
+    else:
+        form = GradingSystemForm(instance=grading_system)
+    return render(request, 'grading/grading_system_form.html', {'form': form})
+
+# Delete View
+def grading_system_delete(request, pk):
+    grading_system = get_object_or_404(GradingSystem, pk=pk)
+    if request.method == 'POST':
+        grading_system.delete()
+        return redirect('institute:grading_system_list')
+

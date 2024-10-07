@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block table-content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <a style="text-decoration:none; color:white" href="{% url 'examination:exam_time_table_create' %}">
+                <button class="btn btn-md btn-primary"><i class="fa fa-plus"></i> Create</button>
+            </a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>S.N</th>
+                            <th>Standard</th>
+                            <th>Exam Type</th>
+                            <th>Number of Students</th>
+                            <th>Exam Start Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for time_table in time_tables %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ time_table.standard__name }}</td>
+                            <td>{{ time_table.exam_type__name }}</td>
+                            <td>{{ time_table.num_students }}</td>
+                            <td>{{ time_table.first_exam_date }}</td>
+                            <td>
+                                <!-- Pass both IDs (standard and exam_type) to the AJAX function -->
+                                <button class="btn btn-sm btn-info" onclick="showTimetable({{ time_table.standard }}, {{ time_table.exam_type }})">View</button>
+                                <a href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" 
+                                    data-url="{% url 'examination:exam_time_table_delete' time_table.standard time_table.exam_type %}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="examTimeTableModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" id = "modal-dialog">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Exam Timetable</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id ="modal-body">
+                <!-- Timetable data will be loaded here dynamically -->
+                <div id="timetable-content">
+                    <!-- Placeholder for timetable data -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Print button aligned to the left -->
+                <button class="btn btn-primary btn-print" onclick="printTimetable()">Print Timetable</button>
+            
+                <!-- Close button aligned to the right -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this row?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post" action="">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showTimetable(standardId, examType) {
+        // Send an AJAX request to get the timetable data
+        $.ajax({
+            url: '{% url "examination:view_timetable_ajax" %}',
+            data: {
+                'standard_id': standardId,
+                'exam_type': examType
+            },
+            success: function(response) {
+                // Load the response data into the modal
+                $('#timetable-content').html(response.timetable_html);
+        
+                // Show the modal
+                $('#examTimeTableModal').modal('show');
+            },
+            error: function() {
+                alert('Error loading timetable. Please try again.');
+            }
+        });
+    }
+
+    $('#deleteModal').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget); // Button that triggered the modal
+        var url = button.data('url'); // Extract info from data-url attribute
+        
+        // Set the form action to the URL
+        var modal = $(this);
+        modal.find('#deleteForm').attr('action', url);
+    });
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+{% endblock table-content %}

@@ -1,0 +1,19 @@
+<form method="POST">
+    {% csrf_token %}
+    <label for="request_type">Request Type:</label>
+    <select name="request_type" id="request_type">
+        <option value="suggestion">Suggestion</option>
+        <option value="complaint">Complaint</option>
+    </select>
+
+    <label for="suggestion_type">Suggestion Type:</label>
+    <select name="suggestion_type" id="suggestion_type">
+        <option value="suggestion">Suggestion</option>
+        <option value="complaint">Complaint</option>
+    </select>
+
+    <label for="query">Query:</label>
+    <textarea name="query" id="query"></textarea>
+
+    <button type="submit">Submit</button>
+</form>

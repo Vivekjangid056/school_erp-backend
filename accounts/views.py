@@ -1,9 +1,9 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect, HttpResponseRedirect
 from django.urls import reverse_lazy
+from teacher_management.models import Employee
 from .models import User
 from .forms import *
-from scholar_register.models import StudentProfile
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -191,26 +191,48 @@ def branches_list(request):
             'branches': branches
         }
         return render(request, 'branches_list.html', context=context)
-    else:
+
+    elif request.user.role == "2":
         user = request.user
         try:
-            user_institute = user.institute_id.first()
-        except AttributeError:
+            institute = Institute.objects.get(user_id=user)
+        except Institute.DoesNotExist:
             messages.error(request, "You don't have an associated institute.")
             return redirect("some_error_page")
-        branches = InstituteBranch.objects.filter(
-            institute=request.user.institute_id.first())
-        number_of_branches_permitted = int(user_institute.number_of_branches)
-        number_of_branches_created = InstituteBranch.objects.filter(
-            institute=user_institute).count()
+
+        branches = InstituteBranch.objects.filter(institute=institute)
+        number_of_branches_permitted = int(institute.number_of_branches)
+        number_of_branches_created = InstituteBranch.objects.filter(institute=institute).count()
 
         context = {
             'branches': branches,
             'number_of_branches_permitted': number_of_branches_permitted,
             'number_of_branches_created': number_of_branches_created
-
         }
         return render(request, 'branches_list.html', context=context)
+
+    else:
+        user = request.user.id
+        try:
+            # Safely check if the Employee exists for the logged-in user
+            employee = Employee.objects.get(user=user)
+        except Employee.DoesNotExist:
+            messages.error(request, "You don't have an associated employee record.")
+            return redirect("some_error_page")
+
+        # Proceed if an Employee exists
+        institute = employee.institute
+        branches = InstituteBranch.objects.filter(institute=institute)
+        number_of_branches_permitted = int(institute.number_of_branches)
+        number_of_branches_created = InstituteBranch.objects.filter(institute=institute).count()
+
+        context = {
+            'branches': branches,
+            'number_of_branches_permitted': number_of_branches_permitted,
+            'number_of_branches_created': number_of_branches_created
+        }
+        return render(request, 'branches_list.html', context=context)
+
 
 
 def institute_branch_update_view(request, pk):
@@ -306,34 +328,32 @@ def session_delete(request, pk):
 @require_POST
 def change_session(request):
     session_pk = request.POST.get('session')
+    
     if session_pk:
         institute = request.user.institute_id.first()
-        session = get_object_or_404(AcademicSession, pk=session_pk)
-        session_list = AcademicSession.objects.filter(institute=institute)
+        session = get_object_or_404(AcademicSession, pk=session_pk, institute=institute)
         
-        for i in session_list:
-            i.is_active = (i == session)
-            i.save()
-
+        # Store the selected session in the user's session (Django session framework)
+        request.session['session_id'] = session.pk
+        
         messages.success(request, f'Session changed to {session.name}')
     else:
         messages.error(request, 'Invalid session selected')
-    
+
     return redirect('accounts:admin-dashboard')
 
 @require_POST
 def change_branch(request):
     branch_pk = request.POST.get('branch')
+    print(branch_pk)
     if branch_pk:
         institute = request.user.institute_id.first()
-        branch = get_object_or_404(InstituteBranch, pk = branch_pk)
-        branch_list = InstituteBranch.objects.filter(institute = institute)
+        branch = get_object_or_404(InstituteBranch, pk = branch_pk, institute=institute)
 
-        for i in branch_list:
-            i.is_active = (i==branch)
-            i.save()
+        request.session['branch_id'] = branch.pk
 
         messages.success(request, f'Branch changed to {branch.name}')
+        print('branch changed')
     else:
         messages.error(request, 'invalid branch selected')
 

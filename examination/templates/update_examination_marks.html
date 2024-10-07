@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Update Examination Marks</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="max_marks" class="form-label">Maximum Marks:</label>
+            <input type="number" class="form-control" name="max_marks" id="max_marks" value="{{ mark.max_marks }}" required>
+        </div>
+        <div class="form-group mb-4">
+            <label for="obtained_marks" class="form-label">Obtained Marks:</label>
+            <input type="number" class="form-control" name="obtained_marks" id="obtained_marks" value="{{ mark.obtained_marks }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'examination:examination_marks_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

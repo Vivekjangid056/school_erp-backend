@@ -21,9 +21,11 @@ class FeeStructureForm(forms.ModelForm):
         fields = ['standard', 'total_fee']
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
         super().__init__(*args, **kwargs)
-        if self.user:
-            active_branch = InstituteBranch.objects.filter(institute = self.user.institute_id.first(), is_active= True).first()
+        if self.user and self.session:
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
             self.fields['standard'].queryset = Standard.objects.filter(institute=self.user.institute_id.first(), branch = active_branch)
 
 class PaymentScheduleForm(forms.ModelForm):
@@ -45,9 +47,11 @@ class StudentFeePaymentForm(forms.ModelForm):        # ui side its installement 
         }
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
         super().__init__(*args, **kwargs)
-        if self.user:
+        if self.user and self.session:
             institute = self.user.institute_id.first()
-            active_branch = InstituteBranch.objects.filter(institute = institute, is_active= True).first()
-            active_session = AcademicSession.objects.filter(institute = institute, is_active = True).first()
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
+            active_session = AcademicSession.objects.get(pk=self.session.get('session_id'))
             self.fields['fee_structure'].queryset = FeeStructure.objects.filter(branch = active_branch, session = active_session)

@@ -1,0 +1,310 @@
+<!-- templates/employees_master/employee_master_register.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="card-header">
+            {% if form.instance.pk %}
+                <h2>Modify Employee</h2>
+            {% else %}
+                <h2>Create Employee</h2>
+            {% endif %}
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <fieldset>
+                <legend class="card-header bg-secondary bg-gradient d-flex flex-vertical justify-content-center mb-3">
+                    Employee Authentication Information</legend>
+                    <div class="row">
+                        <div class="col-md-5 d-flex flex-column align-items-center">
+                            <div class="">
+                            <h5>Image</h5>
+                            <div id="imagePreview" class="border p-2 mb-3" style="height: 200px; width: 200px; background-size: cover; background-position: center;">
+                                <!-- Image preview will be shown here -->
+                            </div>
+                            {{ employee_form.employee_image|as_crispy_field }}
+                        </div>
+                        </div>
+                        <div class="col-md-7 p-2">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ user_form.first_name|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ user_form.last_name|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ user_form.username|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ user_form.email|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ user_form.password1|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ user_form.password2|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ user_form.role|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ user_form.phone_number|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ employee_form.staff_role|as_crispy_field }}
+                        </div>
+                    </div>
+            </fieldset>
+        <hr>
+        <fieldset>
+            <legend class="card-header bg-secondary bg-gradient d-flex flex-vertical justify-content-center mb-3">
+                Employee Personal Information</legend>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.blood_group|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.first_name|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                            {{ employee_form.last_name|as_crispy_field }}
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.father_name|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.mother_name|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.date_of_birth|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.category_cast|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.pan_no|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.aadhar_no|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.marital_status|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.reliving_reason|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.gender|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.prefix|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.emp_no|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.join_date |as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.reliving_date|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.is_driver|as_crispy_field }}
+                    </div>
+                </div>
+            <fieldset>
+                <legend class="card-header bg-secondary bg-gradient d-flex flex-vertical justify-content-center mb-3">
+                    Employee Contact Information</legend>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.address_line_1|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.address_line_2|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.city|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.state|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.pin|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.mobile_number|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.office_contact|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.personal_email|as_crispy_field }}
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+
+            <fieldset>
+                <legend class="card-header bg-secondary bg-gradient d-flex flex-vertical justify-content-center mb-3">
+                    Employee Office Information</legend>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.department|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.designation|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.category|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.roll_no_10th|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.board_year_10th|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.school_location|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.employee_status|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.Pass_port_no|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.pass_port_end_date|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.punch_machine_id|as_crispy_field }}
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+            <fieldset>
+                <legend class="card-header bg-secondary bg-gradient d-flex flex-vertical justify-content-center mb-3">
+                    Employee Documant Information</legend>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.bank_account_no|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.ifsc_code|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.Banke_name|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.branch_address|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.payment_mode|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.qualification|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.experience|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.experience_detail|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.uan_no|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ employee_form.pf_no|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.esi_no|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ employee_form.apply_maximum_pf_limit|as_crispy_field }}
+                    </div>
+                </div>
+            </fieldset>
+            <hr>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        {{ employee_form.driving_license_no|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3">
+                        {{ employee_form.driving_license_issue_date|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3">
+                        {{ employee_form.driving_license_expiry_date|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-3">
+                        {{ employee_form.driving_license_issue_palace|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        {{ employee_form.remarks|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        {{ employee_form.signature_image|as_crispy_field }}
+                    </div>
+                </div>
+
+        <hr>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.style.backgroundImage = `url('${e.target.result}')`;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+    });
+    </script>
+{% endblock content %}

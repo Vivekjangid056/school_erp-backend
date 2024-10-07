@@ -2,17 +2,16 @@ from django.urls import path
 from .api_views import *
 
 urlpatterns = [
-    path('notifications/', notification_list, name='notification_list'),
-    path('notifications/<int:pk>/', notification_detail, name='notification_detail'),
-    
+    path('notifications/', send_notifications, name='send_notifications'),
+
     # url for gallery
-    path('gallery/', gallery_list, name='gallery_list'),
-    
+    path('gallery/', gallery_items_view, name='gallery_items'),
+
     # url for timetable
-    path('timetable',timetable_list, name='timetable_list_api'),
-    
+    path('timetable/',get_timetable, name='timetable_list_api'),
+
     # url for chat apis  
-    path('chat-messages/', CreateChatMessageView.as_view(), name = 'chat_messages' ),  # Create Chat Message
-    path('class-chat-messages/', ClassChatMessageView.as_view(), name='class_chat_messages'),  # fetch Chat Message for class
-    path('Indivi-chat-messages/', IndividualChatMessageView.as_view(), name='indivi_chat_messages'),  # fetch Chat Message for class
+    path('chat-messages/', create_chat_messages, name = 'chat_messages' ),  # Create Chat Message
+    path('class-chat-messages/', claas_chat_messages, name='class_chat_messages'),  # fetch Chat Message for class
+    path('indivi-chat-messages/', individual_chat_messages, name='indivi_chat_messages'),  # fetch Chat Message for class
 ]

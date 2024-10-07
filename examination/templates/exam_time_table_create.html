@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <h2>Create Exam Timetable</h2>
+    <hr>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-3 form-group">
+                {{ form.standard|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.exam_type|as_crispy_field }}
+            </div>
+        </div>
+
+        <!-- Table to dynamically load subjects -->
+        <div id="subject-timetable-section" style="display: none;">
+            <h3>Timetable for Subjects</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                    </tr>
+                </thead>
+                <tbody id="subject-timetable-body">
+                    <!-- Dynamic rows will be appended here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Venue and Note fields for the overall exam -->
+        <div class="row mt-4">
+            <div class="col-md-6 form-group">
+                <label for="venue">Venue</label>
+                <input type="text" id="venue" name="venue" class="form-control" placeholder="Enter exam venue" required>
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="note">Note</label>
+                <textarea id="note" name="note" class="form-control" placeholder="Enter any exam instructions" rows="3"></textarea>
+            </div>
+        </div>
+
+        <hr>
+        <button type="submit" class="btn btn-primary col-md-2">Save Timetable</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var standardFieldId = '{{ form.standard.id_for_label }}';
+        var examTypeFieldId = '{{ form.exam_type.id_for_label }}';
+
+        function loadSubjects(standardId) {
+            if (standardId) {
+                // Fetch subjects based on standard
+                $.ajax({
+                    url: '{% url "institute:get_subjects" %}',  // Update this URL accordingly
+                    data: {
+                        'standard_id': standardId
+                    },
+                    success: function(data) {
+                        $('#subject-timetable-section').show();
+                        $('#subject-timetable-body').empty();
+
+                        $.each(data.subjects, function(index, subject) {
+                            // Create rows for each subject with the input fields
+                            var rowHtml = `
+                                <tr>
+                                    <td>${subject.name}</td>
+                                    <td><input type="date" name="date_${subject.id}" class="form-control" required></td>
+                                    <td><input type="time" name="start_time_${subject.id}" class="form-control" required></td>
+                                    <td><input type="time" name="end_time_${subject.id}" class="form-control" required></td>
+                                </tr>
+                            `;
+                            $('#subject-timetable-body').append(rowHtml);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching subjects:', status, error);
+                    }
+                });
+            } else {
+                $('#subject-timetable-section').hide();
+                $('#subject-timetable-body').empty();
+            }
+        }
+
+        function loadExamTypes(standardId) {
+            if (standardId) {
+                // Fetch exam types based on selected standard
+                $.ajax({
+                    url: '{% url "examination:get_exam_types" %}',  // Update this URL accordingly
+                    data: {
+                        'standard_id': standardId
+                    },
+                    success: function(data) {
+                        // Populate exam_type select field
+                        var examTypeSelect = $('#' + examTypeFieldId);
+                        examTypeSelect.empty();  // Clear existing options
+                        examTypeSelect.append('<option value="">Select Exam Type</option>');  // Default option
+
+                        $.each(data.exam_types, function(index, examType) {
+                            examTypeSelect.append(`<option value="${examType.id}">${examType.name}</option>`);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching exam types:', status, error);
+                    }
+                });
+            } else {
+                $('#' + examTypeFieldId).empty();
+            }
+        }
+
+        // Load exam types when the standard is changed
+        $('#' + standardFieldId).change(function() {
+            var standardId = $(this).val();
+            loadExamTypes(standardId);
+        });
+
+        // Load subjects when the standard is changed
+        $('#' + standardFieldId).change(function() {
+            var standardId = $(this).val();
+            loadSubjects(standardId);
+        });
+    });
+</script>
+{% endblock %}

@@ -27,15 +27,16 @@ urlpatterns = [
     path("dashboard/", include("scholar_register.urls")),
     path("dashboard/", include("teacher_management.urls")),
     path("dashboard/", include("fees_module.urls")),
+    path("dashboard/", include("examination.urls")),
 
     # registering the corresponding api urls files
     path("api/", include('institute.api_urls')),
     path("api/", include('scholar_register.api_urls')),
-    # path("dashboard/api/", include('teacher_management.api_urls')),
+    path("api/", include('teacher_management.api_urls')),
     path("api/", include('accounts.api_urls')),
+    path("api/", include('fees_module.api_urls')),
+    path("api/", include('examination.api_urls')),
     path("dashboard/", include("hr.urls")),
-    # urls for apis
-    path("api/", include("teacher_management.api_urls")),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

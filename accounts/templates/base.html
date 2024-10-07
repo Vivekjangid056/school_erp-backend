@@ -167,9 +167,9 @@
                                     <span>HR Descriptions</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex" href="#" data-menu="#">
+                            <a class="dropdown-item d-flex" href="#" data-menu="examination">
                                 <i class="fas fa-file-alt"></i>
-                                <div style="color:#d8d8df;" class="item-text">
+                                <div class="item-text">
                                     <span class="item-title">Examination</span>
                                     <span>Examination Descriptions</span>
                                 </div>
@@ -242,65 +242,68 @@
                     {% endif %}
                 </div>
                 <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center">
-                        <div class="dropdown me-3">
-                            {% if active_branch %}
-                            <button class="btn header-item waves-effect font-size-16 dropdown-toggle" type="button" id="branchDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ active_branch.name }}
-                            </button>
-                            {% else %}
-                            <button class="btn header-item waves-effect font-size-16">
-                                <a href="{% url 'accounts:add_branch' %}">No Branch Selected</a>
-                            </button>
-                            {% endif %}
-                            <ul class="dropdown-menu" aria-labelledby="branchDropdownButton">
-                                {% for branch in institute.branch.all %}
-                                <li>
-                                    <a href="#" class="dropdown-item" onclick="document.getElementById('branchForm_{{ branch.pk }}').submit();">
-                                        {{ branch.name }}
-                                        {% if branch.is_active %}
-                                            <span class="text-muted">(Active)</span>
-                                        {% endif %}
-                                    </a>
-                                    <form id="branchForm_{{ branch.pk }}" method="POST" action="{% url 'accounts:change_branch' %}" class="d-none">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="branch" value="{{ branch.pk }}">
-                                    </form>
-                                </li>
-                                {% endfor %}
-                            </ul>
+                        <!-- Dropdown for active branch -->
+                        <div class="d-flex align-items-center">
+                            <div class="dropdown me-3">
+                                {% if active_branch %}
+                                <button class="btn header-item waves-effect font-size-16 dropdown-toggle" type="button" id="branchDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ active_branch.name }}
+                                </button>
+                                {% else %}
+                                <button class="btn header-item waves-effect font-size-16">
+                                    <a href="{% url 'accounts:add_branch' %}">No Branch Selected</a>
+                                </button>
+                                {% endif %}
+                                <ul class="dropdown-menu" aria-labelledby="branchDropdownButton">
+                                    {% for branch in branches %}
+                                    <li>
+                                        <a href="#" class="dropdown-item" onclick="document.getElementById('branchForm_{{ branch.pk }}').submit();">
+                                            {{ branch.name }}
+                                            {% if branch.is_active %}
+                                                <span class="text-muted">(Active)</span>
+                                            {% endif %}
+                                        </a>
+                                        <form id="branchForm_{{ branch.pk }}" method="POST" action="{% url 'accounts:change_branch' %}" class="d-none">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="branch" value="{{ branch.pk }}">
+                                        </form>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                
-                    <div class="d-flex align-items-center">
-                        <div class="dropdown me-3">
-                            {% if active_session %}
-                            <button class="btn header-item waves-effect font-size-16 dropdown-toggle" type="button" id="sessionDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ active_session.name }}
-                            </button>
-                            {% else %}
-                            <button class="btn header-item waves-effect font-size-16">
-                                <a href="{% url 'accounts:add_session' %}">No Active Session</a>
-                            </button>
-                            {% endif %}
-                            <ul class="dropdown-menu" aria-labelledby="sessionDropdownButton">
-                                {% for session in institute.sessions.all %}
-                                <li>
-                                    <a href="#" class="dropdown-item" onclick="document.getElementById('sessionForm_{{ session.pk }}').submit();">
-                                        {{ session.name }}
-                                        {% if session.is_active %}
-                                            <span class="text-muted">(Active)</span>
-                                        {% endif %}
-                                    </a>
-                                    <form id="sessionForm_{{ session.pk }}" method="POST" action="{% url 'accounts:session_change' %}" class="d-none">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="session" value="{{ session.pk }}">
-                                    </form>
-                                </li>
-                                {% endfor %}
-                            </ul>
+                        
+                        <!-- Dropdown for active session -->
+                        <div class="d-flex align-items-center">
+                            <div class="dropdown me-3">
+                                {% if active_session %}
+                                <button class="btn header-item waves-effect font-size-16 dropdown-toggle" type="button" id="sessionDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ active_session.name }}
+                                </button>
+                                {% else %}
+                                <button class="btn header-item waves-effect font-size-16">
+                                    <a href="{% url 'accounts:add_session' %}">No Active Session</a>
+                                </button>
+                                {% endif %}
+                                <ul class="dropdown-menu" aria-labelledby="sessionDropdownButton">
+                                    {% for session in sessions %}
+                                    <li>
+                                        <a href="#" class="dropdown-item" onclick="document.getElementById('sessionForm_{{ session.pk }}').submit();">
+                                            {{ session.name }}
+                                            {% if session.is_active %}
+                                                <span class="text-muted">(Active)</span>
+                                            {% endif %}
+                                        </a>
+                                        <form id="sessionForm_{{ session.pk }}" method="POST" action="{% url 'accounts:session_change' %}" class="d-none">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="session" value="{{ session.pk }}">
+                                        </form>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+
                     <div class="dropdown d-inline-block profile">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle header-profile-user" src="{% static 'assets/images/jack.png' %}" alt="Header Avatar">
@@ -658,9 +661,6 @@
             discountSection:"{% url 'institute:list_of_discount' %}",
             sessionCreate:"{% url 'accounts:list_of_sessions' %}",
             
-            <!--employee url for crete role in  dependent dropdown-->
-            listOfEmployees : "{% url 'institute:list_of_employees' %}",
-            
             <!--teacher list-->
             categoryMasterList: "{% url 'teacher:category_master_list' %}",
             designationMasterList:"{% url 'teacher:designation_master_list' %}",
@@ -671,7 +671,7 @@
 
             <!--holiday list-->
             holidayList:"{% url 'teacher:holiday_list' %}",
-            listOfMastersList:"{% url 'teacher:list_of_employee_master' %}",
+            listOfEmployees:"{% url 'teacher:list_of_employees' %}",
             studentRegistration: "{% url 'students:list_of_students' %}",
 
             <!--HR-->
@@ -693,7 +693,14 @@
             gallery:"{% url 'institute:gallery_list' %}",
             <!--time table-->
             scheduleTimeTable : "{% url 'institute:timetable_list' %}",
-            customMenu : "{% url 'institute:list_of_custom_menu' %}"
+            customMenu : "{% url 'institute:list_of_custom_menu' %}",
+            classPeriods : "{% url 'institute:class_periods' %}",
+            <!-- exam time table -->
+            examTimeTable : "{% url 'examination:exam_time_table_list' %}",
+            examTypeList : "{% url 'examination:exam_type_list' %}",
+            examinationMarks : "{% url 'examination:examination_marks_list' %}",
+            gradingList : "{% url 'institute:grading_system_list' %}"
+
 
         };
     </script>
