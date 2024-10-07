@@ -42,6 +42,9 @@
                         <th>Name</th>
                         <th>Branch Address</th>
                         <th>Actions</th>
+                        {% if user.role == "2" %}
+                        <th>Activate/Deactivate</th> <!-- New column for role 2 -->
+                        {% endif %}
                       </tr>
                     </thead>
                     <tbody>
@@ -60,10 +63,20 @@
                             <i class="fas fa-trash-alt"></i>
                           </button>
                         </td>
+                        {% if user.role == "2" %}
+                        <td>
+                          <!-- Toggle switch for Activate/Deactivate -->
+                          <div class="form-check form-switch">
+                            <input class="form-check-input branch-switch" type="checkbox" role="switch"
+                              data-branch-id="{{ branch.pk }}"
+                              {% if branch.is_active %} checked {% endif %} onchange="toggleBranch(this)">
+                          </div>
+                        </td>
+                        {% endif %}
                       </tr>
                       {% empty %}
                       <tr>
-                        <td colspan="4">No branches available</td>
+                        <td colspan="5">No branches available</td>
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -109,8 +122,7 @@
 <div class="row">
   <div class="col-12">
     <div class="d-flex justify-content-end">
-
-      <!--                                    List of Institutes                                 -->
+      <!-- List of Institutes -->
       {% if number_of_branches_permitted and number_of_branches_created %}
         <div class="d-flex justify-content-end mb-3">
             {% if number_of_branches_created < number_of_branches_permitted %} 
@@ -122,18 +134,19 @@
             {% endif %}
         </div>
     {% endif %}
-
     </div>
     {% if branches %}
     <div class="card">
       <div class="card-body">
-
         <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
           <thead>
             <tr>
               <th>S.N</th>
               <th>Branch Name</th>
               <th>Branch Address</th>
+              {% if user.role == "2" %}
+              <th>Activate/Deactivate</th> <!-- New column for role 2 -->
+              {% endif %}
               <th>Action</th>
             </tr>
           </thead>
@@ -143,6 +156,15 @@
               <td>{{forloop.counter}}</td>
               <td>{{branch.name}}</td>
               <td>{{branch.address}}</td>
+              {% if user.role == "2" %}
+              <td>
+                <!-- Toggle switch for Activate/Deactivate -->
+                <div class="form-check form-switch mx-auto" style="width: 20px;">
+                  <input class="form-check-input branch-switch" style="width: 50px; height:20px" type="checkbox" role="switch"
+                    data-branch-id="{{ branch.pk }}"
+                    {% if branch.is_active %} checked {% endif %} onchange="toggleBranch(this)">
+                </div>
+              </td>
               <td>
                 <a href="{% url 'accounts:branch_update' branch.pk %}" class="btn btn-sm btn-primary"
                   style="padding:0.001rem" title="Edit">
@@ -153,6 +175,7 @@
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </td>
+              {% endif %}
             </tr>
             {% endfor %}
           </tbody>
@@ -165,15 +188,12 @@
 <div class="row">
   <div class="col-12">
     <div class="d-flex justify-content-end">
-
-      <!--                                    List of Institutes                                 -->
-
+      <!-- List of Institutes -->
       <a style="text-decoration:none; color:white" href="{% url 'accounts:add_branch' %}"><button
           class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
     </div>
     <div class="card">
       <div class="card-body">
-
         <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
           <thead>
             <tr>
@@ -181,6 +201,9 @@
               <th>Branch Name</th>
               <th>Branch Address</th>
               <th>Action</th>
+              {% if user.role == "2" %}
+              <th>Activate/Deactivate</th> <!-- New column for role 2 -->
+              {% endif %}
             </tr>
           </thead>
         </table>
@@ -192,3 +215,31 @@
 
 {% endif %}
 {% endblock table-content %}
+
+<script>
+  function toggleBranch(element) {
+    if (element.checked) {
+      // Uncheck all other switches
+      document.querySelectorAll('.branch-switch').forEach(switchElement => {
+        if (switchElement !== element) {
+          switchElement.checked = false;
+        }
+      });
+
+      // Send request to activate the selected branch
+      let branchId = element.getAttribute('data-branch-id');
+      fetch('{% url "accounts:activate_branch" %}', {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ branch_id: branchId })
+      }).then(response => {
+        if (!response.ok) {
+          console.error("Failed to activate the branch.");
+        }
+      });
+    }
+  }
+</script>

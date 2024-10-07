@@ -12,7 +12,7 @@ class MainMenu(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class SubMenu(models.Model):
     menu = models.ForeignKey(MainMenu, on_delete=models.CASCADE, related_name='submenus')
@@ -21,7 +21,7 @@ class SubMenu(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class SuperSubMenu(models.Model):
     submenu = models.ForeignKey(SubMenu, on_delete=models.CASCADE, related_name='supersubmenus')
@@ -178,11 +178,30 @@ class ClassGroups(models.Model):
         return self.name
 
 
+class GradingSystem(models.Model):
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='institute_grading_system')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='branch_grading_system')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='session_grading_system')
+    grade = models.CharField(max_length=10)
+    marks_from = models.IntegerField()
+    marks_to = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.grade} ({self.marks_from}-{self.marks_to})"
+
 
 class Standard(models.Model):
+
+    Result_Choices =(
+        ("PERCENTAGE", "Percentage"),
+        ("CGPA", "cgpa"),
+        ("GRADE", "grade"),
+    )
+
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name = 'standard_branch')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='standard')
     name = models.CharField(max_length=100)
+    result_type = models.CharField(max_length=20, choices=Result_Choices)
 
     def __str__(self):
         return self.name
@@ -196,7 +215,7 @@ class Subjects(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name  
+        return self.name
 
 
 class Documents(models.Model):
@@ -327,7 +346,7 @@ class Section(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
         return f"{self.standard.name} - {self.name}"
-    
+
 class DiscountScheme(models.Model):
     session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='discount_scheme')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='discount_scheme')
@@ -341,55 +360,86 @@ class DiscountScheme(models.Model):
 class NotificationModel(models.Model):
     INSTITUTE = "1"
     TEACHER = "2"
+    ALL_STUDENTS = "all_students"
+    ALL_TEACHERS = "all_teachers"
 
     SENDER_CHOICES = [
         (TEACHER, 'Teacher'),
         (INSTITUTE, 'Institute'),
     ]
-    user = models.CharField(choices=SENDER_CHOICES, default=INSTITUTE)
+
+    RECEIVER_CHOICES = [
+        (ALL_STUDENTS, 'All Students'),
+        (ALL_TEACHERS, 'All Teachers'),
+    ]
+
+    user = models.CharField(choices=SENDER_CHOICES, default=INSTITUTE, max_length=10)
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='notification')
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='notification_branch')
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000)
     document = models.FileField(upload_to='documents/', max_length=100)
-    
+    receiver = models.CharField(max_length=50)  # Store as a comma-separated string
+
+    def get_receiver_display(self):
+        choices_dict = dict(self.RECEIVER_CHOICES)
+        return ', '.join([choices_dict.get(choice, choice) for choice in self.receiver.split(',')])
+
+
 class GalleryItems(models.Model):
+    MEDIA_TYPE =[
+        ('image', 'Image'),
+        ('video', 'Video'),
+        ('you_tube_link', 'You Tube Link' )
+    ]
     session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='gallery_items')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE,related_name='institute_gallery')
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='gallery_items_branch')
     name = models.CharField(max_length=255)
+    type = models.CharField(max_length=120, choices=MEDIA_TYPE)
     url_tag = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to='gallery/',blank=True, null=True)
     video = models.FileField(upload_to='gallery/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return self.name
-    
+
+from scholar_register.models import StudentProfile # imported here beacuse of circular import error
+
 class ChatMessage(models.Model):
     MESSAGE_TYPES = [
-        ('text','Text'),
-        ('image','Image'),
-        ('doc','Document'),
-        ('video','Video'),
+        ('text', 'Text'),
+        ('image', 'Image'),
+        ('doc', 'Document'),
+        ('video', 'Video'),
     ]
-    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name='chat_messsage')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='chat_message')
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
     branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='chat_messages_branch')
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_message')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recieved_message',blank=True,null=True)
-    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, null=True,blank=True )
-    section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True,blank=True )
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_message', blank=True, null=True)
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE, null=True, blank=True)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True, blank=True)
     message_type = models.CharField(max_length=10, choices=MESSAGE_TYPES)
     message = models.TextField()
     is_individual = models.BooleanField(default=False)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)  # New field to capture the student
     time_stamp = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return f"Message from {self.sender} to {self.receiver if self.is_individual else 'class'}"
-    
+
+
 class CustomMenu(models.Model):
+
+    Url_For =[
+        ('student', 'student'),
+        ('teacher', 'Teacher' )
+    ]
     institute = models.ForeignKey(Institute, on_delete = models.CASCADE, related_name='custom_menu_institute')
+    url_for = models.CharField(max_length=20, choices=Url_For)
+    is_active = models.BooleanField(default=False)
     name = models.CharField(max_length = 100)
     url = models.URLField()
     image = models.ImageField(upload_to='gallery/',blank=True, null=True)

@@ -2,12 +2,11 @@
 {% load static %}
 {% block table-content %}
 
-
 <!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Employee Master</h4>
+            <h4 class="mb-sm-0 font-size-18">Data Tables</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -17,22 +16,33 @@
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                 </ol>
             </div>
+
         </div>
     </div>
 </div>
 <!-- end page title -->
 
-{% if employee_master_list %}
+<form method="GET" class="mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" name="student_name" class="form-control" placeholder="Filter by Student Name" value="{{ student_name }}">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
+{% if marks %}
 
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
 
-    <!--====================================== List of Employee Masters ===================================-->
+            <!--                                    List of Institutes                                 -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'teacher:add_employee_master' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> Add New</button>
-            </a>
+            <a style="text-decoration:none; color:white" href="{% url 'examination:examination_marks_create' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
             <div class="card-body">
@@ -41,34 +51,34 @@
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>EmpNo.</th>
-                            <th>Employee Name</th>
-                            <th>Join Date</th>
-                            <th>Father Name</th>
-                            <th>Designation</th>
-                            <th>Status</th>
-                            <th>actions</th>
+                            <th>Student Name</th>
+                            <th>Student Roll Number Duration</th>
+                            <th>Father's Name</th>
+                            <th>Subject</th>
+                            <th>Maximum Marks</th>
+                            <th>Obtained Marks</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for employee_master in employee_master_list %}
+                        {% for mark in marks %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{employee_master.emp_no}}</td>
-                            <td>{{employee_master.first_name}}</td>
-                            <td>{{employee_master.join_date}}</td>
-                            <td>{{employee_master.father_name}}</td>
-                            <td>{{employee_master.designation}}</td>
-                            <td>{{employee_master.employee_status}}</td>
+                            <td>{{mark.student.first_name}}</td>
+                            <td>{{mark.student.roll_number}}</td>
+                            <td>{{mark.student.parent.fathers_name}}</td>
+                            <td>{{mark.subject.name}}</td>
+                            <td>{{mark.max_marks}}</td>
+                            <td>{{mark.obtained_marks}}</td>
                             <td>
-                                <a href="{% url 'teacher:update_employee_master' employee_master.pk %}"
+                                <a href="{% url 'examination:examination_marks_update' mark.pk %}"
                                     class="btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
                                      <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <button class="btn btn-sm btn-danger"  
 style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-url="{% url 'teacher:delete_employee_master' employee_master.pk %}">
+                                    data-url="{% url 'examination:examination_marks_delete' mark.pk %}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -85,11 +95,10 @@ style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
     <div class="col-12">
         <div class="d-flex justify-content-end">
 
-    <!--======================================= List of Institutes ========================================-->
+            <!--                                    List of Institutes                                 -->
 
-            <a style="text-decoration:none; color:white" href="{% url 'teacher:add_employee_master' %}"><button
-                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i>  Add New </button>
-                </a>
+            <a style="text-decoration:none; color:white" href="{% url 'examination:examination_marks_create' %}"><button
+                    class="btn btn-md btn-primary"><i class="fa fa-plus"></i> create</button></a>
         </div>
         <div class="card">
             <div class="card-body">
@@ -98,13 +107,13 @@ style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
                     <thead>
                         <tr>
                             <th>S.N</th>
-                            <th>EmpNo.</th>
-                            <th>Employee Name</th>
-                            <th>Join Date</th>
-                            <th>Father Name</th>
-                            <th>Designation</th>
-                            <th>Status</th>
-                            <th>actions</th>
+                            <th>Student Name</th>
+                            <th>Student Roll Number Duration</th>
+                            <th>Father's Name</th>
+                            <th>Subject</th>
+                            <th>Maximum Marks</th>
+                            <th>Obtained Marks</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                 </table>

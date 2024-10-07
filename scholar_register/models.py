@@ -2,11 +2,12 @@ from django.db import models
 from django.core.validators import RegexValidator
 from accounts.models import *
 from institute.models import Caste, Category, ChildStatus, DiscountScheme, House, Medium, MotherToungue, Nationality, PaymentMode, Religion, Section, Standard, StudentType, Subjects
+from teacher_management.models import Employee
 # Create your models here.
 
 class StudentParents(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE, related_name = "student_parent_id")
-    institute = models.ForeignKey(Institute, on_delete = models.CASCADE, related_name="student_parent_id")
+    institute = models.ForeignKey(Institute, on_delete = models.CASCADE, related_name="student_parent_institute_id")
     fathers_name = models.CharField(max_length=255)
     fathers_email = models.CharField(max_length=255,blank=True) #optional
     fathers_mob_no = models.CharField(max_length=255)
@@ -169,6 +170,57 @@ class Attendance(models.Model):
     date = models.DateField()
     present = models.BooleanField(default=False)
     absent = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return f"{self.student.first_name} - {self.subject.name} - {self.date} - {self.present}"
+    
+class StudentLeaveApplication(models.Model):
+    institute = models.ForeignKey(Institute, on_delete= models.CASCADE, related_name = 'leave_application_institute')
+    branch = models.ForeignKey(InstituteBranch, on_delete= models.CASCADE, related_name = 'leave_application_branch')
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name = 'leave_application_session')
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name = 'leave_application_student')
+    checked_by = models.ForeignKey(Employee, on_delete=models.CASCADE , null=True, blank=True, related_name="leave_application_teacher")
+    start_date= models.DateField()
+    end_date = models.DateField()
+    leaving_reason = models.TextField(max_length=500)
+    attachment = models.FileField(upload_to='documents/' ,max_length=255, null=True, blank=True)
+    is_approved = models.BooleanField(default=False)
+
+
+class StudentComplaintsOrSuggestions(models.Model):
+
+    request_choices = (
+        ('suggestion','Suggestion'),
+        ('complaint','Complaint'),
+    )
+
+    suggestion_choices = (
+        ('academic','Academic'),
+        ('Non Academic','Non-Academic'),
+    )
+    institute = models.ForeignKey(Institute, on_delete= models.CASCADE, related_name = 'student_complaint_institute')
+    branch = models.ForeignKey(InstituteBranch, on_delete= models.CASCADE, related_name = 'student_complaint_branch')
+    session = models.ForeignKey(AcademicSession, on_delete= models.CASCADE, related_name = 'student_complaint_session')
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name = 'student_complaint_student')
+    request_type = models.CharField(max_length=200, choices=request_choices)
+    suggestion_type = models.CharField(max_length=200, choices=suggestion_choices)
+    query= models.TextField(max_length=1000)
+
+from teacher_management.models import Assignments
+class AssignmentSubmission(models.Model):
+    Status_Choices = (
+        ('Pending', 'pending'),
+        ('Approved', 'approved'),
+        ('Reject', 'reject'),
+        ('Submitted', 'submitted')
+    )
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, related_name='assignment_submission_institute')
+    branch = models.ForeignKey(InstituteBranch, on_delete=models.CASCADE, related_name='assignment_submission_branch')
+    session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, related_name='assignment_submission_session')
+    assignment = models.ForeignKey(Assignments, on_delete=models.CASCADE, related_name='assignment_submission_assignment')
+    reviewed_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='assignment_submission_employee', null=True, blank=True)
+    student= models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='assignment_submission_student', null=True, blank=True)
+    status = models.CharField(max_length=30, choices=Status_Choices, default="pending")
+    remarks = models.CharField(max_length=200, null=True, blank=True)
+    date = models.DateField()
+    attachment = models.FileField(upload_to='documents/', max_length=100, null=True, blank=True)

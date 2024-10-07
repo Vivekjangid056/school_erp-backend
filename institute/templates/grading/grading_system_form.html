@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>{{ form.instance.pk|yesno:"Update Grading System,Create Grading System" }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4">
+                {{ form.grade | as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                {{ form.marks_from | as_crispy_field }}
+            </div>
+            <div class="col-md-5">
+                {{ form.marks_to | as_crispy_field }}
+            </div>
+        </div>
+        
+        <a class='btn btn-success' href="{% url 'institute:grading_system_list' %}">Back to list</a>
+        <button class='btn btn-primary' type="submit">Save</button>
+    </form>
+
+
+{% endblock content %}

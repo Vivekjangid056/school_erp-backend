@@ -293,3 +293,10 @@ class InstituteBranch(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CGPAResult(models.Model):
+    marks_starting_range = models.IntegerField()
+    marks_ending_range = models.IntegerField()
+    grade_point = models.IntegerField()
+    

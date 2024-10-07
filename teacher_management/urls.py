@@ -35,10 +35,10 @@ urlpatterns = [
     path('holiday-list-update<int:pk>',UpdateHolidayList.as_view(),name='holiday_list_update'),
 
     # ================================Employee master Crud urls ==================================
-    path('add-employee-master/', employee_master_create_view, name= 'add_employee_master'),
-    path('list-employee-master/', EmployeeMasterList.as_view(), name= "list_of_employee_master"),
-    path('update_employee_master/<int:pk>', employee_master_update, name = "update_employee_master"),
-    path('delete_employee_master/<int:pk>', EmployeeMasterDelete.as_view(), name = "delete_employee_master"),
+    path('add-employee/', employee_create_view, name= 'add_employee'),
+    path('list-employees/', EmployeesList.as_view(), name= "list_of_employees"),
+    path('update_employee/<int:pk>', employee_update, name = "update_employee"),
+    path('delete_employee/<int:pk>', EmployeeDelete.as_view(), name = "delete_employee"),
     path('holiday-list-delete<int:pk>',DeleteHolidayList.as_view(),name='holiday_list_delete'),
     
     

@@ -2,9 +2,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views import View
-from teacher_management.forms import *
-from django.views.generic import UpdateView, CreateView, DeleteView, FormView, ListView
+from .forms import *
+from django.views.generic import UpdateView, CreateView, DeleteView, ListView
 from .models import *
 
 
@@ -12,10 +11,10 @@ from .models import *
 def category_master_list(request):
     user = request.user
     institute = Institute.objects.get(user_id=user)
-    active_session = AcademicSession.objects.filter(
-        institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(
-        institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(
@@ -27,7 +26,7 @@ def category_master_list(request):
             request, "No active Branch found. Please activate a Branch to view Categories.")
         return LmCategoryMaster.objects.none()
     data = LmCategoryMaster.objects.filter(
-        branch=active_branch, session=active_session)
+        branch=active_branch)
     context = {
         'data': data
     }
@@ -43,23 +42,19 @@ class AddCategoryMaster(CreateView):
     def form_valid(self, form):
         category = form.save(commit=False)
         institute = self.request.user.institute_id.first()
-        active_session = AcademicSession.objects.filter(
-            institute=institute, is_active=True).first()
-        active_branch = InstituteBranch.objects.filter(
-            institute=institute, is_active=True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.warning(
-                self.request, "No active session found. Please activate a session to add Categories.")
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
-
+        
         if not active_branch:
-            messages.warning(
-                self.request, "No active Branch found. Please activate a Branch to add Categories.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
         category.institute = institute
         category.branch = active_branch
-        category.session = active_session
         form.save()
         return super().form_valid(form)
 
@@ -104,10 +99,10 @@ class deleteMasterCategory(DeleteView):
 def designation_master_list(request):
     user = request.user
     institute = Institute.objects.get(user_id=user)
-    active_session = AcademicSession.objects.filter(
-        institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(
-        institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(
@@ -119,7 +114,7 @@ def designation_master_list(request):
             request, "No active Branch found. Please activate a Branch to view Categories.")
         return LmDesignationMaster.objects.none()
     data = LmDesignationMaster.objects.filter(
-        branch=active_branch, session=active_session)
+        branch=active_branch)
     context = {
         'data': data
     }
@@ -135,23 +130,19 @@ class CreateDesignationMaster(CreateView):
         designation = form.save(commit=False)
         user = self.request.user
         institute = Institute.objects.get(user_id=user)
-        active_session = AcademicSession.objects.filter(
-            institute=institute, is_active=True).first()
-        active_branch = InstituteBranch.objects.filter(
-            institute=institute, is_active=True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.warning(
-                self.request, "No active session found. Please activate a session to view Categories.")
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
-
+        
         if not active_branch:
-            messages.warning(
-                self.request, "No active Branch found. Please activate a Branch to view Categories.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
         designation.institute = institute
         designation.branch = active_branch
-        designation.session = active_session
         form.save()
         return super().form_valid(form)
 
@@ -182,11 +173,10 @@ class DeleteDesignationMaster(DeleteView):
 def department_master_list(request):
     user = request.user
     institute = Institute.objects.get(user_id=user)
-    active_session = AcademicSession.objects.filter(
-        institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(
-        institute=institute, is_active=True).first()
-
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
     if not active_session:
         messages.warning(
             request, "No active session found. Please activate a session to view Categories.")
@@ -197,7 +187,7 @@ def department_master_list(request):
             request, "No active Branch found. Please activate a Branch to view Categories.")
         return LmDepartmentMaster.objects.none()
     data = LmDepartmentMaster.objects.filter(
-        branch=active_branch, session=active_session)
+        branch=active_branch)
     context = {
         'data': data
     }
@@ -213,23 +203,19 @@ class CreateDepartmentMaster(CreateView):
         department = form.save(commit=False)
         user = self.request.user
         institute = Institute.objects.get(user_id=user)
-        active_session = AcademicSession.objects.filter(
-            institute=institute, is_active=True).first()
-        active_branch = InstituteBranch.objects.filter(
-            institute=institute, is_active=True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.warning(
-                self.request, "No active session found. Please activate a session to view Categories.")
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
-
+        
         if not active_branch:
-            messages.warning(
-                self.request, "No active Branch found. Please activate a Branch to view Categories.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
         department.institute = institute
         department.branch = active_branch
-        department.session = active_session
         form.save()
         return super().form_valid(form)
 
@@ -260,10 +246,10 @@ class deleteDepartmentMaster(DeleteView):
 def attendance_type_list(request):
     user = request.user
     institute = Institute.objects.get(user_id=user)
-    active_session = AcademicSession.objects.filter(
-        institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(
-        institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(
@@ -276,7 +262,7 @@ def attendance_type_list(request):
         return LmAttendanceType.objects.none()
 
     data = LmAttendanceType.objects.filter(
-        branch=active_branch, session=active_session)
+        branch=active_branch)
     context = {
         'data': data
     }
@@ -291,24 +277,20 @@ class CreateAttendanceType(CreateView):
     def form_valid(self, form):
         user = self.request.user
         institute = Institute.objects.get(user_id=user)
-        active_session = AcademicSession.objects.filter(
-            institute=institute, is_active=True).first()
-        active_branch = InstituteBranch.objects.filter(
-            institute=institute, is_active=True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.warning(
-                self.request, "No active session found. Please activate a session to view Categories.")
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
-
+        
         if not active_branch:
-            messages.warning(
-                self.request, "No active Branch found. Please activate a Branch to view Categories.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
         attendance_type = form.save(commit=False)
         attendance_type.institute=institute
         attendance_type.branch = active_branch
-        attendance_type.session = active_session
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -338,10 +320,10 @@ class DeleteAttendanceType(DeleteView):
 def holiday_list(request):
     user = request.user
     institute = Institute.objects.get(user_id=user)
-    active_session = AcademicSession.objects.filter(
-        institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(
-        institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(
@@ -368,19 +350,16 @@ class CreateHolidayList(CreateView):
     def form_valid(self, form):
         user = self.request.user
         institute = Institute.objects.get(user_id=user)
-        active_session = AcademicSession.objects.filter(
-            institute=institute, is_active=True).first()
-        active_branch = InstituteBranch.objects.filter(
-            institute=institute, is_active=True).first()
-
+        session = self.request.session.get('session_id')
+        active_session = AcademicSession.objects.get(pk=session)
+        branch = self.request.session.get('branch_id')
+        active_branch = InstituteBranch.objects.get(pk=branch)
         if not active_session:
-            messages.warning(
-                self.request, "No active session found. Please activate a session to view Categories.")
+            messages.warning(self.request, "No active session found. Please create or activate a session.")
             return self.form_invalid(form)
-
+        
         if not active_branch:
-            messages.warning(
-                self.request, "No active Branch found. Please activate a Branch to view Categories.")
+            messages.warning(self.request, "No active branch found. Please create or activate a branch.")
             return self.form_invalid(form)
         holiday = form.save(commit=False)
         holiday.institute = institute
@@ -415,112 +394,138 @@ class DeleteHolidayList(DeleteView):
 # ============================== Employee Master CRUD ================================
 
 
-def employee_master_create_view(request):
-    user = request.user
-    institute = user.institute_id.first()
+def employee_create_view(request):
+    institute = request.user.institute_id.first()
+    print(":::::::::::::::::::::::::")
 
     if request.method == "POST":
-        form = EmployeeMasterForm(request.POST, request.FILES, user=user)
+        employee_form = EmployeeForm(request.POST, request.FILES, user=request.user, session=request.session)
+        user_form = UserEmployeeForm(request.POST)
 
-        if form.is_valid():
+        if employee_form.is_valid() and user_form.is_valid():
             try:
                 # Get active session and branch
-                active_session = AcademicSession.objects.filter(
-                    institute=institute, is_active=True).first()
-                active_branch = InstituteBranch.objects.filter(
-                    institute=institute, is_active=True).first()
+                branch= request.session.get('branch_id')
+                active_branch = InstituteBranch.objects.get(pk=branch)
+                session= request.session.get('session_id')
+                active_session = AcademicSession.objects.get(pk=session)
 
                 # Check for active session
-                print(active_session)
-                print(active_branch)
                 if not active_session:
-                    messages.warning(
-                        request, "No active session found. Please activate a session to view Categories.")
-                    return render(request, "employees_master/employee_master_register.html", {'form': form})
+                    messages.warning(request, "No active session found. Please activate a session to view Categories.")
+                    return render(request, "employees/employee_register.html", {'employee_form': employee_form, 'user_form': user_form})
 
                 # Check for active branch
                 if not active_branch:
-                    messages.warning(
-                        request, "No active Branch found. Please activate a Branch to view Categories.")
-                    return render(request, "employees_master/employee_master_register.html", {'form': form})
+                    messages.warning(request, "No active Branch found. Please activate a Branch to view Categories.")
+                    return render(request, "employees/employee_register.html", {'employee_form': employee_form, 'user_form': user_form})
 
-                # Save the form
+                # Save the user form
+                user = user_form.save(commit=False)
+                user.set_password(user_form.cleaned_data["password1"])
+                user.save()
 
-                employee_master= form.save(commit=False)
-                employee_master.session= active_session
-                employee_master.branch=active_branch 
-                form.save()
-                return redirect('teacher:list_of_employee_master')
+                # Save the employee form
+                employee = employee_form.save(commit=False)
+                employee.user = user  # Assign the saved User instance
+                employee.institute = institute
+                employee.session = active_session
+                employee.branch = active_branch
+                employee_form.save()  # Save the employee instance
+
+                return redirect('teacher:list_of_employees')
 
             except Exception as e:
-                print(messages.error(request, f"Error saving form: {e}"))
+                print(f"Error saving form: {e}")
+                messages.error(request, f"Error: {e}")
+
         else:
-            print(messages.error(request, form.errors))
+            print(employee_form.errors)
+            print(user_form.errors)
     else:
-        form = EmployeeMasterForm(user=user)
+        employee_form = EmployeeForm(user=request.user, session=request.session)
+        user_form = UserEmployeeForm()
 
-    return render(request, "employees_master/employee_master_register.html", {'form': form})
+    context = {
+        'employee_form': employee_form,
+        'user_form': user_form
+    }
+
+    return render(request, "employees/employee_register.html", context=context)
 
 
-class EmployeeMasterList(ListView):
-    template_name = "employees_master/employee_list.html"
-    model = EmployeeMaster
-    context_object_name = 'employee_master_list'
+
+class EmployeesList(ListView):
+    template_name = "employees/employee_list.html"
+    model = Employee
+    context_object_name = 'employees_list'
 
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
 
         if user.is_authenticated:
-            institute = Institute.objects.get(user_id=user)
-            active_session = AcademicSession.objects.filter(
-                institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(
-                institute=institute, is_active=True).first()
+            session = self.request.session.get('session_id')
+            active_session = AcademicSession.objects.get(pk=session)
+            branch = self.request.session.get('branch_id')
+            active_branch = InstituteBranch.objects.get(pk=branch)
 
             if not active_session:
                 messages.warning(
                     self.request, "No active session found. Please activate a session to view Categories.")
-                return EmployeeMaster.objects.none()
+                return Employee.objects.none()
 
             if not active_branch:
                 messages.warning(
                     self.request, "No active Branch found. Please activate a Branch to view Categories.")
-                return EmployeeMaster.objects.none()
+                return Employee.objects.none()
             queryset = queryset.filter(
                 branch=active_branch, session=active_session)
             print(queryset)
         return queryset
 
 
-def employee_master_update(request, pk):
-    employee = get_object_or_404(EmployeeMaster, pk=pk)
+def employee_update(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    user = get_object_or_404(User, pk = employee.user.pk)
     if request.method == "POST":
-        form = EmployeeMasterForm(
+        employee_form = EmployeeForm(
             request.POST, request.FILES, instance=employee)
-        if form.is_valid():
-            form.save()
+        user_form= UserEmployeeForm(request.POST, instance=user)
+        if employee_form.is_valid() and user_form.is_valid():
+            user = user_form.save(commit=False)
+            user.set_password(user_form.cleaned_data["password1"])
+            user.save()
+
+            employee = employee_form.save(commit=False)
+            employee.user= user
+            employee_form.save()
             # Replace with your actual redirect URL
-            return redirect('teacher:list_of_employee_master')
+            return redirect('teacher:list_of_employees')
     else:
-        form = EmployeeMasterForm(instance=employee)
-    return render(request, 'employees_master/employee_master_register.html', {'form': form})
+        employee_form = EmployeeForm(instance=employee, session=request.session)
+        user_form = UserEmployeeForm(instance = user)
+
+        context={
+            'employee_form':employee_form,
+            'user_form':user_form
+        }
+    return render(request, 'employees/employee_register.html', context=context)
 
 
-class EmployeeMasterDelete(DeleteView):
-    model = EmployeeMaster
-    success_url = reverse_lazy('teacher:list_of_employee_master')
+class EmployeeDelete(DeleteView):
+    model = Employee
+    success_url = reverse_lazy('teacher:list_of_employees')
 
 
 # <---------------Attendance for employees----------------------->
 
 def employee_attendance_view(request):
-    user = request.user
-    institute = Institute.objects.get(user_id=user)
-    active_session = AcademicSession.objects.filter(
-        institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(
-        institute=institute, is_active=True).first()
+    institute = request.user.institute_id.first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(
@@ -531,6 +536,7 @@ def employee_attendance_view(request):
         messages.warning(
             request, "No active Branch found. Please activate a Branch to view Categories.")
         EmployeeAttendance.objects.none()
+
     departments = LmDepartmentMaster.objects.filter(
         branch=active_branch, session=active_session)
     
@@ -539,7 +545,7 @@ def employee_attendance_view(request):
         date = data.get('date')
         department_id = data.get('department')
 
-        employees = EmployeeMaster.objects.filter(department_id=department_id)
+        employees = Employee.objects.filter(department_id=department_id)
 
         for employee in employees:
             employee_id = employee.id
@@ -548,6 +554,8 @@ def employee_attendance_view(request):
             absent = attendance_status == 'absent'
 
             EmployeeAttendance.objects.update_or_create(
+                branch=active_branch,
+                session =active_session,
                 employee_id=employee_id,
                 date=date,
                 defaults={'present': present, 'absent': absent}
@@ -565,12 +573,10 @@ def fetch_employee_attendance_data(request):
     department_id = request.GET.get('department_id')
     date = request.GET.get('date')
 
-    user = request.user
-    institute = Institute.objects.get(user_id=user)
-    active_session = AcademicSession.objects.filter(
-        institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(
-        institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(
@@ -582,7 +588,7 @@ def fetch_employee_attendance_data(request):
             request, "No active Branch found. Please activate a Branch to view Categories.")
         EmployeeAttendance.objects.none()
 
-    employees = EmployeeMaster.objects.filter(branch=active_branch, session=active_session) if department_id == "all" else EmployeeMaster.objects.filter(
+    employees = Employee.objects.filter(branch=active_branch, session=active_session) if department_id == "all" else Employee.objects.filter(
         branch=active_branch, session=active_session, department_id=department_id)
 
     attendance_data = []
@@ -603,10 +609,10 @@ def fetch_employee_attendance_data(request):
 def employee_attendance_list(request):
     user = request.user
     institute = Institute.objects.get(user_id=user)
-    active_session = AcademicSession.objects.filter(
-        institute=institute, is_active=True).first()
-    active_branch = InstituteBranch.objects.filter(
-        institute=institute, is_active=True).first()
+    branch= request.session.get('branch_id')
+    active_branch = InstituteBranch.objects.get(pk=branch)
+    session= request.session.get('session_id')
+    active_session = AcademicSession.objects.get(pk=session)
 
     if not active_session:
         messages.warning(

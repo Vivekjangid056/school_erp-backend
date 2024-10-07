@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <h2>Enter Marks for Students</h2>
+    <form method="post" id="marks-form">
+        {% csrf_token %}
+        <div class='row'>
+            <div class="col-md-3 form-group">
+                {{ form.standard|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.section|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.subject|as_crispy_field }}
+            </div>
+            <div class="col-md-3 form-group">
+                {{ form.exam_type|as_crispy_field }}
+            </div>
+        </div>
+
+        <!-- Table to enter marks -->
+        <div id="student-marks-section" style="display: none;">
+            <h3>Enter Marks for Students</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>S.N</th>
+                        <th>Student Name</th>
+                        <th>Max Marks 
+                            <!-- Autofill button -->
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="autofill-btn">
+                                Autofill Max Marks
+                            </button>
+                        </th>
+                        <th>Marks Obtained</th>
+                    </tr>
+                </thead>
+                <tbody id="student-marks-body">
+                    <!-- Dynamic rows for students will be appended here -->
+                </tbody>
+            </table>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Marks</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Load sections and subjects dynamically based on standard
+        $('#id_standard').change(function() {
+            var standardId = $(this).val();
+            if (standardId) {
+                $.ajax({
+                    url: "{% url 'examination:get_sections_subjects' %}",  // Update with your URL
+                    data: {
+                        'standard_id': standardId
+                    },
+                    success: function(data) {
+                        $('#id_section').html(data.sections_html);
+                        $('#id_subject').html(data.subjects_html);
+                        $('#id_exam_type').html(data.exam_type_html);
+                    }
+                });
+            } else {
+                $('#id_section').html('<option value="">Select Standard first</option>');
+                $('#id_subject').html('<option value="">Select Standard first</option>');
+                $('#id_exam_type').html('<option value="">Select Standard first</option>');
+            }
+        });
+
+        // Load students dynamically based on section
+        $('#id_section').change(function() {
+            var sectionId = $(this).val();
+            if (sectionId) {
+                $.ajax({
+                    url: "{% url 'examination:load_students' %}",  // Update with your URL
+                    data: {
+                        'section_id': sectionId
+                    },
+                    success: function(data) {
+                        $('#student-marks-body').html(data.students_html);
+                        $('#student-marks-section').show();
+                    }
+                });
+            } else {
+                $('#student-marks-section').hide();
+                $('#student-marks-body').empty();
+            }
+        });
+
+        // Autofill functionality for max_marks
+        $('#autofill-btn').click(function() {
+            var firstMaxMarksValue = $('#student-marks-body tr:first input[name^="max_marks"]').val();
+            if (firstMaxMarksValue) {
+                $('#student-marks-body input[name^="max_marks"]').each(function() {
+                    $(this).val(firstMaxMarksValue);
+                });
+            } else {
+                alert('Please enter a value for the first max marks.');
+            }
+        });
+
+        // Validation for obtained marks being less than or equal to max marks
+        $('#marks-form').submit(function(event) {
+            var valid = true;
+
+            $('#student-marks-body tr').each(function() {
+                var maxMarks = $(this).find('input[name^="max_marks"]').val();
+                var obtainedMarks = $(this).find('input[name^="obtained_marks"]').val();
+
+                if (parseInt(obtainedMarks) > parseInt(maxMarks)) {
+                    alert('Obtained marks cannot be greater than max marks for a student.');
+                    valid = false;
+                    return false; // Break out of the loop
+                }
+            });
+
+            if (!valid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    });
+</script>
+{% endblock %}

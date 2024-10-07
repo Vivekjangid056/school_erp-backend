@@ -1,10 +1,9 @@
 import bleach
 from django import forms
-
-from hr.models import TimeTable
+from hr.models import ClassTimePeriod, TimeTable
 from .models import *
 from scholar_register.models import Attendance
-from teacher_management.models import Employee, EmployeeMaster
+from teacher_management.models import Employee
 from accounts.models import Institute, User, InstituteBranch
 from django.contrib.auth.forms import UserCreationForm
 
@@ -180,10 +179,12 @@ class SubjectsForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
         super().__init__(*args, **kwargs)
-        if self.user:
-            institute = self.user.institute_id.first()
-            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+        print(self.session)
+        if self.user and self.session:
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
             self.fields['standard'].queryset = Standard.objects.filter(
                 branch=active_branch)
 
@@ -255,12 +256,6 @@ class ChildStatusForm(forms.ModelForm):
         exclude = ['institute']
 
 
-class EmployeeForm(forms.ModelForm):
-    class Meta:
-        model = Employee
-        fields = ['employee_details', 'middle_name',
-                  'nick_name', 'position', 'user_image']
-
 
 # =================================== Employee Form =========================================
 """
@@ -269,60 +264,6 @@ because of circular import error:- the circular import is like when a model is i
 models.py file and into the same another models.py file a models is imported from the current models 
 file the this error comes into the picture (django don't allow circular import of any models)
 """
-
-
-class EmployeeRegistrationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name',
-                  'username', 'email', 'phone_number', 'role']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['role'].initial = '3'  # Set initial value for role
-        self.fields['role'].widget = forms.HiddenInput()  # Hide the role field
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password1 = cleaned_data.get('password1')
-        password2 = cleaned_data.get('password2')
-
-        if password1 and password2 and password1 != password2:
-            self.add_error('password2', "Passwords do not match")
-
-        return cleaned_data
-
-
-class EmployeeProfileForm(forms.ModelForm):
-    class Meta:
-        model = Employee
-        fields = ['employee_details', 'staff_role', 'middle_name',
-                  'nick_name', 'position', 'email', 'user_image']
-        labels = {
-            'email': 'Personal Email',
-        }
-        # 'institute' is excluded from fields
-
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super().__init__(*args, **kwargs)
-        if self.user:
-            self.fields['employee_details'].queryset = EmployeeMaster.objects.filter(
-                institute=self.user.institute_id.first())
-            self.fields['staff_role'].queryset = InstituteRole.objects.filter(
-                institute=self.user.institute_id.first())
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        if self.user:
-            instance.institute = self.user.institute_id.first()
-        if commit:
-            instance.save()
-        return instance
-
 
 # form for session settingsd
 class SubjectsForClassGroupForm(forms.ModelForm):
@@ -333,11 +274,13 @@ class SubjectsForClassGroupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
         super().__init__(*args, **kwargs)
-        if self.user:
+        if self.user and self.session:
             institute = self.user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
+            active_session = AcademicSession.objects.get(pk = self.session.get('session_id'))
             self.fields['name'].queryset = Subjects.objects.filter(
                 branch=active_branch, session=active_session)
 
@@ -350,10 +293,11 @@ class SectionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
         super().__init__(*args, **kwargs)
-        if self.user:
-            institute = self.user.institute_id.first()
-            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+        if self.user and self.session:
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
             self.fields['standard'].queryset = Standard.objects.filter(
                 branch=active_branch)
 
@@ -366,15 +310,39 @@ class DiscountSchemeForm(forms.ModelForm):
 
 
 class NotificationModelForm(forms.ModelForm):
+    receiver = forms.MultipleChoiceField(
+        choices=NotificationModel.RECEIVER_CHOICES,
+        widget=forms.CheckboxSelectMultiple  # You can also use SelectMultiple for a dropdown
+    )
+
     class Meta:
         model = NotificationModel
         fields = "__all__"
-        exclude = ['institute','branch']
+        exclude = ['institute', 'branch']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        print(self.user)
+
+        # Set default value for the 'user' field based on the user role
+        if self.user.role == '2':
+            self.fields['user'].initial = NotificationModel.INSTITUTE
+        else:
+            self.fields['user'].initial = NotificationModel.TEACHER
+
+        # Make the 'user' field non-editable
+        self.fields['user'].disabled = True
+
+        # Adjust the 'receiver' field options based on the user role
+        if self.user.role == '2':
+            self.fields['receiver'].choices = NotificationModel.RECEIVER_CHOICES
+        else:
+            self.fields['receiver'].choices = [(NotificationModel.ALL_STUDENTS, 'All Students')]
+            self.fields['receiver'].initial = [NotificationModel.ALL_STUDENTS]
+            self.fields['receiver'].disabled = True
+
+    def clean_receiver(self):
+        return ','.join(self.cleaned_data.get('receiver', []))
 
     def clean_description(self):
         description = self.cleaned_data['description']
@@ -431,34 +399,55 @@ class GalleryItemsForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
-
-
-class TimetableForm(forms.ModelForm):
+    
+class ClassTimePeriodForm(forms.ModelForm):
     class Meta:
-        model = TimeTable
-        fields = ['standard', 'section', 'subject', 'faculty',
-                  'day_of_week', 'period_no', 'start_time', 'end_time']
+        model = ClassTimePeriod
+        fields= ['period_no', 'start_time', 'end_time']
         widgets = {
-            'start_time': forms.TimeInput(format='%I:%M %p', attrs={'type': 'time'}),
-            'end_time': forms.TimeInput(format='%I:%M %p', attrs={'type': 'time'})
-        }
+                'start_time': forms.TimeInput(format='%I:%M %p', attrs={'type': 'time'}),
+                'end_time': forms.TimeInput(format='%I:%M %p', attrs={'type': 'time'})
+            }
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+        print(self.user)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
         if self.user:
+            instance.institute = self.user.institute_id.first()
+        if commit:
+            instance.save()
+        return instance
+
+class TimetableForm(forms.ModelForm):
+    class Meta:
+        model = TimeTable
+        fields = ['standard', 'section', 'subject', 'period', 'faculty',
+                  'day_of_week',]
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
+        super().__init__(*args, **kwargs)
+        if self.user and self.session:
             institute = self.user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
-            active_branch = InstituteBranch.objects.filter(institute=institute, is_active=True).first()
-            print(f"User Institute: {institute}")
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
+            active_session = AcademicSession.objects.get(pk=self.session.get('session_id'))
             self.fields['standard'].queryset = Standard.objects.filter(
                 branch=active_branch)
             self.fields['section'].queryset = Section.objects.filter(
-                institute=self.user.institute_id.first())
+                institute=institute, branch=active_branch)
             self.fields['subject'].queryset = Subjects.objects.filter(
                 branch=active_branch, session=active_session)
             self.fields['faculty'].queryset = Employee.objects.filter(
-                institute=self.user.institute_id.first())
+                institute=institute)
+            self.fields['period'].queryset=ClassTimePeriod.objects.filter(
+                institute=institute, session=active_session, branch=active_branch
+            )
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -486,3 +475,8 @@ class CustomMenuForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+class GradingSystemForm(forms.ModelForm):
+    class Meta:
+        model = GradingSystem
+        fields = ['grade', 'marks_from', 'marks_to']

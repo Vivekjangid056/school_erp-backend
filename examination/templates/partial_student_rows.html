@@ -1,0 +1,8 @@
+{% for student in students %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ student.first_name }}</td>
+    <td><input type="number" name="max_marks_{{ student.id }}" class="form-control" required></td>
+    <td><input type="text" name="obtained_marks_{{ student.id }}" class="form-control" required></td>
+</tr>
+{% endfor %}

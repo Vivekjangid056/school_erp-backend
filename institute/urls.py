@@ -1,4 +1,3 @@
-
 from django.urls import path
 from .views import *
 from .views import load_subjects
@@ -114,14 +113,7 @@ urlpatterns = [
     path('update-name-of-bank/<int:pk>', UpdateNameOfBank.as_view(), name="update_name_of_bank"),
     path('update-student-type/<int:pk>', UpdateStudentType.as_view(), name="update_student_type"),
     path('update-child-status/<int:pk>', UpdateChildStatus.as_view(), name="update_child_status"),
-    
-    
-    # urls for employees {for create user in sysytem setting}
-    path('employee-list/', EmployeeList.as_view(), name='list_of_employees'),
-    path('add-employee/', create_employee, name='add_employee'),
-    path('update-employee/<int:pk>', update_employee, name="update_employee"),
-    path('delete-employee/<int:pk>', employee_delete, name="delete_employee"),
-    # 
+
     path('add-role', role_create, name = 'add_role'),
     path('roles-list/', role_list, name='list_of_roles'),
     path('update-role/<int:pk>', role_update, name='update_role'),
@@ -168,7 +160,7 @@ urlpatterns = [
     # url for timetable 
     path('timetable-list/',timetable_list, name='timetable_list'), 
     path('create-timetable/',create_timetable, name='create_timetable'),
-    path('edit-timetable/<int:pk>',edit_timetable, name='edit_timetable'),
+    path('update-timetable/<int:pk>',update_timetable, name='update_timetable'),
     path('delete-timetable/<int:pk>',delete_timetable, name='delete_timetable'),
     
     path('get-sections/', get_sections, name='get_sections'),
@@ -180,5 +172,19 @@ urlpatterns = [
     path('list-custom-menu', list_custom_menu, name='list_of_custom_menu'),
     path('update-custom-menu<int:pk>', update_custom_menu, name='update_custom_menu'),
     path('delete-custom-menu<int:pk>', delete_custom_menu, name='delete_custom_menu'),
+
+    # class Periods URLS
+
+    path('periods-list', periods_list, name='class_periods'),
+    path('create-period', create_period, name='create_period'),
+    path('update-period/<int:pk>', update_period, name='update_period'),
+    path('delete-period/<int:pk>', delete_period, name='delete_period'),
+
+    # Grading URLS
+
+    path('grading-list', grading_system_list, name='grading_system_list'),
+    path('grading-system-create', grading_system_create, name='grading_system_create'),
+    path('grading-system-update/<int:pk>', grading_system_update, name='grading_system_update'),
+    path('grading-system-delete/<int:pk>', grading_system_delete, name='grading_system_delete'),
     
 ]

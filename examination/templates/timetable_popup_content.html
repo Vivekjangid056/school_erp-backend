@@ -1,0 +1,128 @@
+{% if time_table %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    /* Ensuring proper alignment for the print and close buttons */
+    #modal-dialog {
+    height: 100%;
+    margin: 0 30rem 0 30rem;
+    max-width: 100%;
+}
+
+#modal-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Adjust the modal body to fill available space */
+#modal-body {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* Adjust footer positioning and padding */
+.modal-footer {
+    padding: 10px 15px;
+    justify-content: space-between;
+}
+    .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+    }
+    
+    /* Styling the buttons */
+    .modal-footer .btn-close {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .modal-footer .btn-print {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .modal-footer .btn {
+        margin: 0;
+    }
+    
+    @media print {
+        .modal-footer {
+            display: none;
+        }
+    }
+
+</style>
+<div id="printable-area">
+<div class="text-center">
+    <h4>{{ time_table.first.branch.name }} Branch</h4>
+    <p>Reg. No: {{ time_table.first.institute.registration_number }} | Mobile: {{ time_table.first.institute.mobile_number }}</p>
+    <p>Email: {{ time_table.first.institute.institute_email }} | Fax No.: {{ time_table.first.institute.fax_number }}</p>
+    <hr>
+</div>
+
+<!-- Display the standard name before the table -->
+<div class="text-center">
+    <h4>Class {{ time_table.first.standard.name }} ({{ time_table.first.standard.name }})</h4>
+</div>
+
+<!-- Timetable table -->
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Remark</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in time_table %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ entry.subject.name }}</td>
+                <td>{{ entry.date }}</td>
+                <td>{{ entry.start_time }} to {{ entry.end_time }}</td>
+                <td>{{ entry.remark }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Print button - Positioned at the bottom-left corner -->
+
+<!-- JavaScript for printing the timetable -->
+<script>
+function printTimetable() {
+    var originalContent = document.body.innerHTML; // Save the entire body content
+    var printContent = document.getElementById('printable-area').outerHTML; // Get printable content
+
+    // Replace the body content with only the printable content
+    document.body.innerHTML = printContent;
+
+    // Trigger the print dialog
+    window.print();
+
+    // Restore the original body content
+    document.body.innerHTML = originalContent;
+    
+    // Re-bind the print button
+    location.reload();  // Reload the page to restore events like button click
+}
+</script>
+
+{% else %}
+<p>No timetable data available.</p>
+{% endif %}
+
+

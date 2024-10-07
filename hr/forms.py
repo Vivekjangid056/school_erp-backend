@@ -19,12 +19,13 @@ class HrInterviewForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
         super().__init__(*args, **kwargs)
-
-        if self.user:
+        if self.user and self.session:
             institute = self.user.institute_id.first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active = True).first()
-            active_branch = InstituteBranch.objects.filter(institute=institute, is_active = True).first()
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
+            active_session = AcademicSession.objects.get(pk=self.session.get('session_id'))
             self.fields['category'].queryset = Category.objects.filter(institute = institute)
             self.fields['department'].queryset = LmDepartmentMaster.objects.filter(session = active_session, branch = active_branch)
             self.fields['designation'].queryset = LmDesignationMaster.objects.filter(session = active_session, branch = active_branch)

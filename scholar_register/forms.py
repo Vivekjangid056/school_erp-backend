@@ -94,17 +94,19 @@ class StudentProfileForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
         super().__init__(*args, **kwargs)
-        if self.user:
-            institute=self.user.institute_id.first()
-            active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
+        if self.user and self.session:
+            institute = self.user.institute_id.first()
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
             self.fields['caste'].queryset= Caste.objects.filter(institute = institute)
             self.fields['religion'].queryset= Religion.objects.filter(institute = institute)
             self.fields['category'].queryset= Category.objects.filter(institute = institute)
             self.fields['nationality'].queryset= Nationality.objects.filter(institute = institute)
             self.fields['mother_tongue'].queryset= MotherToungue.objects.filter(institute = institute)
             self.fields['standard'].queryset= Standard.objects.filter(branch=active_branch)
-            self.fields['section'].queryset= Section.objects.filter(institute = institute)
+            self.fields['section'].queryset= Section.objects.filter(institute = institute, branch=active_branch)
             self.fields['medium'].queryset= Medium.objects.filter(institute = institute)
             self.fields['house_name'].queryset= House.objects.filter(institute = institute)
 
@@ -118,10 +120,10 @@ class StudentFeesForm(forms.ModelForm):        # ui side its installement Schedu
         }
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session = kwargs.pop('session', None)
         super().__init__(*args, **kwargs)
-        print(self.user)
-        if self.user:
-            institute = self.user.institute_id.first()
-            active_branch=InstituteBranch.objects.filter(institute=institute, is_active=True).first()
-            active_session = AcademicSession.objects.filter(institute=institute, is_active=True).first()
+        if self.user and self.session:
+            branch = self.session.get('branch_id')
+            active_branch=InstituteBranch.objects.get(pk=branch)
+            active_session = AcademicSession.objects.get(pk=self.session.get('session_id'))
             self.fields['fee_structure'].queryset= FeeStructure.objects.filter(branch=active_branch, session=active_session)
