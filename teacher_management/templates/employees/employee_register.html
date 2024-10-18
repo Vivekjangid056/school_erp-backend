@@ -294,17 +294,22 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    
-    imageInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                imagePreview.style.backgroundImage = `url('${e.target.result}')`;
+        // Select the image input and preview elements
+        const imageInput = document.getElementById('id_employee_image'); // ID for image input field
+        const imagePreview = document.getElementById('imagePreview'); // ID for image preview div
+
+        // Event listener for image input changes
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Set the background image of the preview div
+                    imagePreview.style.backgroundImage = `url('${e.target.result}')`;
+                }
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file);
-        }
+        });
     });
-    });
-    </script>
+</script>
 {% endblock content %}

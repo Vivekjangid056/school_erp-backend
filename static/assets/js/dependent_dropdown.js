@@ -427,9 +427,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-globe"></i>Balnk Admission Form</a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#"><i class="fas fa-globe"></i>Student ID Card</a>
-                </li>
+                
                 <li class="sidebar-item">
                     <a href="#"><i class="fas fa-globe"></i>Age Report</a>
                 </li>
@@ -1054,6 +1052,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="bx bx-home-circle"></i>
                 <span key="t-dashboards">Job Applications</span>
             </a>
+            <a href="#" class="fw-bold waves-effect sidebar-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"  data-bs-target="#id-settings" aria-expanded="false" aria-controls="pages">
+            <div>
+                <i class="bx bx-home-circle"></i>
+                <span key="t-dashboards">ID Cards</span>
+            </div>
+                <i class="fa fa-chevron-left collapse-chevron"></i>
+            </a>
+            <ul id="id-settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#accordionExample">
+                <li class="sidebar-item">
+                    <a href="${urls.studentIdList}"><i class="fas fa-signature"></i>Students Id Card</a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="${urls.teacherIdList}"><i class="fas fa-globe"></i>Employee Id Card</a>
+                </li>
+                <!--<li class="sidebar-item">
+                    <a href="${urls.section}"><i class="fas fa-layer-group"></i>Section</a>
+                </li>
+                <li class="sidebar-item ">
+                    <a href="${urls.sessionCreate}"><i class="fas fa-user-tag"></i>Session Create</a>
+                </li> -->
+                
+            </ul>
+            
         `,
         'examination': `
         <li class="menu-title" key="t-menu">Examination</li>

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block table-content %}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Student Id Card !!</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <a href="{% url 'accounts:super-admin-login' %}">
+                        <li class="breadcrumb-item active">home / <li>
+                    </a>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="d-flex justify-content-end">
+    <!-- List of Interview Candidates -->
+<a style="text-decoration:none; color:white" href="{% url 'hr:student_id_card_list' %}">
+    <button onclick="printIDCard()">Print ID Card</button>
+</a> 
+</div>
+
+<div class="id-card-holder">
+    <div style="width: 850px;
+    padding: 5px;
+    margin: 0 auto;
+    border: solid 5px #035db7;
+    border-radius: 8px; overflow:hidden;
+    position: relative; position:relative; background-repeat: no-repeat; background-size: cover;">
+    <table class="table" style="position:relative; margin:0px; z-index:111; border: 0px; borderColor:#fff">
+        <tr>
+        <td width="320" height="50" style="padding: 2px 0;"><div align="right"><img src='' alt="" width="91" hspace="20" /></div></td>
+            <td height="50" colspan="2" style="padding: 2px 0;"><h4 style="font-size: 37px;
+        margin: 0px;
+        font-weight: bold;
+        color: #004b9d;
+        font-family: Merienda;">{{ student.parent.institute.institute_name }}</h4>
+                <h5 style="margin:0px; font-size: 20px;
+        color: #f07b2d;
+        font-weight: 600;">Institute of Science and Management</h5>
+                <p class="style3" style="color:#818181; font-size:13px; padding-right:50px">(approved by Aicte and Affiliated to RTU, Kota, University, of Rajasthan, Jaipur)</p>
+                <p>Address: {{ student.parent.institute.address1 }}, District: {{ student.parent.institute.district }} ,State: {{ student.parent.institute.state }}, PIN: {{ student.parent.institute.pin }} </p></td>
+        </tr>
+        {% comment %} <tr>
+            <td colspan="3"><div align="center" class="style1" style="margin: 10px 0 0;
+        font-size: 20px; padding:15px;
+        font-weight: bold; border-top:solid 2px #eee">Batch No. 7845965</div></td>
+        </tr> {% endcomment %}
+        <tr>
+            <td rowspan="7" style="padding-bottom:20px; padding: 2px 0;"><div align="center"><img style="border-radius: 10px;
+        border: solid 2px #eee;
+        padding: 5px;" src="{{ student.student_photo.url }}" alt="" width="180px" height="180px" hspace="20" /></div></td>
+            <td width="196" style="padding: 2px 0;"><span class="style5">Name</span></td>
+            <td width="418" style="padding: 2px 0;"><span class="style3">{{ student.first_name }} {{ student.last_name }}</span></td>
+        </tr>
+        <tr>
+            <td style="padding: 2px 0;"><span class="style5">Father's Name</span></td>
+            <td style="padding: 2px 0;"><span class="style3">{{ student.parent.fathers_name }}</span></td>
+        </tr>
+        <tr>
+            <td style="padding: 2px 0;"><span class="style5">DOB</span></td>
+            <td style="padding: 2px 0;"><span class="style3">: {{ student.dob }}</span></td>
+        </tr>
+        
+        <tr>
+            <td style="padding: 2px 0;"><span class="style5">Standard</span></td>
+            <td style="padding: 2px 0;"><span class="style3">: {{ student.standard.name }}</span></td>
+        </tr>
+        <tr>
+            <td style="padding: 2px 0;"><span class="style5">Phone No.</span></td>
+            <td style="padding: 2px 0;"><span class="style3">: {{ student.parent.fathers_mob_no }}</span></td>
+        </tr>
+        <tr>
+            <td style="padding: 2px 0;"><span class="style5">Blood Gr.</span></td>
+            <td style="padding: 2px 0;"><span class="style3">: {{ student.blood_group }}</span></td>
+        </tr>
+        <tr>
+            <td style="padding-bottom:20px; padding: 2px 0;"><span class="style5">Address</span></td>
+            <td style="padding-bottom:20px; padding: 2px 0;"><span class="style3">: {{ student.address1 }} {{ student.address2 }} ,{{ student.district }} ,{{ student.state }}</span></td>
+        </tr>
+        <tr>
+            <td height="35" bordercolor="#fff" bgcolor="#0000FF" style="padding: 4px 4px; background:#1e88e4;"><div align="center" class="style3" style="color:#fff;">Phone: {{ student.parent.institute.mobile_number }}</div></td>
+            <td height="35" bordercolor="#fff" bgcolor="#0000FF" style="padding: 4px 4px; background:#1e88e4;"><div align="center" class="style3" style="color:#fff">mail: {{ student.parent.institute.institute_email }}</div></td>
+            <td height="35" bordercolor="#fff" bgcolor="#0000FF" style="padding: 4px 4px; background:#1e88e4;"><div align="center" class="style3" style="color:#fff">Web: {{ student.parent.institute.website }}</div></td>
+        </tr>
+        <div class="bottom_collage_bg" style="position:absolute; bottom:0px; z-index:0; width: 100%; right: 0; -webkit-filter: blur(3px);">
+ <img width="100%" height="260" src="{{ student.parent.institute.profile_image.url }}" alt="" />
+    </div>
+    </table>
+ 
+</div>
+
+
+
+<script>
+    function printIDCard() {
+        var printContents = document.querySelector('.id-card-holder').innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
+
+{% endblock table-content %}
