@@ -40,10 +40,10 @@
         font-weight: bold;
         color: #004b9d;
         font-family: Merienda;">{{ student.parent.institute.institute_name }}</h4>
-                <h5 style="margin:0px; font-size: 20px;
+                {% comment %} <h5 style="margin:0px; font-size: 20px;
         color: #f07b2d;
         font-weight: 600;">Institute of Science and Management</h5>
-                <p class="style3" style="color:#818181; font-size:13px; padding-right:50px">(approved by Aicte and Affiliated to RTU, Kota, University, of Rajasthan, Jaipur)</p>
+                <p class="style3" style="color:#818181; font-size:13px; padding-right:50px">(approved by Aicte and Affiliated to RTU, Kota, University, of Rajasthan, Jaipur)</p> {% endcomment %}
                 <p>Address: {{ student.parent.institute.address1 }}, District: {{ student.parent.institute.district }} ,State: {{ student.parent.institute.state }}, PIN: {{ student.parent.institute.pin }} </p></td>
         </tr>
         {% comment %} <tr>

@@ -18,7 +18,7 @@
     </div>
 </div>
 <!-- end page title -->
-{% if students %}
+{% if employees %}
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-end">
@@ -48,7 +48,6 @@
                             {% comment %} <th>Reg.No.</th> {% endcomment %}
                             <th>Father's Name</th>
                             <th>Mob. No.</th>
-                            <th>class</th>
                             <th>D.O.B</th>
                             <th>Action</th>
                         </tr>
@@ -64,12 +63,12 @@
                             {% comment %} <td>{{employee.standard}}</td> {% endcomment %}
                             <td>{{employee.dob}}</td>
                             <td>
-                                <a href="{% url 'hr:student_id_card_view' student.pk %}"
+                                <a href="{% url 'hr:teacher_id_card' employee.pk %}"
                                     class="btn btn-sm btn-primary" style="padding:0.001rem"  title="Edit">
                                      <i class="fas fa-eye"></i>
                                 </a>
                                 {% comment %} <button class="btn btn-sm btn-danger"  
-style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
+                                    style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
                                     data-url="{% url 'students:student_delete' student.pk %}">
                                     <i class="fas fa-trash-alt"></i>
@@ -89,7 +88,7 @@ style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
         <div class="d-flex justify-content-end">
 <!--======================================= List of students ====================================-->
 <form method="get" class="d-flex align-items-center mb-4">
-    <div class="me-3">
+    {% comment %} <div class="me-3">
         <label for="class" class="form-label fw-bold">Select a Class:</label>
         <select id="class" name="class" class="form-select">
             <option value="" disabled selected>Select Class</option>
@@ -100,7 +99,7 @@ style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
     </div>
     <div>
         <button type="submit" class="btn btn-primary mt-4">Filter Students</button>
-    </div>
+    </div> {% endcomment %}
 </form>
         </div>
         <div class="card">
@@ -111,9 +110,7 @@ style="padding:0.001rem" title="Delete" data-bs-toggle="modal"
                             <th>S.N</th>
                             <th>Name</th>
                             <th>Reg.No.</th>
-                            <th>Father's Name</th>
                             <th>Mob. No.</th>
-                            <th>Admission in class</th>
                             <th>D.O.B</th>
                             <th>Action</th>
                         </tr>

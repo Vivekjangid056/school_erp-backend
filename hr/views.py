@@ -169,6 +169,7 @@ def teacher_id_card_list(request):
             employees = Employee.objects.filter(institute=institute, branch=active_branch, session=active_session, department_id=department_id)
         else:
             employees = Employee.objects.filter(institute=institute, branch=active_branch, session=active_session)
+        print('employees',employees)
 
         # Fetch available departments for filtering
         departments = LmDepartmentMaster.objects.filter(institute=institute, branch=active_branch)
@@ -182,4 +183,4 @@ def teacher_id_card_list(request):
 
 def teacher_id_card_view(request,pk):
     employee = get_object_or_404(Employee, pk=pk)
-    return render(request, 'view_studentId_card.html', {'employee': employee})
+    return render(request, 'view_teacherId.html', {'employee': employee})
